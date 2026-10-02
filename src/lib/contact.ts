@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-export const interestOptions = ["Website", "SEO & Marketing", "Mobile App", "Branding", "Business Software", "Other"] as const;
-export const budgetOptions = ["Under ₹50k", "₹50k – 2L", "₹2L – 5L", "₹5L +"] as const;
+export const sessionOptions = ["Wedding", "Pre-wedding", "Portraits", "Maternity & Newborn", "Event", "Commercial", "Something else"] as const;
 
 export const contactSchema = z.object({
+  session: z.enum(sessionOptions, "Choose what you'd like photographed."),
   name: z.string().trim().min(2, "Please tell us your name.").max(120),
   email: z.email("Enter an email address we can reply to.").trim().max(200),
   phone: z
@@ -11,15 +11,29 @@ export const contactSchema = z.object({
     .trim()
     .max(30)
     .refine((v) => v === "" || /^[+\d][\d\s()-]{6,}$/.test(v), "That phone number doesn't look right."),
-  company: z.string().trim().max(160),
-  interests: z.array(z.enum(interestOptions)).min(1, "Pick at least one area."),
-  budget: z.enum(budgetOptions, "Choose a budget range."),
-  message: z.string().trim().min(20, "A couple of sentences about the project helps us prepare.").max(4000),
+  date: z
+    .string()
+    .trim()
+    .refine((v) => v === "" || !Number.isNaN(Date.parse(v)), "Enter a valid date."),
+  location: z.string().trim().max(160),
+  message: z.string().trim().min(20, "A couple of sentences about the shoot helps us prepare.").max(4000),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;
 export type ContactField = keyof ContactInput;
 export type FieldErrors = Partial<Record<ContactField, string>>;
+
+export function readContactForm(data: FormData) {
+  return {
+    session: String(data.get("session") ?? ""),
+    name: String(data.get("name") ?? ""),
+    email: String(data.get("email") ?? ""),
+    phone: String(data.get("phone") ?? ""),
+    date: String(data.get("date") ?? ""),
+    location: String(data.get("location") ?? ""),
+    message: String(data.get("message") ?? ""),
+  };
+}
 
 export type ContactValues = ReturnType<typeof readContactForm>;
 
@@ -28,18 +42,6 @@ export type ContactState =
   | { status: "invalid"; errors: FieldErrors; values: ContactValues }
   | { status: "error"; message: string; values: ContactValues }
   | { status: "success"; name: string };
-
-export function readContactForm(data: FormData) {
-  return {
-    name: String(data.get("name") ?? ""),
-    email: String(data.get("email") ?? ""),
-    phone: String(data.get("phone") ?? ""),
-    company: String(data.get("company") ?? ""),
-    interests: data.getAll("interests").map(String),
-    budget: String(data.get("budget") ?? ""),
-    message: String(data.get("message") ?? ""),
-  };
-}
 
 export function toFieldErrors(error: z.ZodError): FieldErrors {
   const errors: FieldErrors = {};

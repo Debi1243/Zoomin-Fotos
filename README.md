@@ -1,6 +1,6 @@
-# Orbitra — Digital studio website
+# Zoomin Fotos — Photography studio website
 
-Marketing site for Orbitra Digital Labs: websites, SEO & digital marketing, mobile apps and industry software.
+Website for Zoomin Fotos, a photography studio in Bhubaneswar: weddings, pre-wedding, portraits, maternity & newborn, events and commercial work.
 
 Built with Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS 4, Motion and Zod.
 
@@ -18,7 +18,7 @@ npm run build && npm start
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Canonical origin used for metadata, sitemap and structured data. Defaults to `https://orbitra.studio`. |
+| `NEXT_PUBLIC_SITE_URL` | Canonical origin used for metadata, sitemap and structured data. Defaults to `https://debi1243.github.io/Zoomin-Fotos`. |
 | `CONTACT_WEBHOOK_URL` | Where contact form submissions are POSTed as JSON (Zapier, Make, Slack, a CRM, your own API). Without it, the form succeeds only in local development and shows an "email us" fallback in production. |
 
 ## GitHub Pages
@@ -33,40 +33,26 @@ without one it asks visitors to email instead.
 
 All pages are statically generated.
 
-- `/` Hero with the discipline diagram, key numbers, disciplines index, selected work, industry software tabs, process, testimonials, FAQ
-- `/services` Every service grouped by discipline, with in-page category links
-- `/services/[slug]` 15 service pages: numbers at a glance, what's included, deliverables, process, FAQ, related services
-- `/about` Story, mission/vision/values, timeline, why Orbitra
-- `/work` Case studies with data-driven covers
-- `/contact` Contact details and a validated form backed by a Server Action
+- `/` Hero collage, recent frames strip, services index, approach, process, FAQ
+- `/portfolio` Filterable gallery with a keyboard-friendly lightbox
+- `/services` The six services, image-led
+- `/services/[slug]` Photographs from that category, what's included, what you receive, process, FAQ, other sessions
+- `/about` Studio story and approach
+- `/contact` Booking details and a validated enquiry form (session type, date, location)
 
-Also generated: `sitemap.xml`, `robots.txt`, Open Graph image, SVG favicon and JSON-LD (organisation, services, breadcrumbs, FAQ).
+Also generated: `sitemap.xml`, `robots.txt`, Open Graph image, SVG favicon and JSON-LD (studio, services, breadcrumbs, FAQ).
 
-## Structure
+## Adding your photographs
 
-```
-src/
-  app/                 routes, metadata files, contact Server Action
-  components/
-    navigation/        header, services menu, mobile menu, theme toggle
-    layout/            footer
-    sections/          page sections (home/ holds home-only ones)
-    work/              project card and generated covers
-    forms/             form fields and the contact form
-    ui/                buttons, logo, section header, tag
-    shared/            JSON-LD, Motion config
-  lib/                 content (data.ts), site config, contact schema
-```
+Until real photographs are added, every photo slot shows a toned placeholder frame.
 
-## Customise
-
-- Copy, services, numbers, projects and testimonials live in `src/lib/data.ts`.
-- Colours, type scale, radii and shadows are tokens at the top of `src/app/globals.css`, with light and dark values.
-- Case-study covers are drawn from each project's `cover` setting (tone + chart type) in `data.ts`.
+1. Put images in `public/photos/` (JPG or WebP, about 2400px on the long edge).
+2. In `src/lib/data.ts`, set `src: "/photos/your-file.jpg"` on the matching entry in `photos`, and update its `title`, `place`, `category` and `aspect`.
+3. Replace the placeholder `email` and `phone` in `brand` at the top of the same file.
 
 ## Design notes
 
-- Type: Bricolage Grotesque for display, Geist for text, Geist Mono for labels and numbers.
-- One accent colour (signal orange) used only for primary actions and data highlights.
+- Type: Instrument Serif for display, Geist for text, Geist Mono for labels.
+- One accent colour (warm orange) used only for primary actions.
 - Light, dark and system themes; the choice is stored per visitor and applied before first paint.
-- Scroll reveals use CSS scroll-driven animations; Motion handles menus, tabs and form transitions. Both respect `prefers-reduced-motion`.
+- Scroll reveals use CSS scroll-driven animations; Motion handles the mobile menu. Both respect `prefers-reduced-motion`.

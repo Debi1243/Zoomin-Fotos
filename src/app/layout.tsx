@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/navigation/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
@@ -8,28 +8,27 @@ import { themeScript } from "@/components/navigation/ThemeToggle";
 import { brand } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
+const display = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
 const sans = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 
-const description =
-  "Orbitra is a full-service digital studio in Bhubaneswar: websites, SEO and digital marketing, mobile apps and business software for ambitious brands.";
+const title = `${brand.name} — Wedding, portrait & commercial photography in ${brand.city}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: `${brand.name} — Digital marketing, design & software studio`, template: `%s · ${brand.name}` },
-  description,
-  applicationName: brand.full,
+  title: { default: title, template: `%s · ${brand.name}` },
+  description: brand.description,
+  applicationName: brand.name,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    siteName: brand.full,
+    siteName: brand.name,
     locale: "en_IN",
     url: "/",
-    title: `${brand.name} — Digital marketing, design & software studio`,
-    description,
+    title,
+    description: brand.description,
   },
-  twitter: { card: "summary_large_image", title: brand.name, description },
+  twitter: { card: "summary_large_image", title: brand.name, description: brand.description },
   formatDetection: { telephone: false },
 };
 

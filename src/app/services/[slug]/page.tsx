@@ -3,15 +3,19 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, Check } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
+import PhotoFrame from "@/components/photos/PhotoFrame";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
 import { ButtonLink } from "@/components/ui/Button";
 import JsonLd from "@/components/shared/JsonLd";
-import { brand, categories, formatStat, getService, services } from "@/lib/data";
+import { brand, getService, photosIn, services } from "@/lib/data";
 import { absoluteUrl, siteUrl } from "@/lib/site";
+import { cn } from "@/lib/cn";
 
 export const dynamicParams = false;
+
+const serviceTitle = (t: string) => `${t.replace(/^Weddings$/, "Wedding").replace(/^Events$/, "Event")} photography`;
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -22,11 +26,12 @@ export async function generateMetadata({ params }: PageProps<"/services/[slug]">
   const s = getService(slug);
   if (!s) return {};
   const path = `/services/${s.slug}`;
+  const title = serviceTitle(s.title);
   return {
-    title: s.title,
+    title,
     description: s.short,
     alternates: { canonical: path },
-    openGraph: { title: s.title, description: s.short, url: path },
+    openGraph: { title, description: s.short, url: path },
   };
 }
 
@@ -35,76 +40,68 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   const s = getService(slug);
   if (!s) notFound();
 
-  const category = categories.find((c) => c.name === s.category);
-  const sameCategory = services.filter((x) => x.slug !== s.slug && x.category === s.category);
-  const related = [...sameCategory, ...services.filter((x) => x.category !== s.category)].slice(0, 3);
-  const Icon = s.icon;
+  const shots = photosIn(s.slug);
+  const index = services.indexOf(s);
+  const related = [1, 2, 3].map((n) => services[(index + n) % services.length]);
+  const path = `/services/${s.slug}`;
+  const title = serviceTitle(s.title);
 
   return (
     <>
       <PageHero
         label={s.title}
-        crumbs={[
-          { href: "/services", label: "Services" },
-          { href: `/services#${category?.slug ?? ""}`, label: s.category },
-        ]}
-        title={s.title}
+        crumbs={[{ href: "/services", label: "Services" }]}
+        title={<>{s.title}<em>.</em></>}
         intro={s.intro}
       >
+        <p className="mt-6 max-w-[56ch] text-sm leading-relaxed text-muted">
+          <span className="text-fg">Ideal for:</span> {s.idealFor}
+        </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href="/contact" size="lg">Get a quote</ButtonLink>
-          <ButtonLink href="/work" size="lg" variant="secondary" arrow={false}>See case studies</ButtonLink>
+          <ButtonLink href="/contact" size="lg">Check your date</ButtonLink>
+          <ButtonLink href="/portfolio" size="lg" variant="secondary" arrow={false}>View portfolio</ButtonLink>
         </div>
       </PageHero>
 
-      <section aria-label="At a glance" className="border-y border-border">
-        <div className="container-page grid lg:grid-cols-12 lg:gap-x-10">
-          <div className="hidden items-center gap-3 lg:col-span-3 lg:flex">
-            <span className="grid size-10 place-items-center rounded-md border border-border">
-              <Icon aria-hidden className="size-4.5" strokeWidth={1.5} />
-            </span>
-            <span className="label text-muted">{s.category}</span>
-          </div>
-          <dl className="grid gap-px bg-border sm:grid-cols-3 lg:col-span-9">
-            {s.stats.map((st) => (
-              <div key={st.label} className="flex flex-col-reverse gap-2 bg-bg py-7 sm:px-6 sm:first:pl-0 md:py-9">
-                <dt className="text-sm text-muted">{st.label}</dt>
-                <dd className="tabular font-display text-[clamp(2rem,1.5rem+2vw,3.25rem)] font-medium leading-none tracking-[-0.03em]">
-                  {formatStat(st)}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+      <section aria-label={`${s.title} photographs`} className="container-page pb-20 md:pb-28">
+        <ul className={cn("grid grid-cols-2 gap-3 sm:gap-4", shots.length % 3 === 0 ? "md:grid-cols-3" : "md:grid-cols-4")}>
+          {shots.map((p, i) => {
+            const lead = i === 0 && shots.length % 2 === 1;
+            return (
+            <li key={p.id} className={lead ? "col-span-2 md:col-span-1" : undefined}>
+              <PhotoFrame
+                photo={{ ...p, aspect: lead ? "landscape" : "portrait" }}
+                sizes="(min-width: 768px) 30vw, (min-width: 640px) 50vw, 100vw"
+                className={lead ? "md:aspect-[4/5]" : undefined}
+                priority={i === 0}
+              />
+            </li>
+            );
+          })}
+        </ul>
       </section>
 
-      <section aria-labelledby="included-title" className="section-y">
+      <section aria-labelledby="includes-title" className="section-y border-t border-border">
         <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
-          <div className="lg:col-span-3">
-            <p className="label text-muted lg:pt-3">What&apos;s included</p>
-          </div>
+          <p className="label text-muted lg:col-span-3 lg:pt-3">What&apos;s included</p>
           <div className="lg:col-span-9">
-            <h2 id="included-title" className="max-w-[20ch] font-display text-h2 font-medium">
-              Built around your goals, not a template.
+            <h2 id="includes-title" className="max-w-[20ch] font-display text-h2">
+              Everything planned, so you can just be there.
             </h2>
-            <ol className="mt-12 grid gap-px bg-border md:mt-16 md:grid-cols-2">
-              {s.features.map((f, i) => (
-                <li key={f.title} className="reveal bg-bg py-8 md:odd:pr-10 md:even:pl-10">
-                  <p className="label tabular text-muted">0{i + 1}</p>
-                  <h3 className="mt-6 font-display text-h3 font-medium">{f.title}</h3>
-                  <p className="mt-3 max-w-[42ch] leading-relaxed text-muted">{f.text}</p>
+            <ul className="mt-12 grid gap-px bg-border sm:grid-cols-2 md:mt-16">
+              {s.includes.map((item) => (
+                <li key={item.title} className="bg-bg py-7 sm:odd:pr-8 sm:even:pl-8">
+                  <h3 className="font-display text-h3">{item.title}</h3>
+                  <p className="mt-3 max-w-[40ch] leading-relaxed text-muted">{item.text}</p>
                 </li>
               ))}
-            </ol>
-
-            <div className="mt-16 rounded-lg border border-border bg-surface p-6 md:mt-20 md:p-10">
-              <h3 className="label text-muted">Deliverables</h3>
-              <ul className="mt-6 grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+            </ul>
+            <div className="mt-14 border-t border-border pt-8">
+              <h3 className="label text-muted">You receive</h3>
+              <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
                 {s.deliverables.map((d) => (
-                  <li key={d} className="flex items-center gap-3 text-[0.9375rem]">
-                    <span className="grid size-5 shrink-0 place-items-center rounded-full bg-fg text-bg">
-                      <Check aria-hidden className="size-3" strokeWidth={2.5} />
-                    </span>
+                  <li key={d} className="flex items-center gap-2.5">
+                    <Check aria-hidden className="size-4 text-accent" />
                     {d}
                   </li>
                 ))}
@@ -115,29 +112,24 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       </section>
 
       <ProcessSteps />
-      <Faq items={s.faqs} />
+      <Faq items={s.faqs} title={`${s.title}, answered.`} />
 
       <section aria-labelledby="related-title" className="section-y border-t border-border">
         <div className="container-page grid gap-y-10 lg:grid-cols-12 lg:gap-x-10">
-          <div className="lg:col-span-3">
-            <p className="label text-muted lg:pt-3">Pairs well with</p>
-          </div>
+          <p className="label text-muted lg:col-span-3 lg:pt-3">Also photographed</p>
           <div className="lg:col-span-9">
-            <h2 id="related-title" className="font-display text-h2 font-medium">Related services</h2>
-            <ul className="mt-10 border-t border-border md:mt-14">
+            <h2 id="related-title" className="font-display text-h2">Other sessions.</h2>
+            <ul className="mt-10 border-t border-border">
               {related.map((r) => (
                 <li key={r.slug} className="border-b border-border">
                   <Link href={`/services/${r.slug}`} className="group flex items-center justify-between gap-6 py-6">
                     <span>
-                      <span className="block font-display text-xl font-medium tracking-[-0.015em] transition-colors group-hover:text-accent md:text-2xl">
+                      <span className="block font-display text-[1.75rem] leading-none transition-colors group-hover:text-accent md:text-[2.25rem]">
                         {r.title}
                       </span>
-                      <span className="mt-1 block text-sm text-muted">{r.short}</span>
+                      <span className="mt-2 block max-w-[52ch] text-sm text-muted">{r.short}</span>
                     </span>
-                    <ArrowUpRight
-                      aria-hidden
-                      className="size-5 shrink-0 text-muted transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
-                    />
+                    <ArrowUpRight aria-hidden className="size-5 shrink-0 text-muted transition-colors group-hover:text-accent" />
                   </Link>
                 </li>
               ))}
@@ -146,31 +138,29 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </div>
       </section>
 
-      <ClosingCta title={`Let's talk about ${s.title}.`} />
-
+      <ClosingCta />
       <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "Service",
-              name: s.title,
-              description: s.intro,
-              serviceType: s.category,
-              url: absoluteUrl(`/services/${s.slug}`),
-              areaServed: "IN",
-              provider: { "@type": "ProfessionalService", "@id": `${siteUrl}/#organization`, name: brand.full },
-            },
-            {
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-                { "@type": "ListItem", position: 2, name: "Services", item: absoluteUrl("/services") },
-                { "@type": "ListItem", position: 3, name: s.title, item: absoluteUrl(`/services/${s.slug}`) },
-              ],
-            },
-          ],
-        }}
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: title,
+            serviceType: "Photography",
+            description: s.intro,
+            url: absoluteUrl(path),
+            areaServed: { "@type": "State", name: brand.region },
+            provider: { "@id": `${siteUrl}/#studio`, "@type": "ProfessionalService", name: brand.name },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+              { "@type": "ListItem", position: 2, name: "Services", item: absoluteUrl("/services") },
+              { "@type": "ListItem", position: 3, name: s.title, item: absoluteUrl(path) },
+            ],
+          },
+        ]}
       />
     </>
   );

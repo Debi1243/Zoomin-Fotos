@@ -5,8 +5,8 @@ import { useEffect, useId, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ButtonLink } from "../ui/Button";
 import ThemeToggle from "./ThemeToggle";
-import { brand } from "@/lib/data";
-import { primaryNav } from "@/lib/site";
+import { brand, mailHref, telHref } from "@/lib/data";
+import { isActive, primaryNav } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
 type Props = {
@@ -90,7 +90,7 @@ export default function MobileMenu({ open, onOpenChange, pathname }: Props) {
             <nav aria-label="Mobile" className="container-page flex min-h-full flex-col pb-10 pt-6">
               <ul className="border-t border-border">
                 {[{ href: "/", label: "Home" }, ...primaryNav].map((item, i) => {
-                  const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+                  const active = item.href === "/" ? pathname === "/" : isActive(pathname, item.href);
                   return (
                     <motion.li
                       key={item.href}
@@ -103,7 +103,7 @@ export default function MobileMenu({ open, onOpenChange, pathname }: Props) {
                         href={item.href}
                         aria-current={active ? "page" : undefined}
                         onClick={() => onOpenChange(false)}
-                        className="flex items-center justify-between py-4 font-display text-[2rem] font-medium tracking-[-0.03em] aria-[current=page]:text-accent"
+                        className="flex items-center justify-between py-4 font-display text-[2.5rem] leading-none tracking-[-0.015em] aria-[current=page]:text-accent"
                       >
                         {item.label}
                         <span className="label text-muted">0{i + 1}</span>
@@ -115,12 +115,12 @@ export default function MobileMenu({ open, onOpenChange, pathname }: Props) {
 
               <div className="mt-auto space-y-8 pt-12">
                 <ButtonLink href="/contact" size="lg" className="w-full" onClick={() => onOpenChange(false)}>
-                  Book a strategy call
+                  Book a shoot
                 </ButtonLink>
                 <div className="flex items-end justify-between gap-6">
                   <div className="space-y-1 text-sm">
-                    <a href={`mailto:${brand.email}`} className="block">{brand.email}</a>
-                    <a href={`tel:${brand.phone.replace(/\s/g, "")}`} className="block text-muted">{brand.phone}</a>
+                    <a href={mailHref} className="block">{brand.email}</a>
+                    <a href={telHref} className="block text-muted">{brand.phone}</a>
                   </div>
                   <ThemeToggle />
                 </div>

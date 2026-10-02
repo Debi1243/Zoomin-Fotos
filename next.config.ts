@@ -7,6 +7,7 @@ const basePath = process.env.BASE_PATH ?? "";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  env: { NEXT_PUBLIC_BASE_PATH: isStatic ? basePath : "" },
   reactStrictMode: true,
   ...(isStatic && {
     output: "export",

@@ -7,17 +7,16 @@ import { Button } from "@/components/ui/Button";
 import { ChoiceGroup, TextField, TextareaField } from "./Field";
 import { submitContact } from "@/app/contact/actions";
 import {
-  budgetOptions,
   contactSchema,
-  interestOptions,
   readContactForm,
+  sessionOptions,
   toFieldErrors,
   type ContactField,
   type ContactState,
   type FieldErrors,
 } from "@/lib/contact";
 
-const FIELD_ORDER: ContactField[] = ["interests", "name", "email", "phone", "company", "budget", "message"];
+const FIELD_ORDER: ContactField[] = ["session", "name", "email", "phone", "date", "location", "message"];
 const initialState: ContactState = { status: "idle" };
 
 export default function ContactForm() {
@@ -71,7 +70,7 @@ function ContactFormInner({ onReset }: { onReset: () => void }) {
   };
   const onBlur = (e: FocusEvent<HTMLFormElement>) => {
     const field = fieldFrom(e.target);
-    if (field && field !== "interests" && field !== "budget") checkField(field);
+    if (field && field !== "session") checkField(field);
   };
   const onChange = (e: ChangeEvent<HTMLFormElement>) => {
     const field = fieldFrom(e.target);
@@ -91,11 +90,11 @@ function ContactFormInner({ onReset }: { onReset: () => void }) {
             className="flex min-h-[28rem] flex-col items-start justify-center"
           >
             <CircleCheck aria-hidden className="size-10 text-success" strokeWidth={1.5} />
-            <h2 className="mt-6 font-display text-h2 font-medium">
+            <h2 className="mt-6 font-display text-h2">
               Thanks{state.name ? `, ${state.name.split(" ")[0]}` : ""}. Message received.
             </h2>
             <p className="mt-4 max-w-[44ch] text-muted">
-              A strategist will reply within one business day with a few questions and next steps.
+              We&apos;ll reply within one working day with availability for your date and a few questions.
             </p>
             <Button variant="secondary" className="mt-8" onClick={onReset}>
               Send another message
@@ -116,59 +115,67 @@ function ContactFormInner({ onReset }: { onReset: () => void }) {
             aria-describedby="form-note"
           >
             <ChoiceGroup
-              legend="What can we help with?"
-              name="interests"
-              type="checkbox"
-              options={interestOptions}
-              defaultValue={values?.interests ?? ["Website"]}
-              error={errorFor("interests")}
+              legend="What would you like photographed?"
+              name="session"
+              type="radio"
+              options={sessionOptions}
+              defaultValue={values?.session ? [values.session] : []}
+              error={errorFor("session")}
             />
 
             <div className="grid gap-6 sm:grid-cols-2">
               <TextField id="name" label="Your name" autoComplete="name" defaultValue={values?.name} name="name" error={errorFor("name")} valid={valid.name} />
               <TextField
                 id="email"
-                label="Work email"
+                label="Email"
                 type="email"
                 inputMode="email"
                 autoComplete="email"
                 defaultValue={values?.email}
-                name="email" error={errorFor("email")} valid={valid.email}
+                name="email"
+                error={errorFor("email")}
+                valid={valid.email}
               />
               <TextField
                 id="phone"
-                label="Phone"
+                label="Phone or WhatsApp"
                 type="tel"
                 inputMode="tel"
                 autoComplete="tel"
                 optional
                 defaultValue={values?.phone}
-                name="phone" error={errorFor("phone")} valid={valid.phone}
+                name="phone"
+                error={errorFor("phone")}
+                valid={valid.phone}
               />
               <TextField
-                id="company"
-                label="Company"
-                autoComplete="organization"
+                id="date"
+                label="Date of the shoot"
+                type="date"
                 optional
-                defaultValue={values?.company}
-                name="company" error={errorFor("company")} valid={valid.company}
+                defaultValue={values?.date}
+                name="date"
+                error={errorFor("date")}
+                valid={valid.date}
               />
             </div>
 
-            <ChoiceGroup
-              legend="Budget"
-              name="budget"
-              type="radio"
-              options={budgetOptions}
-              defaultValue={[values?.budget ?? budgetOptions[1]]}
-              error={errorFor("budget")}
+            <TextField
+              id="location"
+              label="Location"
+              optional
+              placeholder="City or venue"
+              defaultValue={values?.location}
+              name="location"
+              error={errorFor("location")}
+              valid={valid.location}
             />
 
             <TextareaField
               id="message"
               name="message"
-              label="About the project"
-              hint="Goals, timelines, links to anything you have today."
+              label="Tell us about it"
+              hint="The occasion, how many people, anything you have seen and loved."
               rows={5}
               defaultValue={values?.message}
               error={errorFor("message")}
@@ -191,10 +198,10 @@ function ContactFormInner({ onReset }: { onReset: () => void }) {
 
             <div className="flex flex-col gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
               <p id="form-note" className="text-sm text-muted">
-                We reply within one business day. No newsletters, ever.
+                We reply within one working day. Your details stay with us.
               </p>
               <Button type="submit" size="lg" loading={pending} loadingLabel="Sending…">
-                Send message
+                Send enquiry
               </Button>
             </div>
           </motion.form>

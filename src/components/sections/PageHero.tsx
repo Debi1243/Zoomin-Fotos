@@ -34,7 +34,7 @@ export default function PageHero({ label, title, intro, crumbs, children, classN
         )}
       </div>
       <div className="lg:col-span-9">
-        <h1 className="max-w-[18ch] font-display text-h1 font-medium">{title}</h1>
+        <h1 className="max-w-[18ch] font-display text-h1">{title}</h1>
         {intro && <p className="mt-7 max-w-[56ch] text-lead text-muted">{intro}</p>}
         {children}
       </div>

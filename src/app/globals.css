@@ -31,13 +31,6 @@
   --warning: #8f5600;
   --error: #b8322a;
 
-  --tone-sage: #dce4d4;
-  --tone-clay: #ecd8ca;
-  --tone-sky: #d5dee7;
-  --tone-sand: #ebe2c8;
-  --tone-lilac: #dedaea;
-  --tone-rose: #ecd5d3;
-
   --shadow-sm: 0 1px 0 rgb(22 21 15 / 0.04), 0 1px 2px rgb(22 21 15 / 0.06);
   --shadow-md: 0 1px 2px rgb(22 21 15 / 0.05), 0 4px 12px rgb(22 21 15 / 0.05), 0 16px 32px -12px rgb(22 21 15 / 0.1);
 }
@@ -67,13 +60,6 @@
     --success: #4cc38a;
     --warning: #e3a33f;
     --error: #f07062;
-
-    --tone-sage: #1f2620;
-    --tone-clay: #2a201b;
-    --tone-sky: #1b2128;
-    --tone-sand: #28241a;
-    --tone-lilac: #211f29;
-    --tone-rose: #2a1e1e;
 
     --shadow-sm: 0 1px 0 rgb(0 0 0 / 0.3);
     --shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.6);
@@ -105,13 +91,6 @@
   --warning: #e3a33f;
   --error: #f07062;
 
-  --tone-sage: #1f2620;
-  --tone-clay: #2a201b;
-  --tone-sky: #1b2128;
-  --tone-sand: #28241a;
-  --tone-lilac: #211f29;
-  --tone-rose: #2a1e1e;
-
   --shadow-sm: 0 1px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.6);
 }
@@ -135,15 +114,9 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
-  --color-tone-sage: var(--tone-sage);
-  --color-tone-clay: var(--tone-clay);
-  --color-tone-sky: var(--tone-sky);
-  --color-tone-sand: var(--tone-sand);
-  --color-tone-lilac: var(--tone-lilac);
-  --color-tone-rose: var(--tone-rose);
 
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 
   --shadow-sm: var(--shadow-sm);
@@ -158,18 +131,18 @@
   --radius-xl: 1rem;
 
   /* Type scale. Fluid only where size carries hierarchy. */
-  --text-display: clamp(2.625rem, 1.55rem + 4.6vw, 5.75rem);
-  --text-display--line-height: 0.98;
-  --text-display--letter-spacing: -0.035em;
-  --text-h1: clamp(2.25rem, 1.55rem + 3vw, 4.5rem);
-  --text-h1--line-height: 1;
-  --text-h1--letter-spacing: -0.03em;
-  --text-h2: clamp(1.875rem, 1.4rem + 1.9vw, 3.25rem);
-  --text-h2--line-height: 1.04;
-  --text-h2--letter-spacing: -0.025em;
-  --text-h3: clamp(1.25rem, 1.12rem + 0.5vw, 1.5rem);
-  --text-h3--line-height: 1.2;
-  --text-h3--letter-spacing: -0.012em;
+  --text-display: clamp(3.25rem, 1.9rem + 6vw, 7.5rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.025em;
+  --text-h1: clamp(2.75rem, 1.9rem + 3.8vw, 5.5rem);
+  --text-h1--line-height: 0.98;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h2: clamp(2.125rem, 1.6rem + 2.3vw, 3.75rem);
+  --text-h2--line-height: 1.02;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: clamp(1.5rem, 1.3rem + 0.7vw, 1.875rem);
+  --text-h3--line-height: 1.1;
+  --text-h3--letter-spacing: -0.01em;
   --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
   --text-lead--line-height: 1.55;
   --text-label: 0.75rem;
@@ -289,6 +262,41 @@
     }
   }
 }
+
+/* Photo frames: toned "proof" prints that stand in until a real photograph is added.
+   They read as light falling on a print, the same in both themes. */
+.frame {
+  --l: #f3c98b;
+  --m: #c9783f;
+  --d: #3a1e10;
+  background:
+    radial-gradient(110% 80% at var(--lx, 28%) var(--ly, 18%), color-mix(in oklab, var(--l) 92%, transparent), transparent 62%),
+    radial-gradient(90% 70% at 85% 100%, color-mix(in oklab, var(--d) 85%, transparent), transparent 70%),
+    linear-gradient(165deg, var(--m), var(--d));
+}
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+.frame-amber { --l: #f6d29a; --m: #c47a3e; --d: #3b1d0e; }
+.frame-dusk { --l: #f0bca4; --m: #7e5b80; --d: #1d1829; --lx: 70%; --ly: 30%; }
+.frame-rose { --l: #f8ddd5; --m: #c48d86; --d: #4d2a2c; --lx: 40%; }
+.frame-sage { --l: #e4ead4; --m: #879876; --d: #263022; --lx: 75%; --ly: 15%; }
+.frame-sky { --l: #e2ecf2; --m: #7d99b0; --d: #1f2c39; --lx: 50%; --ly: 10%; }
+.frame-ink { --l: #a39b8e; --m: #3c3933; --d: #0f0e0d; --lx: 20%; --ly: 35%; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+.lightbox[open] { animation: fade-in 200ms ease-out; }
+.lightbox[open]::backdrop { animation: fade-in 200ms ease-out; }
+.lightbox-photo { animation: fade-in 280ms ease-out; }
 
 /* Accordion height animation for <details>, where supported. */
 @media (prefers-reduced-motion: no-preference) {

@@ -3,7 +3,7 @@ import { brand } from "@/lib/data";
 
 export const dynamic = "force-static";
 
-export const alt = `${brand.name}: websites, marketing and software, built by one team`;
+export const alt = `${brand.name}: wedding, portrait and commercial photography in Bhubaneswar`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -27,10 +27,10 @@ export default function OpengraphImage() {
           {brand.name}
         </div>
         <div style={{ display: "flex", fontSize: 84, lineHeight: 1, letterSpacing: -3, maxWidth: 960 }}>
-          Websites, marketing and software, built by one team.
+          Photographs that feel like the day did.
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 26, color: "#5c584f" }}>
-          <span>Digital studio · Bhubaneswar, India</span>
+          <span>Photography studio · Bhubaneswar, Odisha</span>
           <div style={{ width: 22, height: 22, borderRadius: 999, background: "#ff5a1f" }} />
         </div>
       </div>
