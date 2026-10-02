@@ -21,6 +21,14 @@ npm run build && npm start
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin used for metadata, sitemap and structured data. Defaults to `https://orbitra.studio`. |
 | `CONTACT_WEBHOOK_URL` | Where contact form submissions are POSTed as JSON (Zapier, Make, Slack, a CRM, your own API). Without it, the form succeeds only in local development and shows an "email us" fallback in production. |
 
+## GitHub Pages
+
+The site is published at https://debi1243.github.io/Zoomin-Fotos/ from the `gh-pages` branch.
+`.github/workflows/deploy-pages.yml` rebuilds it on every push to `main` as a static export
+(`STATIC_EXPORT=1`, `BASE_PATH=/<repo>`). Static hosting has no server, so the contact form posts
+from the browser to the `CONTACT_ENDPOINT` repository variable (for example a Formspree URL);
+without one it asks visitors to email instead.
+
 ## Pages
 
 All pages are statically generated.

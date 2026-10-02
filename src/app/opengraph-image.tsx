@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 import { brand } from "@/lib/data";
 
+export const dynamic = "force-static";
+
 export const alt = `${brand.name}: websites, marketing and software, built by one team`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
