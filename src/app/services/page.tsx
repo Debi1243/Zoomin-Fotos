@@ -35,7 +35,8 @@ export default function ServicesPage() {
                     <PhotoFrame
                       photo={{ ...cover, aspect: "portrait" }}
                       sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-                      className="transition-transform duration-500 group-hover:scale-[0.985]"
+                      reveal
+                      className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[0.985]"
                     />
                   )}
                   <p className="label tabular mt-6 text-muted">0{i + 1}</p>

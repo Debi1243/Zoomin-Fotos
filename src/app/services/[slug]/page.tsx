@@ -74,6 +74,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 sizes="(min-width: 768px) 30vw, (min-width: 640px) 50vw, 100vw"
                 className={lead ? "md:aspect-[4/5]" : undefined}
                 priority={i === 0}
+                reveal={i > 0}
               />
             </li>
             );
@@ -90,7 +91,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             </h2>
             <ul className="mt-12 grid gap-px bg-border sm:grid-cols-2 md:mt-16">
               {s.includes.map((item) => (
-                <li key={item.title} className="bg-bg py-7 sm:odd:pr-8 sm:even:pl-8">
+                <li key={item.title} className="reveal bg-bg py-7 sm:odd:pr-8 sm:even:pl-8">
                   <h3 className="font-display text-h3">{item.title}</h3>
                   <p className="mt-3 max-w-[40ch] leading-relaxed text-muted">{item.text}</p>
                 </li>

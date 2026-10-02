@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type Crumb = { href: string; label: string };
@@ -16,7 +16,7 @@ type Props = {
 export default function PageHero({ label, title, intro, crumbs, children, className }: Props) {
   return (
     <section className={cn("container-page grid gap-y-8 pb-16 pt-12 md:pb-24 md:pt-20 lg:grid-cols-12 lg:gap-x-10", className)}>
-      <div className="lg:col-span-3 lg:pt-4">
+      <div className="rise lg:col-span-3 lg:pt-4">
         {crumbs ? (
           <nav aria-label="Breadcrumb">
             <ol className="label flex flex-wrap items-center gap-2 text-muted">
@@ -34,9 +34,19 @@ export default function PageHero({ label, title, intro, crumbs, children, classN
         )}
       </div>
       <div className="lg:col-span-9">
-        <h1 className="max-w-[18ch] font-display text-h1">{title}</h1>
-        {intro && <p className="mt-7 max-w-[56ch] text-lead text-muted">{intro}</p>}
-        {children}
+        <h1 className="rise max-w-[18ch] font-display text-h1" style={{ "--i": 1 } as CSSProperties}>
+          {title}
+        </h1>
+        {intro && (
+          <p className="rise mt-7 max-w-[56ch] text-lead text-muted" style={{ "--i": 2 } as CSSProperties}>
+            {intro}
+          </p>
+        )}
+        {children && (
+          <div className="rise" style={{ "--i": 3 } as CSSProperties}>
+            {children}
+          </div>
+        )}
       </div>
     </section>
   );

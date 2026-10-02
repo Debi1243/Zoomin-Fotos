@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import PhotoFrame from "./PhotoFrame";
 import type { Photo, ServiceSlug } from "@/lib/data";
@@ -48,16 +48,17 @@ export default function PortfolioGallery({ photos, filters }: { photos: Photo[];
         Showing {list.length} photographs
       </p>
 
-      <ul className="mt-10 columns-1 gap-4 sm:columns-2 md:mt-14 lg:columns-3 lg:gap-6">
+      {/* Keyed on the filter so the grid re-mounts and its photos stagger in on every change. */}
+      <ul key={filter} className="mt-10 columns-1 gap-4 sm:columns-2 md:mt-14 lg:columns-3 lg:gap-6">
         {list.map((photo, i) => (
-          <li key={photo.id} className="mb-4 break-inside-avoid lg:mb-6">
+          <li key={photo.id} className="stagger-in mb-4 break-inside-avoid lg:mb-6" style={{ "--i": i } as CSSProperties}>
             <button
               type="button"
               onClick={() => setOpenIndex(i)}
               className="group block w-full text-left"
               aria-label={`Open ${photo.title}, ${photo.place}`}
             >
-              <PhotoFrame photo={photo} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
+              <PhotoFrame photo={photo} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" reveal />
               <span className="mt-3 flex items-baseline justify-between gap-4 text-sm">
                 <span className="text-fg">{photo.title}</span>
                 <span className="text-muted">{photo.place}</span>

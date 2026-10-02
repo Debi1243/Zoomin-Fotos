@@ -30,8 +30,8 @@ export default function AboutPage() {
       <section aria-labelledby="story-title" className="border-t border-border section-y">
         <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-5">
-            <PhotoFrame photo={byId("02")} sizes="(min-width: 1024px) 20vw, 50vw" />
-            <PhotoFrame photo={byId("17")} sizes="(min-width: 1024px) 20vw, 50vw" className="mt-12" />
+            <PhotoFrame photo={byId("02")} sizes="(min-width: 1024px) 20vw, 50vw" reveal />
+            <PhotoFrame photo={byId("17")} sizes="(min-width: 1024px) 20vw, 50vw" className="mt-12" reveal />
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
             <h2 id="story-title" className="label text-muted">Our story</h2>

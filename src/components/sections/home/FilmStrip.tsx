@@ -7,7 +7,7 @@ import { getService, photos } from "@/lib/data";
 export default function FilmStrip() {
   const frames = photos.slice(0, 10);
   return (
-    <section aria-labelledby="strip-title" className="border-t border-border py-16 md:py-24">
+    <section aria-labelledby="strip-title" className="py-16 md:py-24">
       <div className="container-page flex items-end justify-between gap-6">
         <div>
           <p className="label text-muted">Recent frames</p>
@@ -23,7 +23,7 @@ export default function FilmStrip() {
         aria-label="Recent photographs"
       >
         {frames.map((p) => (
-          <li key={p.id} className="w-[72vw] shrink-0 snap-start sm:w-[40vw] lg:w-[26vw] xl:w-[22rem]">
+          <li key={p.id} className="reveal w-[72vw] shrink-0 snap-start sm:w-[40vw] lg:w-[26vw] xl:w-[22rem]">
             <Link href="/portfolio" className="group block">
               <PhotoFrame photo={{ ...p, aspect: "portrait" }} sizes="(min-width: 1280px) 22rem, (min-width: 1024px) 26vw, 72vw" />
               <span className="mt-3 flex items-baseline justify-between gap-4 text-sm">

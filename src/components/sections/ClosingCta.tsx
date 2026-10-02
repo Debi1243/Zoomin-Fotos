@@ -12,7 +12,7 @@ export default function ClosingCta({
       <div className="container-page grid gap-y-10 py-20 md:py-28 lg:grid-cols-12 lg:gap-x-10">
         <p className="label text-inverse-muted lg:col-span-3 lg:pt-4">Book a shoot</p>
         <div className="lg:col-span-9">
-          <h2 id="cta-title" className="max-w-[16ch] font-display text-h1">
+          <h2 id="cta-title" className="reveal max-w-[16ch] font-display text-h1">
             {title}
           </h2>
           <p className="mt-6 max-w-[52ch] text-lead text-inverse-muted">{text}</p>

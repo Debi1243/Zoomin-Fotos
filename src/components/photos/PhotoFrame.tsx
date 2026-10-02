@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import type { Aspect, Photo } from "@/lib/data";
 import { cn } from "@/lib/cn";
 
@@ -18,17 +19,23 @@ type Props = {
   /** Fill the parent instead of using the photo's own aspect ratio. */
   fill?: boolean;
   caption?: boolean;
+  /** Wipe the photo into view as it scrolls in. */
+  reveal?: boolean;
   className?: string;
+  style?: CSSProperties;
 };
 
 /**
  * A photograph, or a toned proof frame standing in for one until `photo.src` is set.
  * Frames carry the photo's title so the layout reads as intended before images arrive.
  */
-export default function PhotoFrame({ photo, sizes, priority = false, fill = false, caption = true, className }: Props) {
+export default function PhotoFrame({ photo, sizes, priority = false, fill = false, caption = true, reveal = false, className, style }: Props) {
   const label = `${photo.title}, ${photo.place}`;
   return (
-    <div className={cn("relative overflow-hidden rounded-sm bg-inverse", fill ? "size-full" : aspects[photo.aspect], className)}>
+    <div
+      style={style}
+      className={cn("relative overflow-hidden rounded-sm bg-inverse", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
+    >
       {photo.src ? (
         <Image
           src={`${basePath}${photo.src}`}
@@ -36,13 +43,13 @@ export default function PhotoFrame({ photo, sizes, priority = false, fill = fals
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          className="object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
         />
       ) : (
         <div
           role="img"
           aria-label={label}
-          className={cn("frame absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.03]", `frame-${photo.tone}`)}
+          className={cn("frame absolute inset-0 transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]", `frame-${photo.tone}`)}
         />
       )}
       {caption && !photo.src && (

@@ -13,7 +13,7 @@ type Props = {
 /** Label + heading + optional intro, laid on the 12-column grid. */
 export default function SectionHeader({ label, title, intro, action, id, className }: Props) {
   return (
-    <header className={cn("grid gap-y-6 lg:grid-cols-12 lg:gap-x-10", className)}>
+    <header className={cn("reveal grid gap-y-6 lg:grid-cols-12 lg:gap-x-10", className)}>
       <p className="label text-muted lg:col-span-3 lg:pt-3">{label}</p>
       <div className="lg:col-span-9">
         <h2 id={id} className="max-w-[22ch] font-display text-h2">

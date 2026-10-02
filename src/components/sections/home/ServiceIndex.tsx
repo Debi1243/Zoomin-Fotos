@@ -17,9 +17,9 @@ export default function ServiceIndex({ headingLevel: Heading = "h3" }: { heading
             >
               <span className="label tabular hidden text-muted md:block">0{i + 1}</span>
               <span className="row-span-2 block md:row-span-1">
-                {cover && <PhotoFrame photo={{ ...cover, aspect: "square" }} caption={false} sizes="7rem" />}
+                {cover && <PhotoFrame photo={{ ...cover, aspect: "square" }} caption={false} sizes="7rem" reveal />}
               </span>
-              <Heading className="font-display text-[1.75rem] leading-none tracking-[-0.01em] transition-colors group-hover:text-accent md:text-[2.25rem]">
+              <Heading className="font-display text-[1.75rem] leading-none tracking-[-0.01em] transition-[color,translate] duration-500 ease-[var(--ease-out-expo)] group-hover:text-accent md:text-[2.25rem] md:group-hover:translate-x-2">
                 {s.title}
               </Heading>
               <span className="col-start-2 row-start-2 text-sm leading-relaxed text-muted md:col-start-4 md:row-start-1">{s.short}</span>
