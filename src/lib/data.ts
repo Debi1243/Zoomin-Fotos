@@ -206,7 +206,7 @@ export const photos: Photo[] = [
   { id: "14", category: "weddings", title: "The reception", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-couple-reception.webp" },
   { id: "15", category: "pre-wedding", title: "Monsoon umbrella", place: "Bhubaneswar", aspect: "square", tone: "ink" },
   { id: "16", category: "commercial", title: "Boutique interior", place: "Bhubaneswar", aspect: "landscape", tone: "sage" },
-  { id: "17", category: "portraits", title: "Graduate", place: "Utkal University", aspect: "portrait", tone: "sky" },
+  { id: "17", category: "portraits", title: "Emerald and gold", place: "Studio", aspect: "portrait", tone: "sage", src: "/photos/portrait-emerald-studio.webp" },
   { id: "18", category: "events", title: "Odissi recital", place: "Rabindra Mandap", aspect: "portrait", tone: "dusk" },
   { id: "19", category: "weddings", title: "Golden hour, together", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-golden-double-exposure.webp" },
   { id: "20", category: "weddings", title: "Bridal details", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-bridal-collage.webp" },
