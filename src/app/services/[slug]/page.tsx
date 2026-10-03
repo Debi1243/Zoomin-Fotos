@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, Check } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
-import PhotoFrame from "@/components/photos/PhotoFrame";
+import PortfolioGallery from "@/components/photos/PortfolioGallery";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
@@ -11,17 +11,8 @@ import { ButtonLink } from "@/components/ui/Button";
 import JsonLd from "@/components/shared/JsonLd";
 import { brand, getService, photosIn, services } from "@/lib/data";
 import { absoluteUrl, siteUrl } from "@/lib/site";
-import { cn } from "@/lib/cn";
 
 export const dynamicParams = false;
-
-/**
- * Layout for the n-th of `count` photos: a row of three on desktop, except five photos,
- * where the first two share a wide row. On phones, an odd count starts with one full-width photo.
- */
-function slot(i: number, count: number) {
-  return { wide: count === 5 && i < 2, mobileLead: count % 2 === 1 && i === 0 };
-}
 
 const serviceTitle = (t: string) => `${t.replace(/^Weddings$/, "Wedding").replace(/^Events$/, "Event")} photography`;
 
@@ -48,8 +39,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   const s = getService(slug);
   if (!s) notFound();
 
-  // Landscape photographs lead, so they land in the wide slots.
-  const shots = [...photosIn(s.slug)].sort((a, b) => Number(b.aspect === "landscape") - Number(a.aspect === "landscape"));
+  // Real photographs lead; placeholder frames follow until they are replaced.
+  const shots = [...photosIn(s.slug).filter((p) => p.src), ...photosIn(s.slug).filter((p) => !p.src)];
   const index = services.indexOf(s);
   const related = [1, 2, 3].map((n) => services[(index + n) % services.length]);
   const path = `/services/${s.slug}`;
@@ -73,28 +64,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       </PageHero>
 
       <section aria-label={`${s.title} photographs`} className="container-page pb-20 md:pb-28">
-        <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-12">
-          {shots.map((p, i) => {
-            const { wide, mobileLead } = slot(i, shots.length);
-            return (
-              <li
-                key={p.id}
-                className={cn(
-                  mobileLead && "col-span-2",
-                  wide ? "md:col-span-6" : shots.length === 4 ? "md:col-span-3" : "md:col-span-4",
-                )}
-              >
-                <PhotoFrame
-                  photo={{ ...p, aspect: mobileLead ? "landscape" : "portrait" }}
-                  sizes={wide ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 33vw, 50vw"}
-                  className={cn(wide && !mobileLead && "md:aspect-[3/2]", !wide && mobileLead && "md:aspect-[4/5]")}
-                  priority={i === 0}
-                  reveal={i > 0}
-                />
-              </li>
-            );
-          })}
-        </ul>
+        <PortfolioGallery photos={shots} />
       </section>
 
       <section aria-labelledby="includes-title" className="section-y border-t border-border">

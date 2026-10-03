@@ -29,7 +29,7 @@ function subscribeColumns(cb: () => void) {
 }
 const getColumns = () => (window.matchMedia(queries[0]).matches ? 3 : window.matchMedia(queries[1]).matches ? 2 : 1);
 
-export default function PortfolioGallery({ photos, filters }: { photos: Photo[]; filters: Filter[] }) {
+export default function PortfolioGallery({ photos, filters = [] }: { photos: Photo[]; filters?: Filter[] }) {
   const [filter, setFilter] = useState<Filter["slug"]>("all");
   const columns = useSyncExternalStore(subscribeColumns, getColumns, () => 3);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -48,33 +48,37 @@ export default function PortfolioGallery({ photos, filters }: { photos: Photo[];
 
   return (
     <>
-      <div role="group" aria-label="Filter by category" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
-        {filters.map((f) => (
-          <button
-            key={f.slug}
-            type="button"
-            aria-pressed={filter === f.slug}
-            onClick={() => setFilter(f.slug)}
-            className={cn(
-              "inline-flex h-10 shrink-0 items-center gap-2 rounded-md border px-4 text-sm transition-colors",
-              filter === f.slug ? "border-fg bg-fg text-bg" : "border-border hover:border-fg",
-            )}
-          >
-            {f.label}
-            <span className={cn("tabular text-xs", filter === f.slug ? "text-bg/70" : "text-muted")}>{f.count}</span>
-          </button>
-        ))}
-      </div>
+      {filters.length > 1 && (
+        <div role="group" aria-label="Filter by category" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
+          {filters.map((f) => (
+            <button
+              key={f.slug}
+              type="button"
+              aria-pressed={filter === f.slug}
+              onClick={() => setFilter(f.slug)}
+              className={cn(
+                "inline-flex h-10 shrink-0 items-center gap-2 rounded-md border px-4 text-sm transition-colors",
+                filter === f.slug ? "border-fg bg-fg text-bg" : "border-border hover:border-fg",
+              )}
+            >
+              {f.label}
+              <span className={cn("tabular text-xs", filter === f.slug ? "text-bg/70" : "text-muted")}>{f.count}</span>
+            </button>
+          ))}
+        </div>
+      )}
 
-      <p className="sr-only" aria-live="polite">
-        Showing {list.length} photographs
-      </p>
+      {filters.length > 1 && (
+        <p className="sr-only" aria-live="polite">
+          Showing {list.length} photographs
+        </p>
+      )}
 
       {/* Keyed on the filter so the grid re-mounts and its photos stagger in on every change.
           Photos are dealt into columns left to right, so the first ones sit across the top row. */}
       <div
         key={`${filter}-${columns}`}
-        className="mt-10 grid items-start gap-4 md:mt-14 lg:gap-6"
+        className={cn("grid items-start gap-4 lg:gap-6", filters.length > 1 && "mt-10 md:mt-14")}
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
         {toColumns(list, columns).map((column, c) => (
