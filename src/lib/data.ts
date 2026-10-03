@@ -213,6 +213,7 @@ export const photos: Photo[] = [
   { id: "21", category: "weddings", title: "Haldi laughter", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi.webp" },
   { id: "22", category: "portraits", title: "Light through the blinds", place: "Studio", aspect: "portrait", tone: "rose", src: "/photos/portrait-red-blinds.webp" },
   { id: "23", category: "portraits", title: "Golden hour glow", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/portrait-golden-hour.webp" },
+  { id: "24", category: "pre-wedding", title: "The ring, at golden hour", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/prewedding-ring-golden.webp" },
 ];
 
 export const process = [
@@ -287,7 +288,8 @@ export function getService(slug: string) {
 }
 
 export function photosIn(category: ServiceSlug) {
-  return photos.filter((p) => p.category === category);
+  const inCategory = photos.filter((p) => p.category === category);
+  return [...inCategory.filter((p) => p.src), ...inCategory.filter((p) => !p.src)];
 }
 
 export const telHref = `tel:${brand.phone.replace(/\s/g, "")}`;
