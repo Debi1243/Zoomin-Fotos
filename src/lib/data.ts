@@ -211,6 +211,7 @@ export const photos: Photo[] = [
   { id: "19", category: "weddings", title: "Golden hour, together", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-golden-double-exposure.webp" },
   { id: "20", category: "weddings", title: "Bridal details", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-bridal-collage.webp" },
   { id: "21", category: "weddings", title: "Haldi laughter", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi.webp" },
+  { id: "22", category: "portraits", title: "Light through the blinds", place: "Studio", aspect: "portrait", tone: "rose", src: "/photos/portrait-red-blinds.webp" },
 ];
 
 export const process = [
