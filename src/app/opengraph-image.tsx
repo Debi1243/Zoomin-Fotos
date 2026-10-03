@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { brand } from "@/lib/data";
 
@@ -7,7 +9,9 @@ export const alt = `${brand.name}: wedding, portrait and commercial photography 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  const logo = await readFile(join(process.cwd(), "src/assets/og-logo.png"));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
   return new ImageResponse(
     (
       <div
@@ -22,10 +26,7 @@ export default function OpengraphImage() {
           color: "#16150f",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 36, fontWeight: 600, letterSpacing: -1 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 999, background: "#16150f" }} />
-          {brand.name}
-        </div>
+        <img src={logoSrc} alt="" width={200} height={101} />
         <div style={{ display: "flex", fontSize: 84, lineHeight: 1, letterSpacing: -3, maxWidth: 960 }}>
           Photographs that feel like the day did.
         </div>

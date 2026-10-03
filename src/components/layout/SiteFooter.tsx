@@ -9,7 +9,7 @@ export default function SiteFooter() {
     <footer className="border-t border-border bg-surface">
       <div className="container-page grid gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
-          <Logo />
+          <Logo size="lg" />
           <p className="mt-5 max-w-[36ch] text-sm leading-relaxed text-muted">{brand.description}</p>
           <address className="mt-8 space-y-1.5 text-sm not-italic">
             <a href={mailHref} className="link-underline block w-fit">{brand.email}</a>

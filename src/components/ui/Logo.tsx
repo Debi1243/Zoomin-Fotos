@@ -1,24 +1,30 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { brand } from "@/lib/data";
 import { cn } from "@/lib/cn";
 
-export function LogoMark({ className }: { className?: string }) {
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+/**
+ * The Zoomin Fotos logo. The artwork is used as a mask filled with `currentColor`,
+ * so it follows the text colour: dark on the light theme, light on the dark theme.
+ */
+export function LogoMark({ size = "sm", className }: { size?: "sm" | "lg"; className?: string }) {
+  const file = size === "sm" ? "logo-mask-sm.png" : "logo-mask.png";
+  const mask = `url(${basePath}/brand/${file}) center / contain no-repeat`;
   return (
-    <svg viewBox="0 0 32 32" aria-hidden className={cn("size-7", className)}>
-      <circle cx="16" cy="16" r="12.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="16" cy="16" r="5.5" fill="currentColor" />
-      <circle cx="25.5" cy="6.5" r="2.5" className="fill-primary" />
-    </svg>
+    <span
+      aria-hidden
+      className={cn("block aspect-[1.977] bg-current", className)}
+      style={{ mask, WebkitMask: mask } as CSSProperties}
+    />
   );
 }
 
-export default function Logo({ className }: { className?: string }) {
+export default function Logo({ size = "sm", className }: { size?: "sm" | "lg"; className?: string }) {
   return (
-    <Link href="/" className={cn("inline-flex items-center gap-2.5 rounded-sm", className)} aria-label={`${brand.name}, home`}>
-      <LogoMark />
-      <span className="font-display text-[1.625rem] leading-none tracking-[-0.01em]">
-        Zoomin <span className="italic">Fotos</span>
-      </span>
+    <Link href="/" className={cn("inline-flex shrink-0 rounded-sm", className)} aria-label={`${brand.name}, home`}>
+      <LogoMark size={size} className={size === "sm" ? "h-11 md:h-12" : "h-20"} />
     </Link>
   );
 }

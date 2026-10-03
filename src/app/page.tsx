@@ -29,7 +29,7 @@ export default function HomePage() {
           name: brand.name,
           description: brand.description,
           url: siteUrl,
-          logo: absoluteUrl("/icon.svg"),
+          logo: absoluteUrl("/icon.png"),
           email: brand.email,
           telephone: brand.phone.replace(/\s/g, ""),
           address: {
