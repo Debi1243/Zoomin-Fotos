@@ -39,8 +39,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   const s = getService(slug);
   if (!s) notFound();
 
-  // Real photographs lead; placeholder frames follow until they are replaced.
-  const shots = [...photosIn(s.slug).filter((p) => p.src), ...photosIn(s.slug).filter((p) => !p.src)];
+  const shots = photosIn(s.slug);
   const index = services.indexOf(s);
   const related = [1, 2, 3].map((n) => services[(index + n) % services.length]);
   const path = `/services/${s.slug}`;

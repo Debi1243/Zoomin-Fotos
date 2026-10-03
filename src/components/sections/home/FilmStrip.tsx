@@ -5,7 +5,7 @@ import { getService, photos } from "@/lib/data";
 
 /** A horizontally scrolling contact sheet of recent frames. */
 export default function FilmStrip() {
-  const frames = photos.slice(0, 10);
+  const frames = photos.filter((p) => p.src);
   return (
     <section aria-labelledby="strip-title" className="py-16 md:py-24">
       <div className="container-page flex items-end justify-between gap-6">

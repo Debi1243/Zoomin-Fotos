@@ -287,9 +287,14 @@ export function getService(slug: string) {
   return serviceBySlug.get(slug);
 }
 
+/**
+ * Photos for one service. Once a service has real photographs, its placeholder frames
+ * are dropped; a service with none keeps its toned frames so the page is not empty.
+ */
 export function photosIn(category: ServiceSlug) {
   const inCategory = photos.filter((p) => p.category === category);
-  return [...inCategory.filter((p) => p.src), ...inCategory.filter((p) => !p.src)];
+  const real = inCategory.filter((p) => p.src);
+  return real.length ? real : inCategory;
 }
 
 export const telHref = `tel:${brand.phone.replace(/\s/g, "")}`;

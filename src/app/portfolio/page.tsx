@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHero from "@/components/sections/PageHero";
 import PortfolioGallery from "@/components/photos/PortfolioGallery";
 import ClosingCta from "@/components/sections/ClosingCta";
-import { photos, photosIn, services } from "@/lib/data";
+import { photosIn, services } from "@/lib/data";
 
 const description =
   "Weddings, pre-wedding, portraits, maternity and newborn, events and commercial photography by Zoomin Fotos, Bhubaneswar.";
@@ -16,9 +16,10 @@ export const metadata: Metadata = {
 
 export default function PortfolioPage() {
   // Real photographs lead; placeholder frames follow until they are replaced.
-  const ordered = [...photos.filter((p) => p.src), ...photos.filter((p) => !p.src)];
+  const shown = services.flatMap((s) => photosIn(s.slug));
+  const ordered = [...shown.filter((p) => p.src), ...shown.filter((p) => !p.src)];
   const filters = [
-    { slug: "all" as const, label: "All", count: photos.length },
+    { slug: "all" as const, label: "All", count: ordered.length },
     ...services.map((s) => ({ slug: s.slug, label: s.title, count: photosIn(s.slug).length })),
   ];
   return (
