@@ -1,6 +1,7 @@
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://debi1243.github.io/Zoomin-Fotos").replace(/\/$/, "");
 
 export const primaryNav = [
+  { href: "/", label: "Home" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/services", label: "Services" },
   { href: "/about", label: "About" },

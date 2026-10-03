@@ -22,7 +22,7 @@ export default function SiteFooter() {
         <nav aria-label="Studio" className="lg:col-span-3 lg:col-start-7">
           <h2 className="label text-muted">Studio</h2>
           <ul className="mt-5 space-y-3 text-sm">
-            {[{ href: "/", label: "Home" }, ...primaryNav].map((l) => (
+            {primaryNav.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="link-underline">{l.label}</Link>
               </li>

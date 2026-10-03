@@ -89,7 +89,7 @@ export default function MobileMenu({ open, onOpenChange, pathname }: Props) {
           >
             <nav aria-label="Mobile" className="container-page flex min-h-full flex-col pb-10 pt-6">
               <ul className="border-t border-border">
-                {[{ href: "/", label: "Home" }, ...primaryNav].map((item, i) => {
+                {primaryNav.map((item, i) => {
                   const active = item.href === "/" ? pathname === "/" : isActive(pathname, item.href);
                   return (
                     <motion.li
