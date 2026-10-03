@@ -15,6 +15,8 @@ export const metadata: Metadata = {
 };
 
 export default function PortfolioPage() {
+  // Real photographs lead; placeholder frames follow until they are replaced.
+  const ordered = [...photos.filter((p) => p.src), ...photos.filter((p) => !p.src)];
   const filters = [
     { slug: "all" as const, label: "All", count: photos.length },
     ...services.map((s) => ({ slug: s.slug, label: s.title, count: photosIn(s.slug).length })),
@@ -28,7 +30,7 @@ export default function PortfolioPage() {
       />
       <section aria-label="Photographs" className="border-t border-border pb-24 pt-10 md:pb-32 md:pt-14">
         <div className="container-page">
-          <PortfolioGallery photos={photos} filters={filters} />
+          <PortfolioGallery photos={ordered} filters={filters} />
         </div>
       </section>
       <ClosingCta />

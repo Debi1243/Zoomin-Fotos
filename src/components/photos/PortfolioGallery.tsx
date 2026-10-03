@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import PhotoFrame from "./PhotoFrame";
 import type { Photo, ServiceSlug } from "@/lib/data";
@@ -8,8 +8,30 @@ import { cn } from "@/lib/cn";
 
 type Filter = { slug: ServiceSlug | "all"; label: string; count: number };
 
+const ratio: Record<Photo["aspect"], number> = { portrait: 5 / 4, landscape: 2 / 3, square: 1 };
+
+/** Places each photo in the currently shortest column, keeping its position in the list for the lightbox. */
+function toColumns(list: Photo[], count: number) {
+  const columns = Array.from({ length: count }, () => ({ height: 0, items: [] as { photo: Photo; index: number }[] }));
+  list.forEach((photo, index) => {
+    const shortest = columns.reduce((a, b) => (b.height < a.height - 0.01 ? b : a));
+    shortest.items.push({ photo, index });
+    shortest.height += ratio[photo.aspect] + 0.15;
+  });
+  return columns.map((c) => c.items);
+}
+
+const queries = ["(min-width: 1024px)", "(min-width: 640px)"];
+function subscribeColumns(cb: () => void) {
+  const lists = queries.map((q) => window.matchMedia(q));
+  lists.forEach((l) => l.addEventListener("change", cb));
+  return () => lists.forEach((l) => l.removeEventListener("change", cb));
+}
+const getColumns = () => (window.matchMedia(queries[0]).matches ? 3 : window.matchMedia(queries[1]).matches ? 2 : 1);
+
 export default function PortfolioGallery({ photos, filters }: { photos: Photo[]; filters: Filter[] }) {
   const [filter, setFilter] = useState<Filter["slug"]>("all");
+  const columns = useSyncExternalStore(subscribeColumns, getColumns, () => 3);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const list = filter === "all" ? photos : photos.filter((p) => p.category === filter);
@@ -48,25 +70,34 @@ export default function PortfolioGallery({ photos, filters }: { photos: Photo[];
         Showing {list.length} photographs
       </p>
 
-      {/* Keyed on the filter so the grid re-mounts and its photos stagger in on every change. */}
-      <ul key={filter} className="mt-10 columns-1 gap-4 sm:columns-2 md:mt-14 lg:columns-3 lg:gap-6">
-        {list.map((photo, i) => (
-          <li key={photo.id} className="stagger-in mb-4 break-inside-avoid lg:mb-6" style={{ "--i": i } as CSSProperties}>
-            <button
-              type="button"
-              onClick={() => setOpenIndex(i)}
-              className="group block w-full text-left"
-              aria-label={`Open ${photo.title}, ${photo.place}`}
-            >
-              <PhotoFrame photo={photo} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" reveal />
-              <span className="mt-3 flex items-baseline justify-between gap-4 text-sm">
-                <span className="text-fg">{photo.title}</span>
-                <span className="text-muted">{photo.place}</span>
-              </span>
-            </button>
-          </li>
+      {/* Keyed on the filter so the grid re-mounts and its photos stagger in on every change.
+          Photos are dealt into columns left to right, so the first ones sit across the top row. */}
+      <div
+        key={`${filter}-${columns}`}
+        className="mt-10 grid items-start gap-4 md:mt-14 lg:gap-6"
+        style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+      >
+        {toColumns(list, columns).map((column, c) => (
+          <ul key={c} className="flex flex-col gap-4 lg:gap-6">
+            {column.map(({ photo, index }) => (
+              <li key={photo.id} className="stagger-in" style={{ "--i": index } as CSSProperties}>
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(index)}
+                  className="group block w-full text-left"
+                  aria-label={`Open ${photo.title}, ${photo.place}`}
+                >
+                  <PhotoFrame photo={photo} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" reveal />
+                  <span className="mt-3 flex items-baseline justify-between gap-4 text-sm">
+                    <span className="text-fg">{photo.title}</span>
+                    <span className="text-muted">{photo.place}</span>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
         ))}
-      </ul>
+      </div>
 
       <dialog
         ref={dialogRef}
