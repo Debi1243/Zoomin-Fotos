@@ -10,7 +10,10 @@ export default function FilmStrip() {
     <section aria-labelledby="strip-title" className="py-16 md:py-24">
       <div className="container-page flex items-end justify-between gap-6">
         <div>
-          <p className="label text-muted">Recent frames</p>
+          <p className="label text-muted">
+            <span aria-hidden className="label-dot festive-gradient" />
+            Recent frames
+          </p>
           <h2 id="strip-title" className="mt-4 font-display text-h2">
             From the last few seasons.
           </h2>

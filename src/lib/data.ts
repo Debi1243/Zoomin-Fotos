@@ -61,6 +61,16 @@ export type Package = {
   featured?: boolean;
 };
 
+/** Each service carries one colour from the festive palette (see globals.css). */
+export const serviceTone: Record<ServiceSlug, string> = {
+  weddings: "var(--sindoor)",
+  "pre-wedding": "var(--rani)",
+  portraits: "var(--peacock)",
+  "maternity-newborn": "var(--marigold)",
+  events: "var(--gold)",
+  commercial: "var(--rani)",
+};
+
 export const formatRupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 const deliveryFaq = {

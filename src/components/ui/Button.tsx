@@ -12,7 +12,7 @@ const base =
   "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-primary-fg hover:bg-primary-hover",
+  primary: "btn-festive bg-primary text-primary-fg",
   secondary: "border border-border-strong text-fg hover:border-fg hover:bg-fg/[0.04]",
   inverse: "bg-inverse-fg text-inverse hover:bg-primary hover:text-primary-fg",
 };

@@ -15,7 +15,7 @@ type Props = {
 
 export default function PageHero({ label, title, intro, crumbs, children, className }: Props) {
   return (
-    <section className={cn("container-page grid gap-y-8 pb-16 pt-12 md:pb-24 md:pt-20 lg:grid-cols-12 lg:gap-x-10", className)}>
+    <section className={cn("aurora container-page grid gap-y-8 pb-16 pt-12 md:pb-24 md:pt-20 lg:grid-cols-12 lg:gap-x-10", className)}>
       <div className="rise lg:col-span-3 lg:pt-4">
         {crumbs ? (
           <nav aria-label="Breadcrumb">
@@ -30,7 +30,10 @@ export default function PageHero({ label, title, intro, crumbs, children, classN
             </ol>
           </nav>
         ) : (
-          <p className="label text-muted">{label}</p>
+          <p className="label text-muted">
+            <span aria-hidden className="label-dot festive-gradient" />
+            {label}
+          </p>
         )}
       </div>
       <div className="lg:col-span-9">

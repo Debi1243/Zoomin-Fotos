@@ -74,7 +74,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
       <section aria-labelledby="includes-title" className="section-y border-t border-border">
         <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
-          <p className="label text-muted lg:col-span-3 lg:pt-3">What&apos;s included</p>
+          <p className="label text-muted lg:col-span-3 lg:pt-3"><span aria-hidden className="label-dot festive-gradient" />What&apos;s included</p>
           <div className="lg:col-span-9">
             <h2 id="includes-title" className="max-w-[20ch] font-display text-h2">
               Everything planned, so you can just be there.
@@ -109,7 +109,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
       <section aria-labelledby="related-title" className="section-y border-t border-border">
         <div className="container-page grid gap-y-10 lg:grid-cols-12 lg:gap-x-10">
-          <p className="label text-muted lg:col-span-3 lg:pt-3">Also photographed</p>
+          <p className="label text-muted lg:col-span-3 lg:pt-3"><span aria-hidden className="label-dot festive-gradient" />Also photographed</p>
           <div className="lg:col-span-9">
             <h2 id="related-title" className="font-display text-h2">Other sessions.</h2>
             <ul className="mt-10 border-t border-border">

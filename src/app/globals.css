@@ -22,6 +22,20 @@
   --primary-fg: #16150f;
   --accent: #b23a0c;
 
+  /* Festive palette. The plain names are safe for text on --bg (4.5:1+);
+     the -glow variants are for fills, gradients and decoration only. */
+  --marigold: #a64b00;
+  --sindoor: #b3261e;
+  --rani: #b8165c;
+  --peacock: #0d6e66;
+  --gold: #8a5a00;
+  --marigold-glow: #ffa41b;
+  --sindoor-glow: #f0412f;
+  --rani-glow: #ef2f86;
+  --peacock-glow: #14b8a6;
+  --gold-glow: #f2c14e;
+  --glow-alpha: 0.3;
+
   --inverse: #16150f;
   --inverse-fg: #f4f2ec;
   --inverse-muted: #a6a195;
@@ -51,6 +65,18 @@
     --primary-hover: #ff8352;
     --primary-fg: #16150f;
     --accent: #ff8f63;
+
+    --marigold: #ffb347;
+    --sindoor: #ff7a6b;
+    --rani: #ff74b4;
+    --peacock: #3dd9c5;
+    --gold: #f2c14e;
+    --marigold-glow: #ff9d0a;
+    --sindoor-glow: #ff4d3a;
+    --rani-glow: #ff3d95;
+    --peacock-glow: #17c3b0;
+    --gold-glow: #f2c14e;
+    --glow-alpha: 0.24;
 
     --inverse: #1a1915;
     --inverse-fg: #eeebe4;
@@ -82,6 +108,18 @@
   --primary-fg: #16150f;
   --accent: #ff8f63;
 
+  --marigold: #ffb347;
+  --sindoor: #ff7a6b;
+  --rani: #ff74b4;
+  --peacock: #3dd9c5;
+  --gold: #f2c14e;
+  --marigold-glow: #ff9d0a;
+  --sindoor-glow: #ff4d3a;
+  --rani-glow: #ff3d95;
+  --peacock-glow: #17c3b0;
+  --gold-glow: #f2c14e;
+  --glow-alpha: 0.24;
+
   --inverse: #1a1915;
   --inverse-fg: #eeebe4;
   --inverse-muted: #a39e92;
@@ -107,6 +145,16 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-fg: var(--primary-fg);
   --color-accent: var(--accent);
+  --color-marigold: var(--marigold);
+  --color-sindoor: var(--sindoor);
+  --color-rani: var(--rani);
+  --color-peacock: var(--peacock);
+  --color-gold: var(--gold);
+  --color-marigold-glow: var(--marigold-glow);
+  --color-sindoor-glow: var(--sindoor-glow);
+  --color-rani-glow: var(--rani-glow);
+  --color-peacock-glow: var(--peacock-glow);
+  --color-gold-glow: var(--gold-glow);
   --color-inverse: var(--inverse);
   --color-inverse-fg: var(--inverse-fg);
   --color-inverse-muted: var(--inverse-muted);
@@ -169,6 +217,8 @@
    ────────────────────────────────────────────────────────────── */
 
 @layer base {
+  html, body { overflow-x: clip; }
+
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
@@ -191,7 +241,7 @@
   h1, h2, h3, h4 { text-wrap: balance; }
   p { text-wrap: pretty; }
 
-  ::selection { background: var(--primary); color: var(--primary-fg); }
+  ::selection { background: var(--rani-glow); color: #fff; }
 
   :focus-visible {
     outline: 2px solid var(--focus, var(--fg));
@@ -439,3 +489,81 @@
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: clip; }
+
+/* ──────────────────────────────────────────────────────────────
+   Colour
+   ────────────────────────────────────────────────────────────── */
+
+/* Italic words in big headings carry the festive gradient. Every stop is a
+   text-safe colour, so the words keep their contrast in both themes. */
+:is(h1, h2) em,
+:is(h1, h2) em .word {
+  background-image: linear-gradient(100deg, var(--rani), var(--sindoor) 45%, var(--marigold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  padding-inline-end: 0.04em;
+}
+.surface-inverse :is(h1, h2) em,
+.surface-inverse :is(h1, h2) em .word {
+  background-image: linear-gradient(100deg, #ff74b4, #ff7a6b 45%, #ffb347);
+}
+
+.festive-gradient {
+  background-image: linear-gradient(100deg, var(--rani-glow), var(--sindoor-glow) 35%, var(--marigold-glow) 70%, var(--gold-glow));
+}
+.festive-text {
+  background-image: linear-gradient(100deg, var(--rani), var(--sindoor) 45%, var(--marigold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Soft blooms of colour behind hero areas. */
+.aurora { position: relative; isolation: isolate; }
+.aurora::before {
+  content: "";
+  position: absolute;
+  inset: -10% -5% 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--glow-alpha);
+  filter: blur(60px);
+  background:
+    radial-gradient(38% 45% at 12% 22%, var(--rani-glow), transparent 70%),
+    radial-gradient(34% 40% at 88% 18%, var(--marigold-glow), transparent 70%),
+    radial-gradient(30% 38% at 70% 85%, var(--peacock-glow), transparent 70%),
+    radial-gradient(28% 34% at 30% 90%, var(--sindoor-glow), transparent 70%);
+}
+.surface-inverse.aurora::before { opacity: 0.32; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .aurora::before { animation: aurora 18s ease-in-out infinite alternate; }
+}
+@keyframes aurora {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, -2%, 0) scale(1.06) rotate(2deg); }
+  100% { transform: translate3d(-3%, 2%, 0) scale(1.02) rotate(-2deg); }
+}
+
+/* Primary buttons glow from sindoor to marigold; text stays near-black (AA on every stop). */
+.btn-festive {
+  background-image: linear-gradient(100deg, #ff5a1f, #ff8a1f 50%, #ffb020);
+  background-size: 200% 100%;
+  background-position: 0 0;
+  transition: background-position 600ms var(--ease-out-expo), box-shadow 400ms var(--ease-out-expo), translate 200ms ease-out;
+}
+.btn-festive:hover {
+  background-position: 100% 0;
+  box-shadow: 0 12px 30px -12px rgb(255 90 31 / 0.65);
+}
+
+.label-dot {
+  display: inline-block;
+  width: 1.5rem;
+  height: 3px;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-inline-end: 0.75rem;
+}

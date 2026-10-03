@@ -6,7 +6,7 @@ import PageHero from "@/components/sections/PageHero";
 import PhotoFrame from "@/components/photos/PhotoFrame";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import ClosingCta from "@/components/sections/ClosingCta";
-import { formatRupees, photosIn, services } from "@/lib/data";
+import { formatRupees, photosIn, services, serviceTone } from "@/lib/data";
 
 const description =
   "Wedding, pre-wedding, portrait, maternity and newborn, event and commercial photography in Bhubaneswar and across Odisha.";
@@ -31,7 +31,7 @@ export default function ServicesPage() {
           {services.map((s, i) => {
             const cover = photosIn(s.slug)[0];
             return (
-              <li key={s.slug} className="reveal flex flex-col" style={{ "--i": i % 3 } as CSSProperties}>
+              <li key={s.slug} className="reveal flex flex-col" style={{ "--i": i % 3, "--tone": serviceTone[s.slug] } as CSSProperties}>
                 <Link href={`/services/${s.slug}`} className="group block">
                   {cover && (
                     <PhotoFrame
@@ -41,8 +41,10 @@ export default function ServicesPage() {
                       className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[0.985]"
                     />
                   )}
-                  <p className="label tabular mt-6 text-muted">0{i + 1}</p>
-                  <h2 id={`svc-${s.slug}`} className="mt-3 font-display text-h3 transition-colors group-hover:text-accent">
+                  <p className="label tabular mt-6 flex items-center gap-3 text-[var(--tone)]">
+                    <span aria-hidden className="h-[3px] w-6 rounded-full bg-[var(--tone)]" />0{i + 1}
+                  </p>
+                  <h2 id={`svc-${s.slug}`} className="mt-3 font-display text-h3 transition-colors group-hover:text-[var(--tone)]">
                     {s.title}
                   </h2>
                 </Link>

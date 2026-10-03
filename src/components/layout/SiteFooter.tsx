@@ -6,7 +6,8 @@ import { primaryNav } from "@/lib/site";
 export default function SiteFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border bg-surface">
+    <footer className="bg-surface">
+      <div aria-hidden className="festive-gradient h-1" />
       <div className="container-page grid gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <Logo size="lg" />

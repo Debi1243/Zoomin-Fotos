@@ -9,7 +9,7 @@ export default function Faq({ items, title = "Questions, answered.", name = "faq
     <section aria-labelledby={`${name}-title`} className="section-y border-t border-border">
       <div className="container-page grid gap-y-10 lg:grid-cols-12 lg:gap-x-10">
         <div className="lg:col-span-3">
-          <p className="label text-muted lg:pt-3">FAQ</p>
+          <p className="label text-muted lg:pt-3"><span aria-hidden className="label-dot festive-gradient" />FAQ</p>
         </div>
         <div className="lg:col-span-9">
           <h2 id={`${name}-title`} className="reveal font-display text-h2">

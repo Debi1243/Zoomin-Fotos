@@ -9,7 +9,7 @@ export default function ClosingCta({
   text = "Share the date, the place and what matters most. We reply within one working day with availability and a clear quote.",
 }: Props) {
   return (
-    <section aria-labelledby="cta-title" className="surface-inverse">
+    <section aria-labelledby="cta-title" className="surface-inverse aurora overflow-hidden">
       <div className="container-page grid gap-y-10 py-20 md:py-28 lg:grid-cols-12 lg:gap-x-10">
         <p className="label text-inverse-muted lg:col-span-3 lg:pt-4">Book a shoot</p>
         <div className="lg:col-span-9">
