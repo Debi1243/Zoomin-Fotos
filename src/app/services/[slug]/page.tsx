@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowUpRight, Check } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
 import PortfolioGallery from "@/components/photos/PortfolioGallery";
+import Packages from "@/components/sections/Packages";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
@@ -58,7 +59,11 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <ButtonLink href="/contact" size="lg">Check your date</ButtonLink>
-          <ButtonLink href="/portfolio" size="lg" variant="secondary" arrow={false}>View portfolio</ButtonLink>
+          {s.packages ? (
+            <ButtonLink href="#packages" size="lg" variant="secondary" arrow={false}>See packages</ButtonLink>
+          ) : (
+            <ButtonLink href="/portfolio" size="lg" variant="secondary" arrow={false}>View portfolio</ButtonLink>
+          )}
         </div>
       </PageHero>
 
@@ -96,6 +101,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </div>
       </section>
 
+      {s.packages && <Packages items={s.packages} service={s.title.replace(/s$/, "")} />}
       <ProcessSteps />
       <Faq items={s.faqs} title={`${s.title}, answered.`} />
 
@@ -135,6 +141,15 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             url: absoluteUrl(path),
             areaServed: { "@type": "State", name: brand.region },
             provider: { "@id": `${siteUrl}/#studio`, "@type": "ProfessionalService", name: brand.name },
+            ...(s.packages && {
+              offers: s.packages.map((p) => ({
+                "@type": "Offer",
+                name: `${p.name} package`,
+                price: p.price,
+                priceCurrency: "INR",
+                description: [p.team, ...p.items].join(", "),
+              })),
+            }),
           },
           {
             "@context": "https://schema.org",

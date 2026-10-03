@@ -4,7 +4,7 @@ import PageHero from "@/components/sections/PageHero";
 import PhotoFrame from "@/components/photos/PhotoFrame";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import ClosingCta from "@/components/sections/ClosingCta";
-import { photosIn, services } from "@/lib/data";
+import { formatRupees, photosIn, services } from "@/lib/data";
 
 const description =
   "Wedding, pre-wedding, portrait, maternity and newborn, event and commercial photography in Bhubaneswar and across Odisha.";
@@ -45,6 +45,11 @@ export default function ServicesPage() {
                   </h2>
                 </Link>
                 <p className="mt-3 max-w-[40ch] leading-relaxed text-muted">{s.short}</p>
+                {s.packages && (
+                  <p className="mt-3 text-sm">
+                    Packages from <span className="tabular font-medium">{formatRupees(Math.min(...s.packages.map((p) => p.price)))}</span> + GST
+                  </p>
+                )}
               </li>
             );
           })}

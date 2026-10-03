@@ -41,7 +41,20 @@ export type Service = {
   includes: { title: string; text: string }[];
   deliverables: string[];
   faqs: { q: string; a: string }[];
+  packages?: Package[];
 };
+
+export type Package = {
+  name: string;
+  /** Price in rupees for one day of coverage, before GST. */
+  price: number;
+  tagline: string;
+  team: string;
+  items: string[];
+  featured?: boolean;
+};
+
+export const formatRupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 const deliveryFaq = {
   q: "How long until we receive our photographs?",
@@ -62,19 +75,76 @@ export const services: Service[] = [
       "From haldi to bidaai, we document your wedding the way it actually unfolds: candid, unhurried and true to colour. A lead photographer and a second shooter work as one, so nothing important happens out of frame.",
     idealFor: "Multi-day celebrations, intimate ceremonies and destination weddings.",
     includes: [
-      { title: "Two photographers", text: "A lead and a second shooter, so both families and both sides of the mandap are covered." },
+      { title: "A team sized to your day", text: "From one photographer and one cinematographer up to a full crew with drone, so both families and both sides of the mandap are covered." },
       { title: "Ritual planning call", text: "We walk through the schedule with you and your family so we are in place before each moment." },
       { title: "Couple portraits", text: "A relaxed, guided half hour away from the crowd, timed for the best light of the day." },
-      { title: "Heirloom album", text: "A lay-flat album designed by us, printed on archival paper and bound by hand." },
+      { title: "Premium album", text: "Every package includes a printed album, designed by us. Infinity upgrades to a 14x40 luxury album." },
     ],
-    deliverables: ["Online gallery", "72-hour preview", "Lay-flat album", "Print-ready files", "Family selects"],
+    deliverables: ["All raw photos and videos", "Premium photo album", "Full-length edited video", "Online gallery"],
     faqs: [
+      {
+        q: "Are the package prices fixed?",
+        a: "Prices are for one day of coverage, plus GST, and are negotiable. Multi-day weddings, travel and add-ons are quoted together so you get one clear number.",
+      },
       {
         q: "How far in advance should we book?",
         a: "Popular wedding dates fill six to nine months ahead. Send your date as soon as you have it and we will hold it while you decide.",
       },
       deliveryFaq,
       travelFaq,
+    ],
+    packages: [
+      {
+        name: "Essence",
+        price: 25000,
+        tagline: "The beginning of beautiful memories",
+        team: "1 photographer, 1 cinematographer",
+        items: ["All raw photos (high resolution)", "All raw videos", "1 premium photo album (standard size)", "1 full-length edited video"],
+      },
+      {
+        name: "Signature",
+        price: 35000,
+        tagline: "More moments, more stories",
+        team: "2 photographers, 1 cinematographer",
+        items: [
+          "All raw photos and videos",
+          "1 premium photo album (standard size)",
+          "20 edited photos",
+          "Highlight video (4 to 5 mins)",
+          "1 full-length edited video",
+        ],
+      },
+      {
+        name: "Luxe",
+        price: 45000,
+        tagline: "Every detail, beautifully told",
+        team: "2 photographers, 2 cinematographers",
+        items: [
+          "All raw photos and videos",
+          "1 premium photo album (standard size)",
+          "50 edited photos",
+          "Teaser video",
+          "Highlight video (4 to 5 mins)",
+          "1 full-length edited video",
+          "1 Instagram reel",
+        ],
+      },
+      {
+        name: "Infinity",
+        price: 55000,
+        tagline: "A complete story from every angle",
+        team: "2 photographers, 2 cinematographers, 1 drone",
+        featured: true,
+        items: [
+          "All raw photos and videos",
+          "150 edited photos",
+          "Wedding invitation video",
+          "1 highlight film (7 to 10 mins, cinematic and storyline driven)",
+          "1 full-length edited video",
+          "1 luxury album (14x40, 35 pages)",
+          "2 to 3 Instagram reels",
+        ],
+      },
     ],
   },
   {
@@ -269,7 +339,7 @@ export const homeFaqs = [
   },
   {
     q: "What does a booking cost?",
-    a: "It depends on the hours, the number of photographers and any albums or prints. After a short call you get a clear, itemised quote with nothing hidden.",
+    a: "Wedding packages start at ₹25,000 for one day plus GST, and every price is negotiable. Other sessions depend on the hours and any albums or prints; after a short call you get a clear, itemised quote with nothing hidden.",
   },
   {
     q: "How are the photographs delivered?",
@@ -277,7 +347,7 @@ export const homeFaqs = [
   },
   {
     q: "Do we get the raw files?",
-    a: "We deliver finished, edited images only. Every delivered photograph is yours to print and share for personal use.",
+    a: "Yes, for weddings: every wedding package includes all raw photos and videos alongside the edited work. Other sessions are delivered as finished, edited images, all yours to print and share.",
   },
 ];
 
