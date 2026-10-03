@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
+import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import PageHero from "@/components/sections/PageHero";
 import PhotoFrame from "@/components/photos/PhotoFrame";
 import Approach from "@/components/sections/home/Approach";
@@ -31,9 +33,9 @@ export default function AboutPage() {
         <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-5">
             <PhotoFrame photo={byId("02")} sizes="(min-width: 1024px) 20vw, 50vw" reveal />
-            <PhotoFrame photo={byId("17")} sizes="(min-width: 1024px) 20vw, 50vw" className="mt-12" reveal />
+            <PhotoFrame photo={byId("17")} sizes="(min-width: 1024px) 20vw, 50vw" className="mt-12" style={{ "--i": 2 } as CSSProperties} reveal />
           </div>
-          <div className="lg:col-span-6 lg:col-start-7">
+          <div className="reveal-right lg:col-span-6 lg:col-start-7">
             <h2 id="story-title" className="label text-muted">Our story</h2>
             <p className="mt-6 font-display text-[clamp(1.75rem,1.3rem+1.8vw,2.75rem)] leading-[1.12]">
               We started Zoomin Fotos because the photographs people treasure most are rarely the perfect ones. They are the
@@ -54,6 +56,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <PhotoRibbon />
       <Approach />
       <ProcessSteps />
       <ClosingCta />

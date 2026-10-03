@@ -2,6 +2,7 @@ import Hero from "@/components/sections/home/Hero";
 import Marquee from "@/components/sections/home/Marquee";
 import FilmStrip from "@/components/sections/home/FilmStrip";
 import { ServicesSection } from "@/components/sections/home/ServiceIndex";
+import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import Approach from "@/components/sections/home/Approach";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import Faq from "@/components/sections/Faq";
@@ -17,6 +18,7 @@ export default function HomePage() {
       <Marquee />
       <FilmStrip />
       <ServicesSection />
+      <PhotoRibbon />
       <Approach />
       <ProcessSteps />
       <Faq items={homeFaqs} />

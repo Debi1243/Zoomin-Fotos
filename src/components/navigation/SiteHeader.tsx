@@ -25,9 +25,26 @@ function useScrolled() {
   );
 }
 
+// The header tucks away while reading down the page and returns on the first scroll up.
+let lastY = 0;
+let hidden = false;
+function readHidden() {
+  const y = window.scrollY;
+  if (Math.abs(y - lastY) > 6) {
+    hidden = y > lastY && y > 320;
+    lastY = y;
+  }
+  return hidden;
+}
+
+function useHidden() {
+  return useSyncExternalStore(subscribeScroll, readHidden, () => false);
+}
+
 export default function SiteHeader() {
   const pathname = usePathname();
   const scrolled = useScrolled();
+  const tucked = useHidden();
   // The menu remembers the path it was opened on, so navigating closes it without an effect.
   const [mobileOpenOn, setMobileOpenOn] = useState<string | null>(null);
   const mobileOpen = mobileOpenOn === pathname;
@@ -36,8 +53,9 @@ export default function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-bg transition-colors duration-300",
+        "sticky top-0 z-50 border-b bg-bg/85 backdrop-blur-md transition-[translate,border-color] duration-500 ease-[var(--ease-out-expo)] focus-within:translate-y-0",
         scrolled || mobileOpen ? "border-border" : "border-transparent",
+        tucked && !mobileOpen && "-translate-y-full",
       )}
     >
       <a

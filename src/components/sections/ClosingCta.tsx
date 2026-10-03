@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { brand, mailHref, telHref } from "@/lib/data";
 
@@ -15,8 +16,8 @@ export default function ClosingCta({
           <h2 id="cta-title" className="reveal max-w-[16ch] font-display text-h1">
             {title}
           </h2>
-          <p className="mt-6 max-w-[52ch] text-lead text-inverse-muted">{text}</p>
-          <div className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-center">
+          <p className="reveal mt-6 max-w-[52ch] text-lead text-inverse-muted" style={{ "--i": 1 } as CSSProperties}>{text}</p>
+          <div className="reveal mt-10 flex flex-col gap-8 sm:flex-row sm:items-center" style={{ "--i": 2 } as CSSProperties}>
             <ButtonLink href="/contact" size="lg">Check your date</ButtonLink>
             <div className="text-sm">
               <a href={mailHref} className="link-underline block w-fit">{brand.email}</a>

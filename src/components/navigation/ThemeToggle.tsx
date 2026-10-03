@@ -3,10 +3,12 @@
 import { useSyncExternalStore } from "react";
 import { Monitor, Moon, Sun, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { THEME_STORAGE_KEY } from "@/lib/theme";
 
 type Theme = "system" | "light" | "dark";
 
-const STORAGE_KEY = "theme";
+const STORAGE_KEY = THEME_STORAGE_KEY;
+
 const options: { value: Theme; label: string; icon: LucideIcon }[] = [
   { value: "system", label: "System theme", icon: Monitor },
   { value: "light", label: "Light theme", icon: Sun },
@@ -42,7 +44,6 @@ function subscribe(listener: () => void) {
 }
 
 /** Inline script for <head>: applies the stored theme before first paint. */
-export const themeScript = `try{var t=localStorage.getItem("${STORAGE_KEY}");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
 
 export default function ThemeToggle({ className }: { className?: string }) {
   const theme = useSyncExternalStore(subscribe, readTheme, () => null);

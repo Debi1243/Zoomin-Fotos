@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
+import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import PageHero from "@/components/sections/PageHero";
 import ContactForm from "@/components/forms/ContactForm";
 import { brand, locationLine, mailHref, telHref } from "@/lib/data";
@@ -30,7 +32,7 @@ export default function ContactPage() {
       />
       <section aria-label="Enquiry" className="border-t border-border pb-24 pt-12 md:pb-32 md:pt-16">
         <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
-          <aside className="lg:col-span-3">
+          <aside className="reveal-left lg:col-span-3">
             <dl className="space-y-7">
               {details.map((d) => (
                 <div key={d.label}>
@@ -49,11 +51,12 @@ export default function ContactPage() {
               </p>
             </div>
           </aside>
-          <div className="lg:col-span-9">
+          <div className="reveal lg:col-span-9" style={{ "--i": 1 } as CSSProperties}>
             <ContactForm />
           </div>
         </div>
       </section>
+      <PhotoRibbon rows={1} className="border-t border-border" />
     </>
   );
 }

@@ -252,18 +252,6 @@
   &:hover, &:focus-visible { background-size: 100% 1px; }
 }
 
-/* Scroll reveal, driven by CSS scroll timelines. Browsers without
-   support (or users who prefer reduced motion) simply see the content. */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .reveal {
-      animation: reveal-up linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 40%;
-    }
-  }
-}
-
 /* Photo frames: toned "proof" prints that stand in until a real photograph is added.
    They read as light falling on a print, the same in both themes. */
 .frame {
@@ -395,22 +383,59 @@
   .ken-burns > .frame,
   .ken-burns > img { animation: ken-burns 7s ease-out both; }
   .progress-bar { animation: progress linear both; transform-origin: left; }
-  .stagger-in {
-    animation: rise 700ms var(--ease-out-expo) both;
-    animation-delay: calc(min(var(--i, 0), 8) * 60ms);
-  }
-
-  @supports (animation-timeline: view()) {
-    .reveal-photo {
-      animation: wipe-up linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 70%;
-    }
-    .reveal-photo > .frame,
-    .reveal-photo > img {
-      animation: settle linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 55%;
-    }
-  }
 }
+
+/* Scroll reveals. ScrollEffects adds .is-in as each element enters the viewport.
+   Elements only start hidden once the inline head script has marked the page with
+   .js-motion, so content is never lost without JavaScript or with reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .js-motion :is(.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in) {
+    transition:
+      opacity 1000ms var(--ease-out-expo),
+      translate 1100ms var(--ease-out-expo),
+      scale 1100ms var(--ease-out-expo),
+      filter 1000ms var(--ease-out-expo);
+    transition-delay: calc(var(--i, 0) * 90ms);
+  }
+  .js-motion .stagger-in { transition-delay: calc(min(var(--i, 0), 3) * 90ms); }
+  .js-motion :is(.reveal, .stagger-in):not(.is-in) { opacity: 0; translate: 0 2.5rem; }
+  .js-motion .reveal-left:not(.is-in) { opacity: 0; translate: -3rem 0; }
+  .js-motion .reveal-right:not(.is-in) { opacity: 0; translate: 3rem 0; }
+  .js-motion .reveal-scale:not(.is-in) { opacity: 0; scale: 0.92; filter: blur(6px); }
+
+  /* The wipe clips the photo inside the frame, not the frame itself, so the
+     IntersectionObserver still sees the frame arrive. */
+  .js-motion .reveal-photo > :is(.frame, img) {
+    transition:
+      clip-path 1400ms var(--ease-out-expo),
+      transform 1800ms var(--ease-out-expo),
+      scale 900ms var(--ease-out-expo);
+    transition-delay: calc(min(var(--i, 0), 3) * 90ms), calc(min(var(--i, 0), 3) * 90ms), 0ms;
+  }
+  .js-motion .reveal-photo:not(.is-in) > :is(.frame, img) { clip-path: inset(100% 0 0 0); transform: scale(1.18); }
+
+  .js-motion .reveal-line {
+    transform-origin: left;
+    transition: scale 1200ms var(--ease-out-expo);
+    transition-delay: calc(var(--i, 0) * 120ms + 200ms);
+  }
+  .js-motion .reveal-line:not(.is-in) { scale: 0 1; }
+
+  .title-in { animation: title-in 1200ms var(--ease-out-expo) both; animation-delay: 150ms; }
+  .scroll-cue::after { animation: scroll-cue 2.4s var(--ease-out-quart) infinite; }
+}
+
+@keyframes title-in {
+  from { opacity: 0; translate: 0 0.35em; filter: blur(10px); }
+}
+@keyframes scroll-cue {
+  0% { scale: 1 0; transform-origin: top; }
+  45% { scale: 1 1; transform-origin: top; }
+  55% { scale: 1 1; transform-origin: bottom; }
+  100% { scale: 1 0; transform-origin: bottom; }
+}
+
+/* Lenis owns smooth scrolling when it runs. */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: clip; }

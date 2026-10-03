@@ -41,70 +41,75 @@ export default function Packages({
             <li
               key={p.name}
               style={{ "--i": i } as CSSProperties}
-              className={cn(
-                "stagger-in relative flex flex-col rounded-lg border p-6 md:p-7",
-                single && "lg:col-span-6 lg:col-start-4",
-                p.featured ? "border-accent/60 bg-inverse text-inverse-fg" : "border-border bg-surface",
-              )}
+              className={cn("stagger-in", single && "lg:col-span-6 lg:col-start-4")}
             >
-              {p.featured && (
-                <span className="label absolute -top-3 right-6 rounded-full bg-inverse-fg px-3 py-1 text-[0.6875rem] text-inverse">
-                  Most complete
-                </span>
-              )}
-              <h3 className="font-display text-h3">{p.name}</h3>
-              <p className={cn("label mt-2", p.featured ? "text-inverse-muted" : "text-muted")}>{p.tagline}</p>
-
-              {p.startingFrom && (
-                <p className={cn("label mt-6", p.featured ? "text-inverse-muted" : "text-muted")}>Starting from</p>
-              )}
-              <p className={cn("flex flex-wrap items-baseline gap-x-2", p.startingFrom ? "mt-2" : "mt-6")}>
-                <span className="tabular font-display text-[2.5rem] leading-none tracking-[-0.02em]">
-                  {formatRupees(p.price)}
-                </span>
-                <span className={cn("text-sm", p.featured ? "text-inverse-muted" : "text-muted")}>
-                  {p.unit ?? "1 day + GST"}
-                </span>
-              </p>
-              <p className={cn("mt-1 text-sm", p.featured ? "text-inverse-muted" : "text-muted")}>
-                {p.note ?? "Price is negotiable"}
-              </p>
-
-              <div className={cn("mt-6 border-t pt-5", p.featured ? "border-inverse-border" : "border-border")}>
-                {p.team && (
-                  <p className="mb-4 flex gap-3 text-sm leading-relaxed">
-                    <Users
-                      aria-hidden
-                      className={cn("mt-0.5 size-4 shrink-0", p.featured ? "text-inverse-fg" : "text-accent")}
-                    />
-                    <span>
-                      <span className="sr-only">Team: </span>
-                      {p.team}
-                    </span>
-                  </p>
+              <div
+                className={cn(
+                  "relative flex h-full flex-col rounded-lg border p-6 transition-[translate,box-shadow,border-color] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgb(0_0_0/0.45)] md:p-7",
+                  p.featured
+                    ? "border-accent/60 bg-inverse text-inverse-fg"
+                    : "border-border bg-surface hover:border-border-strong",
                 )}
-                <ul className="grid gap-3 text-sm leading-relaxed">
-                  {p.items.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <Check
+              >
+                {p.featured && (
+                  <span className="label absolute -top-3 right-6 rounded-full bg-inverse-fg px-3 py-1 text-[0.6875rem] text-inverse">
+                    Most complete
+                  </span>
+                )}
+                <h3 className="font-display text-h3">{p.name}</h3>
+                <p className={cn("label mt-2", p.featured ? "text-inverse-muted" : "text-muted")}>{p.tagline}</p>
+
+                {p.startingFrom && (
+                  <p className={cn("label mt-6", p.featured ? "text-inverse-muted" : "text-muted")}>Starting from</p>
+                )}
+                <p className={cn("flex flex-wrap items-baseline gap-x-2", p.startingFrom ? "mt-2" : "mt-6")}>
+                  <span className="tabular font-display text-[2.5rem] leading-none tracking-[-0.02em]">
+                    {formatRupees(p.price)}
+                  </span>
+                  <span className={cn("text-sm", p.featured ? "text-inverse-muted" : "text-muted")}>
+                    {p.unit ?? "1 day + GST"}
+                  </span>
+                </p>
+                <p className={cn("mt-1 text-sm", p.featured ? "text-inverse-muted" : "text-muted")}>
+                  {p.note ?? "Price is negotiable"}
+                </p>
+
+                <div className={cn("mt-6 border-t pt-5", p.featured ? "border-inverse-border" : "border-border")}>
+                  {p.team && (
+                    <p className="mb-4 flex gap-3 text-sm leading-relaxed">
+                      <Users
                         aria-hidden
                         className={cn("mt-0.5 size-4 shrink-0", p.featured ? "text-inverse-fg" : "text-accent")}
                       />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      <span>
+                        <span className="sr-only">Team: </span>
+                        {p.team}
+                      </span>
+                    </p>
+                  )}
+                  <ul className="grid gap-3 text-sm leading-relaxed">
+                    {p.items.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <Check
+                          aria-hidden
+                          className={cn("mt-0.5 size-4 shrink-0", p.featured ? "text-inverse-fg" : "text-accent")}
+                        />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-              <div className="mt-auto pt-8">
-                <ButtonLink
-                  href="/contact"
-                  variant={p.featured ? "inverse" : "secondary"}
-                  className="w-full"
-                  aria-label={`Enquire about the ${p.name} package`}
-                >
-                  Enquire
-                </ButtonLink>
+                <div className="mt-auto pt-8">
+                  <ButtonLink
+                    href="/contact"
+                    variant={p.featured ? "inverse" : "secondary"}
+                    className="w-full"
+                    aria-label={`Enquire about the ${p.name} package`}
+                  >
+                    Enquire
+                  </ButtonLink>
+                </div>
               </div>
             </li>
           ))}

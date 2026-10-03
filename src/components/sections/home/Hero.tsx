@@ -39,6 +39,14 @@ export default function Hero() {
           <ButtonLink href="/contact" size="lg">Check your date</ButtonLink>
           <ButtonLink href="/portfolio" size="lg" variant="secondary" arrow={false}>View portfolio</ButtonLink>
         </div>
+        <p
+          aria-hidden
+          className="rise label mt-16 hidden items-center gap-4 text-muted lg:flex"
+          style={{ "--i": 9 } as CSSProperties}
+        >
+          <span className="scroll-cue relative block h-10 w-px overflow-hidden bg-border after:absolute after:inset-0 after:bg-fg" />
+          Scroll to explore
+        </p>
       </div>
 
       <div className="grid grid-cols-5 gap-3 sm:gap-4 lg:col-span-6">

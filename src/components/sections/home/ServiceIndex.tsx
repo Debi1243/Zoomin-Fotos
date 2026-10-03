@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -10,7 +11,7 @@ export default function ServiceIndex({ headingLevel: Heading = "h3" }: { heading
       {services.map((s, i) => {
         const cover = photosIn(s.slug)[0];
         return (
-          <li key={s.slug} className="border-b border-border">
+          <li key={s.slug} className="reveal border-b border-border" style={{ "--i": Math.min(i, 3) } as CSSProperties}>
             <Link
               href={`/services/${s.slug}`}
               className="group grid grid-cols-[4.5rem_1fr_auto] items-center gap-x-4 gap-y-1 py-5 sm:grid-cols-[6rem_1fr_auto] md:grid-cols-[3rem_7rem_minmax(0,1fr)_minmax(0,1.2fr)_auto] md:gap-x-8 md:py-6"

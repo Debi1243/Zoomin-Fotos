@@ -34,7 +34,7 @@ export default function PageHero({ label, title, intro, crumbs, children, classN
         )}
       </div>
       <div className="lg:col-span-9">
-        <h1 className="rise max-w-[18ch] font-display text-h1" style={{ "--i": 1 } as CSSProperties}>
+        <h1 className="title-in max-w-[18ch] font-display text-h1">
           {title}
         </h1>
         {intro && (

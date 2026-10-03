@@ -4,7 +4,8 @@ import "./globals.css";
 import SiteHeader from "@/components/navigation/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 import MotionProvider from "@/components/shared/MotionProvider";
-import { themeScript } from "@/components/navigation/ThemeToggle";
+import ScrollEffects from "@/components/motion/ScrollEffects";
+import { headScript } from "@/lib/theme";
 import { brand } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
 
@@ -43,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-IN" suppressHydrationWarning className={`${display.variable} ${sans.variable} ${mono.variable}`}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: headScript }} />
       </head>
       <body className="flex min-h-svh flex-col">
         <MotionProvider>
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <SiteFooter />
+          <ScrollEffects />
         </MotionProvider>
       </body>
     </html>

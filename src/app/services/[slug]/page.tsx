@@ -5,6 +5,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
 import PortfolioGallery from "@/components/photos/PortfolioGallery";
 import Packages from "@/components/sections/Packages";
+import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
@@ -102,6 +103,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       </section>
 
       {s.packages && <Packages items={s.packages} service={s.title.replace(/s$/, "")} intro={s.packagesIntro} />}
+      <PhotoRibbon category={s.slug} rows={1} className="border-t border-border" />
       <ProcessSteps />
       <Faq items={s.faqs} title={`${s.title}, answered.`} />
 
@@ -112,7 +114,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             <h2 id="related-title" className="font-display text-h2">Other sessions.</h2>
             <ul className="mt-10 border-t border-border">
               {related.map((r) => (
-                <li key={r.slug} className="border-b border-border">
+                <li key={r.slug} className="reveal border-b border-border">
                   <Link href={`/services/${r.slug}`} className="group flex items-center justify-between gap-6 py-6">
                     <span>
                       <span className="block font-display text-[1.75rem] leading-none transition-colors group-hover:text-accent md:text-[2.25rem]">

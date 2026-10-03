@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
+import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import Link from "next/link";
 import PageHero from "@/components/sections/PageHero";
 import PhotoFrame from "@/components/photos/PhotoFrame";
@@ -29,7 +31,7 @@ export default function ServicesPage() {
           {services.map((s, i) => {
             const cover = photosIn(s.slug)[0];
             return (
-              <li key={s.slug} className="flex flex-col">
+              <li key={s.slug} className="reveal flex flex-col" style={{ "--i": i % 3 } as CSSProperties}>
                 <Link href={`/services/${s.slug}`} className="group block">
                   {cover && (
                     <PhotoFrame
@@ -56,6 +58,7 @@ export default function ServicesPage() {
           })}
         </ul>
       </section>
+      <PhotoRibbon className="border-t border-border" />
       <ProcessSteps />
       <ClosingCta />
     </>

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { process } from "@/lib/data";
 
@@ -16,9 +17,9 @@ export default function ProcessSteps() {
             <li
               key={p.step}
               className="reveal relative border-t border-border-strong pb-10 pt-6 md:pr-8 xl:pb-0"
-              style={{ animationDelay: `${i * 60}ms` }}
+              style={{ "--i": i } as CSSProperties}
             >
-              <span aria-hidden className="absolute -top-px left-0 h-px w-12 bg-fg" />
+              <span aria-hidden className="reveal-line absolute -top-px left-0 h-px w-12 bg-primary" style={{ "--i": i } as CSSProperties} />
               <p className="label tabular text-muted">Step {p.step}</p>
               <h3 className="mt-8 font-display text-h3">{p.title}</h3>
               <p className="mt-3 max-w-[38ch] text-[0.9375rem] leading-relaxed text-muted">{p.text}</p>
