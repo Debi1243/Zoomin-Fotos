@@ -48,7 +48,7 @@ export default function ServicesPage() {
                 {s.packages && (
                   <p className="mt-3 text-sm">
                     From <span className="tabular font-medium">{formatRupees(Math.min(...s.packages.map((p) => p.price)))}</span>
-                    {s.packages.some((p) => !p.unit) && " + GST"}
+                    {s.packages.some((p) => !p.unit || p.unit.includes("GST")) && " + GST"}
                   </p>
                 )}
               </li>
