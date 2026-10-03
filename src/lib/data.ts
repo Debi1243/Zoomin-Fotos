@@ -42,14 +42,21 @@ export type Service = {
   deliverables: string[];
   faqs: { q: string; a: string }[];
   packages?: Package[];
+  /** Line under the packages heading; defaults to the one-day, plus-GST, negotiable note. */
+  packagesIntro?: string;
 };
 
 export type Package = {
   name: string;
   /** Price in rupees for one day of coverage, before GST. */
   price: number;
+  /** Shown as "Starting from" above the price. */
+  startingFrom?: boolean;
+  /** Small print beside and under the price. */
+  unit?: string;
+  note?: string;
   tagline: string;
-  team: string;
+  team?: string;
   items: string[];
   featured?: boolean;
 };
@@ -161,7 +168,23 @@ export const services: Service[] = [
       { title: "Save-the-date edits", text: "A few images formatted for invitations and social posts, delivered first." },
     ],
     deliverables: ["Online gallery", "Save-the-date edits", "Two outfit changes", "Print-ready files"],
+    packagesIntro: "One session, everything included. Tell us where you would like to shoot and we will plan the light, the outfits and the route.",
+    packages: [
+      {
+        name: "Pre-wedding shoot",
+        price: 30000,
+        startingFrom: true,
+        unit: "per shoot",
+        note: "Includes everything",
+        tagline: "More than pictures, a story of you",
+        items: ["Professional photography", "Drone shots", "Edited photos", "Premium album"],
+      },
+    ],
     faqs: [
+      {
+        q: "How much does a pre-wedding shoot cost?",
+        a: "Pre-wedding shoots start from ₹30,000 and include everything: professional photography, drone shots, edited photos and a premium album. Travel to faraway locations is quoted separately.",
+      },
       { q: "How long is a pre-wedding session?", a: "Three to four hours, including travel between two nearby locations and one outfit change." },
       travelFaq,
       deliveryFaq,
@@ -339,7 +362,7 @@ export const homeFaqs = [
   },
   {
     q: "What does a booking cost?",
-    a: "Wedding packages start at ₹25,000 for one day plus GST, and every price is negotiable. Other sessions depend on the hours and any albums or prints; after a short call you get a clear, itemised quote with nothing hidden.",
+    a: "Wedding packages start at ₹25,000 for one day plus GST, and every price is negotiable. Pre-wedding shoots start from ₹30,000 with drone shots and an album included. Other sessions depend on the hours and any albums or prints; after a short call you get a clear, itemised quote with nothing hidden.",
   },
   {
     q: "How are the photographs delivered?",

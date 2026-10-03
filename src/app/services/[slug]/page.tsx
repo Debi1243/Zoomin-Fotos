@@ -60,7 +60,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <ButtonLink href="/contact" size="lg">Check your date</ButtonLink>
           {s.packages ? (
-            <ButtonLink href="#packages" size="lg" variant="secondary" arrow={false}>See packages</ButtonLink>
+            <ButtonLink href="#packages" size="lg" variant="secondary" arrow={false}>{s.packages.length > 1 ? "See packages" : "See pricing"}</ButtonLink>
           ) : (
             <ButtonLink href="/portfolio" size="lg" variant="secondary" arrow={false}>View portfolio</ButtonLink>
           )}
@@ -101,7 +101,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </div>
       </section>
 
-      {s.packages && <Packages items={s.packages} service={s.title.replace(/s$/, "")} />}
+      {s.packages && <Packages items={s.packages} service={s.title.replace(/s$/, "")} intro={s.packagesIntro} />}
       <ProcessSteps />
       <Faq items={s.faqs} title={`${s.title}, answered.`} />
 
