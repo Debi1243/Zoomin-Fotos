@@ -190,7 +190,7 @@ export const services: Service[] = [
  * /public/photos. Titles and places are illustrative; replace them with the real work.
  */
 export const photos: Photo[] = [
-  { id: "01", category: "weddings", title: "Varmala at dusk", place: "Bhubaneswar", aspect: "landscape", tone: "amber" },
+  { id: "01", category: "weddings", title: "Sindoor daan", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-sindoor.webp" },
   { id: "02", category: "portraits", title: "Grandmother's hands", place: "Cuttack", aspect: "portrait", tone: "dusk" },
   { id: "03", category: "pre-wedding", title: "Low tide", place: "Puri", aspect: "portrait", tone: "sky" },
   { id: "04", category: "weddings", title: "Haldi laughter", place: "Bhubaneswar", aspect: "square", tone: "amber" },
@@ -203,7 +203,7 @@ export const photos: Photo[] = [
   { id: "11", category: "commercial", title: "Handloom, folded", place: "Studio", aspect: "portrait", tone: "amber" },
   { id: "12", category: "maternity-newborn", title: "Thirty-four weeks", place: "Chilika", aspect: "landscape", tone: "sky" },
   { id: "13", category: "events", title: "First birthday", place: "Bhubaneswar", aspect: "square", tone: "rose" },
-  { id: "14", category: "weddings", title: "Sindoor", place: "Puri", aspect: "portrait", tone: "amber" },
+  { id: "14", category: "weddings", title: "Varmala at dusk", place: "Puri", aspect: "portrait", tone: "amber" },
   { id: "15", category: "pre-wedding", title: "Monsoon umbrella", place: "Bhubaneswar", aspect: "square", tone: "ink" },
   { id: "16", category: "commercial", title: "Boutique interior", place: "Bhubaneswar", aspect: "landscape", tone: "sage" },
   { id: "17", category: "portraits", title: "Graduate", place: "Utkal University", aspect: "portrait", tone: "sky" },
