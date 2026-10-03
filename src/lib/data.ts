@@ -208,6 +208,7 @@ export const photos: Photo[] = [
   { id: "16", category: "commercial", title: "Boutique interior", place: "Bhubaneswar", aspect: "landscape", tone: "sage" },
   { id: "17", category: "portraits", title: "Graduate", place: "Utkal University", aspect: "portrait", tone: "sky" },
   { id: "18", category: "events", title: "Odissi recital", place: "Rabindra Mandap", aspect: "portrait", tone: "dusk" },
+  { id: "19", category: "weddings", title: "Golden hour, together", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-golden-double-exposure.webp" },
 ];
 
 export const process = [
