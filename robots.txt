@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
 
-Host: https://debi1243.github.io/Zoomin-Fotos
-Sitemap: https://debi1243.github.io/Zoomin-Fotos/sitemap.xml
+Host: https://Debi1243.github.io/Zoomin-Fotos
+Sitemap: https://Debi1243.github.io/Zoomin-Fotos/sitemap.xml
