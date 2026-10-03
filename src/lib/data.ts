@@ -303,6 +303,7 @@ export const photos: Photo[] = [
   { id: "33", category: "weddings", title: "Haldi, a shower of petals", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi-petal-shower.webp" },
   { id: "23", category: "portraits", title: "Golden hour glow", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/portrait-golden-hour.webp" },
   { id: "24", category: "pre-wedding", title: "The ring, at golden hour", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/prewedding-ring-golden.webp" },
+  { id: "34", category: "weddings", title: "Getting ready, a rain of petals", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-bride-petal-rain.webp" },
   { id: "18", category: "events", title: "Odissi recital", place: "Rabindra Mandap", aspect: "portrait", tone: "dusk" },
   { id: "08", category: "pre-wedding", title: "Temple steps", place: "Konark", aspect: "landscape", tone: "sage" },
   { id: "20", category: "weddings", title: "Bridal details", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-bridal-collage.webp" },
