@@ -310,7 +310,6 @@ export const photos: Photo[] = [
   { id: "12", category: "maternity-newborn", title: "Thirty-four weeks", place: "Chilika", aspect: "landscape", tone: "sky" },
   { id: "11", category: "commercial", title: "Handloom, folded", place: "Studio", aspect: "portrait", tone: "amber" },
   { id: "14", category: "weddings", title: "The reception", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-couple-reception.webp" },
-  { id: "32", category: "weddings", title: "Haldi, the golden pour", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-haldi-splash.webp" },
   { id: "26", category: "portraits", title: "Crimson veil", place: "Studio", aspect: "portrait", tone: "rose", src: "/photos/portrait-crimson-veil.webp" },
   { id: "09", category: "weddings", title: "Bidaai", place: "Odisha", aspect: "landscape", tone: "dusk", src: "/photos/wedding-bidaai.webp" },
   { id: "22", category: "portraits", title: "Light through the blinds", place: "Studio", aspect: "portrait", tone: "rose", src: "/photos/portrait-red-blinds.webp" },
