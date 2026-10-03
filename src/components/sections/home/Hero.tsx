@@ -11,7 +11,7 @@ const headline = ["Photographs", "that", { text: "feel", em: true }, "like", "th
 
 export default function Hero() {
   const slides = ["01", "19", "14", "09"].map(byId);
-  const [top, bottom] = [byId("02"), byId("10")];
+  const [top, bottom] = [byId("02"), byId("26")];
   return (
     <section aria-labelledby="hero-title" className="container-page grid items-center gap-y-14 pb-20 pt-10 md:pt-14 lg:grid-cols-12 lg:gap-x-10 lg:pb-28 lg:pt-16">
       <div className="lg:col-span-6">
