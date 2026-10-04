@@ -301,6 +301,7 @@ export const photos: Photo[] = [
   { id: "03", category: "pre-wedding", title: "Low tide", place: "Puri", aspect: "portrait", tone: "sky" },
   { id: "06", category: "maternity-newborn", title: "Eight days old", place: "Home session", aspect: "portrait", tone: "rose" },
   { id: "05", category: "commercial", title: "Chhena poda, close up", place: "Studio", aspect: "square", tone: "rose" },
+  { id: "41", category: "commercial", title: "Dahi bara aloo dum, in a leaf bowl", place: "Studio", aspect: "portrait", tone: "amber", src: "/photos/commercial-dahi-bara-aloo-dum.webp" },
   { id: "04", category: "weddings", title: "Bridal portrait", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-bridal-portrait.webp" },
   { id: "33", category: "weddings", title: "Haldi, a shower of petals", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi-petal-shower.webp" },
   { id: "23", category: "portraits", title: "Golden hour glow", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/portrait-golden-hour.webp" },
