@@ -330,6 +330,7 @@ export const photos: Photo[] = [
   { id: "31", category: "portraits", title: "A shy smile in silk", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/portrait-silk-saree.webp" },
   { id: "15", category: "pre-wedding", title: "Monsoon umbrella", place: "Bhubaneswar", aspect: "square", tone: "ink" },
   { id: "29", category: "weddings", title: "Haldi, petals flying", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi-petals.webp" },
+  { id: "50", category: "maternity-newborn", title: "A little fairy, mid-dance", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/kids-little-fairy.webp" },
   { id: "37", category: "pre-wedding", title: "The groom, among marigolds", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/prewedding-groom-marigolds.webp" },
   { id: "16", category: "commercial", title: "Boutique interior", place: "Bhubaneswar", aspect: "landscape", tone: "sage" },
   { id: "43", category: "commercial", title: "Herbs, crisp onions and grilled bread", place: "Studio", aspect: "portrait", tone: "sage", src: "/photos/commercial-herb-bowl-sunlight.webp" },
