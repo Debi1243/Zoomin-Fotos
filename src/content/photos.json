@@ -475,5 +475,14 @@
     "aspect": "landscape",
     "tone": "sky",
     "src": "/photos/commercial-pharma-boxes.webp"
+  },
+  {
+    "id": "70",
+    "category": "events",
+    "title": "The first birthday",
+    "place": "Odisha",
+    "aspect": "landscape",
+    "tone": "dusk",
+    "src": "/photos/events-the-first-birthday.webp"
   }
 ]
