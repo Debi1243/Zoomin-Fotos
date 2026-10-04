@@ -144,6 +144,15 @@
     "src": "/photos/portrait-sunset-florals.webp"
   },
   {
+    "id": "74",
+    "category": "portraits",
+    "title": "In black, arms crossed",
+    "place": "Studio",
+    "aspect": "portrait",
+    "tone": "sage",
+    "src": "/photos/portraits-in-black-arms-crossed.webp"
+  },
+  {
     "id": "40",
     "category": "weddings",
     "title": "Crowned, hand in hand",
