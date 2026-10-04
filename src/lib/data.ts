@@ -300,6 +300,7 @@ export const photos: Photo[] = [
   { id: "02", category: "portraits", title: "Yellow allamanda", place: "Odisha", aspect: "portrait", tone: "sage", src: "/photos/portrait-saree-garden.webp" },
   { id: "03", category: "pre-wedding", title: "Low tide", place: "Puri", aspect: "portrait", tone: "sky" },
   { id: "06", category: "maternity-newborn", title: "Eight days old", place: "Home session", aspect: "portrait", tone: "rose" },
+  { id: "44", category: "maternity-newborn", title: "First steps under the bougainvillea", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/kids-bougainvillea-walk.webp" },
   { id: "05", category: "commercial", title: "Chhena poda, close up", place: "Studio", aspect: "square", tone: "rose" },
   { id: "41", category: "commercial", title: "Dahi bara aloo dum, in a leaf bowl", place: "Studio", aspect: "portrait", tone: "amber", src: "/photos/commercial-dahi-bara-aloo-dum.webp" },
   { id: "04", category: "weddings", title: "Bridal portrait", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-bridal-portrait.webp" },
