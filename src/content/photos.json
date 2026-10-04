@@ -432,6 +432,15 @@
     "src": "/photos/portraits-red-with-copper-waves-2.webp"
   },
   {
+    "id": "77",
+    "category": "portraits",
+    "title": "Feathers and white",
+    "place": "Studio",
+    "aspect": "portrait",
+    "tone": "rose",
+    "src": "/photos/portraits-feathers-and-white.webp"
+  },
+  {
     "id": "29",
     "category": "weddings",
     "title": "Haldi, petals flying",
