@@ -72,6 +72,15 @@
     "src": "/photos/portrait-saree-garden.webp"
   },
   {
+    "id": "73",
+    "category": "portraits",
+    "title": "Fuchsia, on white",
+    "place": "Studio",
+    "aspect": "portrait",
+    "tone": "rose",
+    "src": "/photos/portraits-fuchsia-on-white.webp"
+  },
+  {
     "id": "44",
     "category": "maternity-newborn",
     "title": "First steps under the bougainvillea",
