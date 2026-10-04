@@ -1,3 +1,6 @@
+import { z } from "zod";
+import photoData from "@/content/photos.json";
+
 /**
  * All site content lives here. Replace the placeholder contact details and add
  * real photo files (see `photos` below) before launch.
@@ -19,7 +22,8 @@ export const brand = {
 
 export type Tone = "dusk" | "amber" | "rose" | "sage" | "sky" | "ink";
 export type Aspect = "portrait" | "landscape" | "square";
-export type ServiceSlug = "weddings" | "pre-wedding" | "portraits" | "maternity-newborn" | "events" | "commercial";
+export const serviceSlugs = ["weddings", "pre-wedding", "portraits", "maternity-newborn", "events", "commercial"] as const;
+export type ServiceSlug = (typeof serviceSlugs)[number];
 
 export type Photo = {
   id: string;
@@ -289,61 +293,47 @@ export const services: Service[] = [
 ];
 
 /**
- * Portfolio. Each entry renders as a toned frame until `src` points at a real file in
- * /public/photos. Titles and places are illustrative; replace them with the real work.
+ * Portfolio. Real photographs live in src/content/photos.json, which the admin page
+ * (/admin) edits; their files are in /public/photos. The toned frames below stand in
+ * for any service that has no real photographs yet.
  */
-export const photos: Photo[] = [
-  { id: "21", category: "weddings", title: "Haldi laughter", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi.webp" },
-  { id: "38", category: "pre-wedding", title: "Two rings, in rose petals", place: "Studio", aspect: "landscape", tone: "rose", src: "/photos/prewedding-rings-rose-petals.webp" },
-  { id: "53", category: "weddings", title: "Sindoor, in the courtyard", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-sindoor-courtyard.webp" },
-  { id: "30", category: "weddings", title: "Getting ready, golden dust", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-golden-powder.webp" },
-  { id: "46", category: "commercial", title: "Product shoot, capsules and packaging", place: "Studio", aspect: "landscape", tone: "sky", src: "/photos/commercial-pharma-capsules.webp" },
-  { id: "02", category: "portraits", title: "Yellow allamanda", place: "Odisha", aspect: "portrait", tone: "sage", src: "/photos/portrait-saree-garden.webp" },
+const placeholderPhotos: Photo[] = [
   { id: "03", category: "pre-wedding", title: "Low tide", place: "Puri", aspect: "portrait", tone: "sky" },
   { id: "06", category: "maternity-newborn", title: "Eight days old", place: "Home session", aspect: "portrait", tone: "rose" },
-  { id: "44", category: "maternity-newborn", title: "First steps under the bougainvillea", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/kids-bougainvillea-walk.webp" },
   { id: "05", category: "commercial", title: "Chhena poda, close up", place: "Studio", aspect: "square", tone: "rose" },
-  { id: "41", category: "commercial", title: "Dahi bara aloo dum, in a leaf bowl", place: "Studio", aspect: "portrait", tone: "amber", src: "/photos/commercial-dahi-bara-aloo-dum.webp" },
-  { id: "04", category: "weddings", title: "Bridal portrait", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-bridal-portrait.webp" },
-  { id: "33", category: "weddings", title: "Haldi, a shower of petals", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi-petal-shower.webp" },
-  { id: "23", category: "portraits", title: "Golden hour glow", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/portrait-golden-hour.webp" },
-  { id: "40", category: "weddings", title: "Crowned, hand in hand", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-mukut-ceremony.webp" },
-  { id: "24", category: "pre-wedding", title: "The ring, at golden hour", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/prewedding-ring-golden.webp" },
-  { id: "34", category: "weddings", title: "Getting ready, a rain of petals", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-bride-petal-rain.webp" },
   { id: "18", category: "events", title: "Odissi recital", place: "Rabindra Mandap", aspect: "portrait", tone: "dusk" },
   { id: "08", category: "pre-wedding", title: "Temple steps", place: "Konark", aspect: "landscape", tone: "sage" },
-  { id: "20", category: "weddings", title: "Bridal details", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-bridal-collage.webp" },
-  { id: "36", category: "pre-wedding", title: "Laughter under the lanterns", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/prewedding-lantern-laughter.webp" },
-  { id: "48", category: "commercial", title: "Packshot, capsules in afternoon sun", place: "Studio", aspect: "landscape", tone: "amber", src: "/photos/commercial-nutraceutical.webp" },
   { id: "12", category: "maternity-newborn", title: "Thirty-four weeks", place: "Chilika", aspect: "landscape", tone: "sky" },
-  { id: "49", category: "maternity-newborn", title: "A flower crown in the park", place: "Odisha", aspect: "landscape", tone: "sage", src: "/photos/kids-pink-flower-crown.webp" },
   { id: "11", category: "commercial", title: "Handloom, folded", place: "Studio", aspect: "portrait", tone: "amber" },
-  { id: "42", category: "commercial", title: "Sizzling brownie, the chocolate pour", place: "Studio", aspect: "portrait", tone: "amber", src: "/photos/commercial-sizzling-brownie.webp" },
-  { id: "14", category: "weddings", title: "The reception", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-couple-reception.webp" },
-  { id: "52", category: "weddings", title: "In a beam of light", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-bride-light-beam.webp" },
-  { id: "26", category: "portraits", title: "Crimson veil", place: "Studio", aspect: "portrait", tone: "rose", src: "/photos/portrait-crimson-veil.webp" },
-  { id: "09", category: "weddings", title: "Bidaai", place: "Odisha", aspect: "landscape", tone: "dusk", src: "/photos/wedding-bidaai.webp" },
-  { id: "54", category: "weddings", title: "The groom, in ivory and pearls", place: "Studio", aspect: "portrait", tone: "sage", src: "/photos/wedding-groom-ivory-sherwani.webp" },
-  { id: "22", category: "portraits", title: "Light through the blinds", place: "Studio", aspect: "portrait", tone: "rose", src: "/photos/portrait-red-blinds.webp" },
-  { id: "45", category: "commercial", title: "Product shoot, tablets in morning light", place: "Studio", aspect: "landscape", tone: "amber", src: "/photos/commercial-pharma-product.webp" },
-  { id: "01", category: "weddings", title: "Sindoor daan", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-sindoor.webp" },
-  { id: "17", category: "portraits", title: "Emerald and gold", place: "Studio", aspect: "portrait", tone: "sage", src: "/photos/portrait-emerald-studio.webp" },
-  { id: "35", category: "weddings", title: "A blushing bride", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-bride-blush-petals.webp" },
-  { id: "31", category: "portraits", title: "A shy smile in silk", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/portrait-silk-saree.webp" },
   { id: "15", category: "pre-wedding", title: "Monsoon umbrella", place: "Bhubaneswar", aspect: "square", tone: "ink" },
-  { id: "29", category: "weddings", title: "Haldi, petals flying", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi-petals.webp" },
-  { id: "50", category: "maternity-newborn", title: "A little fairy, mid-dance", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/kids-little-fairy.webp" },
-  { id: "37", category: "pre-wedding", title: "The groom, among marigolds", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/prewedding-groom-marigolds.webp" },
   { id: "16", category: "commercial", title: "Boutique interior", place: "Bhubaneswar", aspect: "landscape", tone: "sage" },
-  { id: "43", category: "commercial", title: "Herbs, crisp onions and grilled bread", place: "Studio", aspect: "portrait", tone: "sage", src: "/photos/commercial-herb-bowl-sunlight.webp" },
   { id: "13", category: "events", title: "First birthday", place: "Bhubaneswar", aspect: "square", tone: "rose" },
-  { id: "27", category: "pre-wedding", title: "Warm lights, closer", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/prewedding-couple-evening.webp" },
-  { id: "51", category: "weddings", title: "A quiet moment by lamplight", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/wedding-bride-lamplight.webp" },
-  { id: "55", category: "weddings", title: "Veiled, against the moon", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/wedding-veil-moon.webp" },
-  { id: "28", category: "weddings", title: "Hands joined, everyone smiling", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-hasta-milap.webp" },
-  { id: "47", category: "commercial", title: "Packaging range, stacked", place: "Studio", aspect: "landscape", tone: "sky", src: "/photos/commercial-pharma-boxes.webp" },
   { id: "07", category: "events", title: "The last speech", place: "Cuttack", aspect: "landscape", tone: "ink" },
 ];
+
+const photoSchema = z.object({
+  id: z.string().min(1),
+  category: z.enum(serviceSlugs),
+  title: z.string().min(1),
+  place: z.string(),
+  aspect: z.enum(["portrait", "landscape", "square"]),
+  tone: z.enum(["dusk", "amber", "rose", "sage", "sky", "ink"]),
+  src: z.string().startsWith("/photos/"),
+});
+
+export const realPhotos: Photo[] = z.array(photoSchema).parse(photoData);
+
+export const photos: Photo[] = [...realPhotos, ...placeholderPhotos];
+
+/**
+ * The photographs with these ids, in order, topped up with other photographs when any
+ * have been deleted, so featured spots never come up empty.
+ */
+export function pickPhotos(ids: string[], count = ids.length): Photo[] {
+  const chosen = ids.map((id) => realPhotos.find((p) => p.id === id)).filter((p): p is Photo => !!p);
+  const rest = photos.filter((p) => !chosen.includes(p));
+  return [...chosen, ...rest].slice(0, count);
+}
 
 export const process = [
   {

@@ -2,7 +2,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { Check, CircleAlert } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-const control =
+export const control =
   "block w-full rounded-md border bg-elevated px-3.5 text-[0.9375rem] text-fg shadow-sm transition-[border-color,box-shadow] duration-150 " +
   "placeholder:text-muted/70 hover:border-border-strong focus:border-fg focus:outline-none focus:ring-4 focus:ring-fg/10 " +
   "disabled:cursor-not-allowed disabled:opacity-60";

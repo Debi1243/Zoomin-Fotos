@@ -4,14 +4,13 @@ import PhotoFrame from "@/components/photos/PhotoFrame";
 import HeroSlideshow from "@/components/photos/HeroSlideshow";
 import Parallax from "@/components/motion/Parallax";
 import SplitWords from "@/components/motion/SplitWords";
-import { brand, photos } from "@/lib/data";
+import { brand, pickPhotos } from "@/lib/data";
 
-const byId = (id: string) => photos.find((p) => p.id === id)!;
 const headline = ["Photographs", "that", { text: "feel", em: true }, "like", "the", "day", "did."];
 
 export default function Hero() {
-  const slides = ["01", "30", "14", "09"].map(byId);
-  const [top, bottom] = [byId("02"), byId("26")];
+  const [s1, s2, s3, s4, top, bottom] = pickPhotos(["01", "30", "14", "09", "02", "26"]);
+  const slides = [s1, s2, s3, s4];
   return (
     <section aria-labelledby="hero-title" className="aurora container-page grid items-center gap-y-14 pb-20 pt-10 md:pt-14 lg:grid-cols-12 lg:gap-x-10 lg:pb-28 lg:pt-16">
       <div className="lg:col-span-6">

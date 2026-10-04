@@ -6,7 +6,7 @@ import PhotoFrame from "@/components/photos/PhotoFrame";
 import Approach from "@/components/sections/home/Approach";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import ClosingCta from "@/components/sections/ClosingCta";
-import { brand, photos } from "@/lib/data";
+import { brand, pickPhotos } from "@/lib/data";
 
 const description =
   "Zoomin Fotos is a photography studio in Bhubaneswar that photographs weddings, families, events and brands with a calm, candid approach.";
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: { title: "About", description, url: "/about" },
 };
 
-const byId = (id: string) => photos.find((p) => p.id === id)!;
+const [aboutLeft, aboutRight] = pickPhotos(["02", "17"]);
 
 export default function AboutPage() {
   return (
@@ -32,8 +32,8 @@ export default function AboutPage() {
       <section aria-labelledby="story-title" className="border-t border-border section-y">
         <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-5">
-            <PhotoFrame photo={byId("02")} sizes="(min-width: 1024px) 20vw, 50vw" reveal />
-            <PhotoFrame photo={byId("17")} sizes="(min-width: 1024px) 20vw, 50vw" className="mt-12" style={{ "--i": 2 } as CSSProperties} reveal />
+            <PhotoFrame photo={aboutLeft} sizes="(min-width: 1024px) 20vw, 50vw" reveal />
+            <PhotoFrame photo={aboutRight} sizes="(min-width: 1024px) 20vw, 50vw" className="mt-12" style={{ "--i": 2 } as CSSProperties} reveal />
           </div>
           <div className="reveal-right lg:col-span-6 lg:col-start-7">
             <h2 id="story-title" className="label text-muted">Our story</h2>

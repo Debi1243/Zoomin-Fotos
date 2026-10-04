@@ -16,3 +16,6 @@ export function isActive(pathname: string, href: string) {
   const path = pathname.replace(/\/$/, "") || "/";
   return path === href || path.startsWith(`${href}/`);
 }
+
+/** Where the admin page reads and saves photographs. Every save is a commit, which redeploys the site. */
+export const contentRepo = { owner: "Debi1243", repo: "Zoomin-Fotos", branch: "main" } as const;
