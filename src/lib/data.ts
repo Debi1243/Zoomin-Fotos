@@ -295,6 +295,7 @@ export const services: Service[] = [
 export const photos: Photo[] = [
   { id: "21", category: "weddings", title: "Haldi laughter", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi.webp" },
   { id: "38", category: "pre-wedding", title: "Two rings, in rose petals", place: "Studio", aspect: "landscape", tone: "rose", src: "/photos/prewedding-rings-rose-petals.webp" },
+  { id: "53", category: "weddings", title: "Sindoor, in the courtyard", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-sindoor-courtyard.webp" },
   { id: "30", category: "weddings", title: "Getting ready, golden dust", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-golden-powder.webp" },
   { id: "46", category: "commercial", title: "Product shoot, capsules and packaging", place: "Studio", aspect: "landscape", tone: "sky", src: "/photos/commercial-pharma-capsules.webp" },
   { id: "39", category: "weddings", title: "Behind the veil", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/wedding-bride-red-veil.webp" },
