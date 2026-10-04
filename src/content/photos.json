@@ -378,6 +378,15 @@
     "src": "/photos/portrait-olive-backlit.webp"
   },
   {
+    "id": "75",
+    "category": "portraits",
+    "title": "The red blazer",
+    "place": "Studio",
+    "aspect": "portrait",
+    "tone": "rose",
+    "src": "/photos/portraits-red-blazer.webp"
+  },
+  {
     "id": "35",
     "category": "weddings",
     "title": "A blushing bride",
