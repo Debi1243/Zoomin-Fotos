@@ -484,5 +484,14 @@
     "aspect": "landscape",
     "tone": "dusk",
     "src": "/photos/events-the-first-birthday.webp"
+  },
+  {
+    "id": "71",
+    "category": "events",
+    "title": "A birthday hug",
+    "place": "Odisha",
+    "aspect": "landscape",
+    "tone": "dusk",
+    "src": "/photos/events-a-birthday-hug.webp"
   }
 ]
