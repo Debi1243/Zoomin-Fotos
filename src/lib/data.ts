@@ -22,7 +22,7 @@ export const brand = {
 };
 
 export type Tone = "dusk" | "amber" | "rose" | "sage" | "sky" | "ink";
-export type Aspect = "portrait" | "landscape" | "square";
+export type Aspect = "tall" | "portrait" | "landscape" | "square";
 export const serviceSlugs = ["weddings", "pre-wedding", "portraits", "maternity-newborn", "events", "commercial"] as const;
 export type ServiceSlug = (typeof serviceSlugs)[number];
 
@@ -325,7 +325,7 @@ const photoSchema = z.object({
   category: z.enum(serviceSlugs),
   title: z.string().min(1),
   place: z.string(),
-  aspect: z.enum(["portrait", "landscape", "square"]),
+  aspect: z.enum(["tall", "portrait", "landscape", "square"]),
   tone: z.enum(["dusk", "amber", "rose", "sage", "sky", "ink"]),
   src: z.string().startsWith("/photos/"),
 });

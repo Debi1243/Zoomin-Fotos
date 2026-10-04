@@ -54,7 +54,7 @@ export default function PhotoMarquee({ photos, speed = -40, className }: Props) 
         className={cn(
           "group relative shrink-0 overflow-hidden rounded-sm",
           "h-[clamp(13rem,26vw,21rem)]",
-          p.aspect === "landscape" ? "aspect-[3/2]" : p.aspect === "square" ? "aspect-square" : "aspect-[4/5]",
+          p.aspect === "landscape" ? "aspect-[3/2]" : p.aspect === "square" ? "aspect-square" : p.aspect === "tall" ? "aspect-[2/3]" : "aspect-[4/5]",
         )}
       >
         <PhotoFrame photo={p} fill caption={false} sizes="(min-width: 1024px) 30vw, 60vw" />

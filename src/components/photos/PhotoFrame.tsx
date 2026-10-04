@@ -4,6 +4,7 @@ import type { Aspect, Photo } from "@/lib/data";
 import { cn } from "@/lib/cn";
 
 const aspects: Record<Aspect, string> = {
+  tall: "aspect-[2/3]",
   portrait: "aspect-[4/5]",
   landscape: "aspect-[3/2]",
   square: "aspect-square",
@@ -19,6 +20,8 @@ type Props = {
   /** Fill the parent instead of using the photo's own aspect ratio. */
   fill?: boolean;
   caption?: boolean;
+  /** Show the whole photograph rather than cropping it to the frame. */
+  contain?: boolean;
   /** Wipe the photo into view as it scrolls in. */
   reveal?: boolean;
   className?: string;
@@ -29,7 +32,7 @@ type Props = {
  * A photograph, or a toned proof frame standing in for one until `photo.src` is set.
  * Frames carry the photo's title so the layout reads as intended before images arrive.
  */
-export default function PhotoFrame({ photo, sizes, priority = false, fill = false, caption = true, reveal = false, className, style }: Props) {
+export default function PhotoFrame({ photo, sizes, priority = false, fill = false, caption = true, contain = false, reveal = false, className, style }: Props) {
   const label = `${photo.title}, ${photo.place}`;
   return (
     <div
@@ -43,7 +46,7 @@ export default function PhotoFrame({ photo, sizes, priority = false, fill = fals
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
+          className={cn(contain ? "object-contain" : "object-cover", "transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]")}
         />
       ) : (
         <div

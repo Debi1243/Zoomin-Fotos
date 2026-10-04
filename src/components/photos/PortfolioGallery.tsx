@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 
 type Filter = { slug: ServiceSlug | "all"; label: string; count: number };
 
-const ratio: Record<Photo["aspect"], number> = { portrait: 5 / 4, landscape: 2 / 3, square: 1 };
+const ratio: Record<Photo["aspect"], number> = { tall: 3 / 2, portrait: 5 / 4, landscape: 2 / 3, square: 1 };
 
 /** Places each photo in the currently shortest column, keeping its position in the list for the lightbox. */
 function toColumns(list: Photo[], count: number) {
@@ -136,12 +136,13 @@ export default function PortfolioGallery({ photos, filters = [] }: { photos: Pho
                 key={current.id}
                 className={cn(
                   "lightbox-photo relative max-h-full w-full",
+                  current.aspect === "tall" && "max-w-[min(100%,calc((100dvh-10rem)*0.667))]",
                   current.aspect === "portrait" && "max-w-[min(100%,calc((100dvh-10rem)*0.8))]",
                   current.aspect === "landscape" && "max-w-[min(100%,calc((100dvh-10rem)*1.5))]",
                   current.aspect === "square" && "max-w-[min(100%,calc(100dvh-10rem))]",
                 )}
               >
-                <PhotoFrame photo={current} sizes="100vw" caption={false} />
+                <PhotoFrame photo={current} sizes="100vw" caption={false} contain />
               </div>
               <button
                 type="button"

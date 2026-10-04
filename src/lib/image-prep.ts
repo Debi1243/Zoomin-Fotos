@@ -36,7 +36,7 @@ const toBase64 = (blob: Blob) =>
 
 export function aspectOf(width: number, height: number): Aspect {
   const ratio = width / height;
-  return ratio > 1.15 ? "landscape" : ratio < 0.87 ? "portrait" : "square";
+  return ratio > 1.15 ? "landscape" : ratio < 0.72 ? "tall" : ratio < 0.87 ? "portrait" : "square";
 }
 
 /** Resizes and re-encodes a photo in the browser, so only a web-sized file is uploaded. */
