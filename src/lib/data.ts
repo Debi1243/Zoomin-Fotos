@@ -324,6 +324,7 @@ export const photos: Photo[] = [
   { id: "52", category: "weddings", title: "In a beam of light", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-bride-light-beam.webp" },
   { id: "26", category: "portraits", title: "Crimson veil", place: "Studio", aspect: "portrait", tone: "rose", src: "/photos/portrait-crimson-veil.webp" },
   { id: "09", category: "weddings", title: "Bidaai", place: "Odisha", aspect: "landscape", tone: "dusk", src: "/photos/wedding-bidaai.webp" },
+  { id: "54", category: "weddings", title: "The groom, in ivory and pearls", place: "Studio", aspect: "portrait", tone: "sage", src: "/photos/wedding-groom-ivory-sherwani.webp" },
   { id: "22", category: "portraits", title: "Light through the blinds", place: "Studio", aspect: "portrait", tone: "rose", src: "/photos/portrait-red-blinds.webp" },
   { id: "45", category: "commercial", title: "Product shoot, tablets in morning light", place: "Studio", aspect: "landscape", tone: "amber", src: "/photos/commercial-pharma-product.webp" },
   { id: "01", category: "weddings", title: "Sindoor daan", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-sindoor.webp" },
