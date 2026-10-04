@@ -1,5 +1,6 @@
 import { z } from "zod";
 import photoData from "@/content/photos.json";
+import videoData from "@/content/videos.json";
 
 /**
  * All site content lives here. Replace the placeholder contact details and add
@@ -34,6 +35,14 @@ export type Photo = {
   tone: Tone;
   /** Path under /public, e.g. "/photos/wedding-01.jpg". Until set, a toned frame stands in. */
   src?: string;
+};
+
+/** A film hosted on YouTube, shown as a thumbnail that opens on YouTube. */
+export type Video = {
+  id: string;
+  youtubeId: string;
+  title: string;
+  category: ServiceSlug;
 };
 
 export type Service = {
@@ -324,6 +333,18 @@ const photoSchema = z.object({
 export const realPhotos: Photo[] = z.array(photoSchema).parse(photoData);
 
 export const photos: Photo[] = [...realPhotos, ...placeholderPhotos];
+
+const videoSchema = z.object({
+  id: z.string().min(1),
+  youtubeId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
+  title: z.string().min(1),
+  category: z.enum(serviceSlugs),
+});
+
+/** Films, edited from the admin page (src/content/videos.json). */
+export const videos: Video[] = z.array(videoSchema).parse(videoData);
+
+export const videosIn = (category: ServiceSlug) => videos.filter((v) => v.category === category);
 
 /**
  * The photographs with these ids, in order, topped up with other photographs when any

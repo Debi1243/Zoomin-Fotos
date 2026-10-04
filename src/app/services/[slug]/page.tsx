@@ -6,12 +6,13 @@ import PageHero from "@/components/sections/PageHero";
 import PortfolioGallery from "@/components/photos/PortfolioGallery";
 import Packages from "@/components/sections/Packages";
 import PhotoRibbon from "@/components/sections/PhotoRibbon";
+import FilmGrid from "@/components/sections/FilmGrid";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
 import { ButtonLink } from "@/components/ui/Button";
 import JsonLd from "@/components/shared/JsonLd";
-import { brand, getService, photosIn, services } from "@/lib/data";
+import { brand, getService, photosIn, services, videosIn } from "@/lib/data";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
 export const dynamicParams = false;
@@ -71,6 +72,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       <section aria-label={`${s.title} photographs`} className="container-page pb-20 md:pb-28">
         <PortfolioGallery photos={shots} />
       </section>
+
+      <FilmGrid videos={videosIn(s.slug)} />
 
       <section aria-labelledby="includes-title" className="section-y border-t border-border">
         <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">

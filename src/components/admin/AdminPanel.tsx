@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { CircleAlert, CircleCheck, ImagePlus, LoaderCircle, LogOut, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { control, TextField } from "@/components/forms/Field";
+import { TextField } from "@/components/forms/Field";
 import { cn } from "@/lib/cn";
-import { services, type Photo, type ServiceSlug, type Tone } from "@/lib/data";
-import { commitChange, GitHubError, isPublished, loadPhotos, rawUrl, verifyToken, type Change } from "@/lib/github";
+import { services, type Photo, type ServiceSlug, type Tone, type Video } from "@/lib/data";
+import { commitChange, GitHubError, isPublished, loadContent, rawUrl, verifyToken, type Change } from "@/lib/github";
+import VideoManager from "@/components/admin/VideoManager";
+import { CategorySelect, categoryName } from "@/components/admin/CategorySelect";
 import { prepareImage, slugify, titleFromFileName } from "@/lib/image-prep";
 
 const TOKEN_KEY = "zf-admin-token";
@@ -21,7 +23,6 @@ const defaultTone: Record<ServiceSlug, Tone> = {
   commercial: "amber",
 };
 
-const categoryName = (slug: ServiceSlug) => services.find((s) => s.slug === slug)?.title ?? slug;
 
 type Pending = { key: string; file: File; preview: string; title: string; category: ServiceSlug; place: string };
 type Notice = { kind: "error" | "success" | "info"; text: string };
@@ -70,6 +71,7 @@ export default function AdminPanel() {
   const [login, setLogin] = useState("");
   const [checking, setChecking] = useState(true);
   const [photos, setPhotos] = useState<Photo[]>([]);
+  const [videos, setVideos] = useState<Video[]>([]);
   const [ref, setRef] = useState("main");
   const [pending, setPending] = useState<Pending[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
@@ -86,11 +88,12 @@ export default function AdminPanel() {
     try {
       const { login, canSave } = await verifyToken(key);
       if (!canSave) throw new GitHubError("forbidden", 403);
-      const { sha, photos } = await loadPhotos(key);
+      const { sha, content } = await loadContent(key);
       storeToken(key, remember);
       setToken(key);
       setLogin(login);
-      setPhotos(photos);
+      setPhotos(content.photos);
+      setVideos(content.videos);
       setRef(sha);
     } catch (err) {
       storeToken(null, false);
@@ -143,6 +146,7 @@ export default function AdminPanel() {
     setToken(null);
     setLogin("");
     setPhotos([]);
+    setVideos([]);
     setPublish(null);
     setNotice(null);
   }
@@ -153,7 +157,8 @@ export default function AdminPanel() {
     setNotice(null);
     try {
       const result = await commitChange(token, change);
-      setPhotos(result.photos);
+      setPhotos(result.content.photos);
+      setVideos(result.content.videos);
       setRef(result.sha);
       setPublish({ sha: result.sha, state: "waiting" });
       setNotice({ kind: "success", text: done });
@@ -203,7 +208,7 @@ export default function AdminPanel() {
     const count = prepared.length;
     const ok = await save(
       count === 1 ? "Uploading the photo…" : `Uploading ${count} photos…`,
-      (current) => {
+      ({ photos: current }) => {
         let id = Number(nextId(current));
         const entries = prepared.map((p) => {
           const pid = String(id++).padStart(2, "0");
@@ -220,7 +225,7 @@ export default function AdminPanel() {
           return { photo, file: { path: `public${src}`, base64: p.image.base64 } };
         });
         return {
-          photos: [...entries.map((e) => e.photo), ...current],
+          content: { photos: [...entries.map((e) => e.photo), ...current] },
           files: entries.map((e) => e.file),
           message: count === 1 ? `Add photo: ${entries[0].photo.title}` : `Add ${count} photos`,
         };
@@ -234,11 +239,11 @@ export default function AdminPanel() {
     setConfirming(null);
     await save(
       `Deleting “${photo.title}”…`,
-      (current) => {
+      ({ photos: current }) => {
         const photos = current.filter((p) => p.id !== photo.id);
         const stillUsed = photos.some((p) => p.src === photo.src);
         return {
-          photos,
+          content: { photos },
           files: photo.src && !stillUsed ? [{ path: `public${photo.src}`, base64: null }] : [],
           message: `Remove photo: ${photo.title}`,
         };
@@ -250,8 +255,8 @@ export default function AdminPanel() {
   async function move(photo: Photo, category: ServiceSlug) {
     await save(
       `Moving “${photo.title}”…`,
-      (current) => ({
-        photos: current.map((p) => (p.id === photo.id ? { ...p, category } : p)),
+      ({ photos: current }) => ({
+        content: { photos: current.map((p) => (p.id === photo.id ? { ...p, category } : p)) },
         message: `Move photo to ${categoryName(category)}: ${photo.title}`,
       }),
       `“${photo.title}” moved to ${categoryName(category)}.`,
@@ -386,6 +391,8 @@ export default function AdminPanel() {
         )}
       </section>
 
+      <VideoManager videos={videos} busy={!!busy} save={save} />
+
       <section aria-labelledby="library-title">
         <h2 id="library-title" className="font-display text-h3">
           Photos on the website
@@ -470,36 +477,6 @@ export default function AdminPanel() {
         )}
       </section>
     </div>
-  );
-}
-
-function CategorySelect({
-  id,
-  value,
-  onChange,
-  className,
-  disabled,
-}: {
-  id: string;
-  value: ServiceSlug;
-  onChange: (slug: ServiceSlug) => void;
-  className?: string;
-  disabled?: boolean;
-}) {
-  return (
-    <select
-      id={id}
-      value={value}
-      disabled={disabled}
-      onChange={(e) => onChange(e.target.value as ServiceSlug)}
-      className={cn(control, "h-10 border-border pr-8", className)}
-    >
-      {services.map((s) => (
-        <option key={s.slug} value={s.slug}>
-          {s.title}
-        </option>
-      ))}
-    </select>
   );
 }
 

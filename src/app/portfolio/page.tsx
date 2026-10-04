@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import PageHero from "@/components/sections/PageHero";
 import PortfolioGallery from "@/components/photos/PortfolioGallery";
 import ClosingCta from "@/components/sections/ClosingCta";
-import { photosIn, services } from "@/lib/data";
+import FilmGrid from "@/components/sections/FilmGrid";
+import { photosIn, services, videos } from "@/lib/data";
 
 const description =
   "Weddings, pre-wedding, portraits, maternity and newborn, events and commercial photography by Zoomin Fotos, Bhubaneswar.";
@@ -34,6 +35,7 @@ export default function PortfolioPage() {
           <PortfolioGallery photos={ordered} filters={filters} />
         </div>
       </section>
+      <FilmGrid videos={videos} showCategory />
       <ClosingCta />
     </>
   );
