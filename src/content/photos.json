@@ -387,6 +387,15 @@
     "src": "/photos/portrait-silk-saree.webp"
   },
   {
+    "id": "72",
+    "category": "portraits",
+    "title": "Red, with copper waves",
+    "place": "Studio",
+    "aspect": "portrait",
+    "tone": "rose",
+    "src": "/photos/portraits-red-with-copper-waves.webp"
+  },
+  {
     "id": "29",
     "category": "weddings",
     "title": "Haldi, petals flying",
