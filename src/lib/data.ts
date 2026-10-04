@@ -298,7 +298,6 @@ export const photos: Photo[] = [
   { id: "53", category: "weddings", title: "Sindoor, in the courtyard", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-sindoor-courtyard.webp" },
   { id: "30", category: "weddings", title: "Getting ready, golden dust", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-golden-powder.webp" },
   { id: "46", category: "commercial", title: "Product shoot, capsules and packaging", place: "Studio", aspect: "landscape", tone: "sky", src: "/photos/commercial-pharma-capsules.webp" },
-  { id: "39", category: "weddings", title: "Behind the veil", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/wedding-bride-red-veil.webp" },
   { id: "02", category: "portraits", title: "Yellow allamanda", place: "Odisha", aspect: "portrait", tone: "sage", src: "/photos/portrait-saree-garden.webp" },
   { id: "03", category: "pre-wedding", title: "Low tide", place: "Puri", aspect: "portrait", tone: "sky" },
   { id: "06", category: "maternity-newborn", title: "Eight days old", place: "Home session", aspect: "portrait", tone: "rose" },
