@@ -314,6 +314,7 @@ export const photos: Photo[] = [
   { id: "08", category: "pre-wedding", title: "Temple steps", place: "Konark", aspect: "landscape", tone: "sage" },
   { id: "20", category: "weddings", title: "Bridal details", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-bridal-collage.webp" },
   { id: "36", category: "pre-wedding", title: "Laughter under the lanterns", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/prewedding-lantern-laughter.webp" },
+  { id: "48", category: "commercial", title: "Packshot, capsules in afternoon sun", place: "Studio", aspect: "landscape", tone: "amber", src: "/photos/commercial-nutraceutical.webp" },
   { id: "12", category: "maternity-newborn", title: "Thirty-four weeks", place: "Chilika", aspect: "landscape", tone: "sky" },
   { id: "11", category: "commercial", title: "Handloom, folded", place: "Studio", aspect: "portrait", tone: "amber" },
   { id: "42", category: "commercial", title: "Sizzling brownie, the chocolate pour", place: "Studio", aspect: "portrait", tone: "amber", src: "/photos/commercial-sizzling-brownie.webp" },
