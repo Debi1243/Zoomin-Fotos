@@ -414,6 +414,15 @@
     "src": "/photos/portrait-silk-saree.webp"
   },
   {
+    "id": "76",
+    "category": "portraits",
+    "title": "Over the shoulder, in green",
+    "place": "Studio",
+    "aspect": "portrait",
+    "tone": "sage",
+    "src": "/photos/portraits-over-the-shoulder-in-green.webp"
+  },
+  {
     "id": "72",
     "category": "portraits",
     "title": "Red, with copper waves",
