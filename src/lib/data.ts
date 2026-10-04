@@ -336,6 +336,7 @@ export const photos: Photo[] = [
   { id: "43", category: "commercial", title: "Herbs, crisp onions and grilled bread", place: "Studio", aspect: "portrait", tone: "sage", src: "/photos/commercial-herb-bowl-sunlight.webp" },
   { id: "13", category: "events", title: "First birthday", place: "Bhubaneswar", aspect: "square", tone: "rose" },
   { id: "27", category: "pre-wedding", title: "Warm lights, closer", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/prewedding-couple-evening.webp" },
+  { id: "51", category: "weddings", title: "A quiet moment by lamplight", place: "Odisha", aspect: "portrait", tone: "rose", src: "/photos/wedding-bride-lamplight.webp" },
   { id: "28", category: "weddings", title: "Hands joined, everyone smiling", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-hasta-milap.webp" },
   { id: "47", category: "commercial", title: "Packaging range, stacked", place: "Studio", aspect: "landscape", tone: "sky", src: "/photos/commercial-pharma-boxes.webp" },
   { id: "07", category: "events", title: "The last speech", place: "Cuttack", aspect: "landscape", tone: "ink" },
