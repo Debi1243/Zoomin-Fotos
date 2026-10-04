@@ -316,6 +316,7 @@ export const photos: Photo[] = [
   { id: "36", category: "pre-wedding", title: "Laughter under the lanterns", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/prewedding-lantern-laughter.webp" },
   { id: "48", category: "commercial", title: "Packshot, capsules in afternoon sun", place: "Studio", aspect: "landscape", tone: "amber", src: "/photos/commercial-nutraceutical.webp" },
   { id: "12", category: "maternity-newborn", title: "Thirty-four weeks", place: "Chilika", aspect: "landscape", tone: "sky" },
+  { id: "49", category: "maternity-newborn", title: "A flower crown in the park", place: "Odisha", aspect: "landscape", tone: "sage", src: "/photos/kids-pink-flower-crown.webp" },
   { id: "11", category: "commercial", title: "Handloom, folded", place: "Studio", aspect: "portrait", tone: "amber" },
   { id: "42", category: "commercial", title: "Sizzling brownie, the chocolate pour", place: "Studio", aspect: "portrait", tone: "amber", src: "/photos/commercial-sizzling-brownie.webp" },
   { id: "14", category: "weddings", title: "The reception", place: "Odisha", aspect: "portrait", tone: "amber", src: "/photos/wedding-couple-reception.webp" },
