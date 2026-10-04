@@ -327,6 +327,7 @@ export const photos: Photo[] = [
   { id: "29", category: "weddings", title: "Haldi, petals flying", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/wedding-haldi-petals.webp" },
   { id: "37", category: "pre-wedding", title: "The groom, among marigolds", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/prewedding-groom-marigolds.webp" },
   { id: "16", category: "commercial", title: "Boutique interior", place: "Bhubaneswar", aspect: "landscape", tone: "sage" },
+  { id: "43", category: "commercial", title: "Herbs, crisp onions and grilled bread", place: "Studio", aspect: "portrait", tone: "sage", src: "/photos/commercial-herb-bowl-sunlight.webp" },
   { id: "13", category: "events", title: "First birthday", place: "Bhubaneswar", aspect: "square", tone: "rose" },
   { id: "27", category: "pre-wedding", title: "Warm lights, closer", place: "Odisha", aspect: "landscape", tone: "amber", src: "/photos/prewedding-couple-evening.webp" },
   { id: "28", category: "weddings", title: "Hands joined, everyone smiling", place: "Odisha", aspect: "landscape", tone: "rose", src: "/photos/wedding-hasta-milap.webp" },
