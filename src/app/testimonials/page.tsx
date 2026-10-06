@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Quote, Star } from "lucide-react";
+import { ExternalLink, Quote, Star } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
 import PhotoFrame from "@/components/photos/PhotoFrame";
 import ClosingCta from "@/components/sections/ClosingCta";
@@ -45,6 +45,9 @@ export default function TestimonialsPage() {
 
       <section aria-label="Reviews from clients" className="border-t border-border pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-page">
+          <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="mb-10 inline-flex items-center gap-2 text-sm font-medium link-underline">
+            Read all our reviews on Google <ExternalLink aria-hidden className="size-3.5" />
+          </a>
           {count === 0 ? (
             <p className="max-w-[48ch] text-lead text-muted">Reviews from our clients will appear here soon. If we have photographed you, we would love to hear how it went.</p>
           ) : (
@@ -63,7 +66,7 @@ export default function TestimonialsPage() {
                         <blockquote className="mt-4 whitespace-pre-line leading-relaxed">{t.text}</blockquote>
                         <figcaption className="mt-5 border-t border-border pt-4 text-sm">
                           <span className="font-medium">{t.name}</span>
-                          <span className="block text-muted">{[t.event, monthLabel(t.date)].filter(Boolean).join(" · ")}</span>
+                          <span className="block text-muted">{[t.event, monthLabel(t.date), t.source === "google" && "on Google"].filter(Boolean).join(" · ")}</span>
                         </figcaption>
                       </div>
                     </figure>
@@ -86,6 +89,9 @@ export default function TestimonialsPage() {
               Photographed by <em>us?</em>
             </h2>
             <p className="mt-5 max-w-[40ch] leading-relaxed text-muted">Tell others what it was like. We read every review before it goes up.</p>
+            <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-medium link-underline">
+              Or review us on Google <ExternalLink aria-hidden className="size-3.5" />
+            </a>
           </div>
           <div className="lg:col-span-8">
             <ReviewForm />

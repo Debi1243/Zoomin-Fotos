@@ -16,6 +16,8 @@ export const testimonialSchema = z.object({
   text: z.string().min(1).max(2000),
   /** A portfolio photo id shown beside the review. */
   photoId: z.string().max(10).optional(),
+  /** Set when the studio copied the review from its Google listing. */
+  source: z.literal("google").optional(),
 });
 
 export type Testimonial = z.infer<typeof testimonialSchema>;

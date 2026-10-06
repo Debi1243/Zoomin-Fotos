@@ -301,7 +301,7 @@ function ReviewCard({ review, meta, muted, children }: { review: Omit<Testimonia
             <Star key={i} aria-hidden className={cn("inline size-4", i <= review.rating ? "fill-[var(--marigold-glow)] text-[var(--marigold-glow)]" : "text-border-strong")} />
           ))}
         </span>
-        <span className="truncate text-xs text-muted">{[review.event, monthLabel(review.date)].filter(Boolean).join(" · ")}</span>
+        <span className="truncate text-xs text-muted">{[review.event, monthLabel(review.date), "source" in review && review.source === "google" && "Google"].filter(Boolean).join(" · ")}</span>
       </div>
       <p className="mt-3 line-clamp-6 whitespace-pre-line text-sm leading-relaxed">{review.text}</p>
       <p className="mt-3 text-sm font-medium">{review.name}</p>
@@ -377,6 +377,12 @@ function Editor({
         </div>
         <TextField id="edit-date" label="When" type="month" optional value={t.date} onChange={(e) => set("date", e.target.value)} />
       </div>
+      {!from && (
+        <label className="flex items-center gap-3 text-sm">
+          <input type="checkbox" checked={t.source === "google"} onChange={(e) => set("source", e.target.checked ? "google" : undefined)} className="size-4 accent-[var(--fg)]" />
+          Copied from your Google reviews (shows &ldquo;on Google&rdquo; beside it)
+        </label>
+      )}
       <TextareaField id="edit-text" label="Review" rows={6} maxLength={2000} value={t.text} onChange={(e) => set("text", e.target.value)} />
       <div>
         <label htmlFor="edit-photo" className="text-sm font-medium">

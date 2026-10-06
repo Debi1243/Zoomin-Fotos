@@ -18,6 +18,8 @@ export const brand = {
   region: "Odisha",
   country: "IN",
   hours: "Mon to Sat, 10:00 AM to 7:00 PM IST",
+  /** The studio's Google business listing, where clients can read and leave reviews. */
+  googleReviews: "https://share.google/MrFH24KEedQoNTOly",
 };
 
 export type Tone = "dusk" | "amber" | "rose" | "sage" | "sky" | "ink";
