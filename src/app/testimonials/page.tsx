@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { ExternalLink, Quote, Star } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
-import PhotoFrame from "@/components/photos/PhotoFrame";
+import ReviewCard from "@/components/testimonials/ReviewCard";
 import ClosingCta from "@/components/sections/ClosingCta";
 import ReviewForm from "@/components/testimonials/ReviewForm";
 import JsonLd from "@/components/shared/JsonLd";
-import { brand, realPhotos } from "@/lib/data";
-import { monthLabel, testimonials } from "@/lib/testimonials";
+import { brand } from "@/lib/data";
+import { testimonials } from "@/lib/testimonials";
 import { siteUrl } from "@/lib/site";
 
 const description = `What couples and families say about working with ${brand.name}, photographers in ${brand.city}, ${brand.region}.`;
@@ -17,16 +17,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/testimonials" },
   openGraph: { title: "Reviews", description, url: "/testimonials" },
 };
-
-function Stars({ n, className }: { n: number; className?: string }) {
-  return (
-    <span className={className} role="img" aria-label={`${n} out of 5 stars`}>
-      {[1, 2, 3, 4, 5].map((i) => (
-        <Star key={i} aria-hidden className={i <= n ? "inline size-4 fill-[var(--marigold-glow)] text-[var(--marigold-glow)]" : "inline size-4 text-border-strong"} />
-      ))}
-    </span>
-  );
-}
 
 export default function TestimonialsPage() {
   const count = testimonials.length;
@@ -52,27 +42,11 @@ export default function TestimonialsPage() {
             <p className="max-w-[48ch] text-lead text-muted">Reviews from our clients will appear here soon. If we have photographed you, we would love to hear how it went.</p>
           ) : (
             <ul className="grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {testimonials.map((t) => {
-                const photo = t.photoId ? realPhotos.find((p) => p.id === t.photoId) : undefined;
-                return (
-                  <li key={t.id}>
-                    <figure className="overflow-hidden rounded-lg border border-border bg-surface">
-                      {photo && <PhotoFrame photo={photo} caption={false} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" className="rounded-none" />}
-                      <div className="p-6">
-                        <div className="flex items-center justify-between gap-4">
-                          <Stars n={t.rating} />
-                          <Quote aria-hidden className="size-6 text-[var(--rani)] opacity-40" />
-                        </div>
-                        <blockquote className="mt-4 whitespace-pre-line leading-relaxed">{t.text}</blockquote>
-                        <figcaption className="mt-5 border-t border-border pt-4 text-sm">
-                          <span className="font-medium">{t.name}</span>
-                          <span className="block text-muted">{[t.event, monthLabel(t.date), t.source === "google" && "on Google"].filter(Boolean).join(" · ")}</span>
-                        </figcaption>
-                      </div>
-                    </figure>
-                  </li>
-                );
-              })}
+              {testimonials.map((t) => (
+                <li key={t.id}>
+                  <ReviewCard t={t} />
+                </li>
+              ))}
             </ul>
           )}
         </div>

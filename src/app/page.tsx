@@ -6,6 +6,7 @@ import FilmStrip from "@/components/sections/home/FilmStrip";
 import { ServicesSection } from "@/components/sections/home/ServiceIndex";
 import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import Approach from "@/components/sections/home/Approach";
+import HomeReviews from "@/components/sections/home/HomeReviews";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
@@ -24,6 +25,7 @@ export default function HomePage() {
       <ServicesSection />
       <PhotoRibbon />
       <Approach />
+      <HomeReviews />
       <ProcessSteps />
       <Faq items={homeFaqs} />
       <ClosingCta />

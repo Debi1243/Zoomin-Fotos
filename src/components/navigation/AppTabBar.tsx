@@ -7,9 +7,9 @@ import { isActive } from "@/lib/site";
 
 const tabs: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/", label: "Home", icon: House },
+  { href: "/about", label: "About", icon: UserRound },
   { href: "/portfolio", label: "Portfolio", icon: Images },
   { href: "/services", label: "Services", icon: Aperture },
-  { href: "/about", label: "About", icon: UserRound },
   { href: "/contact", label: "Book", icon: CalendarHeart },
 ];
 

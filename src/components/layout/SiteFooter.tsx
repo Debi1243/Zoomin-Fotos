@@ -28,6 +28,9 @@ export default function SiteFooter() {
               </li>
             ))}
             <li>
+              <Link href="/testimonials" className="link-underline">Reviews</Link>
+            </li>
+            <li>
               <Link href="/portal" className="link-underline">Client login</Link>
             </li>
           </ul>
