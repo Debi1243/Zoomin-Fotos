@@ -5,6 +5,7 @@ import SiteHeader from "@/components/navigation/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
 import AppTabBar from "@/components/navigation/AppTabBar";
 import AppFeel from "@/components/motion/AppFeel";
+import Analytics from "@/components/shared/Analytics";
 import MotionProvider from "@/components/shared/MotionProvider";
 import ScrollEffects from "@/components/motion/ScrollEffects";
 import { headScript } from "@/lib/theme";
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <ScrollEffects />
           <AppTabBar />
           <AppFeel />
+          <Analytics />
         </MotionProvider>
       </body>
     </html>

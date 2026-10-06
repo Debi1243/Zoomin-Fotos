@@ -1,4 +1,5 @@
 import type { Photo, Video } from "@/lib/data";
+import type { Settings } from "@/lib/settings";
 import { contentRepo } from "@/lib/site";
 
 /**
@@ -10,8 +11,12 @@ import { contentRepo } from "@/lib/site";
 const API = "https://api.github.com";
 const { owner, repo, branch } = contentRepo;
 const REPO = `/repos/${owner}/${repo}`;
-export const CONTENT_FILES = { photos: "src/content/photos.json", videos: "src/content/videos.json" } as const;
-export type Content = { photos: Photo[]; videos: Video[] };
+export const CONTENT_FILES = {
+  photos: "src/content/photos.json",
+  videos: "src/content/videos.json",
+  settings: "src/content/settings.json",
+} as const;
+export type Content = { photos: Photo[]; videos: Video[]; settings: Settings };
 type ContentKey = keyof Content;
 
 export class GitHubError extends Error {
@@ -59,20 +64,24 @@ async function headSha(token: string) {
 }
 
 async function contentAt(token: string, ref: string): Promise<Content> {
-  const read = async (path: string) => {
+  const read = async (path: string, missing: unknown = []) => {
     try {
       const file = await gh<{ content: string }>(token, `${REPO}/contents/${path}?ref=${ref}`);
       return JSON.parse(decodeBase64Utf8(file.content));
     } catch (err) {
-      if (err instanceof GitHubError && err.status === 404) return [];
+      if (err instanceof GitHubError && err.status === 404) return missing;
       throw err;
     }
   };
-  const [photos, videos] = await Promise.all([read(CONTENT_FILES.photos), read(CONTENT_FILES.videos)]);
-  return { photos, videos };
+  const [photos, videos, settings] = await Promise.all([
+    read(CONTENT_FILES.photos),
+    read(CONTENT_FILES.videos),
+    read(CONTENT_FILES.settings, {}),
+  ]);
+  return { photos, videos, settings };
 }
 
-/** The photo and video lists as they are in the repository right now. */
+/** The photo and video lists and site settings as they are in the repository right now. */
 export async function loadContent(token: string) {
   const sha = await headSha(token);
   return { sha, content: await contentAt(token, sha) };
