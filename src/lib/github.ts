@@ -1,5 +1,6 @@
 import type { Photo, Video } from "@/lib/data";
 import type { Settings } from "@/lib/settings";
+import type { Pricing } from "@/lib/package-builder";
 import { contentRepo } from "@/lib/site";
 
 /**
@@ -15,8 +16,9 @@ export const CONTENT_FILES = {
   photos: "src/content/photos.json",
   videos: "src/content/videos.json",
   settings: "src/content/settings.json",
+  pricing: "src/content/pricing.json",
 } as const;
-export type Content = { photos: Photo[]; videos: Video[]; settings: Settings };
+export type Content = { photos: Photo[]; videos: Video[]; settings: Settings; pricing: Pricing };
 type ContentKey = keyof Content;
 
 export class GitHubError extends Error {
@@ -73,12 +75,13 @@ async function contentAt(token: string, ref: string): Promise<Content> {
       throw err;
     }
   };
-  const [photos, videos, settings] = await Promise.all([
+  const [photos, videos, settings, pricing] = await Promise.all([
     read(CONTENT_FILES.photos),
     read(CONTENT_FILES.videos),
     read(CONTENT_FILES.settings, {}),
+    read(CONTENT_FILES.pricing, { prices: {}, eventShare: {} }),
   ]);
-  return { photos, videos, settings };
+  return { photos, videos, settings, pricing };
 }
 
 /** The photo and video lists and site settings as they are in the repository right now. */

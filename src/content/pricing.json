@@ -1,0 +1,22 @@
+{
+  "prices": {
+    "photographer": 9000,
+    "cinematographer": 9000,
+    "drone": 5000,
+    "traditional": 7000,
+    "live": 8000,
+    "album": 4000,
+    "teaser": 3000,
+    "film": 3000,
+    "same-day": 12000,
+    "hours": 2500
+  },
+  "eventShare": {
+    "pre-wedding": 80,
+    "mehendi": 60,
+    "haldi": 60,
+    "sangeet": 80,
+    "wedding": 100,
+    "reception": 80
+  }
+}
