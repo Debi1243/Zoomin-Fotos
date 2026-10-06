@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import { CircleAlert, CircleCheck, ImagePlus, LoaderCircle, LogOut, Trash2, X } from "lucide-react";
+import { CircleAlert, CircleCheck, ImagePlus, LoaderCircle, LogOut, Star, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/forms/Field";
 import { cn } from "@/lib/cn";
@@ -77,7 +77,7 @@ export default function AdminPanel() {
   const [busy, setBusy] = useState<string | null>(null);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [publish, setPublish] = useState<Publish | null>(null);
-  const [filter, setFilter] = useState<ServiceSlug | "all">("all");
+  const [filter, setFilter] = useState<ServiceSlug | "all" | "featured">("all");
   const [confirming, setConfirming] = useState<string | null>(null);
   const [batchCategory, setBatchCategory] = useState<ServiceSlug>("weddings");
   const fileInput = useRef<HTMLInputElement>(null);
@@ -263,6 +263,20 @@ export default function AdminPanel() {
     );
   }
 
+  async function toggleFeatured(photo: Photo) {
+    const featured = !photo.featured;
+    await save(
+      featured ? `Featuring “${photo.title}”…` : `Taking “${photo.title}” off the home page…`,
+      ({ photos: current }) => ({
+        content: {
+          photos: current.map((p) => (p.id === photo.id ? { ...p, featured: featured || undefined } : p)),
+        },
+        message: `${featured ? "Feature" : "Unfeature"} photo: ${photo.title}`,
+      }),
+      featured ? `“${photo.title}” is now featured on the home page.` : `“${photo.title}” is no longer featured.`,
+    );
+  }
+
   if (checking) {
     return (
       <p className="flex items-center gap-2 text-muted" role="status">
@@ -273,7 +287,8 @@ export default function AdminPanel() {
 
   if (!token) return <SignIn onSignIn={signIn} notice={notice} />;
 
-  const shown = filter === "all" ? photos : photos.filter((p) => p.category === filter);
+  const shown =
+    filter === "all" ? photos : filter === "featured" ? photos.filter((p) => p.featured) : photos.filter((p) => p.category === filter);
 
   return (
     <div className="space-y-14">
@@ -398,8 +413,9 @@ export default function AdminPanel() {
           Photos on the website
         </h2>
         <div role="group" aria-label="Show category" className="mt-5 flex flex-wrap gap-2">
-          {(["all", ...services.map((s) => s.slug)] as const).map((slug) => {
-            const count = slug === "all" ? photos.length : photos.filter((p) => p.category === slug).length;
+          {(["all", "featured", ...services.map((s) => s.slug)] as const).map((slug) => {
+            const count =
+              slug === "all" ? photos.length : slug === "featured" ? photos.filter((p) => p.featured).length : photos.filter((p) => p.category === slug).length;
             return (
               <button
                 key={slug}
@@ -411,18 +427,44 @@ export default function AdminPanel() {
                   filter === slug ? "border-fg bg-fg text-bg" : "border-border hover:border-border-strong",
                 )}
               >
-                {slug === "all" ? "All" : categoryName(slug)} <span className="tabular opacity-70">{count}</span>
+                {slug === "all" ? "All" : slug === "featured" ? (
+                  <>
+                    <Star aria-hidden className="-mt-0.5 inline size-3.5 fill-current" /> Featured
+                  </>
+                ) : (
+                  categoryName(slug)
+                )} <span className="tabular opacity-70">{count}</span>
               </button>
             );
           })}
         </div>
 
-        {shown.length === 0 ? (
+        <p className="mt-4 max-w-[60ch] text-sm text-muted">
+          Tap the star on a photo to feature it in the scroller on the home page. Featured photos appear in the order shown here.
+        </p>
+
+        {shown.length === 0 && filter === "featured" ? (
+          <p className="mt-8 text-sm text-muted">No featured photos yet. The home page hides the scroller until you star at least one.</p>
+        ) : shown.length === 0 ? (
           <p className="mt-8 text-sm text-muted">No photos in this category yet. The website shows sample frames there until you add some.</p>
         ) : (
           <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {shown.map((photo) => (
-              <li key={photo.id} className="overflow-hidden rounded-lg border border-border bg-surface">
+              <li key={photo.id} className="relative overflow-hidden rounded-lg border border-border bg-surface">
+                <button
+                  type="button"
+                  onClick={() => void toggleFeatured(photo)}
+                  disabled={!!busy}
+                  aria-pressed={!!photo.featured}
+                  aria-label={`Feature ${photo.title} on the home page`}
+                  title={photo.featured ? "Featured on the home page" : "Feature on the home page"}
+                  className={cn(
+                    "absolute right-3 top-3 z-10 grid size-10 place-items-center rounded-full shadow-md backdrop-blur transition-colors disabled:opacity-60",
+                    photo.featured ? "bg-[var(--marigold-glow)] text-[#1a1712]" : "bg-black/45 text-white hover:bg-black/65",
+                  )}
+                >
+                  <Star aria-hidden className={cn("size-5", photo.featured && "fill-current")} />
+                </button>
                 {/* eslint-disable-next-line @next/next/no-img-element -- served from the repository so new uploads show before the redeploy */}
                 <img
                   src={photo.src ? rawUrl(photo.src, ref) : undefined}

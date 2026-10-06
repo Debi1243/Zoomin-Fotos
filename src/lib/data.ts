@@ -34,6 +34,8 @@ export type Photo = {
   tone: Tone;
   /** Path under /public, e.g. "/photos/wedding-01.jpg". Until set, a toned frame stands in. */
   src?: string;
+  /** Shown in the home page's featured scroller; picked on the admin page. */
+  featured?: boolean;
 };
 
 /** A film hosted on YouTube, shown as a thumbnail that opens on YouTube. */
@@ -327,11 +329,15 @@ const photoSchema = z.object({
   aspect: z.enum(["tall", "portrait", "landscape", "square"]),
   tone: z.enum(["dusk", "amber", "rose", "sage", "sky", "ink"]),
   src: z.string().startsWith("/photos/"),
+  featured: z.boolean().optional(),
 });
 
 export const realPhotos: Photo[] = z.array(photoSchema).parse(photoData);
 
 export const photos: Photo[] = [...realPhotos, ...placeholderPhotos];
+
+/** The photographs picked for the home page scroller on the admin page, in portfolio order. */
+export const featuredPhotos: Photo[] = realPhotos.filter((p) => p.featured);
 
 const videoSchema = z.object({
   id: z.string().min(1),

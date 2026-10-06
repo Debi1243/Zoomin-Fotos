@@ -33,7 +33,8 @@
     "place": "Odisha",
     "aspect": "tall",
     "tone": "amber",
-    "src": "/photos/weddings-a-reflection-in-rose-gold.webp"
+    "src": "/photos/weddings-a-reflection-in-rose-gold.webp",
+    "featured": true
   },
   {
     "id": "68",
@@ -69,7 +70,8 @@
     "place": "Odisha",
     "aspect": "tall",
     "tone": "rose",
-    "src": "/photos/weddings-a-stolen-kiss.webp"
+    "src": "/photos/weddings-a-stolen-kiss.webp",
+    "featured": true
   },
   {
     "id": "02",
@@ -87,7 +89,8 @@
     "place": "Studio",
     "aspect": "tall",
     "tone": "rose",
-    "src": "/photos/portraits-fuchsia-on-white.webp"
+    "src": "/photos/portraits-fuchsia-on-white.webp",
+    "featured": true
   },
   {
     "id": "44",
@@ -96,7 +99,8 @@
     "place": "Odisha",
     "aspect": "portrait",
     "tone": "rose",
-    "src": "/photos/kids-bougainvillea-walk.webp"
+    "src": "/photos/kids-bougainvillea-walk.webp",
+    "featured": true
   },
   {
     "id": "41",
@@ -195,7 +199,8 @@
     "place": "Odisha",
     "aspect": "landscape",
     "tone": "rose",
-    "src": "/photos/weddings-flower-jewellery-golden-hour.webp"
+    "src": "/photos/weddings-flower-jewellery-golden-hour.webp",
+    "featured": true
   },
   {
     "id": "24",
@@ -204,7 +209,8 @@
     "place": "Odisha",
     "aspect": "tall",
     "tone": "amber",
-    "src": "/photos/prewedding-ring-golden.webp"
+    "src": "/photos/prewedding-ring-golden.webp",
+    "featured": true
   },
   {
     "id": "34",
@@ -249,7 +255,8 @@
     "place": "Odisha",
     "aspect": "landscape",
     "tone": "rose",
-    "src": "/photos/prewedding-lantern-laughter.webp"
+    "src": "/photos/prewedding-lantern-laughter.webp",
+    "featured": true
   },
   {
     "id": "48",
@@ -330,7 +337,8 @@
     "place": "Studio",
     "aspect": "tall",
     "tone": "rose",
-    "src": "/photos/portrait-crimson-veil.webp"
+    "src": "/photos/portrait-crimson-veil.webp",
+    "featured": true
   },
   {
     "id": "09",
@@ -375,7 +383,8 @@
     "place": "Odisha",
     "aspect": "landscape",
     "tone": "amber",
-    "src": "/photos/weddings-a-twirl-in-the-morning-light.webp"
+    "src": "/photos/weddings-a-twirl-in-the-morning-light.webp",
+    "featured": true
   },
   {
     "id": "22",
@@ -465,7 +474,8 @@
     "place": "Studio",
     "aspect": "tall",
     "tone": "sage",
-    "src": "/photos/portraits-over-the-shoulder-in-green.webp"
+    "src": "/photos/portraits-over-the-shoulder-in-green.webp",
+    "featured": true
   },
   {
     "id": "72",
@@ -555,7 +565,8 @@
     "place": "Odisha",
     "aspect": "tall",
     "tone": "rose",
-    "src": "/photos/wedding-veil-moon.webp"
+    "src": "/photos/wedding-veil-moon.webp",
+    "featured": true
   },
   {
     "id": "28",
@@ -582,7 +593,8 @@
     "place": "Odisha",
     "aspect": "landscape",
     "tone": "dusk",
-    "src": "/photos/events-the-first-birthday.webp"
+    "src": "/photos/events-the-first-birthday.webp",
+    "featured": true
   },
   {
     "id": "71",

@@ -1,6 +1,7 @@
 import Hero from "@/components/sections/home/Hero";
 import ServiceStories from "@/components/sections/home/ServiceStories";
 import Marquee from "@/components/sections/home/Marquee";
+import FeaturedPhotos from "@/components/sections/home/FeaturedPhotos";
 import FilmStrip from "@/components/sections/home/FilmStrip";
 import { ServicesSection } from "@/components/sections/home/ServiceIndex";
 import PhotoRibbon from "@/components/sections/PhotoRibbon";
@@ -18,6 +19,7 @@ export default function HomePage() {
       <ServiceStories />
       <Hero />
       <Marquee />
+      <FeaturedPhotos />
       <FilmStrip />
       <ServicesSection />
       <PhotoRibbon />
