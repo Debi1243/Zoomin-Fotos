@@ -12,7 +12,7 @@ export default function Hero() {
   const [s1, s2, s3, s4, top, bottom] = pickPhotos(["01", "30", "14", "09", "02", "26"]);
   const slides = [s1, s2, s3, s4];
   return (
-    <section aria-labelledby="hero-title" className="aurora container-page grid items-center gap-y-14 pb-20 pt-10 md:pt-14 lg:grid-cols-12 lg:gap-x-10 lg:pb-28 lg:pt-16">
+    <section aria-labelledby="hero-title" className="aurora container-page grid items-center gap-y-10 pb-20 pt-6 md:pt-14 lg:grid-cols-12 lg:gap-x-10 lg:pb-28 lg:pt-16">
       <div className="lg:col-span-6">
         <p className="rise label flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
           <span className="inline-flex items-center gap-2 text-fg">
@@ -48,7 +48,7 @@ export default function Hero() {
         </p>
       </div>
 
-      <div className="grid grid-cols-5 gap-3 sm:gap-4 lg:col-span-6">
+      <div className="order-first grid grid-cols-5 gap-3 sm:gap-4 lg:order-none lg:col-span-6">
         <div className="col-span-3">
           <HeroSlideshow photos={slides} />
         </div>

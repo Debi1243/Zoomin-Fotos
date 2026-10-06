@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/home/Hero";
+import ServiceStories from "@/components/sections/home/ServiceStories";
 import Marquee from "@/components/sections/home/Marquee";
 import FilmStrip from "@/components/sections/home/FilmStrip";
 import { ServicesSection } from "@/components/sections/home/ServiceIndex";
@@ -14,6 +15,7 @@ import { absoluteUrl, siteUrl } from "@/lib/site";
 export default function HomePage() {
   return (
     <>
+      <ServiceStories />
       <Hero />
       <Marquee />
       <FilmStrip />

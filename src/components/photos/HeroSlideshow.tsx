@@ -28,7 +28,7 @@ export default function HeroSlideshow({ photos }: { photos: Photo[] }) {
 
   return (
     <div className="relative">
-      <div className="wipe relative aspect-[4/5] overflow-hidden rounded-sm bg-inverse">
+      <div className="photo-frame wipe relative aspect-[4/5] overflow-hidden rounded-sm bg-inverse">
         {photos.map((p, i) => (
           <div
             key={p.id}

@@ -37,7 +37,7 @@ export default function PhotoFrame({ photo, sizes, priority = false, fill = fals
   return (
     <div
       style={style}
-      className={cn("relative overflow-hidden rounded-sm bg-inverse", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
+      className={cn("photo-frame relative overflow-hidden rounded-sm bg-inverse", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
     >
       {photo.src ? (
         <Image

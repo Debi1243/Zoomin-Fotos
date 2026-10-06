@@ -57,7 +57,7 @@ export default function PortfolioGallery({ photos, filters = [] }: { photos: Pho
               aria-pressed={filter === f.slug}
               onClick={() => setFilter(f.slug)}
               className={cn(
-                "inline-flex h-10 shrink-0 items-center gap-2 rounded-md border px-4 text-sm transition-colors",
+                "chip inline-flex h-10 shrink-0 items-center gap-2 rounded-md border px-4 text-sm transition-colors",
                 filter === f.slug ? "border-fg bg-fg text-bg" : "border-border hover:border-fg",
               )}
             >

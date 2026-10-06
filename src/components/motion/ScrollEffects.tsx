@@ -104,7 +104,7 @@ function BackToTop({ lenis }: { lenis: RefObject<Lenis | null> }) {
       aria-hidden={!shown}
       onClick={() => (lenis.current ? lenis.current.scrollTo(0) : window.scrollTo({ top: 0, behavior: "smooth" }))}
       className={cn(
-        "fixed bottom-5 right-5 z-40 grid size-12 place-items-center rounded-full border border-border bg-bg/90 text-fg shadow-lg backdrop-blur transition-[opacity,translate,background-color] duration-500 ease-[var(--ease-out-expo)] hover:border-transparent hover:bg-rani-glow hover:text-white md:bottom-8 md:right-8",
+        "back-to-top fixed bottom-5 right-5 z-40 grid size-12 place-items-center rounded-full border border-border bg-bg/90 text-fg shadow-lg backdrop-blur transition-[opacity,translate,background-color] duration-500 ease-[var(--ease-out-expo)] hover:border-transparent hover:bg-rani-glow hover:text-white md:bottom-8 md:right-8",
         shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0",
       )}
     >

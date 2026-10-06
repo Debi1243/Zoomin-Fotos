@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useState, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 import Logo from "../ui/Logo";
 import { ButtonLink } from "../ui/Button";
 import ThemeToggle from "./ThemeToggle";
-import MobileMenu from "./MobileMenu";
 import { isActive, primaryNav } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
@@ -45,17 +44,13 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const scrolled = useScrolled();
   const tucked = useHidden();
-  // The menu remembers the path it was opened on, so navigating closes it without an effect.
-  const [mobileOpenOn, setMobileOpenOn] = useState<string | null>(null);
-  const mobileOpen = mobileOpenOn === pathname;
-  const onMobileOpenChange = useCallback((next: boolean) => setMobileOpenOn(next ? pathname : null), [pathname]);
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-bg/85 backdrop-blur-md transition-[translate,border-color] duration-500 ease-[var(--ease-out-expo)] focus-within:translate-y-0",
-        scrolled || mobileOpen ? "border-border" : "border-transparent",
-        tucked && !mobileOpen && "-translate-y-full",
+        "appbar sticky top-0 z-50 border-b bg-bg/85 pt-[env(safe-area-inset-top)] backdrop-blur-md transition-[translate,border-color,background-color,box-shadow] duration-500 ease-[var(--ease-out-expo)] focus-within:translate-y-0",
+        scrolled ? "is-scrolled border-border" : "border-transparent",
+        tucked && "-translate-y-full",
       )}
     >
       <a
@@ -65,8 +60,8 @@ export default function SiteHeader() {
         Skip to content
       </a>
 
-      <div className="container-page flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
-        <Logo />
+      <div className="appbar-row container-page relative flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
+        <Logo className="appbar-logo" />
 
         <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center gap-1">
@@ -91,14 +86,11 @@ export default function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden lg:block">
-            <ThemeToggle />
-          </div>
+        <div className="ml-auto flex items-center gap-3 lg:ml-0">
+          <ThemeToggle className="appbar-theme" />
           <div className="hidden sm:block">
             <ButtonLink href="/contact">Book a shoot</ButtonLink>
           </div>
-          <MobileMenu open={mobileOpen} onOpenChange={onMobileOpenChange} pathname={pathname} />
         </div>
       </div>
     </header>

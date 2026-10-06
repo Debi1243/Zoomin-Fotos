@@ -7,7 +7,7 @@ type Variant = "primary" | "secondary" | "inverse";
 type Size = "md" | "lg";
 
 const base =
-  "group/btn relative inline-flex select-none items-center justify-center gap-2.5 whitespace-nowrap rounded-md font-medium " +
+  "btn group/btn relative inline-flex select-none items-center justify-center gap-2.5 whitespace-nowrap rounded-md font-medium " +
   "transition-[background-color,border-color,color,transform] duration-200 ease-out active:translate-y-px " +
   "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
 

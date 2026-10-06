@@ -567,3 +567,207 @@ html.lenis, html.lenis body { height: auto; }
   vertical-align: middle;
   margin-inline-end: 0.75rem;
 }
+
+/* ──────────────────────────────────────────────────────────────
+   App shell (phones and tablets)
+   Below 64rem the site behaves like an installed app: a bottom tab
+   bar, an app bar, platform type, and platform motion. The head script
+   tags the page `data-platform="ios"` or `"android"`; anything else
+   (a narrow desktop window) gets the iOS-style defaults.
+   ────────────────────────────────────────────────────────────── */
+
+:root {
+  --font-app: var(--font-sans);
+  --tabbar-h: 3.0625rem;
+  --tab-active: var(--accent);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --md-emphasized: cubic-bezier(0.2, 0, 0, 1);
+}
+[data-platform="ios"] {
+  --font-app: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+}
+[data-platform="android"] {
+  --font-app: Roboto, "Google Sans Text", "Noto Sans", system-ui, sans-serif;
+  --tabbar-h: 5rem;
+  --tab-active: var(--fg);
+}
+[data-platform] body { font-family: var(--font-app); font-feature-settings: normal; }
+[data-platform] { -webkit-tap-highlight-color: transparent; }
+
+/* Tab bar: iOS translucent bar by default. */
+.tabbar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 45;
+  padding-bottom: env(safe-area-inset-bottom);
+  font-family: var(--font-app);
+  background: color-mix(in oklab, var(--bg) 76%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 -0.5px 0 var(--border-strong);
+  animation: tabbar-in 700ms var(--ease-out-expo) 200ms backwards;
+}
+.tabbar-list { display: flex; max-width: 40rem; margin-inline: auto; padding-inline: 0.25rem; }
+.tabbar-item {
+  display: flex;
+  height: var(--tabbar-h);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  padding-top: 0.125rem;
+  color: var(--fg-muted);
+  transition: color 200ms ease-out;
+}
+.tabbar-item[aria-current="page"] { color: var(--tab-active); }
+.tabbar-icon { position: relative; display: grid; place-items: center; }
+.tabbar-icon svg { position: relative; width: 1.5rem; height: 1.5rem; }
+.tabbar-item[aria-current="page"] .tabbar-icon svg { fill: currentColor; fill-opacity: 0.16; }
+.tabbar-label { font-size: 0.625rem; font-weight: 500; letter-spacing: 0.01em; line-height: 1.2; }
+
+/* Android: Material 3 navigation bar with the pill indicator. */
+[data-platform="android"] .tabbar {
+  background: color-mix(in oklab, var(--surface) 90%, var(--primary) 10%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+[data-platform="android"] .tabbar-item { gap: 0.25rem; padding-top: 0; }
+[data-platform="android"] .tabbar-icon { width: 4rem; height: 2rem; border-radius: 999px; }
+[data-platform="android"] .tabbar-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--primary) 28%, var(--surface));
+  scale: 0.3 1;
+  opacity: 0;
+  transition: scale 400ms var(--md-emphasized), opacity 150ms linear;
+}
+[data-platform="android"] .tabbar-item[aria-current="page"] .tabbar-icon::before { scale: 1 1; opacity: 1; }
+[data-platform="android"] .tabbar-label { font-size: 0.75rem; letter-spacing: 0.03em; }
+[data-platform="android"] .tabbar-item[aria-current="page"] .tabbar-label { font-weight: 700; }
+
+@keyframes tabbar-in { from { translate: 0 100%; } }
+@keyframes tab-pop {
+  0% { scale: 1; }
+  35% { scale: 0.82; }
+  70% { scale: 1.14; rotate: -6deg; }
+  100% { scale: 1; rotate: 0deg; }
+}
+
+@media (width >= 64rem) {
+  .tabbar { display: none; }
+}
+
+@media (width < 64rem) {
+  body { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom)); }
+  .back-to-top { bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 0.875rem); }
+  [data-platform="android"] .back-to-top {
+    border-radius: 1rem;
+    border-color: transparent;
+    background: color-mix(in oklab, var(--primary) 30%, var(--surface));
+    box-shadow: 0 6px 16px -6px rgb(0 0 0 / 0.35);
+  }
+
+  /* App bar. iOS centres the title and blurs what scrolls beneath it. */
+  .appbar-theme { scale: 0.92; transform-origin: right center; }
+  [data-platform="ios"] .appbar {
+    background: color-mix(in oklab, var(--bg) 72%, transparent);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+  [data-platform="ios"] .appbar.is-scrolled { border-bottom-color: var(--border-strong); border-bottom-width: 0.5px; }
+  [data-platform="ios"] .appbar-row { height: 3.25rem; }
+  [data-platform="ios"] .appbar-logo { position: absolute; left: 50%; translate: -50% 0; }
+  [data-platform="ios"] .appbar-logo > span { height: 2.375rem; }
+  /* Android: a solid top app bar that tints when content scrolls under it. */
+  [data-platform="android"] .appbar {
+    background: var(--bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  [data-platform="android"] .appbar.is-scrolled {
+    border-bottom-color: transparent;
+    background: color-mix(in oklab, var(--surface) 88%, var(--primary) 12%);
+  }
+  [data-platform="android"] .appbar-row { height: 4rem; }
+  [data-platform="android"] .appbar-logo > span { height: 2.5rem; }
+
+  /* Platform shapes: iOS rounded rects, Material pills and larger corners. */
+  [data-platform="ios"] .photo-frame { border-radius: 0.875rem; }
+  [data-platform="android"] .photo-frame { border-radius: 1.25rem; }
+  [data-platform="ios"] .btn { border-radius: 0.875rem; }
+  [data-platform="android"] .btn { border-radius: 999px; font-weight: 500; letter-spacing: 0.01em; }
+  [data-platform="ios"] .chip { border-radius: 999px; }
+  [data-platform="android"] .chip { border-radius: 0.5rem; }
+  [data-platform="android"] .chip[aria-pressed="true"] {
+    border-color: transparent;
+    background: color-mix(in oklab, var(--primary) 28%, var(--surface));
+    color: var(--fg);
+  }
+  [data-platform="android"] .chip[aria-pressed="true"] .tabular { color: var(--fg-muted); }
+}
+
+/* Android ink ripple, drawn by AppFeel in an overlay over the pressed element. */
+.ripple-clip {
+  position: fixed;
+  z-index: 100;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 400ms ease-out;
+}
+.ripple-clip.is-out { opacity: 0; }
+.ripple-ink {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.16;
+  scale: 0;
+  animation: ripple 550ms var(--md-emphasized) forwards;
+}
+@keyframes ripple { to { scale: 1; } }
+
+/* Stories row: service circles with a festive ring that slowly turns. */
+.story-ring {
+  position: relative;
+  display: grid;
+  width: 4.5rem;
+  height: 4.5rem;
+  place-items: center;
+  border-radius: 50%;
+  padding: 3px;
+  isolation: isolate;
+}
+.story-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--rani-glow), var(--sindoor-glow), var(--marigold-glow), var(--gold-glow), var(--peacock-glow), var(--rani-glow));
+}
+.story-ring .story-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50% !important;
+  box-shadow: 0 0 0 2.5px var(--bg);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .story-ring::before { animation: orbit 6s linear infinite; }
+  .story:nth-child(2n) .story-ring::before { animation-direction: reverse; }
+}
+
+/* Page changes and tab taps move the way each platform does. */
+@media (prefers-reduced-motion: no-preference) and (width < 64rem) {
+  [data-platform="ios"] .page-enter { animation: ios-push 560ms cubic-bezier(0.2, 0.9, 0.25, 1) backwards; }
+  [data-platform="android"] .page-enter { animation: md-fade-through 450ms var(--md-emphasized) backwards; }
+  .tabbar-item[aria-current="page"] .tabbar-icon svg { animation: tab-pop 560ms var(--spring); }
+  [data-platform="android"] .tabbar-item[aria-current="page"] .tabbar-icon svg { animation-duration: 450ms; }
+}
+@keyframes ios-push {
+  from { opacity: 0.3; translate: 18% 0; }
+}
+@keyframes md-fade-through {
+  from { opacity: 0; scale: 0.94; }
+}

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/navigation/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
+import AppTabBar from "@/components/navigation/AppTabBar";
+import AppFeel from "@/components/motion/AppFeel";
 import MotionProvider from "@/components/shared/MotionProvider";
 import ScrollEffects from "@/components/motion/ScrollEffects";
 import { headScript } from "@/lib/theme";
@@ -31,9 +33,11 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image", title: brand.name, description: brand.description },
   formatDetection: { telephone: false },
+  appleWebApp: { capable: true, title: "Zoomin Fotos", statusBarStyle: "black-translucent" },
 };
 
 export const viewport: Viewport = {
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f4f2ec" },
     { media: "(prefers-color-scheme: dark)", color: "#0f0e0c" },
@@ -54,6 +58,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <SiteFooter />
           <ScrollEffects />
+          <AppTabBar />
+          <AppFeel />
         </MotionProvider>
       </body>
     </html>
