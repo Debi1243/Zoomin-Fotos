@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, Pause, Play, X } from "lucide-react";
 import PhotoFrame from "@/components/photos/PhotoFrame";
-import { featuredPhotos, getService } from "@/lib/data";
+import { featuredPhotos, getService, type Photo } from "@/lib/data";
 import { cn } from "@/lib/cn";
 
 const ADVANCE_MS = 3800;
@@ -12,7 +11,8 @@ const ADVANCE_MS = 3800;
 /**
  * The photographs picked as featured on the admin page, in a scroller that glides one
  * photo along every few seconds. It holds still while someone hovers, touches or tabs
- * into it, when it is off screen, and for people who prefer reduced motion.
+ * into it, when it is off screen, and for people who prefer reduced motion. Tapping a
+ * photo opens just that photo, full size.
  */
 export default function FeaturedPhotos() {
   const track = useRef<HTMLUListElement>(null);
@@ -20,6 +20,15 @@ export default function FeaturedPhotos() {
   const [held, setHeld] = useState(false);
   const [visible, setVisible] = useState(false);
   const [still, setStill] = useState(false);
+  const [open, setOpen] = useState<Photo | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (open && !dialog.open) dialog.showModal();
+    if (!open && dialog.open) dialog.close();
+  }, [open]);
 
   useEffect(() => {
     const query = matchMedia("(prefers-reduced-motion: reduce)");
@@ -39,7 +48,7 @@ export default function FeaturedPhotos() {
 
   const step = (dir: 1 | -1) => track.current && scrollStep(track.current, dir);
 
-  const running = playing && !held && visible && !still;
+  const running = playing && !held && visible && !still && !open;
   useEffect(() => {
     if (!running) return;
     const timer = setInterval(() => track.current && scrollStep(track.current, 1), ADVANCE_MS);
@@ -90,7 +99,7 @@ export default function FeaturedPhotos() {
       >
         {featuredPhotos.map((p) => (
           <li key={p.id} className="shrink-0 snap-start">
-            <Link href={`/services/${p.category}`} className="group block">
+            <button type="button" onClick={() => setOpen(p)} className="group block text-left" aria-label={`View ${p.title} full size`}>
               <PhotoFrame
                 photo={p}
                 sizes="(min-width: 1024px) 40vw, 85vw"
@@ -101,10 +110,54 @@ export default function FeaturedPhotos() {
                 <span className="truncate">{p.title}</span>
                 <span className="shrink-0 text-muted">{getService(p.category)?.title}</span>
               </span>
-            </Link>
+            </button>
           </li>
         ))}
       </ul>
+
+      {/* Opens just the photo that was tapped, whole and uncropped. */}
+      <dialog
+        ref={dialogRef}
+        aria-label={open ? `${open.title}, ${open.place}` : "Photograph"}
+        onClose={() => setOpen(null)}
+        onClick={(e) => {
+          if (e.target === e.currentTarget || (e.target as HTMLElement).dataset.backdrop !== undefined) setOpen(null);
+        }}
+        className="lightbox m-0 h-dvh max-h-none w-screen max-w-none bg-[#0c0b0a] p-0 text-[#f4f2ec] backdrop:bg-[#0c0b0a]"
+      >
+        {open && (
+          <div className="flex h-full flex-col pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]">
+            <div className="flex justify-end px-4 py-4 sm:px-6">
+              <button
+                type="button"
+                onClick={() => setOpen(null)}
+                aria-label="Close"
+                className="grid size-11 place-items-center rounded-full border border-white/20 transition-colors hover:bg-white/10"
+              >
+                <X aria-hidden className="size-5" />
+              </button>
+            </div>
+            <div data-backdrop className="flex min-h-0 flex-1 items-center justify-center px-4 sm:px-20">
+              <div
+                key={open.id}
+                className={cn(
+                  "lightbox-photo relative max-h-full w-full",
+                  open.aspect === "tall" && "max-w-[min(100%,calc((100dvh-10rem)*0.667))]",
+                  open.aspect === "portrait" && "max-w-[min(100%,calc((100dvh-10rem)*0.8))]",
+                  open.aspect === "landscape" && "max-w-[min(100%,calc((100dvh-10rem)*1.5))]",
+                  open.aspect === "square" && "max-w-[min(100%,calc(100dvh-10rem))]",
+                )}
+              >
+                <PhotoFrame photo={open} sizes="100vw" caption={false} contain />
+              </div>
+            </div>
+            <p className="px-4 py-5 sm:px-6">
+              <span className="font-display text-2xl italic">{open.title}</span>
+              <span className="ml-3 text-sm text-[#f4f2ec]/70">{open.place}</span>
+            </p>
+          </div>
+        )}
+      </dialog>
     </section>
   );
 }
