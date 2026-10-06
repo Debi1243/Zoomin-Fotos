@@ -48,7 +48,8 @@ export default function Hero() {
         </p>
       </div>
 
-      <div className="order-first grid grid-cols-5 gap-3 sm:gap-4 lg:order-none lg:col-span-6">
+      {/* Phones and tablets skip this block: the stories row and featured scroller carry the photos there. */}
+      <div className="hidden grid-cols-5 gap-4 lg:col-span-6 lg:grid">
         <div className="col-span-3">
           <HeroSlideshow photos={slides} />
         </div>
