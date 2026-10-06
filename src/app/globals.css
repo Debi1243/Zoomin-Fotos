@@ -784,3 +784,24 @@ html.lenis, html.lenis body { height: auto; }
   from { transform: scale(0.92); opacity: 0.6; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* Printing the invoice from the client portal: only the invoice goes to paper. */
+.print-only { display: none; }
+@media print {
+  html.printing body > *:not(.print-only) { display: none !important; }
+  html.printing .print-only { display: block; }
+  html.printing body { padding: 0 !important; background: #fff; }
+}
+
+/* Client portal: panels slide in as the client switches section, and sheets rise from the bottom on phones. */
+@media (prefers-reduced-motion: no-preference) {
+  .portal-panel { animation: portal-in 360ms var(--md-emphasized); }
+  .sheet[open] { animation: sheet-up 380ms var(--md-emphasized); }
+  .sheet[open]::backdrop { animation: fade-in 250ms ease-out; }
+}
+@keyframes portal-in {
+  from { opacity: 0; translate: 0 10px; }
+}
+@keyframes sheet-up {
+  from { translate: 0 40px; opacity: 0; }
+}

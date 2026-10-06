@@ -7,15 +7,20 @@ import { contentRepo } from "@/lib/site";
  * dashboard reads them back, and only with a GitHub key that can edit the website, which
  * the script checks with GitHub itself. Each enquiry is also emailed to the studio.
  */
-export const dashboardScript = `// Zoomin Fotos dashboard. Paste this whole file into Extensions > Apps Script.
+/** Bumped whenever the script changes, so the admin pages can ask for the newer copy. */
+export const SCRIPT_VERSION = 2;
+
+export const dashboardScript = `// Zoomin Fotos dashboard and client portal. Paste this whole file into Extensions > Apps Script.
+const VERSION = ${SCRIPT_VERSION};
 const REPO = "${contentRepo.owner}/${contentRepo.repo}";
 const NOTIFY_EMAIL = "${brand.email}";
 
 const ENQUIRY_COLUMNS = ["Id", "Received", "Status", "Session", "Name", "Email", "Phone", "Date wanted", "Location", "Message", "Page"];
 const EVENT_COLUMNS = ["Time", "Type", "Path", "Label", "Target", "Referrer", "Device", "Visitor", "Session"];
+const BOOKING_COLUMNS = ["Code", "Client", "Event date", "Status", "Updated", "PIN check", "Booking data", "Signature"];
 
 function doGet() {
-  return reply({ ok: true, service: "Zoomin Fotos dashboard" });
+  return reply({ ok: true, service: "Zoomin Fotos dashboard", version: VERSION });
 }
 
 function doPost(e) {
@@ -29,6 +34,10 @@ function doPost(e) {
   if (body.type === "events") return reply(saveEvents(body.events || []));
   if (body.type === "read") return reply(allowed(body.token) ? read(body.days) : { ok: false, error: "not-allowed" });
   if (body.type === "status") return reply(allowed(body.token) ? setStatus(body.id, body.status) : { ok: false, error: "not-allowed" });
+  if (body.type === "bookings") return reply(allowed(body.token) ? listBookings() : { ok: false, error: "not-allowed" });
+  if (body.type === "save-booking") return reply(allowed(body.token) ? saveBooking(body.booking, body.pin) : { ok: false, error: "not-allowed" });
+  if (body.type === "delete-booking") return reply(allowed(body.token) ? deleteBooking(body.code) : { ok: false, error: "not-allowed" });
+  if (String(body.type).indexOf("portal-") === 0) return reply(portal(body));
   return reply({ ok: false, error: "Unknown request" });
 }
 
@@ -150,7 +159,7 @@ function read(days) {
       location: String(r[8]), message: String(r[9]), page: String(r[10]),
     };
   }).reverse();
-  return { ok: true, events: events, enquiries: enquiries, sheetUrl: SpreadsheetApp.getActiveSpreadsheet().getUrl() };
+  return { ok: true, version: VERSION, events: events, enquiries: enquiries, sheetUrl: SpreadsheetApp.getActiveSpreadsheet().getUrl() };
 }
 
 function setStatus(id, status) {
@@ -164,5 +173,145 @@ function setStatus(id, status) {
     }
   }
   return { ok: false, error: "Enquiry not found" };
+}
+
+// ---------- Client bookings and the client portal ----------
+
+function bookingSheet() {
+  return sheet("Bookings", BOOKING_COLUMNS);
+}
+
+function findBooking(code) {
+  code = String(code || "").trim().toUpperCase();
+  const s = bookingSheet();
+  const last = s.getLastRow();
+  if (!code || last < 2) return null;
+  const codes = s.getRange(2, 1, last - 1, 1).getValues();
+  for (let i = 0; i < codes.length; i++) {
+    if (String(codes[i][0]).toUpperCase() === code) {
+      const values = s.getRange(i + 2, 1, 1, BOOKING_COLUMNS.length).getValues()[0];
+      return { row: i + 2, code: code, pinHash: String(values[5]), data: JSON.parse(String(values[6]) || "{}"), signature: String(values[7] || "") };
+    }
+  }
+  return null;
+}
+
+function writeBooking(found, data, pinHash, signature) {
+  const s = bookingSheet();
+  const row = found ? found.row : s.getLastRow() + 1;
+  data.updatedAt = Date.now();
+  const json = JSON.stringify(data);
+  if (json.length > 49000) throw new Error("This booking has grown too large to save. Shorten the agreement or the lists.");
+  s.getRange(row, 1, 1, BOOKING_COLUMNS.length).setValues([[
+    data.code, text(data.client && data.client.names, 120), text(data.eventDate, 20), text(data.status, 40), new Date(), pinHash, json, signature || "",
+  ]]);
+  return data;
+}
+
+function pinHashOf(code, pin) {
+  const props = PropertiesService.getScriptProperties();
+  let salt = props.getProperty("pinSalt");
+  if (!salt) {
+    salt = Utilities.getUuid();
+    props.setProperty("pinSalt", salt);
+  }
+  return Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, salt + "|" + String(code).toUpperCase() + "|" + String(pin)));
+}
+
+function listBookings() {
+  const s = bookingSheet();
+  const last = s.getLastRow();
+  const rows = last > 1 ? s.getRange(2, 1, last - 1, BOOKING_COLUMNS.length).getValues() : [];
+  return {
+    ok: true,
+    version: VERSION,
+    bookings: rows.filter(function (r) { return r[0]; }).map(function (r) {
+      return { data: JSON.parse(String(r[6]) || "{}"), signature: String(r[7] || ""), hasPin: !!r[5] };
+    }),
+  };
+}
+
+function saveBooking(data, pin) {
+  if (!data || !/^ZF-[A-Z0-9]{4,8}$/.test(String(data.code))) return { ok: false, error: "Missing booking code" };
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const found = findBooking(data.code);
+    const pinHash = pin ? pinHashOf(data.code, pin) : found ? found.pinHash : "";
+    // Signing happens in the portal; the admin page can only keep a signature or clear it.
+    const keepSignature = found && found.data.contract && found.data.contract.signed && data.contract && data.contract.signed;
+    if (found && found.data.contract && found.data.contract.signed && data.contract && data.contract.signed) data.contract.signed = found.data.contract.signed;
+    if (!keepSignature && data.contract) delete data.contract.signed;
+    const saved = writeBooking(found, data, pinHash, keepSignature ? found.signature : "");
+    return { ok: true, booking: saved, signature: keepSignature ? found.signature : "" };
+  } catch (err) {
+    return { ok: false, error: String(err.message || err) };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function deleteBooking(code) {
+  const found = findBooking(code);
+  if (!found) return { ok: false, error: "Booking not found" };
+  bookingSheet().deleteRow(found.row);
+  return { ok: true };
+}
+
+function portal(body) {
+  const code = String(body.code || "").trim().toUpperCase();
+  const cache = CacheService.getScriptCache();
+  const tries = Number(cache.get("tries-" + code) || 0);
+  if (tries >= 8) return { ok: false, error: "too-many" };
+  const found = findBooking(code);
+  if (!found || !found.pinHash || found.pinHash !== pinHashOf(code, String(body.pin || "").trim())) {
+    cache.put("tries-" + code, String(tries + 1), 900);
+    return { ok: false, error: "wrong" };
+  }
+  const data = found.data;
+  const lock = LockService.getScriptLock();
+  try {
+    if (body.type === "portal-login") return { ok: true, booking: data, signature: found.signature };
+    lock.waitLock(10000);
+    if (body.type === "portal-planning") {
+      data.planning = body.planning || data.planning;
+      writeBooking(found, data, found.pinHash, found.signature);
+      return { ok: true, booking: data, signature: found.signature };
+    }
+    if (body.type === "portal-sign") {
+      if (data.contract && data.contract.signed) return { ok: false, error: "Already signed" };
+      const image = String(body.image || "");
+      if (image.indexOf("data:image/png;base64,") !== 0 || image.length > 45000) return { ok: false, error: "The signature could not be read. Please sign again." };
+      if (!body.name) return { ok: false, error: "Type your full name to sign." };
+      data.contract.signed = { name: text(body.name, 120), at: Date.now(), text: data.contract.text };
+      data.status = "Signed";
+      writeBooking(found, data, found.pinHash, image);
+      notify("Agreement signed: " + code, data.contract.signed.name + " signed the agreement for " + (data.title || code) + ".");
+      return { ok: true, booking: data, signature: image };
+    }
+    if (body.type === "portal-paid") {
+      const amount = Math.max(0, Math.round(Number(body.amount) || 0));
+      if (!amount || !body.reference) return { ok: false, error: "Enter the amount and the payment reference." };
+      data.payments = (data.payments || []).slice(-29);
+      data.payments.push({ id: Utilities.getUuid().slice(0, 8), amount: amount, reference: text(body.reference, 80), at: Date.now(), method: "UPI", status: "claimed" });
+      data.status = "Payment to check";
+      writeBooking(found, data, found.pinHash, found.signature);
+      notify("Payment reported: " + code, (data.client && data.client.names) + " reports paying Rs " + amount + " for " + (data.title || code) + ". Reference: " + body.reference + ". Confirm it on the admin Clients page once it reaches your account.");
+      return { ok: true, booking: data, signature: found.signature };
+    }
+    return { ok: false, error: "Unknown request" };
+  } catch (err) {
+    return { ok: false, error: String(err.message || err) };
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
+}
+
+function notify(subject, body) {
+  try {
+    MailApp.sendEmail({ to: NOTIFY_EMAIL, subject: subject, body: body + "\\n\\n" + SpreadsheetApp.getActiveSpreadsheet().getUrl() });
+  } catch (err) {
+    // The change is saved even if the email could not go out.
+  }
 }
 `;

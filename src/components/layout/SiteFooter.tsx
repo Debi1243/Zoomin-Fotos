@@ -27,6 +27,9 @@ export default function SiteFooter() {
                 <Link href={l.href} className="link-underline">{l.label}</Link>
               </li>
             ))}
+            <li>
+              <Link href="/portal" className="link-underline">Client login</Link>
+            </li>
           </ul>
         </nav>
 

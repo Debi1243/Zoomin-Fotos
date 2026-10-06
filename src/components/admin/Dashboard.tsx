@@ -23,7 +23,9 @@ import { TextField } from "@/components/forms/Field";
 import { explain, readStoredToken, remembered, SignIn, storeToken, type Notice } from "@/components/admin/auth";
 import { commitChange, GitHubError, loadContent, verifyToken } from "@/lib/github";
 import { DATA_ENDPOINT_PATTERN } from "@/lib/settings";
-import { dashboardScript } from "@/lib/dashboard-script";
+import { dashboardScript, SCRIPT_VERSION } from "@/lib/dashboard-script";
+import ScriptUpdate from "@/components/admin/ScriptUpdate";
+import { callSheet } from "@/lib/sheet";
 import { services } from "@/lib/data";
 import { cn } from "@/lib/cn";
 
@@ -64,11 +66,6 @@ const pageNames: Record<string, string> = {
 const pageName = (path: string) => pageNames[path] ?? path;
 const deviceNames: Record<string, string> = { ios: "iPhone and iPad", android: "Android", desktop: "Computer" };
 
-async function callSheet<T>(endpoint: string, body: object): Promise<T & { ok: boolean; error?: string }> {
-  const res = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) });
-  if (!res.ok) throw new Error(`The sheet answered ${res.status}`);
-  return res.json();
-}
 
 function tally<T>(items: T[], key: (item: T) => string | undefined) {
   const counts = new Map<string, number>();
@@ -114,6 +111,7 @@ export default function Dashboard() {
   const [data, setData] = useState<Data | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [outdated, setOutdated] = useState(false);
 
   const signIn = useCallback(async (key: string, remember: boolean) => {
     setChecking(true);
@@ -150,6 +148,7 @@ export default function Dashboard() {
       const result = await callSheet<Omit<Data, "loadedAt">>(endpoint, { type: "read", token, days });
       if (!result.ok) throw new Error(result.error === "not-allowed" ? "The sheet did not accept your access key." : (result.error ?? "The sheet sent an error."));
       setData({ ...result, loadedAt: Date.now() });
+      setOutdated((result.version ?? 1) < SCRIPT_VERSION);
     } catch (err) {
       setError(`${explain(err)} If you redeployed the script, check it is set to run for anyone.`);
     } finally {
@@ -243,6 +242,9 @@ export default function Dashboard() {
             <p role="alert" className="flex items-start gap-2 rounded-md border border-error/40 p-4 text-sm text-error">
               <CircleAlert aria-hidden className="mt-0.5 size-4 shrink-0" /> {error}
             </p>
+          )}
+          {outdated && (
+            <ScriptUpdate reason="A newer version of the sheet script adds client bookings and the client portal." onDone={() => void load()} />
           )}
           {!data && loading && (
             <p className="flex items-center gap-2 text-muted" role="status">
