@@ -5,6 +5,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
 import PortfolioGallery from "@/components/photos/PortfolioGallery";
 import Packages from "@/components/sections/Packages";
+import PackageBuilder from "@/components/sections/PackageBuilder";
 import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import FilmGrid from "@/components/sections/FilmGrid";
 import ProcessSteps from "@/components/sections/ProcessSteps";
@@ -106,6 +107,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       </section>
 
       {s.packages && <Packages items={s.packages} service={s.title.replace(/s$/, "")} intro={s.packagesIntro} />}
+      {s.slug === "weddings" && <PackageBuilder />}
       <PhotoRibbon category={s.slug} rows={1} className="border-t border-border" />
       <ProcessSteps />
       <Faq items={s.faqs} title={`${s.title}, answered.`} />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState, type ChangeEvent, type FocusEvent, type FormEvent } from "react";
+import { useActionState, useEffect, useRef, useState, type ChangeEvent, type FocusEvent, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -31,6 +31,18 @@ function ContactFormInner({ onReset }: { onReset: () => void }) {
   // "" marks a field the visitor has fixed since the server last answered.
   const [clientErrors, setClientErrors] = useState<Partial<Record<ContactField, string>>>({});
   const [valid, setValid] = useState<Partial<Record<ContactField, boolean>>>({});
+
+  // A package sent from the package builder arrives in the address: tick its session and start the message with it.
+  useEffect(() => {
+    const form = formRef.current;
+    const params = new URLSearchParams(window.location.search);
+    if (!form || !params.has("message")) return;
+    const session = params.get("session");
+    const radio = form.querySelector<HTMLInputElement>(`input[name="session"][value="${CSS.escape(session ?? "")}"]`);
+    if (radio) radio.checked = true;
+    const message = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
+    if (message && !message.value) message.value = params.get("message") ?? "";
+  }, []);
 
   const serverErrors: FieldErrors = state.status === "invalid" ? state.errors : {};
   const errors: FieldErrors = { ...serverErrors, ...clientErrors };

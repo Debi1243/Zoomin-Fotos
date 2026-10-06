@@ -30,7 +30,7 @@ export default function ContactPage() {
         title={<>Tell us about <em>your day.</em></>}
         intro="Share the date, the place and a little about what you have in mind. We will confirm availability and send a tailored quote within one working day."
       />
-      <section aria-label="Enquiry" className="border-t border-border pb-24 pt-12 md:pb-32 md:pt-16">
+      <section id="enquiry" aria-label="Enquiry" className="scroll-mt-16 border-t border-border pb-24 pt-12 md:pb-32 md:pt-16">
         <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
           <aside className="reveal-left lg:col-span-3">
             <dl className="space-y-7">

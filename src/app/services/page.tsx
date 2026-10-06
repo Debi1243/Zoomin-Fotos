@@ -4,6 +4,7 @@ import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import Link from "next/link";
 import PageHero from "@/components/sections/PageHero";
 import PhotoFrame from "@/components/photos/PhotoFrame";
+import PackageBuilder from "@/components/sections/PackageBuilder";
 import ProcessSteps from "@/components/sections/ProcessSteps";
 import ClosingCta from "@/components/sections/ClosingCta";
 import { formatRupees, photosIn, services, serviceTone } from "@/lib/data";
@@ -60,6 +61,7 @@ export default function ServicesPage() {
           })}
         </ul>
       </section>
+      <PackageBuilder />
       <PhotoRibbon className="border-t border-border" />
       <ProcessSteps />
       <ClosingCta />
