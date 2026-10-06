@@ -12,9 +12,8 @@ export const brand = {
   tagline: "Photographs that feel like the day did.",
   description:
     "Zoomin Fotos is a photography studio in Bhubaneswar for weddings, portraits, families, events and brands across Odisha and beyond.",
-  // Placeholder contact details: replace with the studio's real ones.
-  email: "hello@zoominfotos.com",
-  phone: "+91 90000 00000",
+  email: "fotoszoomin@gmail.com",
+  phone: "+91 70222 49799",
   city: "Bhubaneswar",
   region: "Odisha",
   country: "IN",
