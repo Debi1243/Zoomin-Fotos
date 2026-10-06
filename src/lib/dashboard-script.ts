@@ -8,7 +8,7 @@ import { contentRepo } from "@/lib/site";
  * the script checks with GitHub itself. Each enquiry is also emailed to the studio.
  */
 /** Bumped whenever the script changes, so the admin pages can ask for the newer copy. */
-export const SCRIPT_VERSION = 2;
+export const SCRIPT_VERSION = 3;
 
 export const dashboardScript = `// Zoomin Fotos dashboard and client portal. Paste this whole file into Extensions > Apps Script.
 const VERSION = ${SCRIPT_VERSION};
@@ -17,6 +17,7 @@ const NOTIFY_EMAIL = "${brand.email}";
 
 const ENQUIRY_COLUMNS = ["Id", "Received", "Status", "Session", "Name", "Email", "Phone", "Date wanted", "Location", "Message", "Page"];
 const EVENT_COLUMNS = ["Time", "Type", "Path", "Label", "Target", "Referrer", "Device", "Visitor", "Session"];
+const REVIEW_COLUMNS = ["Id", "Received", "Status", "Name", "Event", "Shoot month", "Rating", "Review", "Email"];
 const BOOKING_COLUMNS = ["Code", "Client", "Event date", "Status", "Updated", "PIN check", "Booking data", "Signature"];
 
 function doGet() {
@@ -38,6 +39,9 @@ function doPost(e) {
   if (body.type === "save-booking") return reply(allowed(body.token) ? saveBooking(body.booking, body.pin) : { ok: false, error: "not-allowed" });
   if (body.type === "delete-booking") return reply(allowed(body.token) ? deleteBooking(body.code) : { ok: false, error: "not-allowed" });
   if (String(body.type).indexOf("portal-") === 0) return reply(portal(body));
+  if (body.type === "review") return reply(saveReview(body.review || {}));
+  if (body.type === "reviews") return reply(allowed(body.token) ? listReviews() : { ok: false, error: "not-allowed" });
+  if (body.type === "review-status") return reply(allowed(body.token) ? setReviewStatus(body.id, body.status) : { ok: false, error: "not-allowed" });
   return reply({ ok: false, error: "Unknown request" });
 }
 
@@ -305,6 +309,50 @@ function portal(body) {
   } finally {
     try { lock.releaseLock(); } catch (e) {}
   }
+}
+
+// ---------- Reviews ----------
+
+function saveReview(r) {
+  const rating = Math.round(Number(r.rating));
+  if (!r.name || !r.text || !(rating >= 1 && rating <= 5)) return { ok: false, error: "Please add your name, a rating and a few words." };
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    sheet("Reviews", REVIEW_COLUMNS).appendRow([
+      Utilities.getUuid().slice(0, 8), new Date(), "New", text(r.name, 120), text(r.event, 80), text(r.date, 7), rating, text(r.text, 2000), text(r.email, 200),
+    ]);
+  } finally {
+    lock.releaseLock();
+  }
+  notify("New review from " + r.name, rating + " stars: " + String(r.text).slice(0, 400) + "\\n\\nPublish it from the admin Reviews tab.");
+  return { ok: true };
+}
+
+function listReviews() {
+  const s = sheet("Reviews", REVIEW_COLUMNS);
+  const last = s.getLastRow();
+  const rows = last > 1 ? s.getRange(2, 1, last - 1, REVIEW_COLUMNS.length).getValues() : [];
+  return {
+    ok: true,
+    version: VERSION,
+    reviews: rows.map(function (r) {
+      return { id: String(r[0]), received: new Date(r[1]).getTime(), status: String(r[2]), name: String(r[3]), event: String(r[4]), date: r[5] instanceof Date ? Utilities.formatDate(r[5], "Asia/Kolkata", "yyyy-MM") : String(r[5]), rating: Number(r[6]), text: String(r[7]), email: String(r[8]) };
+    }).reverse(),
+  };
+}
+
+function setReviewStatus(id, status) {
+  if (["New", "Published", "Hidden"].indexOf(status) < 0) return { ok: false, error: "Unknown status" };
+  const s = sheet("Reviews", REVIEW_COLUMNS);
+  const ids = s.getLastRow() > 1 ? s.getRange(2, 1, s.getLastRow() - 1, 1).getValues() : [];
+  for (let i = 0; i < ids.length; i++) {
+    if (String(ids[i][0]) === String(id)) {
+      s.getRange(i + 2, 3).setValue(status);
+      return { ok: true };
+    }
+  }
+  return { ok: false, error: "Review not found" };
 }
 
 function notify(subject, body) {

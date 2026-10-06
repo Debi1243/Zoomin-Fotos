@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 import {
   CalendarDays,
   Camera,
@@ -27,6 +28,7 @@ import {
   X,
   BookOpen,
   PartyPopper,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/forms/Field";
@@ -441,9 +443,9 @@ function NextStep({ icon, title, text, children }: { icon: ReactNode; title: str
   );
 }
 
-function Card({ title, icon, children }: { title?: string; icon?: ReactNode; children: ReactNode }) {
+function Card({ title, icon, className, children }: { title?: string; icon?: ReactNode; className?: string; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
+    <section className={cn("rounded-2xl border border-border bg-surface p-5 sm:p-6", className)}>
       {title && (
         <h2 className="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-muted">
           {icon && <span aria-hidden>{icon}</span>}
@@ -832,8 +834,25 @@ function DayTab({ b }: { b: Booking }) {
 const deliveryIcons = { teaser: Play, photos: Images, videos: Film, album: BookOpen };
 
 function DeliveryTab({ b }: { b: Booking }) {
+  const anyReady = b.delivery.some((d) => d.status === "Ready");
+  const reviewHref = `/testimonials/?${new URLSearchParams({ name: b.client.names, event: /pre-?wedding/i.test(b.title) ? "Pre-wedding" : "Wedding" })}#write`;
   return (
     <div className="grid gap-5 sm:grid-cols-2">
+      {anyReady && (
+        <Card className="sm:col-span-2">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="flex items-center gap-2 font-display text-2xl">
+                <Star aria-hidden className="size-5 fill-[var(--marigold-glow)] text-[var(--marigold-glow)]" /> Enjoying your photographs?
+              </p>
+              <p className="mt-1 text-sm text-muted">A few words from you helps other couples find us.</p>
+            </div>
+            <Link href={reviewHref} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-medium hover:border-fg">
+              Leave a review
+            </Link>
+          </div>
+        </Card>
+      )}
       {b.delivery.map((d) => {
         const Icon = deliveryIcons[d.kind];
         const yt = d.url ? parseYouTubeId(d.url) : null;
