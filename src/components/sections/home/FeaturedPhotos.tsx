@@ -7,6 +7,7 @@ import { featuredPhotos, getService, type Photo } from "@/lib/data";
 import { cn } from "@/lib/cn";
 
 const ADVANCE_MS = 3800;
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /**
  * The photographs picked as featured on the admin page, in a scroller that glides one
@@ -95,16 +96,18 @@ export default function FeaturedPhotos() {
         onTouchEnd={() => setTimeout(() => setHeld(false), ADVANCE_MS)}
         onFocus={() => setHeld(true)}
         onBlur={() => setHeld(false)}
-        className="relative mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-4 [scrollbar-width:none] sm:scroll-px-6 sm:px-6 md:mt-14 md:gap-6 lg:scroll-px-10 lg:px-10 xl:scroll-px-[max(2.5rem,calc((100vw-84rem)/2+2.5rem))] xl:px-[max(2.5rem,calc((100vw-84rem)/2+2.5rem))] [&::-webkit-scrollbar]:hidden"
+        className="relative mt-10 flex items-end snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-4 [scrollbar-width:none] sm:scroll-px-6 sm:px-6 md:mt-14 md:gap-6 lg:scroll-px-10 lg:px-10 xl:scroll-px-[max(2.5rem,calc((100vw-84rem)/2+2.5rem))] xl:px-[max(2.5rem,calc((100vw-84rem)/2+2.5rem))] [&::-webkit-scrollbar]:hidden"
       >
         {featuredPhotos.map((p) => (
           <li key={p.id} className="shrink-0 snap-start">
             <button type="button" onClick={() => setOpen(p)} className="group block text-left" aria-label={`View ${p.title} full size`}>
-              <PhotoFrame
-                photo={p}
-                sizes="(min-width: 1024px) 40vw, 85vw"
-                caption={false}
-                className="h-[min(62vh,30rem)] max-w-[85vw] md:h-[min(68vh,36rem)]"
+{/* The whole photograph at its own proportions, fitted inside the same height and width limits. */}
+              {/* eslint-disable-next-line @next/next/no-img-element -- natural proportions; the static site serves images as they are */}
+              <img
+                src={`${basePath}${p.src}`}
+                alt={`${p.title}, ${p.place}`}
+                draggable={false}
+                className="photo-frame block h-auto max-h-[min(62vh,30rem)] w-auto max-w-[85vw] rounded-sm bg-inverse transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.02] md:max-h-[min(68vh,36rem)] lg:max-w-[60vw]"
               />
               <span className="mt-3 flex w-0 min-w-full items-baseline justify-between gap-4 text-sm">
                 <span className="truncate">{p.title}</span>
