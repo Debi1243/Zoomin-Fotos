@@ -787,6 +787,20 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Printing the invoice from the client portal: only the invoice goes to paper. */
 .print-only { display: none; }
+/* Photos can be looked at but not saved: no long-press menu on phones, no dragging, no selecting. */
+img,
+video,
+picture {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Printing the website leaves the photographs out (the client invoice prints on its own). */
+@media print {
+  img, video, picture { visibility: hidden !important; }
+}
+
 @media print {
   html.printing body > *:not(.print-only) { display: none !important; }
   html.printing .print-only { display: block; }
