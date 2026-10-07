@@ -796,6 +796,14 @@ picture {
   user-select: none;
 }
 
+.watermark {
+  color: rgb(255 255 255 / 0.32);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.18);
+  letter-spacing: 0.02em;
+  transform: rotate(-18deg);
+  white-space: nowrap;
+}
+
 /* Printing the website leaves the photographs out (the client invoice prints on its own). */
 @media print {
   img, video, picture { visibility: hidden !important; }

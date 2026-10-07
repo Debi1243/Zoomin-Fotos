@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import type { Aspect, Photo } from "@/lib/data";
+import { brand, type Aspect, type Photo } from "@/lib/data";
 import { cn } from "@/lib/cn";
 
 const aspects: Record<Aspect, string> = {
@@ -37,7 +37,7 @@ export default function PhotoFrame({ photo, sizes, priority = false, fill = fals
   return (
     <div
       style={style}
-      className={cn("photo-frame relative overflow-hidden rounded-sm bg-inverse", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
+      className={cn("photo-frame @container relative overflow-hidden rounded-sm bg-inverse", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
     >
       {photo.src ? (
         <Image
@@ -54,6 +54,12 @@ export default function PhotoFrame({ photo, sizes, priority = false, fill = fals
           aria-label={label}
           className={cn("frame absolute inset-0 transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]", `frame-${photo.tone}`)}
         />
+      )}
+      {photo.src && (
+        // The studio's name over every photograph, so a screenshot still carries it.
+        <div aria-hidden className="pointer-events-none absolute inset-0 grid select-none place-items-center">
+          <span className="watermark font-display text-[clamp(0.875rem,9cqw,4rem)] italic leading-none">{brand.name}</span>
+        </div>
       )}
       {caption && !photo.src && (
         <div aria-hidden className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 text-[#f4f2ec] md:p-5">
