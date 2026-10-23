@@ -363,6 +363,7 @@ picture {
 }
 
 @media print {
+  @page { size: A4; margin: 10mm; }
   html.printing body > *:not(.print-only) { display: none !important; }
   html.printing .print-only { display: block; }
   html.printing body { padding: 0 !important; background: #fff; }
