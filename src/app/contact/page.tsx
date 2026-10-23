@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import PageHero from "@/components/sections/PageHero";
 import ContactForm from "@/components/forms/ContactForm";
-import { brand, locationLine, mailHref, telHref } from "@/lib/data";
+import { brand, locationLine, mailHref, telHref, whatsappHref } from "@/lib/data";
 
 const description =
   "Check availability for your wedding, session or event with Zoomin Fotos, Bhubaneswar. We reply within one working day.";
@@ -17,7 +17,8 @@ export const metadata: Metadata = {
 
 const details = [
   { label: "Email", value: brand.email, href: mailHref },
-  { label: "Phone or WhatsApp", value: brand.phone, href: telHref },
+  { label: "Phone", value: brand.phone, href: telHref },
+  { label: "WhatsApp", value: "Message us on WhatsApp", href: whatsappHref, external: true },
   { label: "Studio", value: locationLine },
   { label: "Hours", value: brand.hours },
 ];
@@ -38,7 +39,13 @@ export default function ContactPage() {
                 <div key={d.label}>
                   <dt className="label text-muted">{d.label}</dt>
                   <dd className="mt-2 text-[0.9375rem]">
-                    {d.href ? <a href={d.href} className="link-underline">{d.value}</a> : d.value}
+                    {d.href ? (
+                      <a href={d.href} className="link-underline" {...("external" in d && { target: "_blank", rel: "noreferrer" })}>
+                        {d.value}
+                      </a>
+                    ) : (
+                      d.value
+                    )}
                   </dd>
                 </div>
               ))}

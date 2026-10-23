@@ -42,7 +42,7 @@ export default function HeroSlideshow({ photos }: { photos: Photo[] }) {
               photo={p}
               fill
               priority={i === 0}
-              sizes="(min-width: 1024px) 28vw, 60vw"
+              sizes="(min-width: 1024px) 28vw, (min-width: 768px) 40vw, 92vw"
               className={cn("rounded-none", (i === index || i === prev) && playing && "ken-burns")}
             />
           </div>

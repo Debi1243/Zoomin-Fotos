@@ -18,7 +18,8 @@ import { absoluteUrl, siteUrl } from "@/lib/site";
 
 export const dynamicParams = false;
 
-const serviceTitle = (t: string) => `${t.replace(/^Weddings$/, "Wedding").replace(/^Events$/, "Event")} photography`;
+const serviceTitle = (t: string) =>
+  `${t.replace(/^Weddings$/, "Wedding").replace(/^Events$/, "Event").replace(/^Portraits$/, "Portrait")} photography`;
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -29,12 +30,14 @@ export async function generateMetadata({ params }: PageProps<"/services/[slug]">
   const s = getService(slug);
   if (!s) return {};
   const path = `/services/${s.slug}`;
-  const title = serviceTitle(s.title);
+  // Search titles and snippets say where the studio works; the page heading stays as it is.
+  const title = `${serviceTitle(s.title)} in ${brand.city}`;
+  const description = `${s.short} ${brand.name}, ${brand.city}, photographing across ${brand.region}.`;
   return {
     title,
-    description: s.short,
+    description,
     alternates: { canonical: path },
-    openGraph: { title, description: s.short, url: path },
+    openGraph: { title, description, url: path },
   };
 }
 
@@ -154,6 +157,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 name: `${p.name} package`,
                 price: p.price,
                 priceCurrency: "INR",
+                // Published prices are before GST.
+                priceSpecification: { "@type": "PriceSpecification", price: p.price, priceCurrency: "INR", valueAddedTaxIncluded: false },
                 description: [p.team, ...p.items].join(", "),
               })),
             }),

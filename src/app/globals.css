@@ -372,9 +372,6 @@
 @keyframes rise {
   from { opacity: 0; translate: 0 0.75rem; }
 }
-@keyframes word-rise {
-  from { translate: 0 112%; }
-}
 @keyframes wipe-up {
   from { clip-path: inset(100% 0 0 0); }
   to { clip-path: inset(0 0 0 0); }
@@ -398,25 +395,10 @@
   to { scale: 1 1; }
 }
 
-/* Each word sits in a mask so it can slide up from below the line.
-   The padding keeps descenders and italic overhangs from being clipped. */
-.word-mask {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  padding: 0 0.06em 0.18em;
-  margin: 0 -0.06em -0.18em;
-}
-.word { display: inline-block; }
-
 @media (prefers-reduced-motion: no-preference) {
   .rise {
     animation: rise 900ms var(--ease-out-expo) both;
     animation-delay: calc(var(--i, 0) * 80ms + 120ms);
-  }
-  .word {
-    animation: word-rise 1100ms var(--ease-out-expo) both;
-    animation-delay: calc(var(--i, 0) * 70ms + 120ms);
   }
   .wipe {
     animation: wipe-up 1300ms var(--ease-out-expo) both;
@@ -427,7 +409,7 @@
     animation: settle 1800ms var(--ease-out-expo) both;
     animation-delay: calc(var(--i, 0) * 140ms + 350ms);
   }
-  .page-enter { animation: page-in 650ms var(--ease-out-expo) backwards; }
+  [data-navigated] .page-enter { animation: page-in 650ms var(--ease-out-expo) backwards; }
   .marquee-track { animation: marquee 45s linear infinite; }
   .marquee:hover .marquee-track { animation-play-state: paused; }
   .ken-burns > .frame,
@@ -496,8 +478,7 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Italic words in big headings carry the festive gradient. Every stop is a
    text-safe colour, so the words keep their contrast in both themes. */
-:is(h1, h2) em,
-:is(h1, h2) em .word {
+:is(h1, h2) em {
   background-image: linear-gradient(100deg, var(--rani), var(--sindoor) 45%, var(--marigold));
   -webkit-background-clip: text;
   background-clip: text;
@@ -505,8 +486,7 @@ html.lenis, html.lenis body { height: auto; }
   -webkit-text-fill-color: transparent;
   padding-inline-end: 0.04em;
 }
-.surface-inverse :is(h1, h2) em,
-.surface-inverse :is(h1, h2) em .word {
+.surface-inverse :is(h1, h2) em {
   background-image: linear-gradient(100deg, #ff74b4, #ff7a6b 45%, #ffb347);
 }
 
@@ -760,8 +740,8 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Page changes and tab taps move the way each platform does. */
 @media (prefers-reduced-motion: no-preference) and (width < 64rem) {
-  [data-platform="ios"] .page-enter { animation: ios-push 560ms cubic-bezier(0.2, 0.9, 0.25, 1) backwards; }
-  [data-platform="android"] .page-enter { animation: md-fade-through 450ms var(--md-emphasized) backwards; }
+  [data-navigated][data-platform="ios"] .page-enter { animation: ios-push 560ms cubic-bezier(0.2, 0.9, 0.25, 1) backwards; }
+  [data-navigated][data-platform="android"] .page-enter { animation: md-fade-through 450ms var(--md-emphasized) backwards; }
   .tabbar-item[aria-current="page"] .tabbar-icon svg { animation: tab-pop 560ms var(--spring); }
   [data-platform="android"] .tabbar-item[aria-current="page"] .tabbar-icon svg { animation-duration: 450ms; }
 }

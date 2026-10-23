@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import { ButtonLink } from "@/components/ui/Button";
-import { brand, mailHref, telHref } from "@/lib/data";
+import { brand, mailHref, telHref, whatsappHref } from "@/lib/data";
 
 type Props = { title?: string; text?: string };
 
@@ -22,6 +22,9 @@ export default function ClosingCta({
             <div className="text-sm">
               <a href={mailHref} className="link-underline block w-fit">{brand.email}</a>
               <a href={telHref} className="link-underline mt-1 block w-fit text-inverse-muted">{brand.phone}</a>
+              <a href={whatsappHref} target="_blank" rel="noreferrer" className="link-underline mt-1 block w-fit text-inverse-muted">
+                WhatsApp us
+              </a>
             </div>
           </div>
         </div>

@@ -157,11 +157,15 @@ export default function PackageBuilder({ className }: { className?: string }) {
               <div className="flex items-center gap-4 p-4 lg:block lg:p-6">
                 <div className="min-w-0 flex-1">
                   <p className="label text-[0.625rem] text-muted lg:text-xs">Estimated package</p>
-                  <p aria-live="polite" className="mt-1 flex flex-wrap items-baseline gap-x-2 lg:mt-3">
-                    <span key={bump} className="price-pop tabular font-display text-3xl leading-none lg:text-5xl">
+                  <p className="mt-1 flex flex-wrap items-baseline gap-x-2 lg:mt-3">
+                    {/* The rolling figure is for the eye; screen readers hear the final estimate once. */}
+                    <span key={bump} aria-hidden className="price-pop tabular font-display text-3xl leading-none lg:text-5xl">
                       {empty ? "—" : formatRupees(shown)}
                     </span>
-                    {!empty && <span className="text-sm text-muted">+ GST</span>}
+                    {!empty && <span aria-hidden className="text-sm text-muted">+ GST</span>}
+                    <span aria-live="polite" className="sr-only">
+                      {empty ? "Choose at least one event to see an estimate." : `Estimate ${formatRupees(total)} plus GST`}
+                    </span>
                   </p>
                   <p className="mt-1 hidden text-sm text-muted lg:mt-4 lg:block">
                     {empty ? "Choose at least one event to see an estimate." : `${sel.events.length} event${sel.events.length > 1 ? "s" : ""}. Prices are negotiable.`}

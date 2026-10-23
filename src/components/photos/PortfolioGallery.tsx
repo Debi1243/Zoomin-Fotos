@@ -84,14 +84,20 @@ export default function PortfolioGallery({ photos, filters = [] }: { photos: Pho
         {toColumns(list, columns).map((column, c) => (
           <ul key={c} className="flex flex-col gap-4 lg:gap-6">
             {column.map(({ photo, index }) => (
-              <li key={photo.id} className="stagger-in" style={{ "--i": index } as CSSProperties}>
+              <li key={photo.id} className={cn(index >= 3 && "stagger-in")} style={{ "--i": index } as CSSProperties}>
                 <button
                   type="button"
                   onClick={() => setOpenIndex(index)}
                   className="group block w-full text-left"
                   aria-label={`Open ${photo.title}, ${photo.place}`}
                 >
-                  <PhotoFrame photo={photo} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" reveal />
+                  <PhotoFrame
+                    photo={photo}
+                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+                    // The top row is usually the page's largest paint: it loads at once and shows without waiting for a reveal.
+                    priority={filter === "all" && index < 3}
+                    reveal={index >= 3}
+                  />
                   <span className="mt-3 flex items-baseline justify-between gap-4 text-sm">
                     <span className="text-fg">{photo.title}</span>
                     <span className="text-muted">{photo.place}</span>

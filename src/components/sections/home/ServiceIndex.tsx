@@ -26,7 +26,7 @@ export default function ServiceIndex({ headingLevel: Heading = "h3" }: { heading
                   {s.title}
                 </Heading>
                 {startingPrice && (
-                  <span className="text-xs font-medium text-[var(--tone)]">Starting {formatRupees(startingPrice)}</span>
+                  <span className="text-xs font-medium text-[var(--tone)]">From {formatRupees(startingPrice)} + GST</span>
                 )}
               </div>
               <span className="col-start-2 row-start-2 text-sm leading-relaxed text-muted md:col-start-4 md:row-start-1">{s.short}</span>

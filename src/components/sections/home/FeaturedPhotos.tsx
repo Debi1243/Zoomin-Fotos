@@ -99,7 +99,7 @@ export default function FeaturedPhotos() {
       >
         {featuredPhotos.map((p) => (
           <li key={p.id} className="shrink-0 snap-start">
-            <button type="button" onClick={() => setOpen(p)} className="group block text-left" aria-label={`View ${p.title} full size`}>
+            <button type="button" onClick={() => setOpen(p)} className="group block text-left" aria-label={`${p.title} ${getService(p.category)?.title ?? ""}, view full size`}>
               <PhotoFrame
                 photo={p}
                 sizes="(min-width: 1024px) 40vw, 85vw"

@@ -9,7 +9,7 @@ import { dataEndpoint } from "@/lib/settings";
 
 export type TrackedEvent = {
   time: number;
-  type: "view" | "click";
+  type: "view" | "click" | "start";
   path: string;
   label?: string;
   target?: string;
@@ -81,4 +81,11 @@ export function trackView(path: string, referrer?: string) {
 export function trackClick(path: string, label: string, target: string) {
   queue.push(event("click", path, { label, target }));
   if (queue.length >= 10) flush();
+}
+
+/** The visitor began filling in the enquiry form: a funnel step between a visit and a sent enquiry. No form contents are sent. */
+export function trackFormStart(path: string, form: string) {
+  if (!trackingEnabled(path)) return;
+  queue.push(event("start", path, { label: form }));
+  flush();
 }

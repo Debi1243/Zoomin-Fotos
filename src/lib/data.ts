@@ -445,5 +445,6 @@ export function photosIn(category: ServiceSlug) {
 }
 
 export const telHref = `tel:${brand.phone.replace(/\s/g, "")}`;
+export const whatsappHref = `https://wa.me/${brand.phone.replace(/\D/g, "")}?text=${encodeURIComponent("Hi Zoomin Fotos, I'd like to check availability for a shoot.")}`;
 export const mailHref = `mailto:${brand.email}`;
 export const locationLine = `${brand.city}, ${brand.region}, India`;

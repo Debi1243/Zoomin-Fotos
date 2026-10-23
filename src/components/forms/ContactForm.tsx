@@ -6,6 +6,7 @@ import { CircleAlert, CircleCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ChoiceGroup, TextField, TextareaField } from "./Field";
 import { submitContact } from "@/app/contact/actions";
+import { trackFormStart } from "@/lib/track";
 import {
   contactSchema,
   readContactForm,
@@ -28,6 +29,8 @@ export default function ContactForm() {
 function ContactFormInner({ onReset }: { onReset: () => void }) {
   const [state, formAction, pending] = useActionState(submitContact, initialState);
   const formRef = useRef<HTMLFormElement>(null);
+  // Counted once, the first time the visitor types or picks something.
+  const started = useRef(false);
   // "" marks a field the visitor has fixed since the server last answered.
   const [clientErrors, setClientErrors] = useState<Partial<Record<ContactField, string>>>({});
   const [valid, setValid] = useState<Partial<Record<ContactField, boolean>>>({});
@@ -87,6 +90,10 @@ function ContactFormInner({ onReset }: { onReset: () => void }) {
   const onChange = (e: ChangeEvent<HTMLFormElement>) => {
     const field = fieldFrom(e.target);
     if (field) checkField(field, true);
+    if (!started.current) {
+      started.current = true;
+      trackFormStart(location.pathname.replace(/\/$/, "") || "/", "enquiry");
+    }
   };
 
   return (

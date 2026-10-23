@@ -44,6 +44,18 @@ export default function ScrollEffects() {
     };
   }, []);
 
+  // Page transitions play only once the visitor starts moving around, never on the first load,
+  // where fading the page in would hold back the largest paint.
+  useEffect(() => {
+    const mark = () => document.documentElement.setAttribute("data-navigated", "");
+    document.addEventListener("click", mark, { capture: true, once: true });
+    window.addEventListener("popstate", mark, { once: true });
+    return () => {
+      document.removeEventListener("click", mark, { capture: true });
+      window.removeEventListener("popstate", mark);
+    };
+  }, []);
+
   // Smooth wheel scrolling on pointer devices; touch keeps its native feel.
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;

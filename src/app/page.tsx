@@ -4,6 +4,7 @@ import Marquee from "@/components/sections/home/Marquee";
 import FeaturedPhotos from "@/components/sections/home/FeaturedPhotos";
 import FilmStrip from "@/components/sections/home/FilmStrip";
 import { ServicesSection } from "@/components/sections/home/ServiceIndex";
+import PricingGuide from "@/components/sections/home/PricingGuide";
 import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import Approach from "@/components/sections/home/Approach";
 import HomeReviews from "@/components/sections/home/HomeReviews";
@@ -23,6 +24,7 @@ export default function HomePage() {
       <FeaturedPhotos />
       <FilmStrip />
       <ServicesSection />
+      <PricingGuide />
       <PhotoRibbon />
       <Approach />
       <HomeReviews />

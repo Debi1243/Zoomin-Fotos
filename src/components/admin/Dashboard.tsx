@@ -295,6 +295,8 @@ function Overview({ data, days, onStatus }: { data: Data; days: number; onStatus
       views: views.length,
       visitors: visitors.size,
       clicks: clicks.length,
+      // Sessions in which someone began the enquiry form, counted once each.
+      starts: new Set(events.filter((e) => e[1] === "start").map((e) => e[8])).size,
       enquiries: data.enquiries.filter((q) => q.received >= since).length,
       daily: daysList,
       pages: tally(views, (e) => pageName(e[2])),
@@ -316,7 +318,7 @@ function Overview({ data, days, onStatus }: { data: Data; days: number; onStatus
         <Stat icon={<Inbox className="size-5" />} label="Enquiries" value={stats.enquiries} note={newCount ? `${newCount} waiting for a reply` : "All answered"} />
         <Stat icon={<Eye className="size-5" />} label="Page visits" value={stats.views} />
         <Stat icon={<UsersRound className="size-5" />} label="Visitors" value={stats.visitors} note="Different people" />
-        <Stat icon={<MousePointerClick className="size-5" />} label="Clicks" value={stats.clicks} />
+        <Stat icon={<MousePointerClick className="size-5" />} label="Clicks" value={stats.clicks} note={`${stats.starts} started the enquiry form`} />
       </ul>
 
       {days > 1 && <DailyChart daily={stats.daily} />}

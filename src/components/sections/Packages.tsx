@@ -107,7 +107,10 @@ export default function Packages({
 
                 <div className="mt-auto pt-8">
                   <ButtonLink
-                    href="/contact"
+                    href={`/contact/?${new URLSearchParams({
+                      session: service,
+                      message: `I'm interested in the ${single ? `${service.toLowerCase()} shoot` : `${p.name} package`} (${p.startingFrom ? "from " : ""}${formatRupees(p.price)} + GST).\n\n`,
+                    })}#enquiry`}
                     variant={p.featured ? "inverse" : "secondary"}
                     className="w-full"
                     aria-label={`Enquire about the ${p.name} package`}
