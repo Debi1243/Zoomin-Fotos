@@ -27,11 +27,9 @@ export default function ServiceCards() {
                   className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface transition-[border-color,box-shadow] duration-200 hover:border-border-strong hover:shadow-md"
                 >
                   {photo && (
-                    <PhotoFrame
-                      photo={{ ...photo, aspect: "portrait" }}
-                      sizes="(min-width: 1024px) 30vw, 50vw"
-                      square
-                    />
+                    <div className="aspect-[4/5] sm:aspect-[4/3]">
+                      <PhotoFrame photo={photo} fill sizes="(min-width: 1024px) 30vw, 50vw" square />
+                    </div>
                   )}
                   <div className="flex flex-1 flex-col p-3 sm:p-5">
                     <h3 className="font-display text-base leading-snug sm:text-h3">{s.title}</h3>

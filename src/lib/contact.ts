@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { formatRupees, type ServiceSlug } from "./data";
+import { formatRupees } from "./brand";
+import type { ServiceSlug } from "./data";
 
 /** What a visitor can ask to have photographed, with budget choices that suit each. */
 export const quoteServices = [

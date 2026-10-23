@@ -2,27 +2,14 @@ import { z } from "zod";
 import photoData from "@/content/photos.json";
 import videoData from "@/content/videos.json";
 
+// Contact details and formatting live in ./brand, which client components can import without the photo data.
+export { brand, formatRupees, locationLine, mailHref, telHref, waLink, whatsappHref } from "./brand";
+
 /**
  * All site content lives here: contact details, services, packages and prices, FAQs.
  * Only publish what the studio has confirmed; never invent prices, reviews or promises.
  */
 
-export const brand = {
-  name: "Zoomin Fotos",
-  tagline: "Beautiful memories. Affordable photography.",
-  description:
-    "Affordable wedding, pre-wedding, maternity, family and event photography in Bhubaneswar, Odisha, with transparent packages and easy WhatsApp booking.",
-  email: "fotoszoomin@gmail.com",
-  phone: "+91 70222 49799",
-  /** The number customers message on WhatsApp. Today the studio phone; change it here if a separate business number is used. */
-  whatsapp: "+91 70222 49799",
-  city: "Bhubaneswar",
-  region: "Odisha",
-  country: "IN",
-  hours: "Mon to Sat, 10:00 AM to 7:00 PM IST",
-  /** The studio's Google business listing, where clients can read and leave reviews. */
-  googleReviews: "https://share.google/MrFH24KEedQoNTOly",
-};
 
 export type Tone = "dusk" | "amber" | "rose" | "sage" | "sky" | "ink";
 export type Aspect = "tall" | "portrait" | "landscape" | "square";
@@ -79,7 +66,6 @@ export type Package = {
   featured?: boolean;
 };
 
-export const formatRupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 const deliveryFaq = {
   q: "When will we receive our photographs?",
@@ -477,10 +463,3 @@ export function photosIn(category: ServiceSlug) {
   const real = inCategory.filter((p) => p.src);
   return real.length ? real : inCategory;
 }
-
-export const telHref = `tel:${brand.phone.replace(/\s/g, "")}`;
-/** A WhatsApp chat with the studio, opened with `text` already typed. */
-export const waLink = (text: string) => `https://wa.me/${brand.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
-export const whatsappHref = waLink("Hi Zoomin Fotos, I'd like to check availability for a shoot.");
-export const mailHref = `mailto:${brand.email}`;
-export const locationLine = `${brand.city}, ${brand.region}, India`;

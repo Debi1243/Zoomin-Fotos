@@ -6,8 +6,10 @@ import { brand, formatRupees, pickPhotos, startingPrice, waLink } from "@/lib/da
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /**
- * Says what we do, where, from what price, and how to book, over one real photograph.
- * Nothing here animates: the photo and the heading are the page's first paint.
+ * Says what we do, where, from what price, and how to book, with one real photograph.
+ * Phones: the photo sits above the text, so faces are never covered. Wider screens: the
+ * text sits over the photo's darker left side. Nothing here animates: the photo and the
+ * heading are the page's first paint.
  */
 export default function Hero() {
   const [photo] = pickPhotos(["01"]);
@@ -15,46 +17,52 @@ export default function Hero() {
   const preWedding = startingPrice("pre-wedding");
 
   return (
-    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden bg-fg text-white">
+    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden md:bg-fg md:text-white">
       {photo?.src && (
-        <Image
-          src={`${basePath}${photo.src}`}
-          alt={`${photo.title}, a wedding photographed by ${brand.name}`}
-          fill
-          priority
-          sizes="100vw"
-          className="-z-10 object-cover object-[50%_35%]"
-        />
-      )}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(20_16_14/0.15)_0%,rgb(20_16_14/0.35)_40%,rgb(20_16_14/0.85)_100%)] md:bg-[linear-gradient(90deg,rgb(20_16_14/0.82)_0%,rgb(20_16_14/0.55)_45%,rgb(20_16_14/0.05)_80%)]"
-      />
-      <div className="container-page flex min-h-[calc(100svh-4rem-var(--tabbar-h))] flex-col justify-end pb-10 pt-40 md:min-h-[38rem] md:justify-center md:py-24 lg:min-h-[42rem]">
-        <div className="max-w-xl">
-          <p className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium backdrop-blur-sm">
+        <div className="relative aspect-[4/3] sm:aspect-[16/9] md:absolute md:inset-0 md:-z-10 md:aspect-auto">
+          <Image
+            src={`${basePath}${photo.src}`}
+            alt={`${photo.title}, a wedding photographed by ${brand.name}`}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[50%_30%]"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(20_16_14/0.85)_0%,rgb(20_16_14/0.6)_42%,rgb(20_16_14/0.05)_78%)] md:block"
+          />
+          <p className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 rounded-full bg-fg/70 px-3 py-1.5 text-sm font-medium text-white backdrop-blur-sm md:hidden">
             <MapPin aria-hidden className="size-4" />
             {brand.city}, {brand.region}
           </p>
-          <h1 id="hero-title" className="mt-5 font-display text-display">
+        </div>
+      )}
+      <div className="container-page pb-10 pt-6 md:flex md:min-h-[38rem] md:items-center md:py-20 lg:min-h-[42rem]">
+        <div className="max-w-xl">
+          <p className="hidden items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium backdrop-blur-sm md:inline-flex">
+            <MapPin aria-hidden className="size-4" />
+            {brand.city}, {brand.region}
+          </p>
+          <h1 id="hero-title" className="font-display text-display md:mt-5">
             Beautiful Memories. Affordable Photography.
           </h1>
-          <p className="mt-4 text-lead text-white/85">
+          <p className="mt-4 text-lead text-muted md:text-white/85">
             Professional wedding, pre-wedding, maternity, family and event photography with transparent packages and effortless booking.
           </p>
           {(wedding || preWedding) && (
             <p className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-[0.9375rem]">
               {wedding && (
                 <span>
-                  Weddings from <strong className="tabular font-bold">{formatRupees(wedding)}</strong>
+                  Weddings from <strong className="tabular font-bold text-accent md:text-white">{formatRupees(wedding)}</strong>
                 </span>
               )}
               {preWedding && (
                 <span>
-                  Pre-wedding from <strong className="tabular font-bold">{formatRupees(preWedding)}</strong>
+                  Pre-wedding from <strong className="tabular font-bold text-accent md:text-white">{formatRupees(preWedding)}</strong>
                 </span>
               )}
-              <span className="text-white/70">Prices + GST</span>
+              <span className="text-muted md:text-white/70">Prices + GST</span>
             </p>
           )}
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">

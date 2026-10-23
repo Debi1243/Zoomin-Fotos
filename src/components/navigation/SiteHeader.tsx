@@ -7,7 +7,7 @@ import { Menu, MessageCircle, X } from "lucide-react";
 import Logo from "../ui/Logo";
 import { ButtonLink, WhatsAppButton } from "../ui/Button";
 import { isActive, primaryNav } from "@/lib/site";
-import { whatsappHref } from "@/lib/data";
+import { whatsappHref } from "@/lib/brand";
 import { cn } from "@/lib/cn";
 
 function subscribeScroll(cb: () => void) {
@@ -82,12 +82,17 @@ export default function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <WhatsAppButton href={whatsappHref} source="header" className="hidden xl:inline-flex">
-            WhatsApp
-          </WhatsAppButton>
-          <ButtonLink href="/contact#quote" className="hidden sm:inline-flex" arrow={false}>
-            Book Your Shoot
-          </ButtonLink>
+          {/* Buttons set their own display, so visibility by screen size lives on a wrapper. */}
+          <div className="hidden xl:block">
+            <WhatsAppButton href={whatsappHref} source="header">
+              WhatsApp
+            </WhatsAppButton>
+          </div>
+          <div className="hidden sm:block">
+            <ButtonLink href="/contact#quote" arrow={false}>
+              Book Your Shoot
+            </ButtonLink>
+          </div>
           <a
             href={whatsappHref}
             target="_blank"

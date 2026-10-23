@@ -20,7 +20,7 @@ export default function ScrollEffects() {
           }
         }
       },
-      { rootMargin: "0px 0px -6% 0px", threshold: 0.06 },
+      { rootMargin: "0px 0px -6% 0px", threshold: 0 },
     );
     const watch = (root: ParentNode) => root.querySelectorAll(REVEAL).forEach((el) => el.classList.contains("is-in") || io.observe(el));
     watch(document);

@@ -1,8 +1,8 @@
 import { z } from "zod";
 import settingsData from "@/content/settings.json";
+import { DATA_ENDPOINT_PATTERN } from "./endpoint";
 
-/** Address of a Google Apps Script web app, as Google shows it after deploying. */
-export const DATA_ENDPOINT_PATTERN = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/;
+export { DATA_ENDPOINT_PATTERN };
 
 const settingsSchema = z.object({
   /** The studio's Google Sheet web app that records visits, clicks and enquiries. Set from /admin/dashboard. */

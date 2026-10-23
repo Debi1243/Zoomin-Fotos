@@ -7,7 +7,7 @@ import { control, TextField, TextareaField } from "@/components/forms/Field";
 import { reviewEvents } from "@/lib/testimonials";
 import { dataEndpoint } from "@/lib/settings";
 import { callSheet } from "@/lib/sheet";
-import { brand, mailHref } from "@/lib/data";
+import { brand, mailHref } from "@/lib/brand";
 import { cn } from "@/lib/cn";
 
 const labels = ["", "Not happy", "Could be better", "Good", "Very good", "Loved it"];

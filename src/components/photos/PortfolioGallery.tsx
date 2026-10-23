@@ -33,14 +33,17 @@ export default function PortfolioGallery({
   photos,
   filters = [],
   eager = 3,
+  compact = false,
 }: {
   photos: Photo[];
   filters?: Filter[];
   /** How many photos at the top load at once; 0 when the gallery sits below the fold. */
   eager?: number;
+  /** Two columns even on phones, for galleries inside longer pages. */
+  compact?: boolean;
 }) {
   const [filter, setFilter] = useState<Filter["slug"]>("all");
-  const columns = useSyncExternalStore(subscribeColumns, getColumns, () => 3);
+  const columns = Math.max(useSyncExternalStore(subscribeColumns, getColumns, () => 3), compact ? 2 : 1);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const list = filter === "all" ? photos : photos.filter((p) => p.category === filter);
@@ -87,11 +90,11 @@ export default function PortfolioGallery({
           Photos are dealt into columns left to right, so the first ones sit across the top row. */}
       <div
         key={`${filter}-${columns}`}
-        className={cn("grid items-start gap-4 lg:gap-6", filters.length > 1 && "mt-10 md:mt-14")}
+        className={cn("grid items-start gap-3 sm:gap-4 lg:gap-6", filters.length > 1 && "mt-6 md:mt-8")}
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
         {toColumns(list, columns).map((column, c) => (
-          <ul key={c} className="flex flex-col gap-4 lg:gap-6">
+          <ul key={c} className="flex flex-col gap-3 sm:gap-4 lg:gap-6">
             {column.map(({ photo, index }) => (
               <li key={photo.id} className={cn(index >= 3 && "stagger-in")} style={{ "--i": index } as CSSProperties}>
                 <button
@@ -107,7 +110,7 @@ export default function PortfolioGallery({
                     priority={filter === "all" && index < eager}
                     reveal={index >= 3}
                   />
-                  <span className="mt-3 flex items-baseline justify-between gap-4 text-sm">
+                  <span className="mt-2 flex items-baseline justify-between gap-2 text-xs sm:mt-3 sm:gap-4 sm:text-sm">
                     <span className="text-fg">{photo.title}</span>
                     <span className="text-muted">{photo.place}</span>
                   </span>

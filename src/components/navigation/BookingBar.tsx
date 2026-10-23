@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { ButtonLink, WhatsAppButton } from "../ui/Button";
-import { whatsappHref } from "@/lib/data";
+import { whatsappHref } from "@/lib/brand";
 
 /** Pages where the bar would get in the way: the studio's own tools and the client portal. */
 const HIDDEN = ["/admin", "/portal"];

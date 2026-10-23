@@ -1,5 +1,5 @@
-import { brand } from "./data";
-import { dataEndpoint } from "./settings";
+import { brand } from "./brand";
+import { dataEndpoint } from "./endpoint";
 import { contactSchema, readContactForm, sheetMessage, toFieldErrors, type ContactInput, type ContactState } from "./contact";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;

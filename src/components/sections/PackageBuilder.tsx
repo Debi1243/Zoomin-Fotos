@@ -6,7 +6,7 @@ import { Check, Minus, Plus, RotateCcw } from "lucide-react";
 import { buttonClasses } from "@/components/ui/Button";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/cn";
-import { formatRupees } from "@/lib/data";
+import { formatRupees } from "@/lib/brand";
 import {
   addOns,
   builderEvents,

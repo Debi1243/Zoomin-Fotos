@@ -1,4 +1,4 @@
-import { dataEndpoint } from "@/lib/settings";
+import { dataEndpoint } from "@/lib/endpoint";
 
 /**
  * Records page visits and clicks in the studio's own Google Sheet (see /admin/dashboard).

@@ -150,7 +150,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             action={shots.length > GALLERY_LIMIT ? <TextLink href="/portfolio">See all photos</TextLink> : undefined}
           />
           <div className="mt-8 md:mt-10">
-            <PortfolioGallery photos={shots.slice(0, GALLERY_LIMIT)} eager={0} />
+            <PortfolioGallery photos={shots.slice(0, GALLERY_LIMIT)} eager={0} compact />
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { brand } from "@/lib/data";
+import { brand } from "@/lib/brand";
 import { cn } from "@/lib/cn";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";

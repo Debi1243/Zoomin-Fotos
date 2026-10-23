@@ -31,7 +31,7 @@ export default function FeaturedPortfolio() {
           action={<TextLink href="/portfolio">See the full portfolio</TextLink>}
         />
         <div className="mt-8 md:mt-10">
-          <PortfolioGallery photos={photos} filters={filters} eager={0} />
+          <PortfolioGallery photos={photos} filters={filters} eager={0} compact />
         </div>
       </div>
     </section>
