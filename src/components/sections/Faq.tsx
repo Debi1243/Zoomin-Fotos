@@ -1,30 +1,27 @@
-import type { CSSProperties } from "react";
 import { Plus } from "lucide-react";
 import JsonLd from "@/components/shared/JsonLd";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 type Item = { q: string; a: string };
 
-export default function Faq({ items, title = "Questions, answered.", name = "faq" }: { items: Item[]; title?: string; name?: string }) {
+export default function Faq({ items, title = "Frequently asked questions", name = "faq" }: { items: Item[]; title?: string; name?: string }) {
   return (
-    <section aria-labelledby={`${name}-title`} className="section-y border-t border-border">
-      <div className="container-page grid gap-y-10 lg:grid-cols-12 lg:gap-x-10">
-        <div className="lg:col-span-3">
-          <p className="label text-muted lg:pt-3"><span aria-hidden className="label-dot festive-gradient" />FAQ</p>
+    <section aria-labelledby={`${name}-title`} className="section-y">
+      <div className="container-page grid gap-8 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-4">
+          <SectionHeader id={`${name}-title`} label="FAQ" title={title} intro="Can't find your answer? Ask us on WhatsApp." />
         </div>
-        <div className="lg:col-span-9">
-          <h2 id={`${name}-title`} className="reveal font-display text-h2">
-            {title}
-          </h2>
-          <div className="mt-10 border-t border-border md:mt-14">
+        <div className="lg:col-span-8">
+          <div className="divide-y divide-border rounded-lg border border-border bg-surface">
             {items.map((f, i) => (
-              <details key={f.q} name={name} open={i === 0} className="disclosure reveal group border-b border-border" style={{ "--i": Math.min(i, 4) } as CSSProperties}>
-                <summary className="flex cursor-pointer items-center justify-between gap-6 py-6 text-left font-display text-lg tracking-[-0.01em] transition-colors hover:text-accent md:text-xl">
+              <details key={f.q} name={name} open={i === 0} className="disclosure group">
+                <summary className="flex min-h-14 cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left font-display text-base font-semibold transition-colors hover:text-accent md:px-6 md:text-lg">
                   {f.q}
-                  <span className="grid size-9 shrink-0 place-items-center rounded-md border border-border transition-[transform,background-color,border-color] duration-300 group-open:rotate-45 group-open:border-fg group-open:bg-fg group-open:text-bg">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full border border-border transition-[transform,background-color,border-color,color] duration-200 group-open:rotate-45 group-open:border-primary group-open:bg-primary group-open:text-primary-fg">
                     <Plus aria-hidden className="size-4" />
                   </span>
                 </summary>
-                <p className="max-w-[62ch] pb-7 pr-12 leading-relaxed text-muted">{f.a}</p>
+                <p className="max-w-[64ch] px-5 pb-5 leading-relaxed text-muted md:px-6">{f.a}</p>
               </details>
             ))}
           </div>

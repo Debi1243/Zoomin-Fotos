@@ -29,7 +29,16 @@ function subscribeColumns(cb: () => void) {
 }
 const getColumns = () => (window.matchMedia(queries[0]).matches ? 3 : window.matchMedia(queries[1]).matches ? 2 : 1);
 
-export default function PortfolioGallery({ photos, filters = [] }: { photos: Photo[]; filters?: Filter[] }) {
+export default function PortfolioGallery({
+  photos,
+  filters = [],
+  eager = 3,
+}: {
+  photos: Photo[];
+  filters?: Filter[];
+  /** How many photos at the top load at once; 0 when the gallery sits below the fold. */
+  eager?: number;
+}) {
   const [filter, setFilter] = useState<Filter["slug"]>("all");
   const columns = useSyncExternalStore(subscribeColumns, getColumns, () => 3);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -57,12 +66,12 @@ export default function PortfolioGallery({ photos, filters = [] }: { photos: Pho
               aria-pressed={filter === f.slug}
               onClick={() => setFilter(f.slug)}
               className={cn(
-                "chip inline-flex h-10 shrink-0 items-center gap-2 rounded-md border px-4 text-sm transition-colors",
-                filter === f.slug ? "border-fg bg-fg text-bg" : "border-border hover:border-fg",
+                "chip inline-flex h-11 shrink-0 items-center gap-2 rounded-md border px-4 text-sm font-medium transition-colors",
+                filter === f.slug ? "border-primary bg-primary text-primary-fg" : "border-border bg-surface hover:border-fg",
               )}
             >
               {f.label}
-              <span className={cn("tabular text-xs", filter === f.slug ? "text-bg/70" : "text-muted")}>{f.count}</span>
+              <span className={cn("tabular text-xs", filter === f.slug ? "text-primary-fg/80" : "text-muted")}>{f.count}</span>
             </button>
           ))}
         </div>
@@ -95,7 +104,7 @@ export default function PortfolioGallery({ photos, filters = [] }: { photos: Pho
                     photo={photo}
                     sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
                     // The top row is usually the page's largest paint: it loads at once and shows without waiting for a reveal.
-                    priority={filter === "all" && index < 3}
+                    priority={filter === "all" && index < eager}
                     reveal={index >= 3}
                   />
                   <span className="mt-3 flex items-baseline justify-between gap-4 text-sm">
@@ -169,7 +178,7 @@ export default function PortfolioGallery({ photos, filters = [] }: { photos: Pho
             </div>
             <div className="flex items-center justify-between gap-4 px-4 py-5 sm:px-6">
               <p>
-                <span className="font-display text-2xl italic">{current.title}</span>
+                <span className="font-display text-xl">{current.title}</span>
                 <span className="ml-3 text-sm text-[#f4f2ec]/70">{current.place}</span>
               </p>
               <div className="flex gap-2 sm:hidden">

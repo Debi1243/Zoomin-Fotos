@@ -2,7 +2,7 @@
 
 import { brand } from "@/lib/data";
 import { dataEndpoint } from "@/lib/settings";
-import { contactSchema, readContactForm, toFieldErrors, type ContactInput, type ContactState } from "@/lib/contact";
+import { contactSchema, readContactForm, sheetMessage, toFieldErrors, type ContactInput, type ContactState } from "@/lib/contact";
 
 const WEBHOOK_TIMEOUT_MS = 8000;
 
@@ -55,7 +55,7 @@ async function toSheet(endpoint: string, data: ContactInput) {
   const res = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({ type: "enquiry", enquiry: { ...data, page: "/contact" } }),
+    body: JSON.stringify({ type: "enquiry", enquiry: { ...data, message: sheetMessage(data), page: "/contact" } }),
     signal: AbortSignal.timeout(WEBHOOK_TIMEOUT_MS),
   });
   const reply = (await res.json().catch(() => ({}))) as { ok?: boolean };

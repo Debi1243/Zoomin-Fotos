@@ -3,17 +3,19 @@ import photoData from "@/content/photos.json";
 import videoData from "@/content/videos.json";
 
 /**
- * All site content lives here. Replace the placeholder contact details and add
- * real photo files (see `photos` below) before launch.
+ * All site content lives here: contact details, services, packages and prices, FAQs.
+ * Only publish what the studio has confirmed; never invent prices, reviews or promises.
  */
 
 export const brand = {
   name: "Zoomin Fotos",
-  tagline: "Photographs that feel like the day did.",
+  tagline: "Beautiful memories. Affordable photography.",
   description:
-    "Zoomin Fotos is a photography studio in Bhubaneswar for weddings, portraits, families, events and brands across Odisha and beyond.",
+    "Affordable wedding, pre-wedding, maternity, family and event photography in Bhubaneswar, Odisha, with transparent packages and easy WhatsApp booking.",
   email: "fotoszoomin@gmail.com",
   phone: "+91 70222 49799",
+  /** The number customers message on WhatsApp. Today the studio phone; change it here if a separate business number is used. */
+  whatsapp: "+91 70222 49799",
   city: "Bhubaneswar",
   region: "Odisha",
   country: "IN",
@@ -77,26 +79,16 @@ export type Package = {
   featured?: boolean;
 };
 
-/** Each service carries one colour from the festive palette (see globals.css). */
-export const serviceTone: Record<ServiceSlug, string> = {
-  weddings: "var(--sindoor)",
-  "pre-wedding": "var(--rani)",
-  portraits: "var(--peacock)",
-  "maternity-newborn": "var(--marigold)",
-  events: "var(--gold)",
-  commercial: "var(--rani)",
-};
-
 export const formatRupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 const deliveryFaq = {
-  q: "How long until we receive our photographs?",
-  a: "You get a hand-picked preview within 72 hours. The full, individually edited gallery follows within three to four weeks, depending on the size of the shoot.",
+  q: "When will we receive our photographs?",
+  a: "It depends on the package and the size of the shoot. We tell you the delivery date in your quote, before you book, so you know exactly when to expect your photos and videos.",
 };
 
 const travelFaq = {
   q: "Do you travel outside Bhubaneswar?",
-  a: "Yes. We photograph across Odisha regularly and travel anywhere in India or abroad. Travel and stay are quoted at cost, with no markup.",
+  a: "Yes. We photograph across Odisha and travel further for weddings and shoots. Travel and stay are quoted separately, so you see them before you book.",
 };
 
 export const services: Service[] = [
@@ -105,7 +97,7 @@ export const services: Service[] = [
     title: "Weddings",
     short: "Every ritual, every relative, every quiet glance between you, told as one continuous story.",
     intro:
-      "From haldi to bidaai, we document your wedding the way it actually unfolds: candid, unhurried and true to colour. A lead photographer and a second shooter work as one, so nothing important happens out of frame.",
+      "From haldi to bidaai, we document your wedding the way it actually unfolds: candid, unhurried and true to colour. Every package pairs photography with video, from one photographer and one cinematographer up to a full crew with drone.",
     idealFor: "Multi-day celebrations, intimate ceremonies and destination weddings.",
     includes: [
       { title: "A team sized to your day", text: "From one photographer and one cinematographer up to a full crew with drone, so both families and both sides of the mandap are covered." },
@@ -121,7 +113,7 @@ export const services: Service[] = [
       },
       {
         q: "How far in advance should we book?",
-        a: "Popular wedding dates fill six to nine months ahead. Send your date as soon as you have it and we will hold it while you decide.",
+        a: "As soon as you know your date. Dates are booked in the order they are confirmed, so send yours early and we will tell you straight away if it is free.",
       },
       deliveryFaq,
       travelFaq,
@@ -193,7 +185,7 @@ export const services: Service[] = [
       { title: "Golden-hour timing", text: "Sessions are planned around the softest light of the day, morning or evening." },
       { title: "Save-the-date edits", text: "A few images formatted for invitations and social posts, delivered first." },
     ],
-    deliverables: ["Online gallery", "Save-the-date edits", "Two outfit changes", "Print-ready files"],
+    deliverables: ["Edited photos", "Drone shots", "Premium album", "Save-the-date edits"],
     packagesIntro: "One session, everything included. Tell us where you would like to shoot and we will plan the light, the outfits and the route.",
     packages: [
       {
@@ -211,7 +203,7 @@ export const services: Service[] = [
         q: "How much does a pre-wedding shoot cost?",
         a: "Pre-wedding shoots start from ₹15,000 plus GST and include everything: professional photography, drone shots, edited photos and a premium album. Travel to faraway locations is quoted separately.",
       },
-      { q: "How long is a pre-wedding session?", a: "Three to four hours, including travel between two nearby locations and one outfit change." },
+      { q: "How long is a pre-wedding session?", a: "It depends on the locations you choose. We plan the timing, the route and your outfit changes with you before the shoot." },
       travelFaq,
       deliveryFaq,
     ],
@@ -274,7 +266,7 @@ export const services: Service[] = [
     ],
     deliverables: ["Online gallery", "Same-day selects", "Print-ready files"],
     faqs: [
-      { q: "Can you cover an event at short notice?", a: "Often, yes. Message us with the date and time and we will confirm availability within a few hours." },
+      { q: "Can you cover an event at short notice?", a: "Often, yes. Message us on WhatsApp with the date and time and we will tell you whether we are free." },
       travelFaq,
       deliveryFaq,
     ],
@@ -363,69 +355,111 @@ export function pickPhotos(ids: string[], count = ids.length): Photo[] {
   return [...chosen, ...rest].slice(0, count);
 }
 
-export const process = [
+/** The three steps from first message to a confirmed date. */
+export const bookingSteps = [
   {
-    step: "01",
-    title: "Enquire",
-    text: "Tell us your date, place and what you have in mind. We reply within a day with availability and a tailored quote.",
-    points: ["Date check", "Tailored quote", "No obligation"],
+    title: "Choose your package",
+    text: "Compare the packages and prices, or build your own. Not sure yet? Just tell us the occasion.",
   },
   {
-    step: "02",
-    title: "Plan",
-    text: "A call to understand the people, the schedule and the moments that matter most, so we are always in the right place.",
-    points: ["Planning call", "Shot list", "Timeline"],
+    title: "Share your date and needs",
+    text: "Send your date, place and budget through the quick form or on WhatsApp. It takes under a minute.",
   },
   {
-    step: "03",
-    title: "Shoot",
-    text: "We work quietly and direct gently. You enjoy the day; we make sure it is remembered properly.",
-    points: ["Candid coverage", "Gentle direction", "Backup cameras"],
-  },
-  {
-    step: "04",
-    title: "Deliver",
-    text: "A preview within 72 hours, then a private online gallery of individually edited images, plus albums and prints if you wish.",
-    points: ["72-hour preview", "Private gallery", "Albums & prints"],
+    title: "Confirm and book",
+    text: "We check availability and send the final details. Your date is booked once we have both confirmed and the advance is paid.",
   },
 ];
 
-export const principles = [
+/**
+ * Why book with us. Every point here is backed by what the site itself publishes:
+ * the prices, the package contents and the package builder.
+ */
+export const reasons = [
   {
-    title: "Direction, not posing",
-    text: "We give small prompts and then step back. The best expressions happen between instructions.",
+    title: "Prices on the page",
+    text: "Wedding packages from ₹25,000 and pre-wedding shoots from ₹15,000, plus GST. No “call for price” guessing.",
   },
   {
-    title: "Honest colour",
-    text: "Skin tones stay true and reds stay red. We edit for how the day felt, not for the latest filter.",
+    title: "Photos and video together",
+    text: "Every wedding package includes a photographer and a cinematographer, all raw files, an album and a full-length film.",
   },
   {
-    title: "Edited by hand",
-    text: "No presets on autopilot. Each delivered photograph is looked at, corrected and finished individually.",
+    title: "Packages that flex",
+    text: "Pick a ready package or build your own, event by event. Every price is negotiable.",
   },
   {
-    title: "Backed up, always",
-    text: "Dual-card cameras and same-night backups in two places. Your photographs are never on a single card.",
+    title: "Booking on WhatsApp",
+    text: "Ask questions, check your date and confirm your booking in the app you already use.",
   },
 ];
 
 export const homeFaqs = [
   {
-    q: "How do we check if you are available?",
-    a: "Send your date and location through the booking form. We reply within one working day and can hold the date for a week while you decide.",
+    q: "What is included in a package?",
+    a: "Each package lists its team, photos, videos and album on the packages page. Every wedding package includes all raw photos and videos, a full-length edited video and a printed album; the bigger packages add edited photos, highlight films, reels and a drone.",
   },
   {
-    q: "What does a booking cost?",
-    a: "Wedding packages start at ₹25,000 for one day plus GST, and every price is negotiable. Pre-wedding shoots start from ₹15,000 plus GST, with drone shots and an album included. Other sessions depend on the hours and any albums or prints; after a short call you get a clear, itemised quote with nothing hidden.",
+    q: "Is GST included in the price?",
+    a: "No. All prices are shown before GST, which is added to your final invoice.",
   },
   {
-    q: "How are the photographs delivered?",
-    a: "In a private online gallery you can share with family, download in full resolution and order prints from. Albums are designed with you and printed separately.",
+    q: "How do I confirm my booking?",
+    a: "Send your date through the quick form or on WhatsApp. We check availability and agree the details with you. Your date is booked once we have both confirmed and the advance is paid.",
   },
   {
-    q: "Do we get the raw files?",
-    a: "Yes, for weddings: every wedding package includes all raw photos and videos alongside the edited work. Other sessions are delivered as finished, edited images, all yours to print and share.",
+    q: "Can I customise a package?",
+    a: "Yes. Every price is negotiable, and you can build your own wedding package event by event, adding photographers, cinematographers, a drone, an album or a same-day edit.",
   },
+  travelFaq,
+  deliveryFaq,
+  {
+    q: "What happens if my event date changes?",
+    a: "Tell us as soon as you know. We will check the new date and confirm what changes, if anything, before you commit. Date-change terms are written into your quote.",
+  },
+  {
+    q: "What are the cancellation terms?",
+    a: "Cancellation terms are set out in writing in your quote, before you pay any advance. Ask us on WhatsApp if you would like to see them first.",
+  },
+];
+
+/**
+ * The kinds of shoot customers look for, each pointing at the service page that covers it.
+ * Maternity shares a card with baby and kids (one page covers both), and family portraits sit
+ * with portraits. Prices are only shown where the studio publishes them.
+ */
+export const homeServices: { title: string; slug: ServiceSlug; photoId: string; text: string }[] = [
+  { title: "Wedding", slug: "weddings", photoId: "81", text: "Every ritual from haldi to bidaai, in photos and film." },
+  { title: "Pre-Wedding", slug: "pre-wedding", photoId: "24", text: "A relaxed shoot at a place that means something to you both." },
+  { title: "Maternity, Baby & Kids", slug: "maternity-newborn", photoId: "44", text: "Calm sessions for bumps, newborns and little ones, at their own pace." },
+  { title: "Birthday & Event", slug: "events", photoId: "70", text: "Birthdays, anniversaries and functions, without interrupting them." },
+  { title: "Family & Portraits", slug: "portraits", photoId: "73", text: "Natural portraits for families, couples and individuals." },
+  { title: "Commercial", slug: "commercial", photoId: "42", text: "Product, food and brand photos that help you sell." },
+];
+
+/** The lowest published price for a service, if it publishes any. */
+export function startingPrice(slug: ServiceSlug) {
+  const prices = (getService(slug)?.packages ?? []).map((p) => p.price);
+  return prices.length ? Math.min(...prices) : null;
+}
+
+/**
+ * The wedding packages side by side. Each cell is copied from the package's own list above;
+ * "—" means the package does not list it (it can still be added, see the package builder).
+ */
+export const weddingComparison: { label: string; values: [string, string, string, string] }[] = [
+  { label: "Coverage", values: ["1 day", "1 day", "1 day", "1 day"] },
+  { label: "Photographers", values: ["1", "2", "2", "2"] },
+  { label: "Cinematographers", values: ["1", "1", "2", "2"] },
+  { label: "Drone", values: ["—", "—", "—", "Yes"] },
+  { label: "All raw photos and videos", values: ["Yes", "Yes", "Yes", "Yes"] },
+  { label: "Edited photos", values: ["—", "20", "50", "150"] },
+  { label: "Photo album", values: ["Premium, standard size", "Premium, standard size", "Premium, standard size", "Luxury 14x40, 35 pages"] },
+  { label: "Full-length edited video", values: ["Yes", "Yes", "Yes", "Yes"] },
+  { label: "Highlight video", values: ["—", "4 to 5 min", "4 to 5 min", "7 to 10 min cinematic film"] },
+  { label: "Teaser video", values: ["—", "—", "Yes", "—"] },
+  { label: "Instagram reels", values: ["—", "—", "1", "2 to 3"] },
+  { label: "Wedding invitation video", values: ["—", "—", "—", "Yes"] },
 ];
 
 const serviceBySlug = new Map<string, Service>(services.map((s) => [s.slug, s]));
@@ -445,6 +479,8 @@ export function photosIn(category: ServiceSlug) {
 }
 
 export const telHref = `tel:${brand.phone.replace(/\s/g, "")}`;
-export const whatsappHref = `https://wa.me/${brand.phone.replace(/\D/g, "")}?text=${encodeURIComponent("Hi Zoomin Fotos, I'd like to check availability for a shoot.")}`;
+/** A WhatsApp chat with the studio, opened with `text` already typed. */
+export const waLink = (text: string) => `https://wa.me/${brand.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
+export const whatsappHref = waLink("Hi Zoomin Fotos, I'd like to check availability for a shoot.");
 export const mailHref = `mailto:${brand.email}`;
 export const locationLine = `${brand.city}, ${brand.region}, India`;

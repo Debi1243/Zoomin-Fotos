@@ -25,7 +25,7 @@ export default function TestimonialsPage() {
     <>
       <PageHero
         label="Reviews"
-        title={<>Kind <em>words.</em></>}
+        title="Client reviews"
         intro={
           count
             ? `From the couples and families we have photographed. ${count === 1 ? "One review" : `${count} reviews`}, averaging ${average.toFixed(1)} out of 5.`

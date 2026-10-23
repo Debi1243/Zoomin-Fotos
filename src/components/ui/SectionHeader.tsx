@@ -7,28 +7,29 @@ type Props = {
   intro?: ReactNode;
   action?: ReactNode;
   id?: string;
+  /** Centre the heading (used for short, standalone sections). */
+  center?: boolean;
   className?: string;
 };
 
-/** Label + heading + optional intro, laid on the 12-column grid. */
-export default function SectionHeader({ label, title, intro, action, id, className }: Props) {
+/** Eyebrow label, heading and optional intro, with an optional action on the right on wide screens. */
+export default function SectionHeader({ label, title, intro, action, id, center, className }: Props) {
   return (
-    <header className={cn("reveal grid gap-y-6 lg:grid-cols-12 lg:gap-x-10", className)}>
-      <p className="label text-muted lg:col-span-3 lg:pt-3">
-        <span aria-hidden className="label-dot festive-gradient" />
-        {label}
-      </p>
-      <div className="lg:col-span-9">
-        <h2 id={id} className="max-w-[22ch] font-display text-h2">
+    <header
+      className={cn(
+        "reveal flex flex-col gap-6 md:flex-row md:items-end md:justify-between",
+        center && "items-center text-center md:flex-col md:items-center",
+        className,
+      )}
+    >
+      <div className={cn("max-w-2xl", center && "mx-auto")}>
+        <p className="label text-accent">{label}</p>
+        <h2 id={id} className="mt-3 font-display text-h2">
           {title}
         </h2>
-        {(intro || action) && (
-          <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            {intro && <p className="max-w-[58ch] text-lead text-muted">{intro}</p>}
-            {action && <div className="shrink-0">{action}</div>}
-          </div>
-        )}
+        {intro && <p className="mt-4 text-lead text-muted">{intro}</p>}
       </div>
+      {action && <div className="shrink-0">{action}</div>}
     </header>
   );
 }

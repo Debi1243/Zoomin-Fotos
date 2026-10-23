@@ -6,23 +6,25 @@ import { primaryNav } from "@/lib/site";
 export default function SiteFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-surface">
-      <div aria-hidden className="festive-gradient h-1" />
-      <div className="container-page grid gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-10">
+    <footer className="border-t border-border bg-surface">
+      <div className="container-page grid gap-10 py-12 md:py-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <Logo size="lg" />
-          <p className="mt-5 max-w-[36ch] text-sm leading-relaxed text-muted">{brand.description}</p>
-          <address className="mt-8 space-y-1.5 text-sm not-italic">
+          <p className="mt-4 max-w-[40ch] text-sm leading-relaxed text-muted">{brand.description}</p>
+          <address className="mt-6 space-y-2 text-sm not-italic">
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" data-track="whatsapp_click" data-track-source="footer" className="link-underline block w-fit font-semibold text-whatsapp">
+              WhatsApp {brand.whatsapp}
+            </a>
+            <a href={telHref} className="link-underline block w-fit">Call {brand.phone}</a>
             <a href={mailHref} className="link-underline block w-fit">{brand.email}</a>
-            <a href={telHref} className="link-underline block w-fit">{brand.phone}</a>
-            <a href={whatsappHref} target="_blank" rel="noreferrer" className="link-underline block w-fit">WhatsApp us</a>
             <span className="block text-muted">{locationLine}</span>
+            <span className="block text-muted">{brand.hours}</span>
           </address>
         </div>
 
-        <nav aria-label="Studio" className="lg:col-span-3 lg:col-start-7">
-          <h2 className="label text-muted">Studio</h2>
-          <ul className="mt-5 space-y-3 text-sm">
+        <nav aria-label="Site" className="lg:col-span-3 lg:col-start-7">
+          <h2 className="label text-muted">Explore</h2>
+          <ul className="mt-4 space-y-2.5 text-sm">
             {primaryNav.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="link-underline">{l.label}</Link>
@@ -38,21 +40,23 @@ export default function SiteFooter() {
         </nav>
 
         <nav aria-label="Services" className="lg:col-span-3">
-          <h2 className="label text-muted">What we photograph</h2>
-          <ul className="mt-5 space-y-3 text-sm">
+          <h2 className="label text-muted">Photography</h2>
+          <ul className="mt-4 space-y-2.5 text-sm">
             {services.map((s) => (
               <li key={s.slug}>
                 <Link href={`/services/${s.slug}`} className="link-underline">{s.title}</Link>
               </li>
             ))}
+            <li>
+              <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="link-underline">Google reviews</a>
+            </li>
           </ul>
         </nav>
       </div>
 
       <div className="border-t border-border">
-        <div className="container-page flex flex-col gap-3 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© {year} {brand.name}. All photographs are the property of their makers.</p>
-          <a href="#main" className="link-underline w-fit">Back to top</a>
+        <div className="container-page py-5 text-xs text-muted">
+          <p>© {year} {brand.name}, {brand.city}. All prices are before GST. All photographs are by {brand.name}.</p>
         </div>
       </div>
     </footer>

@@ -1,34 +1,42 @@
 import Hero from "@/components/sections/home/Hero";
-import ServiceStories from "@/components/sections/home/ServiceStories";
-import Marquee from "@/components/sections/home/Marquee";
-import FeaturedPhotos from "@/components/sections/home/FeaturedPhotos";
-import FilmStrip from "@/components/sections/home/FilmStrip";
-import { ServicesSection } from "@/components/sections/home/ServiceIndex";
-import PricingGuide from "@/components/sections/home/PricingGuide";
-import PhotoRibbon from "@/components/sections/PhotoRibbon";
-import Approach from "@/components/sections/home/Approach";
+import ServiceCards from "@/components/sections/home/ServiceCards";
+import Packages, { PackagesLink } from "@/components/sections/Packages";
+import FeaturedPortfolio from "@/components/sections/home/FeaturedPortfolio";
+import WhyUs from "@/components/sections/home/WhyUs";
 import HomeReviews from "@/components/sections/home/HomeReviews";
-import ProcessSteps from "@/components/sections/ProcessSteps";
+import BookingSteps from "@/components/sections/BookingSteps";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
 import JsonLd from "@/components/shared/JsonLd";
-import { brand, homeFaqs, services } from "@/lib/data";
+import { brand, getService, homeFaqs, services } from "@/lib/data";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
 export default function HomePage() {
+  const weddings = getService("weddings");
+
   return (
     <>
-      <ServiceStories />
       <Hero />
-      <Marquee />
-      <FeaturedPhotos />
-      <FilmStrip />
-      <ServicesSection />
-      <PricingGuide />
-      <PhotoRibbon />
-      <Approach />
-      <HomeReviews />
-      <ProcessSteps />
+      <ServiceCards />
+      {weddings?.packages && (
+        <Packages
+          items={weddings.packages}
+          service="Wedding"
+          label="Wedding packages"
+          title="Clear prices. Everything listed."
+          className="section-y border-t border-border"
+          footer={
+            <>
+              <PackagesLink href="/packages#compare">Compare all packages side by side</PackagesLink>
+              <PackagesLink href="/packages#builder">Build your own package</PackagesLink>
+            </>
+          }
+        />
+      )}
+      <FeaturedPortfolio />
+      <WhyUs />
+      <HomeReviews className="pb-16 md:pb-24" />
+      <BookingSteps />
       <Faq items={homeFaqs} />
       <ClosingCta />
       <JsonLd
@@ -40,15 +48,21 @@ export default function HomePage() {
           description: brand.description,
           url: siteUrl,
           logo: absoluteUrl("/icon.png"),
+          image: absoluteUrl("/opengraph-image"),
           email: brand.email,
           telephone: brand.phone.replace(/\s/g, ""),
+          priceRange: "₹15,000+",
           address: {
             "@type": "PostalAddress",
             addressLocality: brand.city,
             addressRegion: brand.region,
             addressCountry: brand.country,
           },
-          areaServed: "IN",
+          areaServed: [
+            { "@type": "City", name: brand.city },
+            { "@type": "State", name: brand.region },
+          ],
+          sameAs: [brand.googleReviews],
           hasOfferCatalog: {
             "@type": "OfferCatalog",
             name: "Photography services",

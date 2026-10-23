@@ -3,8 +3,8 @@ import { Check, CircleAlert } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 export const control =
-  "block w-full rounded-md border bg-elevated px-3.5 text-[0.9375rem] text-fg shadow-sm transition-[border-color,box-shadow] duration-150 " +
-  "placeholder:text-muted/70 hover:border-border-strong focus:border-fg focus:outline-none focus:ring-4 focus:ring-fg/10 " +
+  "block w-full rounded-md border bg-elevated px-3.5 text-base text-fg transition-[border-color,box-shadow] duration-150 " +
+  "placeholder:text-muted/70 hover:border-border-strong focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/15 " +
   "disabled:cursor-not-allowed disabled:opacity-60";
 
 type FieldShellProps = {
@@ -20,7 +20,7 @@ export function FieldShell({ id, label, hint, error, optional, children }: Field
   return (
     <div>
       <div className="flex items-baseline justify-between gap-4">
-        <label htmlFor={id} className="text-sm font-medium">
+        <label htmlFor={id} className="text-sm font-semibold">
           {label}
         </label>
         {optional && <span className="text-xs text-muted">Optional</span>}
@@ -74,16 +74,16 @@ export function TextField({ id, label, hint, error, optional, valid, className, 
   );
 }
 
-type TextareaProps = Omit<ComponentProps<"textarea">, "id"> & { id: string; label: string; hint?: string; error?: string };
+type TextareaProps = Omit<ComponentProps<"textarea">, "id"> & { id: string; label: string; hint?: string; error?: string; optional?: boolean };
 
-export function TextareaField({ id, label, hint, error, className, ...props }: TextareaProps) {
+export function TextareaField({ id, label, hint, error, optional, className, ...props }: TextareaProps) {
   return (
-    <FieldShell id={id} label={label} hint={hint} error={error}>
+    <FieldShell id={id} label={label} hint={hint} error={error} optional={optional}>
       <textarea
         id={id}
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy(id, error, hint)}
-        className={cn(control, "min-h-36 resize-y py-3 leading-relaxed", error ? "border-error" : "border-border", className)}
+        className={cn(control, "min-h-24 resize-y py-3 leading-relaxed", error ? "border-error" : "border-border", className)}
         {...props}
       />
     </FieldShell>
@@ -95,32 +95,40 @@ type ChoiceGroupProps = {
   name: string;
   type: "checkbox" | "radio";
   options: readonly string[];
-  defaultValue: string[];
+  /** Uncontrolled starting choice(s). */
+  defaultValue?: string[];
+  /** Controlled single choice, for radio groups that drive other fields. */
+  value?: string;
+  onValueChange?: (value: string) => void;
   error?: string;
 };
 
 /** Checkbox or radio group rendered as selectable chips; native inputs keep it accessible. */
-export function ChoiceGroup({ legend, name, type, options, defaultValue, error }: ChoiceGroupProps) {
+export function ChoiceGroup({ legend, name, type, options, defaultValue = [], value, onValueChange, error }: ChoiceGroupProps) {
   const errorId = `${name}-error`;
+  const controlled = value !== undefined;
   return (
     <fieldset aria-describedby={error ? errorId : undefined} aria-invalid={error ? true : undefined}>
-      <legend className="text-sm font-medium">{legend}</legend>
+      <legend className="text-sm font-semibold">{legend}</legend>
       <div className="mt-3 flex flex-wrap gap-2">
         {options.map((option) => (
           <label
             key={option}
             className={cn(
-              "relative inline-flex h-10 cursor-pointer select-none items-center rounded-md border px-3.5 text-sm transition-colors",
+              "chip relative inline-flex min-h-11 cursor-pointer select-none items-center rounded-md border px-3.5 py-2 text-sm font-medium transition-colors",
               "border-border bg-elevated hover:border-border-strong",
-              "has-[:checked]:border-fg has-[:checked]:bg-fg has-[:checked]:text-bg",
+              "has-[:checked]:border-primary has-[:checked]:bg-primary has-[:checked]:text-primary-fg",
               "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-fg",
+              error && "border-error/60",
             )}
           >
             <input
               type={type}
               name={name}
               value={option}
-              defaultChecked={defaultValue.includes(option)}
+              {...(controlled
+                ? { checked: value === option, onChange: () => onValueChange?.(option) }
+                : { defaultChecked: defaultValue.includes(option) })}
               className="sr-only"
             />
             {option}

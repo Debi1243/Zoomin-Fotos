@@ -1,69 +1,62 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
-import PhotoRibbon from "@/components/sections/PhotoRibbon";
+import { Mail, MapPin, Phone } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
-import ContactForm from "@/components/forms/ContactForm";
+import QuoteForm from "@/components/forms/QuoteForm";
+import { WhatsAppButton } from "@/components/ui/Button";
 import { brand, locationLine, mailHref, telHref, whatsappHref } from "@/lib/data";
 
-const description =
-  "Check availability for your wedding, session or event with Zoomin Fotos, Bhubaneswar. We reply within one working day.";
+const description = `Get a photography quote from ${brand.name}, ${brand.city}. Tell us your date, place and budget, and we confirm availability on WhatsApp.`;
 
 export const metadata: Metadata = {
-  title: "Book a shoot",
+  title: "Get a Photography Quote",
   description,
   alternates: { canonical: "/contact" },
-  openGraph: { title: "Book a shoot", description, url: "/contact" },
+  openGraph: { title: "Get a Photography Quote", description, url: "/contact" },
 };
 
 const details = [
-  { label: "Email", value: brand.email, href: mailHref },
-  { label: "Phone", value: brand.phone, href: telHref },
-  { label: "WhatsApp", value: "Message us on WhatsApp", href: whatsappHref, external: true },
-  { label: "Studio", value: locationLine },
-  { label: "Hours", value: brand.hours },
+  { label: "Call", value: brand.phone, href: telHref, icon: Phone },
+  { label: "Email", value: brand.email, href: mailHref, icon: Mail },
+  { label: "Studio", value: locationLine, icon: MapPin },
 ];
 
 export default function ContactPage() {
   return (
     <>
       <PageHero
-        label="Book a shoot"
-        title={<>Tell us about <em>your day.</em></>}
-        intro="Share the date, the place and a little about what you have in mind. We will confirm availability and send a tailored quote within one working day."
+        label="Contact"
+        title="Get your photography quote"
+        intro="Answer seven quick questions. We'll open WhatsApp with your enquiry written out, so you can send it in one tap."
       />
-      <section id="enquiry" aria-label="Enquiry" className="scroll-mt-16 border-t border-border pb-24 pt-12 md:pb-32 md:pt-16">
-        <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
-          <aside className="reveal-left lg:col-span-3">
-            <dl className="space-y-7">
-              {details.map((d) => (
-                <div key={d.label}>
-                  <dt className="label text-muted">{d.label}</dt>
-                  <dd className="mt-2 text-[0.9375rem]">
-                    {d.href ? (
-                      <a href={d.href} className="link-underline" {...("external" in d && { target: "_blank", rel: "noreferrer" })}>
-                        {d.value}
-                      </a>
-                    ) : (
-                      d.value
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <div className="mt-10 border-t border-border pt-7">
-              <p className="label text-muted">Booking a wedding?</p>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                Popular dates go six to nine months ahead. Send yours even if plans are still forming, and we will hold it
-                while you decide.
-              </p>
+      <section aria-label="Quote form" className="container-page pb-16 md:pb-24">
+        {/* Older links point at #enquiry; it lands in the same place as #quote. */}
+        <span id="enquiry" aria-hidden className="block scroll-mt-24" />
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div id="quote" className="scroll-mt-24 lg:col-span-8">
+            <QuoteForm />
+          </div>
+          <aside className="lg:col-span-4">
+            <div className="rounded-lg border border-border bg-surface p-5 sm:p-6">
+              <h2 className="font-display text-h3">Prefer to just chat?</h2>
+              <p className="mt-2 text-sm text-muted">Message us on WhatsApp with any question, or call during {brand.hours}.</p>
+              <WhatsAppButton href={whatsappHref} source="contact-aside" size="lg" className="mt-5 w-full" />
+              <dl className="mt-6 space-y-4 border-t border-border pt-6 text-sm">
+                {details.map(({ label, value, href, icon: Icon }) => (
+                  <div key={label} className="flex gap-3">
+                    <Icon aria-hidden className="mt-0.5 size-4 shrink-0 text-accent" />
+                    <div>
+                      <dt className="text-muted">{label}</dt>
+                      <dd className="mt-0.5 font-medium">
+                        {href ? <a href={href} className="link-underline">{value}</a> : value}
+                      </dd>
+                    </div>
+                  </div>
+                ))}
+              </dl>
             </div>
           </aside>
-          <div className="reveal lg:col-span-9" style={{ "--i": 1 } as CSSProperties}>
-            <ContactForm />
-          </div>
         </div>
       </section>
-      <PhotoRibbon rows={1} className="border-t border-border" />
     </>
   );
 }

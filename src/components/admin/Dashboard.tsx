@@ -486,9 +486,11 @@ function EnquiryCard({ q, onStatus }: { q: Enquiry; onStatus: (q: Enquiry, statu
       </div>
       <p className="mt-4 whitespace-pre-line text-sm leading-relaxed">{q.message}</p>
       <div className="mt-4 flex flex-wrap gap-2">
-        <a className={action} href={`mailto:${q.email}?subject=${encodeURIComponent(`Your ${q.session ? `${q.session.toLowerCase()} ` : ""}enquiry with Zoomin Fotos`)}`}>
-          <Mail aria-hidden className="size-4" /> {q.email}
-        </a>
+        {q.email && (
+          <a className={action} href={`mailto:${q.email}?subject=${encodeURIComponent(`Your ${q.session ? `${q.session.toLowerCase()} ` : ""}enquiry with Zoomin Fotos`)}`}>
+            <Mail aria-hidden className="size-4" /> {q.email}
+          </a>
+        )}
         {q.phone && (
           <a className={action} href={`tel:${q.phone.replace(/[^\d+]/g, "")}`}>
             <Phone aria-hidden className="size-4" /> {q.phone}

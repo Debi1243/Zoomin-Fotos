@@ -1,64 +1,59 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
-import PhotoRibbon from "@/components/sections/PhotoRibbon";
 import PageHero from "@/components/sections/PageHero";
 import PhotoFrame from "@/components/photos/PhotoFrame";
-import Approach from "@/components/sections/home/Approach";
-import ProcessSteps from "@/components/sections/ProcessSteps";
+import WhyUs from "@/components/sections/home/WhyUs";
+import BookingSteps from "@/components/sections/BookingSteps";
 import ClosingCta from "@/components/sections/ClosingCta";
 import { brand, pickPhotos } from "@/lib/data";
 
-const description =
-  "Zoomin Fotos is a photography studio in Bhubaneswar that photographs weddings, families, events and brands with a calm, candid approach.";
+const description = `${brand.name} is a photography studio in ${brand.city}, ${brand.region}, for weddings, families, events and brands, with clear prices and easy WhatsApp booking.`;
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Us",
   description,
   alternates: { canonical: "/about" },
-  openGraph: { title: "About", description, url: "/about" },
+  openGraph: { title: "About Us", description, url: "/about" },
 };
 
-const [aboutLeft, aboutRight] = pickPhotos(["02", "17"]);
+const [aboutLeft, aboutRight] = pickPhotos(["59", "28"]);
 
 export default function AboutPage() {
   return (
     <>
       <PageHero
         label="About"
-        title={<>A small studio that likes <em>people</em> more than poses.</>}
-        intro={`${brand.name} is a photography studio based in ${brand.city}. We photograph weddings, families, milestones and the businesses that make ${brand.region} what it is.`}
+        crumbs={[]}
+        title="A photography studio in Bhubaneswar that likes people more than poses"
+        intro={`${brand.name} photographs weddings, families, milestones and the businesses that make ${brand.region} what it is, with prices you can see before you call.`}
       />
 
-      <section aria-labelledby="story-title" className="border-t border-border section-y">
-        <div className="container-page grid gap-y-12 lg:grid-cols-12 lg:gap-x-10">
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-5">
-            <PhotoFrame photo={aboutLeft} sizes="(min-width: 1024px) 20vw, 50vw" reveal />
-            <PhotoFrame photo={aboutRight} sizes="(min-width: 1024px) 20vw, 50vw" className="mt-12" style={{ "--i": 2 } as CSSProperties} reveal />
+      <section aria-labelledby="story-title" className="section-y border-t border-border">
+        <div className="container-page grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-6">
+            <PhotoFrame photo={{ ...aboutLeft, aspect: "portrait" }} sizes="(min-width: 1024px) 25vw, 50vw" reveal />
+            <PhotoFrame photo={{ ...aboutRight, aspect: "portrait" }} sizes="(min-width: 1024px) 25vw, 50vw" className="mt-10" reveal />
           </div>
-          <div className="reveal-right lg:col-span-6 lg:col-start-7">
-            <h2 id="story-title" className="label text-muted">Our story</h2>
-            <p className="mt-6 font-display text-[clamp(1.75rem,1.3rem+1.8vw,2.75rem)] leading-[1.12]">
-              We started Zoomin Fotos because the photographs people treasure most are rarely the perfect ones. They are the
-              ones where everyone looks like themselves.
-            </p>
-            <div className="mt-8 space-y-5 leading-relaxed text-muted">
+          <div className="reveal lg:col-span-6">
+            <p className="label text-accent">Our story</p>
+            <h2 id="story-title" className="mt-3 font-display text-h2">
+              The photos people treasure most are the ones where everyone looks like themselves.
+            </h2>
+            <div className="mt-6 space-y-4 text-lead text-muted">
               <p>
-                So we work quietly, direct gently and spend our time noticing: the aunt fixing a dupatta, the groom&apos;s
-                father pretending not to cry, the toddler who refuses to stand still. Those are the frames that end up on
-                walls.
+                So we work quietly, direct gently and spend our time noticing: the aunt fixing a dupatta, the groom&apos;s father
+                pretending not to cry, the toddler who refuses to stand still. Those are the frames that end up on walls.
               </p>
               <p>
-                Every gallery is edited by hand, in colours that match what you saw on the day, and kept safely backed up
-                long after delivery. When it is time for an album or a print, we design and produce it ourselves.
+                We also think booking a photographer should be simple. That is why our packages and prices are on the website, and why
+                you can ask us anything on WhatsApp.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <PhotoRibbon />
-      <Approach />
-      <ProcessSteps />
+      <WhyUs />
+      <BookingSteps />
       <ClosingCta />
     </>
   );

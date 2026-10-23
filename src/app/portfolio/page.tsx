@@ -27,8 +27,9 @@ export default function PortfolioPage() {
     <>
       <PageHero
         label="Portfolio"
-        title={<>A few favourite <em>frames.</em></>}
-        intro="A small selection from recent weddings, sessions and shoots. Choose a category, or open any photograph to see it larger."
+        crumbs={[]}
+        title="Our photography portfolio"
+        intro="Real photos from our weddings, sessions and shoots. Choose a category, or tap any photo to see it larger."
       />
       <section aria-label="Photographs" className="border-t border-border pb-24 pt-10 md:pb-32 md:pt-14">
         <div className="container-page">

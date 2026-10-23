@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
-import PhotoRibbon from "@/components/sections/PhotoRibbon";
-import Link from "next/link";
 import PageHero from "@/components/sections/PageHero";
-import PhotoFrame from "@/components/photos/PhotoFrame";
-import PackageBuilder from "@/components/sections/PackageBuilder";
-import ProcessSteps from "@/components/sections/ProcessSteps";
+import ServiceCards from "@/components/sections/home/ServiceCards";
+import BookingSteps from "@/components/sections/BookingSteps";
 import ClosingCta from "@/components/sections/ClosingCta";
-import { formatRupees, photosIn, services, serviceTone } from "@/lib/data";
+import { ButtonLink } from "@/components/ui/Button";
+import JsonLd from "@/components/shared/JsonLd";
+import { brand } from "@/lib/data";
+import { absoluteUrl } from "@/lib/site";
 
-const description =
-  "Wedding, pre-wedding, portrait, maternity and newborn, event and commercial photography in Bhubaneswar and across Odisha.";
+const description = `Wedding, pre-wedding, maternity, baby and kids, birthday and event, family portrait and commercial photography in ${brand.city} and across ${brand.region}.`;
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: `Photography Services in ${brand.city}`,
   description,
   alternates: { canonical: "/services" },
-  openGraph: { title: "Services", description, url: "/services" },
+  openGraph: { title: `Photography Services in ${brand.city}`, description, url: "/services" },
 };
 
 export default function ServicesPage() {
@@ -24,47 +22,29 @@ export default function ServicesPage() {
     <>
       <PageHero
         label="Services"
-        title={<>What we <em>photograph.</em></>}
-        intro="Six kinds of shoot, each planned around you. Every booking includes a planning call, hand-edited images and a private online gallery."
-      />
-      <section aria-label="All services" className="border-t border-border pb-24 pt-12 md:pb-32 md:pt-16">
-        <ul className="container-page grid gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
-          {services.map((s, i) => {
-            const cover = photosIn(s.slug)[0];
-            return (
-              <li key={s.slug} className="reveal flex flex-col" style={{ "--i": i % 3, "--tone": serviceTone[s.slug] } as CSSProperties}>
-                <Link href={`/services/${s.slug}`} className="group block">
-                  {cover && (
-                    <PhotoFrame
-                      photo={{ ...cover, aspect: "portrait" }}
-                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-                      reveal
-                      className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[0.985]"
-                    />
-                  )}
-                  <p className="label tabular mt-6 flex items-center gap-3 text-[var(--tone)]">
-                    <span aria-hidden className="h-[3px] w-6 rounded-full bg-[var(--tone)]" />0{i + 1}
-                  </p>
-                  <h2 id={`svc-${s.slug}`} className="mt-3 font-display text-h3 transition-colors group-hover:text-[var(--tone)]">
-                    {s.title}
-                  </h2>
-                </Link>
-                <p className="mt-3 max-w-[40ch] leading-relaxed text-muted">{s.short}</p>
-                {s.packages && (
-                  <p className="mt-3 text-sm">
-                    From <span className="tabular font-medium">{formatRupees(Math.min(...s.packages.map((p) => p.price)))}</span>
-                    {s.packages.some((p) => !p.unit || p.unit.includes("GST")) && " + GST"}
-                  </p>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-      <PackageBuilder />
-      <PhotoRibbon className="border-t border-border" />
-      <ProcessSteps />
+        crumbs={[]}
+        title="Photography services"
+        intro={`Weddings, pre-weddings, maternity, kids, birthdays, family portraits and commercial shoots, across ${brand.city} and ${brand.region}.`}
+      >
+        <div className="mt-6">
+          <ButtonLink href="/packages" variant="secondary">
+            See all packages and prices
+          </ButtonLink>
+        </div>
+      </PageHero>
+      <ServiceCards />
+      <BookingSteps />
       <ClosingCta />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+            { "@type": "ListItem", position: 2, name: "Services", item: absoluteUrl("/services") },
+          ],
+        }}
+      />
     </>
   );
 }

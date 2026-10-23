@@ -2,9 +2,10 @@ export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://debi1243.gi
 
 export const primaryNav = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/portfolio", label: "Portfolio" },
   { href: "/services", label: "Services" },
+  { href: "/packages", label: "Packages" },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ] as const;
 

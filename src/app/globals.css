@@ -1,142 +1,78 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   Design tokens
-   Colour is defined once as CSS variables and mapped into Tailwind
-   below, so light/dark is a variable swap, never a class rewrite.
+   Design tokens: "modern editorial commerce"
+   Warm paper background, near-black ink, and one terracotta that
+   means "book". Colour is defined once here and mapped into Tailwind
+   below. One light theme only: the brand is warm and light.
+   Contrast (WCAG): ink on bg 15.4:1, muted on bg 5.4:1,
+   white on primary 4.6:1, accent text on bg 5.9:1.
    ────────────────────────────────────────────────────────────── */
 
 :root {
   color-scheme: light;
 
-  --bg: #f4f2ec;
-  --surface: #faf9f5;
+  --bg: #faf8f5;
+  --surface: #ffffff;
   --elevated: #ffffff;
-  --fg: #16150f;
-  --fg-muted: #5c584f;
-  --border: #dedad0;
-  --border-strong: #c4bfb2;
+  --sand: #e9e2d9;
+  --sand-soft: #f3eee7;
+  --fg: #202020;
+  --fg-muted: #666666;
+  --border: #e4ddd3;
+  --border-strong: #cfc6ba;
 
-  --primary: #ff5a1f;
-  --primary-hover: #ff7038;
-  --primary-fg: #16150f;
-  --accent: #b23a0c;
+  /* Terracotta is reserved for booking actions and prices. */
+  --primary: #b65c45;
+  --primary-hover: #9e4c37;
+  --primary-fg: #ffffff;
+  /* A deeper terracotta that is safe for small text on the page background. */
+  --accent: #9a4a35;
 
-  /* Festive palette. The plain names are safe for text on --bg (4.5:1+);
-     the -glow variants are for fills, gradients and decoration only. */
-  --marigold: #a64b00;
-  --sindoor: #b3261e;
-  --rani: #b8165c;
-  --peacock: #0d6e66;
-  --gold: #8a5a00;
-  --marigold-glow: #ffa41b;
-  --sindoor-glow: #f0412f;
-  --rani-glow: #ef2f86;
-  --peacock-glow: #14b8a6;
-  --gold-glow: #f2c14e;
-  --glow-alpha: 0.3;
+  /* WhatsApp action: darker than WhatsApp's own green so white text passes AA (5.3:1). */
+  --whatsapp: #1f7a4d;
+  --whatsapp-hover: #18643f;
 
-  --inverse: #16150f;
-  --inverse-fg: #f4f2ec;
-  --inverse-muted: #a6a195;
-  --inverse-border: #2e2c26;
+  /* Legacy names still used by the admin and client portal. All map onto the warm palette. */
+  --marigold: var(--accent);
+  --sindoor: var(--accent);
+  --rani: var(--accent);
+  --peacock: #3d6b5e;
+  --gold: #8a6a2f;
+  --marigold-glow: var(--primary);
+  --sindoor-glow: var(--primary);
+  --rani-glow: var(--primary);
+  --peacock-glow: #3d6b5e;
+  --gold-glow: var(--sand);
+  --glow-alpha: 0;
+
+  /* "Inverse" is a warm sand band, never black. */
+  --inverse: var(--sand);
+  --inverse-fg: var(--fg);
+  --inverse-muted: #5a544c;
+  --inverse-border: #d9d0c4;
 
   --success: #1d7348;
   --warning: #8f5600;
-  --error: #b8322a;
+  --error: #b3261e;
 
-  --shadow-sm: 0 1px 0 rgb(22 21 15 / 0.04), 0 1px 2px rgb(22 21 15 / 0.06);
-  --shadow-md: 0 1px 2px rgb(22 21 15 / 0.05), 0 4px 12px rgb(22 21 15 / 0.05), 0 16px 32px -12px rgb(22 21 15 / 0.1);
+  --shadow-sm: 0 1px 2px rgb(32 32 32 / 0.06);
+  --shadow-md: 0 1px 2px rgb(32 32 32 / 0.05), 0 8px 24px -12px rgb(32 32 32 / 0.18);
+
+  /* Height of the sticky booking bar on phones (0 on desktop). Sticky panels sit above it. */
+  --tabbar-h: 4.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-
-    --bg: #0f0e0c;
-    --surface: #161512;
-    --elevated: #1d1b17;
-    --fg: #eeebe4;
-    --fg-muted: #a39e92;
-    --border: #2a2823;
-    --border-strong: #3d3a32;
-
-    --primary: #ff6a33;
-    --primary-hover: #ff8352;
-    --primary-fg: #16150f;
-    --accent: #ff8f63;
-
-    --marigold: #ffb347;
-    --sindoor: #ff7a6b;
-    --rani: #ff74b4;
-    --peacock: #3dd9c5;
-    --gold: #f2c14e;
-    --marigold-glow: #ff9d0a;
-    --sindoor-glow: #ff4d3a;
-    --rani-glow: #ff3d95;
-    --peacock-glow: #17c3b0;
-    --gold-glow: #f2c14e;
-    --glow-alpha: 0.24;
-
-    --inverse: #1a1915;
-    --inverse-fg: #eeebe4;
-    --inverse-muted: #a39e92;
-    --inverse-border: #312e28;
-
-    --success: #4cc38a;
-    --warning: #e3a33f;
-    --error: #f07062;
-
-    --shadow-sm: 0 1px 0 rgb(0 0 0 / 0.3);
-    --shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.6);
-  }
-}
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-
-  --bg: #0f0e0c;
-  --surface: #161512;
-  --elevated: #1d1b17;
-  --fg: #eeebe4;
-  --fg-muted: #a39e92;
-  --border: #2a2823;
-  --border-strong: #3d3a32;
-
-  --primary: #ff6a33;
-  --primary-hover: #ff8352;
-  --primary-fg: #16150f;
-  --accent: #ff8f63;
-
-  --marigold: #ffb347;
-  --sindoor: #ff7a6b;
-  --rani: #ff74b4;
-  --peacock: #3dd9c5;
-  --gold: #f2c14e;
-  --marigold-glow: #ff9d0a;
-  --sindoor-glow: #ff4d3a;
-  --rani-glow: #ff3d95;
-  --peacock-glow: #17c3b0;
-  --gold-glow: #f2c14e;
-  --glow-alpha: 0.24;
-
-  --inverse: #1a1915;
-  --inverse-fg: #eeebe4;
-  --inverse-muted: #a39e92;
-  --inverse-border: #312e28;
-
-  --success: #4cc38a;
-  --warning: #e3a33f;
-  --error: #f07062;
-
-  --shadow-sm: 0 1px 0 rgb(0 0 0 / 0.3);
-  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.6);
+@media (width >= 64rem) {
+  :root { --tabbar-h: 0rem; }
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-elevated: var(--elevated);
+  --color-sand: var(--sand);
+  --color-sand-soft: var(--sand-soft);
   --color-fg: var(--fg);
   --color-muted: var(--fg-muted);
   --color-border: var(--border);
@@ -145,6 +81,8 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-fg: var(--primary-fg);
   --color-accent: var(--accent);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-hover: var(--whatsapp-hover);
   --color-marigold: var(--marigold);
   --color-sindoor: var(--sindoor);
   --color-rani: var(--rani);
@@ -163,53 +101,49 @@
   --color-warning: var(--warning);
   --color-error: var(--error);
 
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
 }
 
 @theme {
-  /* Radius: small and consistent. Pills only for tags. */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
+  /* Radius: 8px controls, 12px cards, 16px large photos. */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
 
-  /* Type scale. Fluid only where size carries hierarchy. */
-  --text-display: clamp(3.25rem, 1.9rem + 6vw, 7.5rem);
-  --text-display--line-height: 0.92;
+  /* Type scale (phone → desktop). Headings: Plus Jakarta Sans. Body: Manrope. */
+  --text-display: clamp(2.25rem, 1.6rem + 2.8vw, 3.75rem);
+  --text-display--line-height: 1.08;
   --text-display--letter-spacing: -0.025em;
-  --text-h1: clamp(2.75rem, 1.9rem + 3.8vw, 5.5rem);
-  --text-h1--line-height: 0.98;
-  --text-h1--letter-spacing: -0.02em;
-  --text-h2: clamp(2.125rem, 1.6rem + 2.3vw, 3.75rem);
-  --text-h2--line-height: 1.02;
-  --text-h2--letter-spacing: -0.015em;
-  --text-h3: clamp(1.5rem, 1.3rem + 0.7vw, 1.875rem);
-  --text-h3--line-height: 1.1;
+  --text-h1: clamp(2.125rem, 1.6rem + 2.2vw, 3.5rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.025em;
+  --text-h2: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --text-h3--line-height: 1.25;
   --text-h3--letter-spacing: -0.01em;
-  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
-  --text-lead--line-height: 1.55;
+  --text-price: clamp(1.75rem, 1.6rem + 0.5vw, 2rem);
+  --text-price--line-height: 1;
+  --text-price--letter-spacing: -0.02em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --text-lead--line-height: 1.6;
   --text-label: 0.75rem;
-  --text-label--line-height: 1.2;
+  --text-label--line-height: 1.3;
   --text-label--letter-spacing: 0.08em;
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-
-  --animate-orbit: orbit 64s linear infinite;
 }
 
-@keyframes orbit {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(1.25rem); }
-  to { opacity: 1; transform: none; }
+@keyframes fade-in {
+  from { opacity: 0; }
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -221,8 +155,7 @@
 
   html {
     -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5.5rem;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -233,20 +166,23 @@
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
+    font-size: 1rem;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  h1, h2, h3, h4 { text-wrap: balance; }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; }
+  h3, h4 { font-weight: 600; }
   p { text-wrap: pretty; }
 
-  ::selection { background: var(--rani-glow); color: #fff; }
+  ::selection { background: var(--sand); color: var(--fg); }
 
   :focus-visible {
     outline: 2px solid var(--focus, var(--fg));
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 }
 
@@ -256,35 +192,36 @@
 
 @utility container-page {
   width: 100%;
-  max-width: 84rem;
+  max-width: 80rem;
   margin-inline: auto;
   padding-inline: 1rem;
 
   @media (width >= 40rem) { padding-inline: 1.5rem; }
-  @media (width >= 64rem) { padding-inline: 2.5rem; }
+  @media (width >= 64rem) { padding-inline: 2rem; }
 }
 
+/* Section rhythm on the 8px scale: 64px on phones, 96px on desktop. */
 @utility section-y {
-  padding-block: 5rem;
+  padding-block: 4rem;
 
-  @media (width >= 48rem) { padding-block: 7rem; }
-  @media (width >= 80rem) { padding-block: 8.5rem; }
+  @media (width >= 48rem) { padding-block: 6rem; }
 }
 
+/* Small uppercase eyebrow above headings. */
 @utility label {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-label);
+  font-weight: 600;
   line-height: var(--text-label--line-height);
   letter-spacing: var(--text-label--letter-spacing);
   text-transform: uppercase;
 }
 
-/* Inverted band: dark surface in both themes. */
+/* Warm sand band, for quiet contrast between sections. */
 @utility surface-inverse {
   background: var(--inverse);
   color: var(--inverse-fg);
-  border-block: 1px solid var(--inverse-border);
-  --focus: var(--inverse-fg);
+  --focus: var(--fg);
 }
 
 @utility tabular {
@@ -297,63 +234,95 @@
   background-size: 0% 1px;
   background-position: 0 100%;
   background-repeat: no-repeat;
-  transition: background-size 350ms var(--ease-out-quart);
+  transition: background-size 250ms var(--ease-out-quart);
 
   &:hover, &:focus-visible { background-size: 100% 1px; }
 }
 
-/* Photo frames: toned "proof" prints that stand in until a real photograph is added.
-   They read as light falling on a print, the same in both themes. */
+/* Headings may mark one word with <em>: it takes the accent colour, no italics. */
+:is(h1, h2) em { font-style: normal; color: var(--accent); }
+
+/* Older section markers (admin, portal): a short terracotta bar before a label. */
+.festive-gradient { background-color: var(--primary); }
+.label-dot {
+  display: inline-block;
+  width: 1rem;
+  height: 2px;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-inline-end: 0.625rem;
+}
+/* Decorative glows are retired; the class stays harmless where still used. */
+.aurora { position: relative; }
+
+/* Photo frames: toned stand-ins until a real photograph is added. */
 .frame {
-  --l: #f3c98b;
-  --m: #c9783f;
-  --d: #3a1e10;
+  --l: #f3e3cf;
+  --m: #c99a7c;
+  --d: #6b4636;
   background:
     radial-gradient(110% 80% at var(--lx, 28%) var(--ly, 18%), color-mix(in oklab, var(--l) 92%, transparent), transparent 62%),
-    radial-gradient(90% 70% at 85% 100%, color-mix(in oklab, var(--d) 85%, transparent), transparent 70%),
     linear-gradient(165deg, var(--m), var(--d));
 }
-.frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.22;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-}
-.frame-amber { --l: #f6d29a; --m: #c47a3e; --d: #3b1d0e; }
-.frame-dusk { --l: #f0bca4; --m: #7e5b80; --d: #1d1829; --lx: 70%; --ly: 30%; }
-.frame-rose { --l: #f8ddd5; --m: #c48d86; --d: #4d2a2c; --lx: 40%; }
-.frame-sage { --l: #e4ead4; --m: #879876; --d: #263022; --lx: 75%; --ly: 15%; }
-.frame-sky { --l: #e2ecf2; --m: #7d99b0; --d: #1f2c39; --lx: 50%; --ly: 10%; }
-.frame-ink { --l: #a39b8e; --m: #3c3933; --d: #0f0e0d; --lx: 20%; --ly: 35%; }
-
-@keyframes fade-in {
-  from { opacity: 0; }
-}
+.frame-amber { --l: #f6d29a; --m: #c47a3e; --d: #5b3a22; }
+.frame-dusk { --l: #f0bca4; --m: #8e7083; --d: #3d3341; --lx: 70%; --ly: 30%; }
+.frame-rose { --l: #f8ddd5; --m: #c48d86; --d: #6d4547; --lx: 40%; }
+.frame-sage { --l: #e4ead4; --m: #879876; --d: #3e4a38; --lx: 75%; --ly: 15%; }
+.frame-sky { --l: #e2ecf2; --m: #7d99b0; --d: #364756; --lx: 50%; --ly: 10%; }
+.frame-ink { --l: #c9c0b3; --m: #6b645a; --d: #2e2a25; --lx: 20%; --ly: 35%; }
 
 .lightbox[open] { animation: fade-in 200ms ease-out; }
 .lightbox[open]::backdrop { animation: fade-in 200ms ease-out; }
-.lightbox-photo { animation: fade-in 280ms ease-out; }
+.lightbox-photo { animation: fade-in 240ms ease-out; }
 
 /* Accordion height animation for <details>, where supported. */
 @media (prefers-reduced-motion: no-preference) {
-  .disclosure {
-    interpolate-size: allow-keywords;
-  }
+  .disclosure { interpolate-size: allow-keywords; }
   .disclosure::details-content {
     height: 0;
     overflow: clip;
-    transition: height 320ms var(--ease-out-quart), content-visibility 320ms allow-discrete;
+    transition: height 250ms var(--ease-out-quart), content-visibility 250ms allow-discrete;
   }
-  .disclosure[open]::details-content {
-    height: auto;
-  }
+  .disclosure[open]::details-content { height: auto; }
 }
-
 .disclosure > summary { list-style: none; }
 .disclosure > summary::-webkit-details-marker { display: none; }
+
+/* Hide a horizontal scroller's bar but keep it scrollable. */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ──────────────────────────────────────────────────────────────
+   Motion: short, quiet, and only after first paint.
+   Elements fade up as they scroll in (ScrollEffects adds .is-in).
+   Nothing above the fold animates, so the largest paint is never held back.
+   ────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise 500ms var(--ease-out-quart) both; animation-delay: calc(var(--i, 0) * 60ms); }
+
+  .js-motion :is(.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in) {
+    transition: opacity 600ms var(--ease-out-quart), translate 600ms var(--ease-out-quart);
+    transition-delay: calc(min(var(--i, 0), 3) * 60ms);
+  }
+  .js-motion :is(.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in):not(.is-in) { opacity: 0; translate: 0 1rem; }
+
+  .js-motion .reveal-photo > :is(.frame, img) { transition: opacity 600ms var(--ease-out-quart); }
+  .js-motion .reveal-photo:not(.is-in) > :is(.frame, img) { opacity: 0; }
+
+  .js-motion .reveal-line { transform-origin: left; transition: scale 600ms var(--ease-out-quart); }
+  .js-motion .reveal-line:not(.is-in) { scale: 0 1; }
+
+  [data-navigated] .page-enter { animation: fade-in 250ms ease-out backwards; }
+  .price-pop { display: inline-block; animation: price-pop 300ms var(--ease-out-quart); }
+}
+
+@keyframes rise {
+  from { opacity: 0; translate: 0 0.5rem; }
+}
+@keyframes price-pop {
+  from { opacity: 0.5; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -364,409 +333,18 @@
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Motion
-   Entrances run once on load; photo reveals are tied to scroll.
-   Everything here is skipped for visitors who prefer reduced motion,
-   and scroll-linked effects only run where scroll timelines exist.
+   Phones: room for the sticky booking bar.
    ────────────────────────────────────────────────────────────── */
-@keyframes rise {
-  from { opacity: 0; translate: 0 0.75rem; }
-}
-@keyframes wipe-up {
-  from { clip-path: inset(100% 0 0 0); }
-  to { clip-path: inset(0 0 0 0); }
-}
-@keyframes settle {
-  from { transform: scale(1.16); }
-  to { transform: scale(1); }
-}
-@keyframes page-in {
-  from { opacity: 0; translate: 0 0.75rem; }
-}
-@keyframes marquee {
-  to { translate: -50% 0; }
-}
-@keyframes ken-burns {
-  from { transform: scale(1); }
-  to { transform: scale(1.07); }
-}
-@keyframes progress {
-  from { scale: 0 1; }
-  to { scale: 1 1; }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .rise {
-    animation: rise 900ms var(--ease-out-expo) both;
-    animation-delay: calc(var(--i, 0) * 80ms + 120ms);
-  }
-  .wipe {
-    animation: wipe-up 1300ms var(--ease-out-expo) both;
-    animation-delay: calc(var(--i, 0) * 140ms + 350ms);
-  }
-  .wipe > .frame,
-  .wipe > img {
-    animation: settle 1800ms var(--ease-out-expo) both;
-    animation-delay: calc(var(--i, 0) * 140ms + 350ms);
-  }
-  [data-navigated] .page-enter { animation: page-in 650ms var(--ease-out-expo) backwards; }
-  .marquee-track { animation: marquee 45s linear infinite; }
-  .marquee:hover .marquee-track { animation-play-state: paused; }
-  .ken-burns > .frame,
-  .ken-burns > img { animation: ken-burns 7s ease-out both; }
-  .progress-bar { animation: progress linear both; transform-origin: left; }
-}
-
-/* Scroll reveals. ScrollEffects adds .is-in as each element enters the viewport.
-   Elements only start hidden once the inline head script has marked the page with
-   .js-motion, so content is never lost without JavaScript or with reduced motion. */
-@media (prefers-reduced-motion: no-preference) {
-  .js-motion :is(.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in) {
-    transition:
-      opacity 1000ms var(--ease-out-expo),
-      translate 1100ms var(--ease-out-expo),
-      scale 1100ms var(--ease-out-expo),
-      filter 1000ms var(--ease-out-expo);
-    transition-delay: calc(var(--i, 0) * 90ms);
-  }
-  .js-motion .stagger-in { transition-delay: calc(min(var(--i, 0), 3) * 90ms); }
-  .js-motion :is(.reveal, .stagger-in):not(.is-in) { opacity: 0; translate: 0 2.5rem; }
-  .js-motion .reveal-left:not(.is-in) { opacity: 0; translate: -3rem 0; }
-  .js-motion .reveal-right:not(.is-in) { opacity: 0; translate: 3rem 0; }
-  .js-motion .reveal-scale:not(.is-in) { opacity: 0; scale: 0.92; filter: blur(6px); }
-
-  /* The wipe clips the photo inside the frame, not the frame itself, so the
-     IntersectionObserver still sees the frame arrive. */
-  .js-motion .reveal-photo > :is(.frame, img) {
-    transition:
-      clip-path 1400ms var(--ease-out-expo),
-      transform 1800ms var(--ease-out-expo),
-      scale 900ms var(--ease-out-expo);
-    transition-delay: calc(min(var(--i, 0), 3) * 90ms), calc(min(var(--i, 0), 3) * 90ms), 0ms;
-  }
-  .js-motion .reveal-photo:not(.is-in) > :is(.frame, img) { clip-path: inset(100% 0 0 0); transform: scale(1.18); }
-
-  .js-motion .reveal-line {
-    transform-origin: left;
-    transition: scale 1200ms var(--ease-out-expo);
-    transition-delay: calc(var(--i, 0) * 120ms + 200ms);
-  }
-  .js-motion .reveal-line:not(.is-in) { scale: 0 1; }
-
-  .title-in { animation: title-in 1200ms var(--ease-out-expo) both; animation-delay: 150ms; }
-  .scroll-cue::after { animation: scroll-cue 2.4s var(--ease-out-quart) infinite; }
-}
-
-@keyframes title-in {
-  from { opacity: 0; translate: 0 0.35em; filter: blur(10px); }
-}
-@keyframes scroll-cue {
-  0% { scale: 1 0; transform-origin: top; }
-  45% { scale: 1 1; transform-origin: top; }
-  55% { scale: 1 1; transform-origin: bottom; }
-  100% { scale: 1 0; transform-origin: bottom; }
-}
-
-/* Lenis owns smooth scrolling when it runs. */
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-stopped { overflow: clip; }
-
-/* ──────────────────────────────────────────────────────────────
-   Colour
-   ────────────────────────────────────────────────────────────── */
-
-/* Italic words in big headings carry the festive gradient. Every stop is a
-   text-safe colour, so the words keep their contrast in both themes. */
-:is(h1, h2) em {
-  background-image: linear-gradient(100deg, var(--rani), var(--sindoor) 45%, var(--marigold));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  padding-inline-end: 0.04em;
-}
-.surface-inverse :is(h1, h2) em {
-  background-image: linear-gradient(100deg, #ff74b4, #ff7a6b 45%, #ffb347);
-}
-
-.festive-gradient {
-  background-image: linear-gradient(100deg, var(--rani-glow), var(--sindoor-glow) 35%, var(--marigold-glow) 70%, var(--gold-glow));
-}
-.festive-text {
-  background-image: linear-gradient(100deg, var(--rani), var(--sindoor) 45%, var(--marigold));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Soft blooms of colour behind hero areas. */
-.aurora { position: relative; isolation: isolate; }
-.aurora::before {
-  content: "";
-  position: absolute;
-  inset: -10% -5% 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: var(--glow-alpha);
-  filter: blur(60px);
-  background:
-    radial-gradient(38% 45% at 12% 22%, var(--rani-glow), transparent 70%),
-    radial-gradient(34% 40% at 88% 18%, var(--marigold-glow), transparent 70%),
-    radial-gradient(30% 38% at 70% 85%, var(--peacock-glow), transparent 70%),
-    radial-gradient(28% 34% at 30% 90%, var(--sindoor-glow), transparent 70%);
-}
-.surface-inverse.aurora::before { opacity: 0.32; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .aurora::before { animation: aurora 18s ease-in-out infinite alternate; }
-}
-@keyframes aurora {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(3%, -2%, 0) scale(1.06) rotate(2deg); }
-  100% { transform: translate3d(-3%, 2%, 0) scale(1.02) rotate(-2deg); }
-}
-
-/* Primary buttons glow from sindoor to marigold; text stays near-black (AA on every stop). */
-.btn-festive {
-  background-image: linear-gradient(100deg, #ff5a1f, #ff8a1f 50%, #ffb020);
-  background-size: 200% 100%;
-  background-position: 0 0;
-  transition: background-position 600ms var(--ease-out-expo), box-shadow 400ms var(--ease-out-expo), translate 200ms ease-out;
-}
-.btn-festive:hover {
-  background-position: 100% 0;
-  box-shadow: 0 12px 30px -12px rgb(255 90 31 / 0.65);
-}
-
-.label-dot {
-  display: inline-block;
-  width: 1.5rem;
-  height: 3px;
-  border-radius: 999px;
-  vertical-align: middle;
-  margin-inline-end: 0.75rem;
-}
-
-/* ──────────────────────────────────────────────────────────────
-   App shell (phones and tablets)
-   Below 64rem the site behaves like an installed app: a bottom tab
-   bar, an app bar, platform type, and platform motion. The head script
-   tags the page `data-platform="ios"` or `"android"`; anything else
-   (a narrow desktop window) gets the iOS-style defaults.
-   ────────────────────────────────────────────────────────────── */
-
-:root {
-  --font-app: var(--font-sans);
-  --tabbar-h: 3.0625rem;
-  --tab-active: var(--accent);
-  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --md-emphasized: cubic-bezier(0.2, 0, 0, 1);
-}
-[data-platform="ios"] {
-  --font-app: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
-}
-[data-platform="android"] {
-  --font-app: Roboto, "Google Sans Text", "Noto Sans", system-ui, sans-serif;
-  --tabbar-h: 5rem;
-  --tab-active: var(--fg);
-}
-[data-platform] body { font-family: var(--font-app); font-feature-settings: normal; }
-[data-platform] { -webkit-tap-highlight-color: transparent; }
-
-/* Tab bar: iOS translucent bar by default. */
-.tabbar {
-  position: fixed;
-  inset-inline: 0;
-  bottom: 0;
-  z-index: 45;
-  padding-bottom: env(safe-area-inset-bottom);
-  font-family: var(--font-app);
-  background: color-mix(in oklab, var(--bg) 76%, transparent);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
-  box-shadow: 0 -0.5px 0 var(--border-strong);
-  animation: tabbar-in 700ms var(--ease-out-expo) 200ms backwards;
-}
-.tabbar-list { display: flex; max-width: 40rem; margin-inline: auto; padding-inline: 0.25rem; }
-.tabbar-item {
-  display: flex;
-  height: var(--tabbar-h);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.125rem;
-  padding-top: 0.125rem;
-  color: var(--fg-muted);
-  transition: color 200ms ease-out;
-}
-.tabbar-item[aria-current="page"] { color: var(--tab-active); }
-.tabbar-icon { position: relative; display: grid; place-items: center; }
-.tabbar-icon svg { position: relative; width: 1.5rem; height: 1.5rem; }
-.tabbar-item[aria-current="page"] .tabbar-icon svg { fill: currentColor; fill-opacity: 0.16; }
-.tabbar-label { font-size: 0.625rem; font-weight: 500; letter-spacing: 0.01em; line-height: 1.2; }
-
-/* Android: Material 3 navigation bar with the pill indicator. */
-[data-platform="android"] .tabbar {
-  background: color-mix(in oklab, var(--surface) 90%, var(--primary) 10%);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  box-shadow: none;
-}
-[data-platform="android"] .tabbar-item { gap: 0.25rem; padding-top: 0; }
-[data-platform="android"] .tabbar-icon { width: 4rem; height: 2rem; border-radius: 999px; }
-[data-platform="android"] .tabbar-icon::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: color-mix(in oklab, var(--primary) 28%, var(--surface));
-  scale: 0.3 1;
-  opacity: 0;
-  transition: scale 400ms var(--md-emphasized), opacity 150ms linear;
-}
-[data-platform="android"] .tabbar-item[aria-current="page"] .tabbar-icon::before { scale: 1 1; opacity: 1; }
-[data-platform="android"] .tabbar-label { font-size: 0.75rem; letter-spacing: 0.03em; }
-[data-platform="android"] .tabbar-item[aria-current="page"] .tabbar-label { font-weight: 700; }
-
-@keyframes tabbar-in { from { translate: 0 100%; } }
-@keyframes tab-pop {
-  0% { scale: 1; }
-  35% { scale: 0.82; }
-  70% { scale: 1.14; rotate: -6deg; }
-  100% { scale: 1; rotate: 0deg; }
-}
-
-@media (width >= 64rem) {
-  .tabbar { display: none; }
-}
 
 @media (width < 64rem) {
   body { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom)); }
-  .back-to-top { bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 0.875rem); }
-  [data-platform="android"] .back-to-top {
-    border-radius: 1rem;
-    border-color: transparent;
-    background: color-mix(in oklab, var(--primary) 30%, var(--surface));
-    box-shadow: 0 6px 16px -6px rgb(0 0 0 / 0.35);
-  }
-
-  /* App bar. iOS centres the title and blurs what scrolls beneath it. */
-  .appbar-theme { scale: 0.92; transform-origin: right center; }
-  [data-platform="ios"] .appbar {
-    background: color-mix(in oklab, var(--bg) 72%, transparent);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    backdrop-filter: saturate(180%) blur(20px);
-  }
-  [data-platform="ios"] .appbar.is-scrolled { border-bottom-color: var(--border-strong); border-bottom-width: 0.5px; }
-  [data-platform="ios"] .appbar-row { height: 3.25rem; }
-  [data-platform="ios"] .appbar-logo { position: absolute; left: 50%; translate: -50% 0; }
-  [data-platform="ios"] .appbar-logo > span { height: 2.375rem; }
-  /* Android: a solid top app bar that tints when content scrolls under it. */
-  [data-platform="android"] .appbar {
-    background: var(--bg);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  [data-platform="android"] .appbar.is-scrolled {
-    border-bottom-color: transparent;
-    background: color-mix(in oklab, var(--surface) 88%, var(--primary) 12%);
-  }
-  [data-platform="android"] .appbar-row { height: 4rem; }
-  [data-platform="android"] .appbar-logo > span { height: 2.5rem; }
-
-  /* Platform shapes: iOS rounded rects, Material pills and larger corners. */
-  [data-platform="ios"] .photo-frame { border-radius: 0.875rem; }
-  [data-platform="android"] .photo-frame { border-radius: 1.25rem; }
-  [data-platform="ios"] .btn { border-radius: 0.875rem; }
-  [data-platform="android"] .btn { border-radius: 999px; font-weight: 500; letter-spacing: 0.01em; }
-  [data-platform="ios"] .chip { border-radius: 999px; }
-  [data-platform="android"] .chip { border-radius: 0.5rem; }
-  [data-platform="android"] .chip[aria-pressed="true"] {
-    border-color: transparent;
-    background: color-mix(in oklab, var(--primary) 28%, var(--surface));
-    color: var(--fg);
-  }
-  [data-platform="android"] .chip[aria-pressed="true"] .tabular { color: var(--fg-muted); }
+  .builder-in-view .booking-bar { translate: 0 110%; }
 }
 
-/* Android ink ripple, drawn by AppFeel in an overlay over the pressed element. */
-.ripple-clip {
-  position: fixed;
-  z-index: 100;
-  overflow: hidden;
-  pointer-events: none;
-  transition: opacity 400ms ease-out;
-}
-.ripple-clip.is-out { opacity: 0; }
-.ripple-ink {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.16;
-  scale: 0;
-  animation: ripple 550ms var(--md-emphasized) forwards;
-}
-@keyframes ripple { to { scale: 1; } }
+/* ──────────────────────────────────────────────────────────────
+   Photos, printing and the client portal
+   ────────────────────────────────────────────────────────────── */
 
-/* Stories row: service circles with a festive ring that slowly turns. */
-.story-ring {
-  position: relative;
-  display: grid;
-  width: 4.5rem;
-  height: 4.5rem;
-  place-items: center;
-  border-radius: 50%;
-  padding: 3px;
-  isolation: isolate;
-}
-.story-ring::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--rani-glow), var(--sindoor-glow), var(--marigold-glow), var(--gold-glow), var(--peacock-glow), var(--rani-glow));
-}
-.story-ring .story-photo {
-  width: 100%;
-  height: 100%;
-  border-radius: 50% !important;
-  box-shadow: 0 0 0 2.5px var(--bg);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .story-ring::before { animation: orbit 6s linear infinite; }
-  .story:nth-child(2n) .story-ring::before { animation-direction: reverse; }
-}
-
-/* Page changes and tab taps move the way each platform does. */
-@media (prefers-reduced-motion: no-preference) and (width < 64rem) {
-  [data-navigated][data-platform="ios"] .page-enter { animation: ios-push 560ms cubic-bezier(0.2, 0.9, 0.25, 1) backwards; }
-  [data-navigated][data-platform="android"] .page-enter { animation: md-fade-through 450ms var(--md-emphasized) backwards; }
-  .tabbar-item[aria-current="page"] .tabbar-icon svg { animation: tab-pop 560ms var(--spring); }
-  [data-platform="android"] .tabbar-item[aria-current="page"] .tabbar-icon svg { animation-duration: 450ms; }
-}
-@keyframes ios-push {
-  from { opacity: 0.3; translate: 18% 0; }
-}
-@keyframes md-fade-through {
-  from { opacity: 0; scale: 0.94; }
-}
-
-@media (width < 64rem) {
-  .builder-in-view .back-to-top { opacity: 0; pointer-events: none; }
-}
-
-/* Package builder: the price and counters give a small pop when they change. */
-@media (prefers-reduced-motion: no-preference) {
-  .price-pop { display: inline-block; animation: price-pop 420ms var(--spring); }
-}
-@keyframes price-pop {
-  from { transform: scale(0.92); opacity: 0.6; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-/* Printing the invoice from the client portal: only the invoice goes to paper. */
-.print-only { display: none; }
 /* Photos can be looked at but not saved: no long-press menu on phones, no dragging, no selecting. */
 img,
 video,
@@ -775,6 +353,9 @@ picture {
   -webkit-user-drag: none;
   user-select: none;
 }
+
+/* Printing the invoice from the client portal: only the invoice goes to paper. */
+.print-only { display: none; }
 
 /* Printing the website leaves the photographs out (the client invoice prints on its own). */
 @media print {
@@ -787,15 +368,15 @@ picture {
   html.printing body { padding: 0 !important; background: #fff; }
 }
 
-/* Client portal: panels slide in as the client switches section, and sheets rise from the bottom on phones. */
+/* Client portal: panels fade in as the client switches section, and sheets rise from the bottom on phones. */
 @media (prefers-reduced-motion: no-preference) {
-  .portal-panel { animation: portal-in 360ms var(--md-emphasized); }
-  .sheet[open] { animation: sheet-up 380ms var(--md-emphasized); }
-  .sheet[open]::backdrop { animation: fade-in 250ms ease-out; }
+  .portal-panel { animation: portal-in 300ms var(--ease-out-quart); }
+  .sheet[open] { animation: sheet-up 300ms var(--ease-out-quart); }
+  .sheet[open]::backdrop { animation: fade-in 200ms ease-out; }
 }
 @keyframes portal-in {
-  from { opacity: 0; translate: 0 10px; }
+  from { opacity: 0; translate: 0 8px; }
 }
 @keyframes sheet-up {
-  from { translate: 0 40px; opacity: 0; }
+  from { translate: 0 32px; opacity: 0; }
 }

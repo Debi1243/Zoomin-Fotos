@@ -1,60 +1,69 @@
-import type { CSSProperties } from "react";
-import { ButtonLink } from "@/components/ui/Button";
-import PhotoFrame from "@/components/photos/PhotoFrame";
-import HeroSlideshow from "@/components/photos/HeroSlideshow";
-import Parallax from "@/components/motion/Parallax";
-import { brand, pickPhotos } from "@/lib/data";
+import Image from "next/image";
+import { MapPin } from "lucide-react";
+import { ButtonLink, WhatsAppButton } from "@/components/ui/Button";
+import { brand, formatRupees, pickPhotos, startingPrice, waLink } from "@/lib/data";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+/**
+ * Says what we do, where, from what price, and how to book, over one real photograph.
+ * Nothing here animates: the photo and the heading are the page's first paint.
+ */
 export default function Hero() {
-  const [s1, s2, s3, s4, top, bottom] = pickPhotos(["01", "30", "14", "09", "02", "26"]);
-  const slides = [s1, s2, s3, s4];
-  return (
-    <section aria-labelledby="hero-title" className="aurora container-page grid items-center gap-y-10 pb-20 pt-6 md:grid-cols-12 md:gap-x-8 md:pt-14 lg:gap-x-10 lg:pb-28 lg:pt-16">
-      <div className="md:col-span-7 lg:col-span-6">
-        <p className="rise label flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
-          <span className="inline-flex items-center gap-2 text-fg">
-            <span aria-hidden className="relative flex size-1.5">
-              <span className="absolute inset-0 animate-ping rounded-full bg-primary opacity-60 motion-reduce:hidden" />
-              <span className="relative size-1.5 rounded-full bg-primary" />
-            </span>
-            Photography studio
-          </span>
-          <span aria-hidden>/</span>
-          <span>
-            {brand.city}, {brand.region}
-          </span>
-        </p>
-        <h1 id="hero-title" className="mt-7 max-w-[11ch] font-display text-display">
-          {/* Static on purpose: the headline is the page's largest paint on phones, so it must not wait for an animation. */}
-          Photographs that <em>feel</em> like the day did.
-        </h1>
-        <p className="rise mt-8 max-w-[46ch] text-lead text-muted" style={{ "--i": 7 } as CSSProperties}>
-          Weddings, portraits, families, events and brands, photographed with gentle direction and honest colour, then
-          delivered as galleries you will actually go back to.
-        </p>
-        <div className="rise mt-10 flex flex-col gap-3 sm:flex-row" style={{ "--i": 8 } as CSSProperties}>
-          <ButtonLink href="/contact" size="lg">Check your date</ButtonLink>
-          <ButtonLink href="/portfolio" size="lg" variant="secondary" arrow={false}>View portfolio</ButtonLink>
-        </div>
-        <p
-          aria-hidden
-          className="rise label mt-16 hidden items-center gap-4 text-muted lg:flex"
-          style={{ "--i": 9 } as CSSProperties}
-        >
-          <span className="scroll-cue relative block h-10 w-px overflow-hidden bg-border after:absolute after:inset-0 after:bg-fg" />
-          Scroll to explore
-        </p>
-      </div>
+  const [photo] = pickPhotos(["01"]);
+  const wedding = startingPrice("weddings");
+  const preWedding = startingPrice("pre-wedding");
 
-      {/* Phones and tablets show the slideshow alone, so the hero stays about a screen tall; desktops add two stills beside it. */}
-      <div className="grid gap-4 md:col-span-5 lg:col-span-6 lg:grid-cols-5">
-        <div className="lg:col-span-3">
-          <HeroSlideshow photos={slides} />
+  return (
+    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden bg-fg text-white">
+      {photo?.src && (
+        <Image
+          src={`${basePath}${photo.src}`}
+          alt={`${photo.title}, a wedding photographed by ${brand.name}`}
+          fill
+          priority
+          sizes="100vw"
+          className="-z-10 object-cover object-[50%_35%]"
+        />
+      )}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(20_16_14/0.15)_0%,rgb(20_16_14/0.35)_40%,rgb(20_16_14/0.85)_100%)] md:bg-[linear-gradient(90deg,rgb(20_16_14/0.82)_0%,rgb(20_16_14/0.55)_45%,rgb(20_16_14/0.05)_80%)]"
+      />
+      <div className="container-page flex min-h-[calc(100svh-4rem-var(--tabbar-h))] flex-col justify-end pb-10 pt-40 md:min-h-[38rem] md:justify-center md:py-24 lg:min-h-[42rem]">
+        <div className="max-w-xl">
+          <p className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium backdrop-blur-sm">
+            <MapPin aria-hidden className="size-4" />
+            {brand.city}, {brand.region}
+          </p>
+          <h1 id="hero-title" className="mt-5 font-display text-display">
+            Beautiful Memories. Affordable Photography.
+          </h1>
+          <p className="mt-4 text-lead text-white/85">
+            Professional wedding, pre-wedding, maternity, family and event photography with transparent packages and effortless booking.
+          </p>
+          {(wedding || preWedding) && (
+            <p className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-[0.9375rem]">
+              {wedding && (
+                <span>
+                  Weddings from <strong className="tabular font-bold">{formatRupees(wedding)}</strong>
+                </span>
+              )}
+              {preWedding && (
+                <span>
+                  Pre-wedding from <strong className="tabular font-bold">{formatRupees(preWedding)}</strong>
+                </span>
+              )}
+              <span className="text-white/70">Prices + GST</span>
+            </p>
+          )}
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <ButtonLink href="/packages" size="lg">
+              Explore Packages
+            </ButtonLink>
+            <WhatsAppButton href={waLink("Hi Zoomin Fotos! I'd like to know more about your photography packages.")} source="hero" size="lg" />
+          </div>
         </div>
-        <Parallax distance={36} className="col-span-2 hidden flex-col gap-4 pt-20 lg:flex">
-          <PhotoFrame photo={top} sizes="(min-width: 1024px) 18vw, 40vw" priority className="wipe" style={{ "--i": 1 } as CSSProperties} />
-          <PhotoFrame photo={bottom} sizes="(min-width: 1024px) 18vw, 40vw" className="wipe" style={{ "--i": 2 } as CSSProperties} />
-        </Parallax>
       </div>
     </section>
   );

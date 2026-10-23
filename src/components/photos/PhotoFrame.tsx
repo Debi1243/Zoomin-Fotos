@@ -24,6 +24,8 @@ type Props = {
   contain?: boolean;
   /** Wipe the photo into view as it scrolls in. */
   reveal?: boolean;
+  /** Square corners, for photos that sit flush inside a card. */
+  square?: boolean;
   className?: string;
   style?: CSSProperties;
 };
@@ -32,12 +34,12 @@ type Props = {
  * A photograph, or a toned proof frame standing in for one until `photo.src` is set.
  * Frames carry the photo's title so the layout reads as intended before images arrive.
  */
-export default function PhotoFrame({ photo, sizes, priority = false, fill = false, caption = true, contain = false, reveal = false, className, style }: Props) {
+export default function PhotoFrame({ photo, sizes, priority = false, fill = false, caption = true, contain = false, reveal = false, square = false, className, style }: Props) {
   const label = `${photo.title}, ${photo.place}`;
   return (
     <div
       style={style}
-      className={cn("photo-frame relative overflow-hidden rounded-sm bg-inverse", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
+      className={cn("photo-frame relative overflow-hidden bg-sand", !square && "rounded-lg", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
     >
       {photo.src ? (
         <Image

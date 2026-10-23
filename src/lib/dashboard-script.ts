@@ -8,7 +8,7 @@ import { contentRepo } from "@/lib/site";
  * the script checks with GitHub itself. Each enquiry is also emailed to the studio.
  */
 /** Bumped whenever the script changes, so the admin pages can ask for the newer copy. */
-export const SCRIPT_VERSION = 3;
+export const SCRIPT_VERSION = 4;
 
 export const dashboardScript = `// Zoomin Fotos dashboard and client portal. Paste this whole file into Extensions > Apps Script.
 const VERSION = ${SCRIPT_VERSION};
@@ -68,7 +68,7 @@ function text(value, max) {
 }
 
 function saveEnquiry(q) {
-  if (!q.name || !q.email) return { ok: false, error: "Missing name or email" };
+  if (!q.name || !(q.phone || q.email)) return { ok: false, error: "Missing name or phone" };
   const id = Utilities.getUuid().slice(0, 8);
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
@@ -83,7 +83,7 @@ function saveEnquiry(q) {
   try {
     MailApp.sendEmail({
       to: NOTIFY_EMAIL,
-      replyTo: String(q.email),
+      replyTo: String(q.email || NOTIFY_EMAIL),
       subject: "New enquiry: " + (q.session || "Shoot") + " from " + q.name,
       body: [
         "Name: " + q.name, "Email: " + q.email, "Phone: " + (q.phone || "-"), "Session: " + (q.session || "-"),

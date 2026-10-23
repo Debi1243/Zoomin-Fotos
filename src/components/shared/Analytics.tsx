@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { flush, trackClick, trackingEnabled, trackView } from "@/lib/track";
+import { trackConversion } from "@/lib/conversions";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const CLICKABLE = "a[href], button, [role='button'], summary";
@@ -33,7 +34,12 @@ export default function Analytics() {
 
   useEffect(() => {
     const path = pathname.replace(/\/$/, "") || "/";
-    if (!trackingEnabled(path)) return;
+    // GA counts the landing page when it loads; later in-site moves are sent here.
+    if (!first.current) trackConversion("page_view", { page_path: path });
+    if (!trackingEnabled(path)) {
+      first.current = false;
+      return;
+    }
     let referrer: string | undefined;
     if (first.current && document.referrer) {
       try {
@@ -50,9 +56,12 @@ export default function Analytics() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const path = location.pathname.slice(basePath.length).replace(/\/$/, "") || "/";
-      if (!trackingEnabled(path)) return;
       const el = (e.target as Element | null)?.closest(CLICKABLE);
-      if (el) trackClick(path, labelOf(el), targetOf(el));
+      if (!el) return;
+      // Booking actions carry data-track; phone links count as calls.
+      const conversion = el.getAttribute("data-track") ?? (el.getAttribute("href")?.startsWith("tel:") ? "call_click" : null);
+      if (conversion) trackConversion(conversion, { source: el.getAttribute("data-track-source") ?? undefined, page_path: path });
+      if (trackingEnabled(path)) trackClick(path, labelOf(el), targetOf(el));
     };
     const onHide = () => document.visibilityState === "hidden" && flush();
     document.addEventListener("click", onClick, { capture: true, passive: true });

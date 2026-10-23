@@ -22,7 +22,7 @@ export default function FilmGrid({ videos, showCategory = false, className }: Pr
           label="Films"
           title={
             <>
-              Watch the <em>films.</em>
+              Watch our films
             </>
           }
           intro="Some days are best seen moving. Each film opens on YouTube."
@@ -31,7 +31,7 @@ export default function FilmGrid({ videos, showCategory = false, className }: Pr
           {videos.map((v, i) => (
             <li key={v.id} className="stagger-in" style={{ "--i": i % 3 } as CSSProperties}>
               <a href={youtubeUrl(v.youtubeId)} target="_blank" rel="noopener noreferrer" className="group block">
-                <span className="relative block aspect-video overflow-hidden rounded-sm bg-inverse">
+                <span className="relative block aspect-video overflow-hidden rounded-lg bg-sand">
                   {/* eslint-disable-next-line @next/next/no-img-element -- thumbnail served by YouTube */}
                   <img
                     src={youtubeThumb(v.youtubeId)}

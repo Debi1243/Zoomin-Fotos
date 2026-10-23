@@ -1,6 +1,6 @@
 import { brand } from "./data";
 import { dataEndpoint } from "./settings";
-import { contactSchema, readContactForm, toFieldErrors, type ContactInput, type ContactState } from "./contact";
+import { contactSchema, readContactForm, sheetMessage, toFieldErrors, type ContactInput, type ContactState } from "./contact";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;
 
@@ -9,7 +9,7 @@ async function toSheet(endpoint: string, data: ContactInput) {
   const res = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({ type: "enquiry", enquiry: { ...data, page: location.pathname } }),
+    body: JSON.stringify({ type: "enquiry", enquiry: { ...data, message: sheetMessage(data), page: location.pathname } }),
   });
   const reply = (await res.json().catch(() => ({}))) as { ok?: boolean };
   if (!res.ok || !reply.ok) throw new Error("The sheet did not accept the enquiry");

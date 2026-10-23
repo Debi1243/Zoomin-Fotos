@@ -8,7 +8,7 @@ export function Stars({ n, className }: { n: number; className?: string }) {
   return (
     <span className={className} role="img" aria-label={`${n} out of 5 stars`}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <Star key={i} aria-hidden className={i <= n ? "inline size-4 fill-[var(--marigold-glow)] text-[var(--marigold-glow)]" : "inline size-4 text-border-strong"} />
+        <Star key={i} aria-hidden className={i <= n ? "inline size-4 fill-[#c98a1b] text-[#c98a1b]" : "inline size-4 text-border-strong"} />
       ))}
     </span>
   );
@@ -19,11 +19,11 @@ export default function ReviewCard({ t, clamp, className }: { t: Testimonial; cl
   const photo = t.photoId ? realPhotos.find((p) => p.id === t.photoId) : undefined;
   return (
     <figure className={cn("overflow-hidden rounded-lg border border-border bg-surface", className)}>
-      {photo && <PhotoFrame photo={photo} caption={false} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 85vw" className="rounded-none" />}
+      {photo && <PhotoFrame photo={photo} caption={false} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 85vw" square />}
       <div className="p-6">
         <div className="flex items-center justify-between gap-4">
           <Stars n={t.rating} />
-          <Quote aria-hidden className="size-6 text-[var(--rani)] opacity-40" />
+          <Quote aria-hidden className="size-6 text-accent opacity-30" />
         </div>
         <blockquote className={cn("mt-4 whitespace-pre-line leading-relaxed", clamp && "line-clamp-6")}>{t.text}</blockquote>
         <figcaption className="mt-5 border-t border-border pt-4 text-sm">

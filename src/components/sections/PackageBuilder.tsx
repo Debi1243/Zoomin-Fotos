@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { Check, Minus, Plus, RotateCcw } from "lucide-react";
 import { buttonClasses } from "@/components/ui/Button";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/cn";
 import { formatRupees } from "@/lib/data";
 import {
@@ -71,10 +72,11 @@ export default function PackageBuilder({ className }: { className?: string }) {
   const onlyPreWedding = sel.events.length === 1 && sel.events[0] === "pre-wedding";
   const request = () => {
     const params = new URLSearchParams({
-      session: onlyPreWedding ? "Pre-wedding" : "Wedding",
-      message: `I'd like this package (estimate ${formatRupees(total)} + GST):\n${summary(sel)}\n\n`,
+      service: onlyPreWedding ? "Pre-wedding" : "Wedding",
+      package: `My own package, about ${formatRupees(total)} + GST`,
+      notes: summary(sel),
     });
-    router.push(`/contact/?${params}#enquiry`);
+    router.push(`/contact?${params}#quote`);
   };
 
   const empty = sel.events.length === 0;
@@ -94,25 +96,16 @@ export default function PackageBuilder({ className }: { className?: string }) {
   }, []);
 
   return (
-    <section ref={sectionRef} id="build" aria-labelledby="builder-title" className={cn("section-y scroll-mt-20 border-t border-border", className)}>
+    <section ref={sectionRef} id="builder" aria-labelledby="builder-title" className={cn("section-y scroll-mt-20", className)}>
       <div className="container-page">
-        <div className="grid gap-y-6 lg:grid-cols-12 lg:gap-x-10">
-          <p className="label text-muted lg:col-span-3 lg:pt-3">
-            <span aria-hidden className="label-dot festive-gradient" />
-            Package builder
-          </p>
-          <div className="lg:col-span-9">
-            <h2 id="builder-title" className="max-w-[20ch] font-display text-h2">
-              Build your own <em>package.</em>
-            </h2>
-            <p className="mt-5 max-w-[56ch] leading-relaxed text-muted">
-              Pick your events, your team and the extras you want. The estimate updates as you go, and we confirm the final price
-              after a short call.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          id="builder-title"
+          label="Package builder"
+          title="Build your own wedding package"
+          intro="Pick your events, your team and the extras you want. The estimate updates as you go, and we confirm the final price with you."
+        />
 
-        <div className="mt-12 grid items-start gap-8 md:mt-16 lg:grid-cols-12 lg:gap-x-10">
+        <div className="mt-10 grid items-start gap-8 md:mt-12 lg:grid-cols-12 lg:gap-x-10">
           <div className="space-y-10 lg:col-span-8">
             <Group step="1" title="Choose events">
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -152,14 +145,13 @@ export default function PackageBuilder({ className }: { className?: string }) {
             aria-label="Your estimate"
             className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-30 lg:top-24 lg:bottom-auto lg:col-span-4"
           >
-            <div className="overflow-hidden rounded-lg border border-border bg-surface/95 shadow-lg backdrop-blur-md lg:shadow-none">
-              <div className="festive-gradient h-1" />
+            <div className="overflow-hidden rounded-lg border border-border bg-surface/95 shadow-md backdrop-blur-md lg:shadow-none">
               <div className="flex items-center gap-4 p-4 lg:block lg:p-6">
                 <div className="min-w-0 flex-1">
-                  <p className="label text-[0.625rem] text-muted lg:text-xs">Estimated package</p>
+                  <p className="label text-[0.6875rem] text-muted lg:text-xs">Estimated package</p>
                   <p className="mt-1 flex flex-wrap items-baseline gap-x-2 lg:mt-3">
                     {/* The rolling figure is for the eye; screen readers hear the final estimate once. */}
-                    <span key={bump} aria-hidden className="price-pop tabular font-display text-3xl leading-none lg:text-5xl">
+                    <span key={bump} aria-hidden className="price-pop tabular font-display text-2xl font-bold leading-none lg:text-4xl">
                       {empty ? "—" : formatRupees(shown)}
                     </span>
                     {!empty && <span aria-hidden className="text-sm text-muted">+ GST</span>}
@@ -175,9 +167,11 @@ export default function PackageBuilder({ className }: { className?: string }) {
                   type="button"
                   onClick={request}
                   disabled={empty}
-                  className={buttonClasses({ className: "shrink-0 lg:mt-6 lg:h-13 lg:w-full lg:text-[0.9375rem]" })}
+                  className={buttonClasses({ className: "shrink-0 lg:mt-6 lg:h-12 lg:w-full lg:text-[0.9375rem]" })}
+                  data-track="package_select"
+                  data-track-source="builder"
                 >
-                  Request this package
+                  Get a quote
                 </button>
               </div>
               <div className="hidden border-t border-border px-6 py-4 lg:block">
@@ -202,8 +196,8 @@ function Group({ step, title, note, children }: { step: string; title: string; n
   return (
     <fieldset>
       <legend className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <span className="tabular grid size-7 place-items-center rounded-full bg-fg text-xs font-medium text-bg">{step}</span>
-        <span className="font-display text-2xl">{title}</span>
+        <span className="tabular grid size-7 place-items-center rounded-full bg-primary text-xs font-bold text-primary-fg">{step}</span>
+        <span className="font-display text-xl font-semibold">{title}</span>
         {note && <span className="basis-full pl-10 text-sm text-muted sm:basis-auto sm:pl-0">{note}</span>}
       </legend>
       <div className="mt-5">{children}</div>
@@ -219,7 +213,7 @@ function Tile({ on, onClick, label, note, price }: { on: boolean; onClick: () =>
       onClick={onClick}
       className={cn(
         "relative flex min-h-[4.5rem] w-full flex-col items-start justify-center rounded-lg border px-4 py-3 text-left transition-[border-color,background-color,box-shadow] duration-200",
-        on ? "border-fg bg-fg/[0.04] shadow-[inset_0_0_0_1px_var(--fg)]" : "border-border hover:border-border-strong",
+        on ? "border-primary bg-primary/[0.06] shadow-[inset_0_0_0_1px_var(--primary)]" : "border-border bg-surface hover:border-border-strong",
       )}
     >
       <span className="pr-7 font-medium">{label}</span>
@@ -230,20 +224,20 @@ function Tile({ on, onClick, label, note, price }: { on: boolean; onClick: () =>
       <span
         aria-hidden
         className={cn(
-          "absolute right-3 top-3 grid size-5 place-items-center rounded-full border transition-all duration-300 ease-[var(--spring)]",
-          on ? "scale-100 border-transparent bg-fg text-bg" : "scale-90 border-border-strong",
+          "absolute right-3 top-3 grid size-5 place-items-center rounded-full border transition-all duration-200",
+          on ? "scale-100 border-transparent bg-primary text-primary-fg" : "scale-90 border-border-strong",
         )}
       >
-        <Check className={cn("size-3 transition-transform duration-300 ease-[var(--spring)]", on ? "scale-100" : "scale-0")} strokeWidth={3} />
+        <Check className={cn("size-3 transition-transform duration-200", on ? "scale-100" : "scale-0")} strokeWidth={3} />
       </span>
     </button>
   );
 }
 
 function Stepper({ c, value, onChange }: { c: Counter; value: number; onChange: (n: number) => void }) {
-  const btn = "grid size-10 place-items-center rounded-full border border-border-strong transition-colors hover:border-fg disabled:opacity-30";
+  const btn = "grid size-11 place-items-center rounded-full border border-border-strong bg-surface transition-colors hover:border-fg disabled:opacity-30";
   return (
-    <div className={cn("flex items-center justify-between gap-4 rounded-lg border px-4 py-3", value ? "border-fg/40" : "border-border")}>
+    <div className={cn("flex items-center justify-between gap-4 rounded-lg border bg-surface px-4 py-3", value ? "border-primary/50" : "border-border")}>
       <div>
         <p className="font-medium">{c.label}</p>
         <p className="mt-0.5 text-xs text-muted">
