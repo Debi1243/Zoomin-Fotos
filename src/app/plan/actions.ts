@@ -2,20 +2,16 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
-import OpenAI from "openai";
-import { zodTextFormat } from "openai/helpers/zod";
 import { headers } from "next/headers";
-import { MAX_IMAGE_BASE64, shootPlanSchema, shootTypes, type PlanRequest, type PlanResult, type ShootPlan } from "@/lib/shoot-plan";
+import { MAX_IMAGE_BASE64, shootPlanSchema, shootTypes, type PlanRequest, type PlanResult } from "@/lib/shoot-plan";
 
 /**
- * Analyses one location photo with AI (OpenAI, or Claude) and returns poses, lighting and camera advice.
- * Runs on the server only: the API key (OPENAI_API_KEY or ANTHROPIC_API_KEY in deploy/.env) never reaches the browser,
- * and the photo is sent to the AI provider for this one request and not stored by the website.
+ * Analyses one location photo with Claude and returns poses, lighting and camera advice.
+ * Runs on the server only: the API key (ANTHROPIC_API_KEY in deploy/.env) never reaches the browser,
+ * and the photo is sent to Anthropic for this one request and not stored by the website.
  */
 
-/** OpenAI is used when OPENAI_API_KEY is set (model overridable with OPENAI_MODEL); otherwise Claude. */
-const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-5.4";
-const CLAUDE_MODEL = "claude-opus-5-5";
+const MODEL = "claude-opus-5-5";
 
 // Each request costs money, so visitors get a few plans an hour and the whole site a daily ceiling.
 const PER_VISITOR_PER_HOUR = 5;
@@ -60,17 +56,9 @@ How to write each ai_prompt:
 
 If the photo is not a place someone could be photographed in (a document, a screenshot, a close-up of a face, or too dark or blurred to read), set usable to false, explain why in not_usable_reason, and return an empty poses list with a minimal analysis.`;
 
-const FAILED = { status: "error", message: "Something went wrong while analysing the photo. Please try again.", retry: true } as const;
-const UNAVAILABLE = { status: "error", message: "The photoshoot planner isn't available right now. Please message us on WhatsApp.", retry: false } as const;
-const BUSY = { status: "error", message: "The planner is busy right now. Please try again in a minute.", retry: true } as const;
-const UNREADABLE = { status: "error", message: "That photo couldn't be analysed. Please try another photo.", retry: false } as const;
-const DECLINED = { status: "error", message: "We couldn't plan a shoot for this photo. Please try a different photo of the location.", retry: false } as const;
-const INCOMPLETE = { status: "error", message: "The plan came back incomplete. Please try again.", retry: true } as const;
-
 export async function planShoot(req: PlanRequest): Promise<PlanResult> {
   if (req.website) return { status: "error", message: "Something went wrong. Please try again.", retry: true };
-  // OpenAI is used when its key is set; Claude is the alternative.
-  if (!process.env.OPENAI_API_KEY && !process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.ANTHROPIC_API_KEY) {
     return { status: "error", message: "The photoshoot planner isn't switched on yet. Please message us on WhatsApp for pose ideas.", retry: false };
   }
   if (!["image/webp", "image/jpeg", "image/png"].includes(req.mediaType) || !req.imageBase64 || req.imageBase64.length > MAX_IMAGE_BASE64) {
@@ -84,66 +72,10 @@ export async function planShoot(req: PlanRequest): Promise<PlanResult> {
   if (allowed === "limit") return { status: "error", message: "You've made a few plans already. Please try again in an hour.", retry: false };
   if (allowed === "busy") return { status: "error", message: "The planner is very busy today. Please try again tomorrow, or message us on WhatsApp.", retry: false };
 
-  const ask = `Plan a photoshoot at this location. Type of shoot: ${shootType}. ${
-    req.hasPersonReference
-      ? "The customer will supply a separate photo of the person to the image tool, so write each ai_prompt around that person reference."
-      : "The customer has no person reference photo, so write each ai_prompt for the person in neutral terms."
-  }`;
-  return process.env.OPENAI_API_KEY ? withOpenAI(req, ask) : withClaude(req, ask);
-}
-
-function finish(plan: ShootPlan | null | undefined): PlanResult {
-  if (!plan) return INCOMPLETE;
-  if (!plan.usable) {
-    return { status: "error", message: plan.not_usable_reason || "This doesn't look like a location photo. Please upload a photo of the place.", retry: false };
-  }
-  return { status: "ok", plan };
-}
-
-async function withOpenAI(req: PlanRequest, ask: string): Promise<PlanResult> {
-  const client = new OpenAI();
-  try {
-    const response = await client.responses.parse({
-      model: OPENAI_MODEL,
-      reasoning: { effort: "low" },
-      max_output_tokens: 32000,
-      instructions: SYSTEM,
-      input: [
-        {
-          role: "user",
-          content: [
-            { type: "input_image", image_url: `data:${req.mediaType};base64,${req.imageBase64}`, detail: "high" },
-            { type: "input_text", text: ask },
-          ],
-        },
-      ],
-      text: { format: zodTextFormat(shootPlanSchema, "shoot_plan") },
-    });
-    const refused = response.output.some((item) => item.type === "message" && item.content.some((c) => c.type === "refusal"));
-    if (refused) return DECLINED;
-    if (response.status === "incomplete") return INCOMPLETE;
-    return finish(response.output_parsed);
-  } catch (err) {
-    if (err instanceof OpenAI.RateLimitError) return BUSY;
-    if (err instanceof OpenAI.BadRequestError) return UNREADABLE;
-    if (err instanceof OpenAI.AuthenticationError || err instanceof OpenAI.PermissionDeniedError) {
-      console.error("Photoshoot planner: the OpenAI API key was rejected.");
-      return UNAVAILABLE;
-    }
-    if (err instanceof OpenAI.APIError) {
-      console.error(`Photoshoot planner: OpenAI error ${err.status}`);
-      return FAILED;
-    }
-    console.error("Photoshoot planner:", err);
-    return FAILED;
-  }
-}
-
-async function withClaude(req: PlanRequest, ask: string): Promise<PlanResult> {
   const client = new Anthropic();
   try {
     const stream = client.beta.messages.stream({
-      model: CLAUDE_MODEL,
+      model: MODEL,
       max_tokens: 32000,
       betas: ["server-side-fallback-2026-07-01"],
       fallbacks: "default",
@@ -154,27 +86,47 @@ async function withClaude(req: PlanRequest, ask: string): Promise<PlanResult> {
           role: "user",
           content: [
             { type: "image", source: { type: "base64", media_type: req.mediaType, data: req.imageBase64 } },
-            { type: "text", text: ask },
+            {
+              type: "text",
+              text: `Plan a photoshoot at this location. Type of shoot: ${shootType}. ${
+                req.hasPersonReference
+                  ? "The customer will supply a separate photo of the person to the image tool, so write each ai_prompt around that person reference."
+                  : "The customer has no person reference photo, so write each ai_prompt for the person in neutral terms."
+              }`,
+            },
           ],
         },
       ],
     });
     const message = await stream.finalMessage();
-    if (message.stop_reason === "refusal") return DECLINED;
-    if (message.stop_reason === "max_tokens") return INCOMPLETE;
-    return finish(message.parsed_output);
+
+    if (message.stop_reason === "refusal") {
+      return { status: "error", message: "We couldn't plan a shoot for this photo. Please try a different photo of the location.", retry: false };
+    }
+    if (message.stop_reason === "max_tokens" || !message.parsed_output) {
+      return { status: "error", message: "The plan came back incomplete. Please try again.", retry: true };
+    }
+    const plan = message.parsed_output;
+    if (!plan.usable) {
+      return { status: "error", message: plan.not_usable_reason || "This doesn't look like a location photo. Please upload a photo of the place.", retry: false };
+    }
+    return { status: "ok", plan };
   } catch (err) {
-    if (err instanceof Anthropic.RateLimitError) return BUSY;
-    if (err instanceof Anthropic.BadRequestError) return UNREADABLE;
+    if (err instanceof Anthropic.RateLimitError) {
+      return { status: "error", message: "The planner is busy right now. Please try again in a minute.", retry: true };
+    }
+    if (err instanceof Anthropic.BadRequestError) {
+      return { status: "error", message: "That photo couldn't be analysed. Please try another photo.", retry: false };
+    }
     if (err instanceof Anthropic.AuthenticationError) {
       console.error("Photoshoot planner: the Anthropic API key was rejected.");
-      return UNAVAILABLE;
+      return { status: "error", message: "The photoshoot planner isn't available right now. Please message us on WhatsApp.", retry: false };
     }
     if (err instanceof Anthropic.APIError) {
-      console.error(`Photoshoot planner: Anthropic error ${err.status}`);
-      return FAILED;
+      console.error(`Photoshoot planner: API error ${err.status}`);
+      return { status: "error", message: "Something went wrong while analysing the photo. Please try again.", retry: true };
     }
     console.error("Photoshoot planner:", err);
-    return FAILED;
+    return { status: "error", message: "We couldn't reach the planner. Check your connection and try again.", retry: true };
   }
 }
