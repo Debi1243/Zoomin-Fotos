@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { ArrowRight, Menu, MessageCircle, Sparkles, X } from "lucide-react";
+import { Menu, MessageCircle, X } from "lucide-react";
 import Logo from "../ui/Logo";
 import { ButtonLink, WhatsAppButton } from "../ui/Button";
 import { isActive, primaryNav } from "@/lib/site";
@@ -163,21 +163,6 @@ export default function SiteHeader() {
               })}
             </ul>
           </nav>
-          {/* Phones only: the photoshoot planner lives in this menu, never in the desktop navigation. */}
-          <Link
-            href="/plan"
-            className="menu-link mt-5 flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 p-3"
-            style={{ "--i": primaryNav.length } as CSSProperties}
-          >
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-fg">
-              <Sparkles aria-hidden className="size-5" />
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block font-display font-semibold">Plan My Photoshoot</span>
-              <span className="block text-sm text-muted">Poses and light ideas from a photo of your spot</span>
-            </span>
-            <ArrowRight aria-hidden className="size-5 shrink-0 text-accent" />
-          </Link>
           <div className="mt-auto grid gap-3 pt-8">
             <ButtonLink href="/contact#quote" size="lg" className="w-full">
               Book Your Shoot

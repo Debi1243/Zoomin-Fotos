@@ -39,13 +39,10 @@ export function aspectOf(width: number, height: number): Aspect {
   return ratio > 1.15 ? "landscape" : ratio < 0.72 ? "tall" : ratio < 0.87 ? "portrait" : "square";
 }
 
-/**
- * Resizes and re-encodes a photo in the browser, so only a web-sized file is uploaded.
- * `maxEdge` caps the longer side instead of the width (the planner sends AI-sized photos).
- */
-export async function prepareImage(file: File, maxEdge?: number): Promise<PreparedImage> {
+/** Resizes and re-encodes a photo in the browser, so only a web-sized file is uploaded. */
+export async function prepareImage(file: File): Promise<PreparedImage> {
   const source = await decode(file);
-  const scale = maxEdge ? Math.min(1, maxEdge / Math.max(source.width, source.height)) : Math.min(1, MAX_WIDTH / source.width);
+  const scale = Math.min(1, MAX_WIDTH / source.width);
   const width = Math.round(source.width * scale);
   const height = Math.round(source.height * scale);
   const canvas = document.createElement("canvas");

@@ -21,8 +21,6 @@ services:
     restart: unless-stopped
     environment:
       CONTACT_WEBHOOK_URL: "${CONTACT_WEBHOOK_URL:-}"
-      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
-      PLANNER_DAILY_LIMIT: "${PLANNER_DAILY_LIMIT:-150}"
     ports:
       - "30030:3000" # LAN/Tailscale check: http://192.168.1.145:30030
     networks:
