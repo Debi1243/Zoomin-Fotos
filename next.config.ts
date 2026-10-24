@@ -18,7 +18,10 @@ const nextConfig: NextConfig = {
     trailingSlash: true,
     images: { unoptimized: true },
     turbopack: {
-      resolveAlias: { "@/app/contact/actions": "./src/lib/contact-static.ts" },
+      resolveAlias: {
+        "@/app/contact/actions": "./src/lib/contact-static.ts",
+        "@/app/plan/actions": "./src/lib/plan-static.ts",
+      },
     },
   }),
 };
