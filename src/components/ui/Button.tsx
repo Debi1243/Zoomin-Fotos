@@ -12,7 +12,8 @@ type Size = "md" | "lg";
 
 const base =
   "btn group/btn relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold " +
-  "transition-[background-color,border-color,color,box-shadow] duration-150 ease-out active:translate-y-px " +
+  "transition-[background-color,border-color,color,box-shadow,translate,scale] duration-200 ease-out " +
+  "hover:-translate-y-px hover:shadow-md active:translate-y-0 active:scale-[0.97] active:shadow-sm " +
   "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
 
 const variants: Record<Variant, string> = {

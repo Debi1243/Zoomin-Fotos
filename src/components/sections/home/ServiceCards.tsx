@@ -24,7 +24,7 @@ export default function ServiceCards() {
               <li key={s.title} className="stagger-in" style={{ "--i": i } as CSSProperties}>
                 <Link
                   href={`/services/${s.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface transition-[border-color,box-shadow] duration-200 hover:border-border-strong hover:shadow-md"
+                  className="lift group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface hover:border-border-strong"
                 >
                   {photo && (
                     <div className="aspect-[4/5] sm:aspect-[4/3]">

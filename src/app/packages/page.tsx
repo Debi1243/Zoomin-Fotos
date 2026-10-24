@@ -70,7 +70,7 @@ export default function PackagesPage() {
               <li key={s.slug}>
                 <Link
                   href={`/services/${s.slug}`}
-                  className="group flex h-full items-center justify-between gap-4 rounded-lg border border-border bg-surface p-5 hover:border-border-strong hover:shadow-md"
+                  className="lift group flex h-full items-center justify-between gap-4 rounded-lg border border-border bg-surface p-5 hover:border-border-strong"
                 >
                   <span>
                     <span className="block font-display text-lg">{s.title}</span>

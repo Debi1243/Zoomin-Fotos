@@ -170,7 +170,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 <li key={r.slug}>
                   <Link
                     href={`/services/${r.slug}`}
-                    className="group flex h-full items-center justify-between gap-4 rounded-lg border border-border bg-surface p-5 hover:border-border-strong hover:shadow-md"
+                    className="lift group flex h-full items-center justify-between gap-4 rounded-lg border border-border bg-surface p-5 hover:border-border-strong"
                   >
                     <span>
                       <span className="block font-display text-lg">{r.title}</span>

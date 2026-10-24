@@ -54,7 +54,7 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
               <article
                 aria-labelledby={`${id}-${i}`}
                 className={cn(
-                  "relative flex h-full flex-col rounded-lg border bg-surface p-5 transition-[border-color,box-shadow] duration-200 hover:shadow-md md:p-6",
+                  "lift relative flex h-full flex-col rounded-lg border bg-surface p-5 md:p-6",
                   p.featured ? "border-primary" : "border-border hover:border-border-strong",
                 )}
               >

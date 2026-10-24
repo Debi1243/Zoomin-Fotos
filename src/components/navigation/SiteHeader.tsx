@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { Menu, MessageCircle, X } from "lucide-react";
 import Logo from "../ui/Logo";
 import { ButtonLink, WhatsAppButton } from "../ui/Button";
@@ -68,12 +68,18 @@ export default function SiteHeader() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "relative inline-flex h-10 items-center rounded-md px-3 text-[0.9375rem] font-medium transition-colors",
+                      "group relative inline-flex h-10 items-center rounded-md px-3 text-[0.9375rem] font-medium transition-colors",
                       active ? "text-fg" : "text-muted hover:text-fg",
                     )}
                   >
                     {item.label}
-                    {active && <span aria-hidden className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-primary" />}
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "absolute inset-x-3 bottom-1 h-0.5 origin-left rounded-full transition-[scale,background-color] duration-300 ease-[var(--ease-out-expo)]",
+                        active ? "scale-x-100 bg-primary" : "scale-x-0 bg-border-strong group-hover:scale-x-100",
+                      )}
+                    />
                   </Link>
                 </li>
               );
@@ -122,7 +128,7 @@ export default function SiteHeader() {
         aria-label="Menu"
         onClose={() => setOpen(false)}
         onClick={(e) => e.target === e.currentTarget && setOpen(false)}
-        className="sheet m-0 ml-auto h-dvh max-h-none w-full max-w-sm bg-bg p-0 text-fg shadow-md backdrop:bg-fg/40 lg:hidden"
+        className="menu-sheet m-0 ml-auto h-dvh max-h-none w-full max-w-sm bg-bg p-0 text-fg shadow-md backdrop:bg-fg/40 lg:hidden"
       >
         <div className="flex h-full flex-col px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[env(safe-area-inset-top)]">
           <div className="flex h-16 items-center justify-between">
@@ -138,10 +144,10 @@ export default function SiteHeader() {
           </div>
           <nav aria-label="Menu" className="mt-2">
             <ul className="divide-y divide-border border-y border-border">
-              {primaryNav.map((item) => {
+              {primaryNav.map((item, i) => {
                 const active = navActive(pathname, item.href);
                 return (
-                  <li key={item.href}>
+                  <li key={item.href} className="menu-link" style={{ "--i": i } as CSSProperties}>
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}

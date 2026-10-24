@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { MapPin } from "lucide-react";
 import { ButtonLink, WhatsAppButton } from "@/components/ui/Button";
 import { brand, formatRupees, pickPhotos, startingPrice, waLink } from "@/lib/data";
@@ -19,20 +20,20 @@ export default function Hero() {
   return (
     <section aria-labelledby="hero-title" className="relative isolate overflow-hidden md:bg-fg md:text-white">
       {photo?.src && (
-        <div className="relative aspect-[4/3] sm:aspect-[16/9] md:absolute md:inset-0 md:-z-10 md:aspect-auto">
+        <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] md:absolute md:inset-0 md:-z-10 md:aspect-auto">
           <Image
             src={`${basePath}${photo.src}`}
             alt={`${photo.title}, a wedding photographed by ${brand.name}`}
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[50%_30%]"
+            className="hero-photo object-cover object-[50%_30%]"
           />
           <div
             aria-hidden
             className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(20_16_14/0.85)_0%,rgb(20_16_14/0.6)_42%,rgb(20_16_14/0.05)_78%)] md:block"
           />
-          <p className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 rounded-full bg-fg/70 px-3 py-1.5 text-sm font-medium text-white backdrop-blur-sm md:hidden">
+          <p className="rise absolute bottom-3 left-4 inline-flex items-center gap-1.5 rounded-full bg-fg/70 px-3 py-1.5 text-sm font-medium text-white backdrop-blur-sm md:hidden">
             <MapPin aria-hidden className="size-4" />
             {brand.city}, {brand.region}
           </p>
@@ -40,18 +41,18 @@ export default function Hero() {
       )}
       <div className="container-page pb-10 pt-6 md:flex md:min-h-[38rem] md:items-center md:py-20 lg:min-h-[42rem]">
         <div className="max-w-xl">
-          <p className="hidden items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium backdrop-blur-sm md:inline-flex">
+          <p className="rise hidden items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium backdrop-blur-sm md:inline-flex">
             <MapPin aria-hidden className="size-4" />
             {brand.city}, {brand.region}
           </p>
           <h1 id="hero-title" className="font-display text-display md:mt-5">
             Beautiful Memories. Affordable Photography.
           </h1>
-          <p className="mt-4 text-lead text-muted md:text-white/85">
+          <p className="rise mt-4 text-lead text-muted md:text-white/85" style={{ "--i": 1 } as CSSProperties}>
             Professional wedding, pre-wedding, maternity, family and event photography with transparent packages and effortless booking.
           </p>
           {(wedding || preWedding) && (
-            <p className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-[0.9375rem]">
+            <p className="rise mt-5 flex flex-wrap gap-x-4 gap-y-1 text-[0.9375rem]" style={{ "--i": 2 } as CSSProperties}>
               {wedding && (
                 <span>
                   Weddings from <strong className="tabular font-bold text-accent md:text-white">{formatRupees(wedding)}</strong>
@@ -65,7 +66,7 @@ export default function Hero() {
               <span className="text-muted md:text-white/70">Prices + GST</span>
             </p>
           )}
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+          <div className="rise mt-7 flex flex-col gap-3 sm:flex-row" style={{ "--i": 3 } as CSSProperties}>
             <ButtonLink href="/packages" size="lg">
               Explore Packages
             </ButtonLink>

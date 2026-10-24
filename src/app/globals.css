@@ -273,7 +273,7 @@
 
 .lightbox[open] { animation: fade-in 200ms ease-out; }
 .lightbox[open]::backdrop { animation: fade-in 200ms ease-out; }
-.lightbox-photo { animation: fade-in 240ms ease-out; }
+.lightbox-photo { animation: photo-in 320ms var(--ease-out-expo); }
 
 /* Accordion height animation for <details>, where supported. */
 @media (prefers-reduced-motion: no-preference) {
@@ -293,32 +293,87 @@
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
 /* ──────────────────────────────────────────────────────────────
-   Motion: short, quiet, and only after first paint.
-   Elements fade up as they scroll in (ScrollEffects adds .is-in).
-   Nothing above the fold animates, so the largest paint is never held back.
+   Motion
+   Quick, soft and purposeful. Everything uses opacity and transforms
+   only (cheap for phones), and all of it switches off for visitors who
+   prefer reduced motion. The hero heading never waits on an animation,
+   so the first paint is never held back.
    ────────────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: no-preference) {
-  .rise { animation: rise 500ms var(--ease-out-quart) both; animation-delay: calc(var(--i, 0) * 60ms); }
+  /* On load: small things around the hero heading settle in, one after another. */
+  .rise { animation: rise 700ms var(--ease-out-expo) both; animation-delay: calc(var(--i, 0) * 90ms + 80ms); }
 
+  /* The hero photograph eases in from a slight zoom; it is already painted, only its scale moves. */
+  .hero-photo { animation: settle 1800ms var(--ease-out-expo) both; }
+
+  /* Scroll reveals: sections and cards fade up as they arrive (ScrollEffects adds .is-in). */
   .js-motion :is(.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in) {
-    transition: opacity 600ms var(--ease-out-quart), translate 600ms var(--ease-out-quart);
-    transition-delay: calc(min(var(--i, 0), 3) * 60ms);
+    transition:
+      opacity 800ms var(--ease-out-expo),
+      translate 800ms var(--ease-out-expo),
+      scale 800ms var(--ease-out-expo);
+    transition-delay: calc(min(var(--i, 0), 5) * 70ms);
   }
-  .js-motion :is(.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in):not(.is-in) { opacity: 0; translate: 0 1rem; }
+  .js-motion :is(.reveal, .stagger-in):not(.is-in) { opacity: 0; translate: 0 1.5rem; }
+  .js-motion .reveal-left:not(.is-in) { opacity: 0; translate: -1.5rem 0; }
+  .js-motion .reveal-right:not(.is-in) { opacity: 0; translate: 1.5rem 0; }
+  .js-motion .reveal-scale:not(.is-in) { opacity: 0; scale: 0.96; }
 
-  .js-motion .reveal-photo > :is(.frame, img) { transition: opacity 600ms var(--ease-out-quart); }
-  .js-motion .reveal-photo:not(.is-in) > :is(.frame, img) { opacity: 0; }
+  /* Photographs develop in: a fade with a gentle zoom out. */
+  .js-motion .reveal-photo > :is(.frame, img) {
+    transition: opacity 900ms var(--ease-out-expo), scale 1200ms var(--ease-out-expo);
+    transition-delay: calc(min(var(--i, 0), 5) * 70ms);
+  }
+  .js-motion .reveal-photo:not(.is-in) > :is(.frame, img) { opacity: 0; scale: 1.06; }
 
-  .js-motion .reveal-line { transform-origin: left; transition: scale 600ms var(--ease-out-quart); }
+  .js-motion .reveal-line { transform-origin: left; transition: scale 800ms var(--ease-out-expo); }
   .js-motion .reveal-line:not(.is-in) { scale: 0 1; }
 
-  [data-navigated] .page-enter { animation: fade-in 250ms ease-out backwards; }
+  /* Moving between pages: the new page fades up. */
+  [data-navigated] .page-enter { animation: page-in 450ms var(--ease-out-expo) backwards; }
+
+  /* Cards lift a little under the pointer and press back down when tapped. */
+  .lift {
+    transition:
+      translate 300ms var(--ease-out-expo),
+      box-shadow 300ms var(--ease-out-expo),
+      border-color 200ms ease-out;
+  }
+  @media (hover: hover) {
+    .lift:hover { translate: 0 -4px; box-shadow: var(--shadow-md); }
+  }
+  .lift:active { translate: 0 -1px; transition-duration: 100ms; }
+
+  /* The sticky booking bar slides up once the page has loaded. */
+  .booking-bar { animation: bar-up 600ms var(--ease-out-expo) 400ms backwards; }
+
+  /* The phone menu slides in from the right over a fading backdrop. */
+  .menu-sheet[open] { animation: slide-in 380ms var(--ease-out-expo); }
+  .menu-sheet[open]::backdrop { animation: fade-in 300ms ease-out; }
+  .menu-sheet[open] .menu-link { animation: rise 500ms var(--ease-out-expo) both; animation-delay: calc(var(--i, 0) * 45ms + 120ms); }
+
   .price-pop { display: inline-block; animation: price-pop 300ms var(--ease-out-quart); }
 }
 
 @keyframes rise {
-  from { opacity: 0; translate: 0 0.5rem; }
+  from { opacity: 0; translate: 0 0.75rem; }
+}
+@keyframes settle {
+  from { scale: 1.08; }
+  to { scale: 1; }
+}
+@keyframes page-in {
+  from { opacity: 0; translate: 0 0.75rem; }
+}
+@keyframes bar-up {
+  from { translate: 0 100%; }
+}
+@keyframes slide-in {
+  from { translate: 100% 0; }
+}
+@keyframes photo-in {
+  from { opacity: 0; scale: 0.97; }
 }
 @keyframes price-pop {
   from { opacity: 0.5; }
