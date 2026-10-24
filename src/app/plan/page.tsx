@@ -29,7 +29,7 @@ export default function PlanPage() {
           <ShootPlanner />
         </div>
         <p className="mt-8 text-xs leading-relaxed text-muted">
-          Your location photo is analysed by AI (Anthropic&apos;s Claude) to make this plan and isn&apos;t stored by us. Suggestions are a starting point: check the place and stay safe on
+          Your location photo is analysed by an AI service to make this plan and isn&apos;t stored by us. Suggestions are a starting point: check the place and stay safe on
           the day.
         </p>
       </div>
