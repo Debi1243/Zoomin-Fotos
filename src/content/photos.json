@@ -622,5 +622,50 @@
     "aspect": "landscape",
     "tone": "dusk",
     "src": "/photos/events-a-birthday-hug.webp"
+  },
+  {
+    "id": "85",
+    "category": "events",
+    "title": "On stage, under blue light",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "sky",
+    "src": "/photos/events-on-stage-under-blue-light.webp"
+  },
+  {
+    "id": "86",
+    "category": "events",
+    "title": "Mic in hand",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "dusk",
+    "src": "/photos/events-mic-in-hand.webp"
+  },
+  {
+    "id": "87",
+    "category": "events",
+    "title": "Coke Studio, live",
+    "place": "Odisha",
+    "aspect": "landscape",
+    "tone": "dusk",
+    "src": "/photos/events-coke-studio-live.webp"
+  },
+  {
+    "id": "88",
+    "category": "events",
+    "title": "Rapper, mid-verse",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "amber",
+    "src": "/photos/events-rapper-mid-verse.webp"
+  },
+  {
+    "id": "89",
+    "category": "events",
+    "title": "DJ on the decks",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "sky",
+    "src": "/photos/events-dj-on-the-decks.webp"
   }
 ]
