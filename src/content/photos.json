@@ -707,10 +707,19 @@
   {
     "id": "94",
     "category": "events",
-    "title": "Singer in pink",
+    "title": "Kanika Kapoor, live",
     "place": "Odisha",
     "aspect": "tall",
     "tone": "rose",
     "src": "/photos/events-singer-in-pink.webp"
+  },
+  {
+    "id": "95",
+    "category": "events",
+    "title": "Kanika Kapoor, live on stage",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "rose",
+    "src": "/photos/events-singer-arms-wide.webp"
   }
 ]
