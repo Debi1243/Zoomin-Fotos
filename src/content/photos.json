@@ -667,5 +667,50 @@
     "aspect": "tall",
     "tone": "sky",
     "src": "/photos/events-dj-on-the-decks.webp"
+  },
+  {
+    "id": "90",
+    "category": "events",
+    "title": "DJ in the blue haze",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "sky",
+    "src": "/photos/events-dj-in-the-blue-haze.webp"
+  },
+  {
+    "id": "91",
+    "category": "events",
+    "title": "Facing the crowd",
+    "place": "Odisha",
+    "aspect": "landscape",
+    "tone": "dusk",
+    "src": "/photos/events-facing-the-crowd.webp"
+  },
+  {
+    "id": "92",
+    "category": "events",
+    "title": "Rapper in the spotlights",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "amber",
+    "src": "/photos/events-rapper-in-the-spotlights.webp"
+  },
+  {
+    "id": "93",
+    "category": "events",
+    "title": "Sparks and a raised hand",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "amber",
+    "src": "/photos/events-sparks-and-a-raised-hand.webp"
+  },
+  {
+    "id": "94",
+    "category": "events",
+    "title": "Singer in pink",
+    "place": "Odisha",
+    "aspect": "tall",
+    "tone": "rose",
+    "src": "/photos/events-singer-in-pink.webp"
   }
 ]
