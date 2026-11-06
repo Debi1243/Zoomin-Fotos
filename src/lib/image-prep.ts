@@ -26,7 +26,7 @@ async function decode(file: File): Promise<CanvasImageSource & { width: number; 
 const toBlob = (canvas: HTMLCanvasElement, type: string) =>
   new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, QUALITY));
 
-const toBase64 = (blob: Blob) =>
+export const toBase64 = (blob: Blob) =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result).split(",")[1] ?? "");
