@@ -369,7 +369,7 @@ export default function AdminPanel() {
         )}
       </section>
 
-      <VideoManager videos={videos} busy={!!busy} save={save} />
+      <VideoManager videos={videos} busy={!!busy} save={save} repoRef={ref} setBusy={setBusy} />
 
       <section aria-labelledby="library-title">
         <h2 id="library-title" className="font-display text-h3">

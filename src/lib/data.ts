@@ -30,11 +30,17 @@ export type Photo = {
 };
 
 /** A film hosted on YouTube, shown as a thumbnail that opens on YouTube. */
+/** A film on the website: either a YouTube video or a video file uploaded from the admin page. */
 export type Video = {
   id: string;
-  youtubeId: string;
   title: string;
   category: ServiceSlug;
+  /** Set for YouTube films. */
+  youtubeId?: string;
+  /** Set for uploaded files: the file under public/, e.g. /videos/weddings-haldi-v1a2b.mp4. */
+  src?: string;
+  /** A still frame shown before an uploaded file plays. */
+  poster?: string;
 };
 
 export type Service = {
@@ -319,12 +325,16 @@ export const photos: Photo[] = [...realPhotos, ...placeholderPhotos];
 /** The photographs picked for the home page scroller on the admin page, in portfolio order. */
 export const featuredPhotos: Photo[] = realPhotos.filter((p) => p.featured);
 
-const videoSchema = z.object({
-  id: z.string().min(1),
-  youtubeId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
-  title: z.string().min(1),
-  category: z.enum(serviceSlugs),
-});
+const videoSchema = z
+  .object({
+    id: z.string().min(1),
+    title: z.string().min(1),
+    category: z.enum(serviceSlugs),
+    youtubeId: z.string().regex(/^[A-Za-z0-9_-]{11}$/).optional(),
+    src: z.string().startsWith("/videos/").optional(),
+    poster: z.string().startsWith("/videos/").optional(),
+  })
+  .refine((v) => !!v.youtubeId !== !!v.src, "A video needs either a YouTube id or an uploaded file, not both.");
 
 /** Films, edited from the admin page (src/content/videos.json). */
 export const videos: Video[] = z.array(videoSchema).parse(videoData);
