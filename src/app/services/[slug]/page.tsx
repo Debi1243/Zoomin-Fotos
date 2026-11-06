@@ -12,16 +12,13 @@ import HomeReviews from "@/components/sections/home/HomeReviews";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { ButtonLink, TextLink, WhatsAppButton } from "@/components/ui/Button";
+import { ButtonLink, WhatsAppButton } from "@/components/ui/Button";
 import JsonLd from "@/components/shared/JsonLd";
 import { brand, formatRupees, getService, photosIn, services, startingPrice, videosIn, waLink } from "@/lib/data";
 import { quoteHref, quoteServiceFor } from "@/lib/contact";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
 export const dynamicParams = false;
-
-/** How many photographs a service page shows before pointing to the portfolio. */
-const GALLERY_LIMIT = 12;
 
 const serviceTitle = (t: string) =>
   `${t.replace(/^Weddings$/, "Wedding").replace(/^Events$/, "Event").replace(/^Portraits$/, "Portrait")} photography`;
@@ -147,10 +144,9 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             id="gallery-title"
             label="Recent work"
             title={`${s.title} we've photographed`}
-            action={shots.length > GALLERY_LIMIT ? <TextLink href="/portfolio">See all photos</TextLink> : undefined}
           />
           <div className="mt-8 md:mt-10">
-            <PortfolioGallery photos={shots.slice(0, GALLERY_LIMIT)} eager={0} compact />
+            <PortfolioGallery photos={shots} eager={0} compact />
           </div>
         </div>
       </section>
