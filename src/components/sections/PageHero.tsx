@@ -28,12 +28,12 @@ export default function PageHero({ label, title, intro, crumbs, children, media,
             <nav aria-label="Breadcrumb">
               <ol className="flex flex-wrap items-center gap-2 caption-2 text-muted">
                 <li className="flex items-center gap-2">
-                  <Link href="/" className="transition-colors duration-300 hover:text-fg">Home</Link>
+                  <Link href="/" className="inline-flex min-h-11 items-center transition-colors duration-300 hover:text-fg md:min-h-0">Home</Link>
                   <ChevronRight aria-hidden className="size-3.5" />
                 </li>
                 {crumbs.map((c) => (
                   <li key={c.href} className="flex items-center gap-2">
-                    <Link href={c.href} className="transition-colors duration-300 hover:text-fg">{c.label}</Link>
+                    <Link href={c.href} className="inline-flex min-h-11 items-center transition-colors duration-300 hover:text-fg md:min-h-0">{c.label}</Link>
                     <ChevronRight aria-hidden className="size-3.5" />
                   </li>
                 ))}

@@ -87,7 +87,7 @@ export default function SiteHeader() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "inline-flex h-10 items-center rounded-lg px-3 title-4 transition-colors duration-300",
+                      "inline-flex h-11 items-center rounded-lg px-3 title-4 transition-colors duration-300",
                       active ? "bg-sand text-fg" : "text-muted hover:bg-sand-soft hover:text-fg",
                     )}
                   >
@@ -142,8 +142,13 @@ export default function SiteHeader() {
         role="dialog"
         aria-modal="true"
         aria-label="Menu"
-        hidden={!open}
-        className={cn("menu-panel fixed inset-0 z-40 overflow-y-auto bg-bg/95 backdrop-blur-2xl lg:hidden", open && "is-open")}
+        inert={!open}
+        aria-hidden={!open}
+        className={cn(
+          // Opens over 300ms, closes a little faster (200ms), so leaving never feels slow.
+          "menu-panel fixed inset-0 z-40 overflow-y-auto bg-bg/95 backdrop-blur-2xl transition-[opacity,visibility] lg:hidden",
+          open ? "is-open visible opacity-100 duration-300" : "invisible opacity-0 duration-200",
+        )}
       >
         <div className="mx-auto flex min-h-full max-w-xl flex-col px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(6rem+env(safe-area-inset-top))] sm:px-6">
           <nav aria-label="Menu">

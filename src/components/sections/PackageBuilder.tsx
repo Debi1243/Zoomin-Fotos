@@ -141,7 +141,8 @@ export default function PackageBuilder({ className }: { className?: string }) {
           </div>
 
           {/* On phones the estimate rides along above the tab bar; on computers it sits beside the choices. */}
-          <aside
+          <div
+            role="region"
             aria-label="Your estimate"
             className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-30 lg:top-24 lg:bottom-auto lg:col-span-4"
           >
@@ -179,13 +180,13 @@ export default function PackageBuilder({ className }: { className?: string }) {
                 <button
                   type="button"
                   onClick={() => update(initialSelection)}
-                  className="mt-3 inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg"
+                  className="mt-2 inline-flex min-h-11 items-center gap-2 text-sm text-muted transition-colors duration-300 hover:text-fg"
                 >
                   <RotateCcw aria-hidden className="size-3.5" /> Start again
                 </button>
               </div>
             </div>
-          </aside>
+          </div>
         </div>
       </div>
     </section>

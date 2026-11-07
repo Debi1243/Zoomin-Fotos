@@ -121,8 +121,8 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
 /** A plain link styled for the row under the package cards. */
 export function PackagesLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="link-underline w-fit button-sm text-accent">
-      {children}
+    <Link href={href} className="inline-flex min-h-11 w-fit items-center button-sm text-accent">
+      <span className="link-underline">{children}</span>
     </Link>
   );
 }

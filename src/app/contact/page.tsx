@@ -35,26 +35,32 @@ export default function ContactPage() {
           <div id="quote" className="scroll-mt-24 lg:col-span-8">
             <QuoteForm />
           </div>
-          <aside className="lg:col-span-4">
-            <div className="rounded-xl border border-border bg-surface p-5 sm:p-6">
-              <h2 className="font-display text-h3">Prefer to just chat?</h2>
-              <p className="mt-2 text-sm text-muted">Message us on WhatsApp with any question, or call during {brand.hours}.</p>
-              <WhatsAppButton href={whatsappHref} source="contact-aside" size="lg" className="mt-5 w-full" />
-              <dl className="mt-6 space-y-4 border-t border-border pt-6 text-sm">
+          <div role="region" aria-labelledby="chat-title" className="lg:col-span-4">
+            <div className="rounded-xl border border-border bg-surface p-6">
+              <h2 id="chat-title" className="heading-5">Prefer to just chat?</h2>
+              <p className="mt-2 body-6 text-muted">Message us on WhatsApp with any question, or call during {brand.hours}.</p>
+              <WhatsAppButton href={whatsappHref} source="contact-aside" size="lg" className="mt-6 w-full" />
+              <dl className="mt-6 space-y-4 border-t border-border pt-6">
                 {details.map(({ label, value, href, icon: Icon }) => (
-                  <div key={label} className="flex gap-3">
-                    <Icon aria-hidden className="mt-0.5 size-4 shrink-0 text-accent" />
-                    <div>
-                      <dt className="text-muted">{label}</dt>
-                      <dd className="mt-0.5 font-medium">
-                        {href ? <a href={href} className="link-underline">{value}</a> : value}
-                      </dd>
-                    </div>
+                  <div key={label} className="grid grid-cols-[1rem_1fr] gap-x-3">
+                    <dt className="col-span-2 flex items-center gap-3 caption-2 text-muted">
+                      <Icon aria-hidden className="size-4 shrink-0 text-accent" />
+                      {label}
+                    </dt>
+                    <dd className="col-start-2 body-5">
+                      {href ? (
+                        <a href={href} className="inline-flex min-h-11 items-center">
+                          <span className="link-underline">{value}</span>
+                        </a>
+                      ) : (
+                        value
+                      )}
+                    </dd>
                   </div>
                 ))}
               </dl>
             </div>
-          </aside>
+          </div>
         </div>
       </section>
     </>

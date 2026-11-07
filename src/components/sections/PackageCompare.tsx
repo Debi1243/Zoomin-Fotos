@@ -53,14 +53,14 @@ export default function PackageCompare({ packages }: { packages: Package[] }) {
                 </tr>
               ))}
               <tr>
-                <th scope="row" className="sticky left-0 z-10 bg-surface p-4" />
+                <td className="sticky left-0 z-10 bg-surface p-4" />
                 {packages.map((p) => (
                   <td key={p.name} className="p-4 text-center">
                     <Link
                       href={quoteHref({ service: "Wedding", pkg: p.name, price: p.price })}
                       data-track="package_select"
                       data-track-source={`compare:${p.name}`}
-                      className="inline-flex h-10 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-fg hover:bg-primary-hover"
+                      className="inline-flex h-11 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-fg hover:bg-primary-hover"
                     >
                       Book {p.name}
                     </Link>

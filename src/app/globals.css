@@ -32,6 +32,9 @@
   /* WhatsApp action: darker than WhatsApp's own green so white text passes AA (5.3:1). */
   --whatsapp: #1f7a4d;
   --whatsapp-hover: #18643f;
+  /* WhatsApp green as text: darker again, so it passes AA on the sand bands too (5.6:1 on #e9e2d9). */
+  --whatsapp-text: #18643f;
+  --whatsapp-text-hover: #0f4a2d;
 
   /* Legacy names still used by the admin and client portal. All map onto the warm palette. */
   --marigold: var(--accent);
@@ -83,6 +86,8 @@
   --color-accent: var(--accent);
   --color-whatsapp: var(--whatsapp);
   --color-whatsapp-hover: var(--whatsapp-hover);
+  --color-whatsapp-text: var(--whatsapp-text);
+  --color-whatsapp-text-hover: var(--whatsapp-text-hover);
   --color-marigold: var(--marigold);
   --color-sindoor: var(--sindoor);
   --color-rani: var(--rani);
@@ -398,7 +403,6 @@
   .booking-bar { animation: bar-up 600ms var(--ease-base) 400ms backwards; }
 
   /* Phone menu: a full-height panel fades in, then each link rises 24px, 60ms apart. */
-  .menu-panel.is-open { animation: fade-in 300ms var(--ease-base); }
   .menu-panel.is-open .menu-link { animation: menu-rise 500ms var(--ease-base) both; animation-delay: min(calc(var(--i, 0) * 60ms), 400ms); }
 
   .price-pop { display: inline-block; animation: price-pop 300ms var(--ease-base); }
