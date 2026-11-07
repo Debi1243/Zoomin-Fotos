@@ -8,6 +8,8 @@ import { CategorySelect, categoryName } from "@/components/admin/CategorySelect"
 import type { ServiceSlug, Video } from "@/lib/data";
 import type { Change } from "@/lib/github";
 import { parseYouTubeId, youtubeThumb, youtubeUrl } from "@/lib/youtube";
+import { TagEditor, TagsField } from "@/components/admin/TagEditor";
+import { handlesProblem, parseHandles } from "@/lib/instagram";
 
 type Props = {
   videos: Video[];
@@ -24,6 +26,8 @@ export default function VideoManager({ videos, busy, save }: Props) {
   const [category, setCategory] = useState<ServiceSlug>("weddings");
   const [linkError, setLinkError] = useState<string>();
   const [titleError, setTitleError] = useState<string>();
+  const [tags, setTags] = useState("");
+  const [tagsError, setTagsError] = useState<string>();
   const [confirming, setConfirming] = useState<string | null>(null);
   const youtubeId = parseYouTubeId(link);
 
@@ -32,9 +36,12 @@ export default function VideoManager({ videos, busy, save }: Props) {
     const linkProblem = !youtubeId ? "Paste a YouTube link, for example https://youtu.be/abc123XYZ_0" : undefined;
     const titleProblem = !title.trim() ? "Give the video a title. It appears under the thumbnail." : undefined;
     setLinkError(linkProblem);
+    const tagsProblem = handlesProblem(tags);
     setTitleError(titleProblem);
-    if (linkProblem || titleProblem || !youtubeId) return;
-    const video: Video = { id: newVideoId(), youtubeId, title: title.trim(), category };
+    setTagsError(tagsProblem);
+    if (linkProblem || titleProblem || tagsProblem || !youtubeId) return;
+    const tagged = parseHandles(tags).handles;
+    const video: Video = { id: newVideoId(), youtubeId, title: title.trim(), category, ...(tagged.length ? { tagged } : {}) };
     const ok = await save(
       "Adding the video…",
       ({ videos: current }) => ({ content: { videos: [video, ...current] }, message: `Add video: ${video.title}` }),
@@ -43,6 +50,7 @@ export default function VideoManager({ videos, busy, save }: Props) {
     if (ok) {
       setLink("");
       setTitle("");
+      setTags("");
     }
   }
 
@@ -66,6 +74,16 @@ export default function VideoManager({ videos, busy, save }: Props) {
         message: `Move video to ${categoryName(to)}: ${video.title}`,
       }),
       `“${video.title}” moved to ${categoryName(to)}.`,
+    );
+
+  const retag = (video: Video, tagged: string[]) =>
+    save(
+      `Saving tags on “${video.title}”…`,
+      ({ videos: current }) => ({
+        content: { videos: current.map((v) => (v.id === video.id ? { ...v, tagged: tagged.length ? tagged : undefined } : v)) },
+        message: `Tag on Instagram: ${video.title}`,
+      }),
+      tagged.length ? `Tags saved on “${video.title}”.` : `Tags removed from “${video.title}”.`,
     );
 
   return (
@@ -112,6 +130,15 @@ export default function VideoManager({ videos, busy, save }: Props) {
               <CategorySelect id="video-category" value={category} onChange={setCategory} className="mt-2 h-12" />
             </div>
           </div>
+          <TagsField
+            id="video-tags"
+            value={tags}
+            onChange={(v) => {
+              setTags(v);
+              setTagsError(undefined);
+            }}
+            error={tagsError}
+          />
           <Button type="submit" loading={busy} loadingLabel="Saving…">
             Add video
           </Button>
@@ -143,6 +170,7 @@ export default function VideoManager({ videos, busy, save }: Props) {
                   <ExternalLink aria-hidden className="mt-1 size-3.5 shrink-0" />
                   <span className="sr-only">(opens YouTube)</span>
                 </a>
+                <TagEditor id={`v-${video.id}`} title={video.title} tagged={video.tagged} busy={busy} onSave={(t) => retag(video, t)} />
                 <div>
                   <label htmlFor={`vmove-${video.id}`} className="sr-only">
                     Category for {video.title}

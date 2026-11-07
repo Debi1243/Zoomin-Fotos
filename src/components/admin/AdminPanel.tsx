@@ -11,6 +11,8 @@ import VideoManager from "@/components/admin/VideoManager";
 import { CategorySelect, categoryName } from "@/components/admin/CategorySelect";
 import { explain, readStoredToken, remembered, SignIn, storeToken, type Notice } from "@/components/admin/auth";
 import { prepareImage, slugify, titleFromFileName } from "@/lib/image-prep";
+import { TagEditor, TagsField } from "@/components/admin/TagEditor";
+import { handlesProblem, parseHandles } from "@/lib/instagram";
 
 const DEFAULT_PLACE = "Odisha";
 
@@ -24,7 +26,7 @@ const defaultTone: Record<ServiceSlug, Tone> = {
 };
 
 
-type Pending = { key: string; file: File; preview: string; title: string; category: ServiceSlug; place: string };
+type Pending = { key: string; file: File; preview: string; title: string; category: ServiceSlug; place: string; tags: string; tagsError?: string };
 type Publish = { sha: string; state: "waiting" | "live" | "slow" };
 
 const nextId = (list: Photo[]) => String(Math.max(18, ...list.map((p) => Number(p.id)).filter(Number.isFinite)) + 1).padStart(2, "0");
@@ -145,6 +147,7 @@ export default function AdminPanel() {
         title: titleFromFileName(file.name),
         category: batchCategory,
         place: DEFAULT_PLACE,
+        tags: "",
       }));
     setPending((list) => [...list, ...added]);
     if (fileInput.current) fileInput.current.value = "";
@@ -157,6 +160,12 @@ export default function AdminPanel() {
     e.preventDefault();
     if (pending.some((p) => !p.title.trim())) {
       setNotice({ kind: "error", text: "Give every photo a title. It appears as the caption on the website." });
+      return;
+    }
+    const checked = pending.map((p) => ({ ...p, tagsError: handlesProblem(p.tags) }));
+    if (checked.some((p) => p.tagsError)) {
+      setPending(checked);
+      setNotice({ kind: "error", text: "Check the Instagram tags marked below." });
       return;
     }
     setBusy(`Preparing ${pending.length === 1 ? "the photo" : `${pending.length} photos`}…`);
@@ -176,6 +185,7 @@ export default function AdminPanel() {
         const entries = prepared.map((p) => {
           const pid = String(id++).padStart(2, "0");
           const src = `/photos/${p.category}-${slugify(p.title) || "photo"}-${pid}.${p.image.ext}`;
+          const tagged = parseHandles(p.tags).handles;
           const photo: Photo = {
             id: pid,
             category: p.category,
@@ -184,6 +194,7 @@ export default function AdminPanel() {
             aspect: p.image.aspect,
             tone: defaultTone[p.category],
             src,
+            ...(tagged.length ? { tagged } : {}),
           };
           return { photo, file: { path: `public${src}`, base64: p.image.base64 } };
         });
@@ -237,6 +248,19 @@ export default function AdminPanel() {
         message: `${featured ? "Feature" : "Unfeature"} photo: ${photo.title}`,
       }),
       featured ? `“${photo.title}” is now featured on the home page.` : `“${photo.title}” is no longer featured.`,
+    );
+  }
+
+  async function setTags(photo: Photo, tagged: string[]) {
+    return save(
+      `Saving tags on “${photo.title}”…`,
+      ({ photos: current }) => ({
+        content: {
+          photos: current.map((p) => (p.id === photo.id ? { ...p, tagged: tagged.length ? tagged : undefined } : p)),
+        },
+        message: `Tag on Instagram: ${photo.title}`,
+      }),
+      tagged.length ? `Tags saved on “${photo.title}”.` : `Tags removed from “${photo.title}”.`,
     );
   }
 
@@ -345,6 +369,13 @@ export default function AdminPanel() {
                         className="h-10"
                       />
                     </div>
+                    <TagsField
+                      id={`tags-${p.key}`}
+                      value={p.tags}
+                      onChange={(tags) => updatePending(p.key, { tags, tagsError: undefined })}
+                      error={p.tagsError}
+                      className="h-10"
+                    />
                   </div>
                   <button
                     type="button"
@@ -440,6 +471,7 @@ export default function AdminPanel() {
                     <p className="font-medium leading-snug">{photo.title}</p>
                     <p className="text-sm text-muted">{photo.place}</p>
                   </div>
+                  <TagEditor id={photo.id} title={photo.title} tagged={photo.tagged} busy={!!busy} onSave={(tags) => setTags(photo, tags)} />
                   <div>
                     <label htmlFor={`move-${photo.id}`} className="sr-only">
                       Category for {photo.title}

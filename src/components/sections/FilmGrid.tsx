@@ -3,6 +3,7 @@ import { PlayIcon as Play } from "@phosphor-icons/react/dist/ssr";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { getService, type Video } from "@/lib/data";
 import { youtubeThumb, youtubeUrl } from "@/lib/youtube";
+import InstagramTags from "@/components/photos/InstagramTags";
 
 type Props = {
   videos: Video[];
@@ -56,6 +57,7 @@ export default function FilmGrid({ videos, showCategory = false, className }: Pr
                   <span className="sr-only"> (opens YouTube in a new tab)</span>
                 </span>
               </a>
+              <InstagramTags handles={v.tagged} title={v.title} className="text-muted [&_a:hover]:text-fg" />
             </li>
           ))}
         </ul>

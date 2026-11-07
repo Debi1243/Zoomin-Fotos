@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { ArrowLeftIcon as ArrowLeft, ArrowRightIcon as ArrowRight, XIcon as X } from "@phosphor-icons/react/dist/ssr";
 import PhotoFrame from "./PhotoFrame";
+import InstagramTags from "./InstagramTags";
 import type { Photo, ServiceSlug } from "@/lib/data";
 import { cn } from "@/lib/cn";
 
@@ -180,10 +181,13 @@ export default function PortfolioGallery({
               </button>
             </div>
             <div className="flex items-center justify-between gap-4 px-4 py-5 sm:px-6">
-              <p>
-                <span className="font-display text-xl">{current.title}</span>
-                <span className="ml-3 text-sm text-[#f4f2ec]/70">{current.place}</span>
-              </p>
+              <div className="min-w-0">
+                <p>
+                  <span className="font-display text-xl">{current.title}</span>
+                  <span className="ml-3 text-sm text-[#f4f2ec]/70">{current.place}</span>
+                </p>
+                <InstagramTags handles={current.tagged} title={current.title} className="-mb-3 text-[#f4f2ec]/80 [&_a:hover]:text-[#f4f2ec]" />
+              </div>
               <div className="flex gap-2 sm:hidden">
                 <button type="button" onClick={() => step(-1)} aria-label="Previous photograph" className="grid size-11 place-items-center rounded-lg border border-white/20">
                   <ArrowLeft aria-hidden className="size-5" />
