@@ -1,6 +1,7 @@
 import { z } from "zod";
 import photoData from "@/content/photos.json";
 import videoData from "@/content/videos.json";
+import { HANDLE_PATTERN, MAX_TAGS } from "./instagram";
 
 // Contact details and formatting live in ./brand, which client components can import without the photo data.
 export { brand, formatRupees, locationLine, mailHref, telHref, waLink, whatsappHref } from "./brand";
@@ -27,6 +28,8 @@ export type Photo = {
   src?: string;
   /** Shown in the home page's featured scroller; picked on the admin page. */
   featured?: boolean;
+  /** Instagram usernames tagged on the photo, without the "@". */
+  tagged?: string[];
 };
 
 /** A film hosted on YouTube, shown as a thumbnail that opens on YouTube. */
@@ -35,6 +38,8 @@ export type Video = {
   youtubeId: string;
   title: string;
   category: ServiceSlug;
+  /** Instagram usernames tagged on the film, without the "@". */
+  tagged?: string[];
 };
 
 export type Service = {
@@ -301,6 +306,8 @@ const placeholderPhotos: Photo[] = [
   { id: "07", category: "events", title: "The last speech", place: "Cuttack", aspect: "landscape", tone: "ink" },
 ];
 
+const taggedSchema = z.array(z.string().regex(HANDLE_PATTERN)).max(MAX_TAGS).optional();
+
 const photoSchema = z.object({
   id: z.string().min(1),
   category: z.enum(serviceSlugs),
@@ -310,6 +317,7 @@ const photoSchema = z.object({
   tone: z.enum(["dusk", "amber", "rose", "sage", "sky", "ink"]),
   src: z.string().startsWith("/photos/"),
   featured: z.boolean().optional(),
+  tagged: taggedSchema,
 });
 
 export const realPhotos: Photo[] = z.array(photoSchema).parse(photoData);
@@ -324,6 +332,7 @@ const videoSchema = z.object({
   youtubeId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
   title: z.string().min(1),
   category: z.enum(serviceSlugs),
+  tagged: taggedSchema,
 });
 
 /** Films, edited from the admin page (src/content/videos.json). */
