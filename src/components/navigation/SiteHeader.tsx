@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import Logo from "../ui/Logo";
 import { ButtonLink, WhatsAppButton } from "../ui/Button";
 import { isActive, primaryNav } from "@/lib/site";
 import { whatsappHref } from "@/lib/brand";
 import { cn } from "@/lib/cn";
+import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
 
 const navActive = (pathname: string, href: string) => (href === "/" ? pathname === "/" : isActive(pathname, href));
 
@@ -64,6 +65,23 @@ export default function SiteHeader() {
       document.removeEventListener("keydown", onKey);
     };
   }, [open]);
+
+  // Phone menu: as the panel fades in, each link rises 24px into place, 60ms apart.
+  useGSAP(
+    () => {
+      if (!open) return;
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        gsap.fromTo(
+          ".menu-link",
+          { autoAlpha: 0, y: 24 },
+          { autoAlpha: 1, y: 0, duration: 0.5, stagger: { each: 0.06 }, overwrite: true, clearProps: "opacity,visibility,transform" },
+        );
+      });
+      return () => mm.revert();
+    },
+    { dependencies: [open], scope: panelRef, revertOnUpdate: true },
+  );
 
   return (
     <header className="sticky top-0 z-50 px-4 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-6">
@@ -153,10 +171,10 @@ export default function SiteHeader() {
         <div className="mx-auto flex min-h-full max-w-xl flex-col px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(6rem+env(safe-area-inset-top))] sm:px-6">
           <nav aria-label="Menu">
             <ul className="divide-y divide-border border-y border-border">
-              {primaryNav.map((item, i) => {
+              {primaryNav.map((item) => {
                 const active = navActive(pathname, item.href);
                 return (
-                  <li key={item.href} className="menu-link" style={{ "--i": i } as CSSProperties}>
+                  <li key={item.href} className="menu-link">
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}
@@ -171,7 +189,7 @@ export default function SiteHeader() {
               })}
             </ul>
           </nav>
-          <div className="menu-link mt-auto grid gap-3 pt-8" style={{ "--i": primaryNav.length } as CSSProperties}>
+          <div className="menu-link mt-auto grid gap-3 pt-8">
             <ButtonLink href="/contact#quote" size="lg" className="w-full" onClick={() => setOpen(false)}>
               Book your shoot
             </ButtonLink>

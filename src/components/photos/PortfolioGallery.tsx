@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowLeftIcon as ArrowLeft, ArrowRightIcon as ArrowRight, XIcon as X } from "@phosphor-icons/react/dist/ssr";
 import PhotoFrame from "./PhotoFrame";
 import type { Photo, ServiceSlug } from "@/lib/data";
 import { cn } from "@/lib/cn";
+import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
 
 type Filter = { slug: ServiceSlug | "all"; label: string; count: number };
 
@@ -56,6 +57,27 @@ export default function PortfolioGallery({
     if (!current && dialog.open) dialog.close();
   }, [current]);
 
+  // Changing the filter: the first photos (which skip the scroll reveal so they paint at once)
+  // fade and rise into place, 70ms apart. The rest stagger in through the site-wide scroll reveal.
+  const gridRef = useRef<HTMLDivElement>(null);
+  const shownFilter = useRef(filter);
+  useGSAP(
+    () => {
+      if (shownFilter.current === filter) return;
+      shownFilter.current = filter;
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        gsap.fromTo(
+          "[data-top]",
+          { autoAlpha: 0, y: 16 },
+          { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.07, clearProps: "opacity,visibility,transform" },
+        );
+      });
+      return () => mm.revert();
+    },
+    { dependencies: [filter], scope: gridRef, revertOnUpdate: true },
+  );
+
   const step = (delta: number) => setOpenIndex((i) => (i === null ? i : (i + delta + list.length) % list.length));
 
   return (
@@ -90,13 +112,14 @@ export default function PortfolioGallery({
           Photos are dealt into columns left to right, so the first ones sit across the top row. */}
       <div
         key={`${filter}-${columns}`}
+        ref={gridRef}
         className={cn("grid items-start gap-3 sm:gap-4 lg:gap-6", filters.length > 1 && "mt-6 md:mt-8")}
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
         {toColumns(list, columns).map((column, c) => (
           <ul key={c} className="flex flex-col gap-3 sm:gap-4 lg:gap-6">
             {column.map(({ photo, index }) => (
-              <li key={photo.id} className={cn(index >= 3 && "stagger-in")} style={{ "--i": index } as CSSProperties}>
+              <li key={photo.id} className={cn(index >= 3 && "stagger-in")} data-top={index < 3 || undefined}>
                 <button
                   type="button"
                   onClick={() => setOpenIndex(index)}
