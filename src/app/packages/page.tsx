@@ -42,7 +42,7 @@ export default function PackagesPage() {
             ["#builder", "Build your own"],
             ["#other", "Other shoots"],
           ].map(([href, label]) => (
-            <a key={href} href={href} className="inline-flex h-10 items-center rounded-full border border-border bg-surface px-4 text-sm font-medium hover:border-fg">
+            <a key={href} href={href} className="inline-flex h-11 items-center rounded-full border border-border bg-surface px-4 text-sm font-medium hover:border-fg">
               {label}
             </a>
           ))}

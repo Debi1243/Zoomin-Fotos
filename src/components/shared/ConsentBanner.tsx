@@ -37,10 +37,10 @@ export default function ConsentBanner() {
         We use Google Analytics to see which pages help people book. No ads, and nothing is shared for marketing. Is that okay?
       </p>
       <div className="mt-3 flex gap-2">
-        <button type="button" onClick={() => choose("granted")} className="h-10 rounded-lg bg-fg px-4 font-semibold text-bg">
+        <button type="button" onClick={() => choose("granted")} className="h-11 rounded-lg bg-fg px-4 font-semibold text-bg">
           Allow
         </button>
-        <button type="button" onClick={() => choose("denied")} className="h-10 rounded-lg border border-border-strong px-4 font-semibold">
+        <button type="button" onClick={() => choose("denied")} className="h-11 rounded-lg border border-border-strong px-4 font-semibold">
           No thanks
         </button>
       </div>

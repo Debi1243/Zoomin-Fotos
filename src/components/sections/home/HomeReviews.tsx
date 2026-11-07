@@ -26,7 +26,7 @@ export default function HomeReviews({ className }: { className?: string }) {
               title="What our clients say"
               intro={`${count === 1 ? "One review" : `${count} reviews`}, averaging ${average.toFixed(1)} out of 5.`}
               action={
-                <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 button-sm text-accent link-underline">
+                <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-2 button-sm text-accent">
                   Read them on Google <ExternalLink aria-hidden className="size-3.5" />
                 </a>
               }

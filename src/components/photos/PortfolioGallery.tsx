@@ -74,7 +74,7 @@ export default function PortfolioGallery({
               )}
             >
               {f.label}
-              <span className={cn("tabular text-xs", filter === f.slug ? "text-primary-fg/80" : "text-muted")}>{f.count}</span>
+              <span className={cn("tabular text-xs", filter === f.slug ? "text-primary-fg" : "text-muted")}>{f.count}</span>
             </button>
           ))}
         </div>

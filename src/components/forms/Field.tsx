@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 
 export const control =
   "block w-full rounded-lg border bg-elevated px-3.5 text-base text-fg transition-[border-color,box-shadow] duration-200 " +
-  "placeholder:text-muted/70 hover:border-border-strong focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/15 " +
+  "placeholder:text-muted hover:border-border-strong focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/15 " +
   "disabled:cursor-not-allowed disabled:opacity-60";
 
 type FieldShellProps = {

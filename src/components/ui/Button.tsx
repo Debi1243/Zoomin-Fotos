@@ -102,7 +102,7 @@ export function Button({ variant, size, loading = false, loadingLabel, arrow = t
 export function TextLink({ className, children, ...props }: ComponentProps<typeof Link>) {
   return (
     <Link
-      className={cn("group/btn inline-flex items-center gap-2 button-sm text-accent transition-colors hover:text-fg", className)}
+      className={cn("group/btn inline-flex min-h-11 items-center gap-2 button-sm text-accent transition-colors hover:text-fg", className)}
       {...props}
     >
       <span className="link-underline">{children}</span>
@@ -120,7 +120,7 @@ export function WhatsAppLink({ href, source, className, children = "Or ask us on
       rel="noopener noreferrer"
       data-track="whatsapp_click"
       data-track-source={source}
-      className={cn("group/btn inline-flex items-center gap-2 button-sm text-whatsapp transition-colors duration-300 hover:text-whatsapp-hover", className)}
+      className={cn("group/btn inline-flex min-h-11 items-center gap-2 button-sm text-whatsapp-text transition-colors duration-300 hover:text-whatsapp-text-hover", className)}
     >
       <MessageCircle aria-hidden weight="fill" className="size-5" />
       <span className="link-underline">{children}</span>

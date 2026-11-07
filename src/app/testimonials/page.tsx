@@ -35,7 +35,7 @@ export default function TestimonialsPage() {
 
       <section aria-label="Reviews from clients" className="border-t border-border pb-20 pt-12 md:pb-28 md:pt-16">
         <div className="container-page">
-          <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="mb-10 inline-flex items-center gap-2 text-sm font-medium link-underline">
+          <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="mb-10 inline-flex min-h-11 items-center gap-2 text-sm font-medium link-underline">
             Read all our reviews on Google <ExternalLink aria-hidden className="size-3.5" />
           </a>
           {count === 0 ? (
@@ -63,7 +63,7 @@ export default function TestimonialsPage() {
               Photographed by <em>us?</em>
             </h2>
             <p className="mt-5 max-w-[40ch] leading-relaxed text-muted">Tell others what it was like. We read every review before it goes up.</p>
-            <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-medium link-underline">
+            <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-medium link-underline">
               Or review us on Google <ExternalLink aria-hidden className="size-3.5" />
             </a>
           </div>
