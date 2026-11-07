@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from "@/lib/gsap";
 
 type Props = {
   /** The benefit, at least two lines long. Each "\n" is a line break placed where the thought breaks. */
@@ -13,37 +14,40 @@ type Props = {
  * One large statement of the core benefit, on its own further down the page.
  * Every word starts muted and turns to full ink, one at a time in reading order,
  * as it crosses a line 40% up from the bottom of the screen. Each word is lit once.
- * Visitors who prefer reduced motion see the full text straight away (globals.css).
+ * ScrollTrigger watches the words; words on the same line cross together and light left to right,
+ * 60ms apart. Visitors who prefer reduced motion see the full text straight away (globals.css).
  */
 export default function TaglineReveal({ text, id = "tagline", className }: Props) {
   const ref = useRef<HTMLParagraphElement>(null);
 
-  useEffect(() => {
-    const root = ref.current;
-    if (!root) return;
-    const words = Array.from(root.querySelectorAll<HTMLElement>(".tagline-word"));
-    if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      words.forEach((w) => w.classList.add("is-lit"));
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        // Words on the same line cross together; light them left to right, 60ms apart.
-        const crossing = entries
-          .filter((e) => e.isIntersecting)
-          .map((e) => e.target as HTMLElement)
-          .sort((a, b) => Number(a.dataset.i) - Number(b.dataset.i));
-        crossing.forEach((w, n) => {
-          w.style.transitionDelay = `${n * 60}ms`;
-          w.classList.add("is-lit");
-          io.unobserve(w);
+  useGSAP(
+    () => {
+      const words = gsap.utils.toArray<HTMLElement>(".tagline-word");
+      const light = (group: Element[], gap: number) =>
+        (group as HTMLElement[])
+          .filter((w) => !w.classList.contains("is-lit"))
+          .sort((a, b) => Number(a.dataset.i) - Number(b.dataset.i))
+          .forEach((w, n) => {
+            w.style.transitionDelay = `${n * gap}ms`;
+            w.classList.add("is-lit");
+          });
+
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        ScrollTrigger.batch(words, {
+          // A word lights once its bottom edge rises past 60% of the screen height.
+          start: "bottom 60%",
+          once: true,
+          onEnter: (group) => light(group, 60),
+          // Words already scrolled past (an anchor link, a restored position) light at once.
+          onLeave: (group) => light(group, 0),
         });
-      },
-      { rootMargin: "0px 0px -40% 0px", threshold: 1 },
-    );
-    words.forEach((w) => io.observe(w));
-    return () => io.disconnect();
-  }, []);
+      });
+      // Reduced motion: no triggers, the CSS already shows every word in full ink.
+      return () => mm.revert();
+    },
+    { scope: ref },
+  );
 
   const lines = text.split("\n").map((line) => line.split(" "));
   const starts = lines.map((_, l) => lines.slice(0, l).reduce((n, words) => n + words.length, 0));

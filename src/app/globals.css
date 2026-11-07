@@ -360,34 +360,20 @@
    ────────────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: no-preference) {
-  /* On load: small things around the hero heading settle in, one after another. */
-  .rise { animation: rise 700ms var(--ease-base) both; animation-delay: calc(var(--i, 0) * 90ms + 80ms); }
-
-  /* The hero photograph eases in from a slight zoom; it is already painted, only its scale moves. */
+  /* The hero photograph eases in from a slight zoom; it is already painted, only its scale moves.
+     It stays in CSS so it starts with the first paint instead of waiting for JavaScript. */
   .hero-photo { animation: settle 1800ms var(--ease-base) both; }
 
-  /* Scroll reveals: sections rise 32px and fade in once (ScrollEffects adds .is-in). */
-  .js-motion :is(.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in) {
-    transition:
-      opacity 700ms var(--ease-base),
-      translate 700ms var(--ease-base),
-      scale 700ms var(--ease-base);
-    transition-delay: calc(min(var(--i, 0), 5) * 70ms);
-  }
-  .js-motion :is(.reveal, .stagger-in):not(.is-in) { opacity: 0; translate: 0 2rem; }
-  .js-motion .reveal-left:not(.is-in) { opacity: 0; translate: -2rem 0; }
-  .js-motion .reveal-right:not(.is-in) { opacity: 0; translate: 2rem 0; }
-  .js-motion .reveal-scale:not(.is-in) { opacity: 0; scale: 0.96; }
+  /* GSAP (ScrollEffects) plays the hero entrance and the scroll reveals. Until an element has played
+     (.is-in) it is held invisible here, so nothing flashes before the scripts load. */
+  .js-motion :is(.rise, .reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in):not(.is-in),
+  .js-motion .reveal-photo:not(.is-in) > :is(.frame, img) { opacity: 0; }
+  .js-motion .reveal-line:not(.is-in) { transform: scaleX(0); transform-origin: left; }
 
-  /* Photographs develop in: a fade with a gentle zoom out. */
-  .js-motion .reveal-photo > :is(.frame, img) {
-    transition: opacity 800ms var(--ease-base), scale 1200ms var(--ease-base);
-    transition-delay: calc(min(var(--i, 0), 5) * 70ms);
-  }
-  .js-motion .reveal-photo:not(.is-in) > :is(.frame, img) { opacity: 0; scale: 1.06; }
-
-  .js-motion .reveal-line { transform-origin: left; transition: scale 700ms var(--ease-base); }
-  .js-motion .reveal-line:not(.is-in) { scale: 0 1; }
+  /* Safety net: if the animation scripts never start, everything shows after 3 seconds anyway. */
+  .js-motion:not(.motion-ready) :is(.rise, .reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-in):not(.is-in),
+  .js-motion:not(.motion-ready) .reveal-photo:not(.is-in) > :is(.frame, img),
+  .js-motion:not(.motion-ready) .reveal-line:not(.is-in) { animation: motion-fallback 1ms 3s forwards; }
 
   /* Moving between pages: the new page fades up. */
   [data-navigated] .page-enter { animation: page-in 500ms var(--ease-base) backwards; }
@@ -402,17 +388,14 @@
   /* The sticky booking bar slides up once the page has loaded. */
   .booking-bar { animation: bar-up 600ms var(--ease-base) 400ms backwards; }
 
-  /* Phone menu: a full-height panel fades in, then each link rises 24px, 60ms apart. */
-  .menu-panel.is-open .menu-link { animation: menu-rise 500ms var(--ease-base) both; animation-delay: min(calc(var(--i, 0) * 60ms), 400ms); }
-
   .price-pop { display: inline-block; animation: price-pop 300ms var(--ease-base); }
 }
 
 @keyframes rise {
   from { opacity: 0; translate: 0 0.75rem; }
 }
-@keyframes menu-rise {
-  from { opacity: 0; translate: 0 1.5rem; }
+@keyframes motion-fallback {
+  to { opacity: 1; transform: none; }
 }
 @keyframes settle {
   from { scale: 1.08; }
