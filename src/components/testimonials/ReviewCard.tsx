@@ -1,4 +1,4 @@
-import { Quote, Star } from "lucide-react";
+import { QuotesIcon as Quote, StarIcon as Star } from "@phosphor-icons/react/dist/ssr";
 import PhotoFrame from "@/components/photos/PhotoFrame";
 import { realPhotos } from "@/lib/data";
 import { monthLabel, type Testimonial } from "@/lib/testimonials";
@@ -18,7 +18,7 @@ export function Stars({ n, className }: { n: number; className?: string }) {
 export default function ReviewCard({ t, clamp, className }: { t: Testimonial; clamp?: boolean; className?: string }) {
   const photo = t.photoId ? realPhotos.find((p) => p.id === t.photoId) : undefined;
   return (
-    <figure className={cn("overflow-hidden rounded-lg border border-border bg-surface", className)}>
+    <figure className={cn("overflow-hidden rounded-xl border border-border bg-surface", className)}>
       {photo && <PhotoFrame photo={photo} caption={false} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 85vw" square />}
       <div className="p-6">
         <div className="flex items-center justify-between gap-4">

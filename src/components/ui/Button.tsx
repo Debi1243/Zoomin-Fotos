@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
-import { ArrowRight, LoaderCircle, MessageCircle } from "lucide-react";
+import { ArrowRightIcon as ArrowRight, CircleNotchIcon as LoaderCircle, WhatsappLogoIcon as MessageCircle } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 
 /**
@@ -11,21 +11,22 @@ type Variant = "primary" | "whatsapp" | "secondary" | "inverse";
 type Size = "md" | "lg";
 
 const base =
-  "btn group/btn relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold " +
-  "transition-[background-color,border-color,color,box-shadow,translate,scale] duration-200 ease-out " +
-  "hover:-translate-y-px hover:shadow-md active:translate-y-0 active:scale-[0.97] active:shadow-sm " +
+  "btn group/btn relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg " +
+  "transition-[background-color,border-color,color,translate,scale] duration-300 ease-[var(--ease-base)] " +
+  "hover:-translate-y-px active:translate-y-0 active:scale-[0.98] " +
   "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-primary-fg shadow-sm hover:bg-primary-hover",
-  whatsapp: "bg-whatsapp text-white shadow-sm hover:bg-whatsapp-hover",
-  secondary: "border border-border-strong bg-surface text-fg hover:border-fg",
-  inverse: "border border-border-strong bg-surface text-fg hover:border-fg",
+  primary: "bg-primary text-primary-fg hover:bg-primary-hover",
+  whatsapp: "bg-whatsapp text-white hover:bg-whatsapp-hover",
+  secondary: "border border-border-strong bg-surface text-fg hover:border-fg hover:bg-sand-soft",
+  inverse: "border border-border-strong bg-surface text-fg hover:border-fg hover:bg-sand-soft",
 };
 
+/** Main buttons: 8px by 12px padding. A minimum height keeps them easy to tap on phones. */
 const sizes: Record<Size, string> = {
-  md: "h-11 px-4 text-sm",
-  lg: "h-12 px-5 text-[0.9375rem]",
+  md: "min-h-11 px-3 py-2 button-sm",
+  lg: "min-h-12 px-4 py-3 button-md",
 };
 
 export function buttonClasses({ variant = "primary", size = "md", className }: { variant?: Variant; size?: Size; className?: string } = {}) {
@@ -33,7 +34,7 @@ export function buttonClasses({ variant = "primary", size = "md", className }: {
 }
 
 function Arrow() {
-  return <ArrowRight aria-hidden className="size-4 transition-transform duration-150 ease-out group-hover/btn:translate-x-0.5" />;
+  return <ArrowRight aria-hidden className="size-4 transition-transform duration-500 group-hover/btn:translate-x-0.5" />;
 }
 
 type LinkProps = ComponentProps<typeof Link> & { variant?: Variant; size?: Size; arrow?: boolean; children: ReactNode };
@@ -66,7 +67,7 @@ export function WhatsAppButton({ href, size, source, className, children = "Chat
       className={buttonClasses({ variant: "whatsapp", size, className })}
       {...props}
     >
-      <MessageCircle aria-hidden className="size-[1.125rem]" />
+      <MessageCircle aria-hidden weight="fill" className="size-5" />
       {children}
     </a>
   );
@@ -101,11 +102,28 @@ export function Button({ variant, size, loading = false, loadingLabel, arrow = t
 export function TextLink({ className, children, ...props }: ComponentProps<typeof Link>) {
   return (
     <Link
-      className={cn("group/btn inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-fg", className)}
+      className={cn("group/btn inline-flex items-center gap-2 button-sm text-accent transition-colors hover:text-fg", className)}
       {...props}
     >
       <span className="link-underline">{children}</span>
       <Arrow />
     </Link>
+  );
+}
+
+/** WhatsApp as a quiet second action beside a page's one primary button. Counted as `whatsapp_click`. */
+export function WhatsAppLink({ href, source, className, children = "Or ask us on WhatsApp" }: { href: string; source: string; className?: string; children?: ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-track="whatsapp_click"
+      data-track-source={source}
+      className={cn("group/btn inline-flex items-center gap-2 button-sm text-whatsapp transition-colors duration-300 hover:text-whatsapp-hover", className)}
+    >
+      <MessageCircle aria-hidden weight="fill" className="size-5" />
+      <span className="link-underline">{children}</span>
+    </a>
   );
 }

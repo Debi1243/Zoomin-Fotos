@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Minus, Plus, RotateCcw } from "lucide-react";
+import { CheckIcon as Check, MinusIcon as Minus, PlusIcon as Plus, ArrowCounterClockwiseIcon as RotateCcw } from "@phosphor-icons/react/dist/ssr";
 import { buttonClasses } from "@/components/ui/Button";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/cn";
@@ -145,10 +145,10 @@ export default function PackageBuilder({ className }: { className?: string }) {
             aria-label="Your estimate"
             className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-30 lg:top-24 lg:bottom-auto lg:col-span-4"
           >
-            <div className="overflow-hidden rounded-lg border border-border bg-surface/95 shadow-md backdrop-blur-md lg:shadow-none">
+            <div className="overflow-hidden rounded-xl border border-border bg-surface/95 shadow-md backdrop-blur-md lg:shadow-none">
               <div className="flex items-center gap-4 p-4 lg:block lg:p-6">
                 <div className="min-w-0 flex-1">
-                  <p className="label text-[0.6875rem] text-muted lg:text-xs">Estimated package</p>
+                  <p className="label text-xs text-muted lg:text-xs">Estimated package</p>
                   <p className="mt-1 flex flex-wrap items-baseline gap-x-2 lg:mt-3">
                     {/* The rolling figure is for the eye; screen readers hear the final estimate once. */}
                     <span key={bump} aria-hidden className="price-pop tabular font-display text-2xl font-bold leading-none lg:text-4xl">
@@ -167,7 +167,7 @@ export default function PackageBuilder({ className }: { className?: string }) {
                   type="button"
                   onClick={request}
                   disabled={empty}
-                  className={buttonClasses({ className: "shrink-0 lg:mt-6 lg:h-12 lg:w-full lg:text-[0.9375rem]" })}
+                  className={buttonClasses({ className: "shrink-0 lg:mt-6 lg:h-12 lg:w-full lg:text-sm" })}
                   data-track="package_select"
                   data-track-source="builder"
                 >
@@ -212,7 +212,7 @@ function Tile({ on, onClick, label, note, price }: { on: boolean; onClick: () =>
       aria-pressed={on}
       onClick={onClick}
       className={cn(
-        "relative flex min-h-[4.5rem] w-full flex-col items-start justify-center rounded-lg border px-4 py-3 text-left transition-[border-color,background-color,box-shadow] duration-200",
+        "relative flex min-h-[4.5rem] w-full flex-col items-start justify-center rounded-xl border px-4 py-3 text-left transition-[border-color,background-color,box-shadow] duration-200",
         on ? "border-primary bg-primary/[0.06] shadow-[inset_0_0_0_1px_var(--primary)]" : "border-border bg-surface hover:border-border-strong",
       )}
     >
@@ -228,7 +228,7 @@ function Tile({ on, onClick, label, note, price }: { on: boolean; onClick: () =>
           on ? "scale-100 border-transparent bg-primary text-primary-fg" : "scale-90 border-border-strong",
         )}
       >
-        <Check className={cn("size-3 transition-transform duration-200", on ? "scale-100" : "scale-0")} strokeWidth={3} />
+        <Check className={cn("size-3 transition-transform duration-200", on ? "scale-100" : "scale-0")} weight="bold" />
       </span>
     </button>
   );
@@ -237,7 +237,7 @@ function Tile({ on, onClick, label, note, price }: { on: boolean; onClick: () =>
 function Stepper({ c, value, onChange }: { c: Counter; value: number; onChange: (n: number) => void }) {
   const btn = "grid size-11 place-items-center rounded-full border border-border-strong bg-surface transition-colors hover:border-fg disabled:opacity-30";
   return (
-    <div className={cn("flex items-center justify-between gap-4 rounded-lg border bg-surface px-4 py-3", value ? "border-primary/50" : "border-border")}>
+    <div className={cn("flex items-center justify-between gap-4 rounded-xl border bg-surface px-4 py-3", value ? "border-primary/50" : "border-border")}>
       <div>
         <p className="font-medium">{c.label}</p>
         <p className="mt-0.5 text-xs text-muted">

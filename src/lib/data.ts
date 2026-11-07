@@ -380,6 +380,17 @@ export const reasons = [
   },
 ];
 
+/**
+ * The home page's large tagline. Every claim is true of every wedding package above:
+ * a photographer and a cinematographer, all raw photos and videos, a printed album, a published price.
+ */
+export const homeTagline = "Photos and film, every raw file and a printed album.\nOne clear price for your wedding.";
+
+/** Questions every service page answers, after its own. Same answers as the home page. */
+export const generalFaqs = () => homeFaqs.filter((f) =>
+  ["Is GST included in the price?", "How do I confirm my booking?", "What happens if my event date changes?", "What are the cancellation terms?"].includes(f.q),
+);
+
 export const homeFaqs = [
   {
     q: "What is included in a package?",
@@ -416,7 +427,7 @@ export const homeFaqs = [
  */
 export const homeServices: { title: string; slug: ServiceSlug; photoId: string; text: string }[] = [
   { title: "Wedding", slug: "weddings", photoId: "81", text: "Every ritual from haldi to bidaai, in photos and film." },
-  { title: "Pre-Wedding", slug: "pre-wedding", photoId: "24", text: "A relaxed shoot at a place that means something to you both." },
+  { title: "Pre-wedding", slug: "pre-wedding", photoId: "24", text: "A relaxed shoot at a place that means something to you both." },
   { title: "Maternity, Baby & Kids", slug: "maternity-newborn", photoId: "44", text: "Calm sessions for bumps, newborns and little ones, at their own pace." },
   { title: "Birthday & Event", slug: "events", photoId: "70", text: "Birthdays, anniversaries and functions, without interrupting them." },
   { title: "Family & Portraits", slug: "portraits", photoId: "73", text: "Natural portraits for families, couples and individuals." },

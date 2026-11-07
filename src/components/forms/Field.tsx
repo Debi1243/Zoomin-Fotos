@@ -1,9 +1,9 @@
 import type { ComponentProps, ReactNode } from "react";
-import { Check, CircleAlert } from "lucide-react";
+import { CheckIcon as Check, WarningCircleIcon as CircleAlert } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 
 export const control =
-  "block w-full rounded-md border bg-elevated px-3.5 text-base text-fg transition-[border-color,box-shadow] duration-150 " +
+  "block w-full rounded-lg border bg-elevated px-3.5 text-base text-fg transition-[border-color,box-shadow] duration-200 " +
   "placeholder:text-muted/70 hover:border-border-strong focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/15 " +
   "disabled:cursor-not-allowed disabled:opacity-60";
 
@@ -115,7 +115,7 @@ export function ChoiceGroup({ legend, name, type, options, defaultValue = [], va
           <label
             key={option}
             className={cn(
-              "chip relative inline-flex min-h-11 cursor-pointer select-none items-center rounded-md border px-3.5 py-2 text-sm font-medium transition-colors",
+              "chip relative inline-flex min-h-11 cursor-pointer select-none items-center rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors",
               "border-border bg-elevated hover:border-border-strong",
               "has-[:checked]:border-primary has-[:checked]:bg-primary has-[:checked]:text-primary-fg",
               "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-fg",

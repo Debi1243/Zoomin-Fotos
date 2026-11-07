@@ -11,15 +11,15 @@ export default function BookingSteps() {
         <SectionHeader id="steps-title" label="How booking works" title="Book your shoot in three simple steps" />
         <ol className="mt-10 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-6">
           {bookingSteps.map((s, i) => (
-            <li key={s.title} className="stagger-in relative rounded-lg border border-border bg-surface p-5 md:p-6" style={{ "--i": i } as CSSProperties}>
-              <span className="grid size-10 place-items-center rounded-full bg-primary font-display text-lg font-bold text-primary-fg" aria-hidden>
+            <li key={s.title} className="stagger-in relative rounded-xl border border-border bg-surface p-6" style={{ "--i": i } as CSSProperties}>
+              <span className="grid size-10 place-items-center rounded-full bg-primary heading-6 text-primary-fg" aria-hidden>
                 {i + 1}
               </span>
-              <h3 className="mt-4 font-display text-lg">
+              <h3 className="mt-4 heading-6">
                 <span className="sr-only">Step {i + 1}: </span>
                 {s.title}
               </h3>
-              <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">{s.text}</p>
+              <p className="mt-2 body-6 text-muted">{s.text}</p>
             </li>
           ))}
         </ol>

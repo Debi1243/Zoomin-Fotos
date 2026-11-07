@@ -2,21 +2,7 @@
 
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  Check,
-  CircleAlert,
-  CircleCheck,
-  Copy,
-  FileSignature,
-  KeyRound,
-  LoaderCircle,
-  LogOut,
-  MessageCircle,
-  Plus,
-  Trash2,
-  UserRound,
-} from "lucide-react";
+import { ArrowLeftIcon as ArrowLeft, CheckIcon as Check, WarningCircleIcon as CircleAlert, CheckCircleIcon as CircleCheck, CopyIcon as Copy, SignatureIcon as FileSignature, KeyIcon as KeyRound, CircleNotchIcon as LoaderCircle, SignOutIcon as LogOut, WhatsappLogoIcon as MessageCircle, PlusIcon as Plus, TrashIcon as Trash2, UserIcon as UserRound } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/forms/Field";
 import RowsEditor from "@/components/forms/RowsEditor";
@@ -230,7 +216,7 @@ export default function ClientsManager() {
                     <button
                       type="button"
                       onClick={() => setEditing({ entry: e, isNew: false })}
-                      className="block w-full rounded-lg border border-border bg-surface p-5 text-left transition-colors hover:border-fg"
+                      className="block w-full rounded-xl border border-border bg-surface p-5 text-left transition-colors hover:border-fg"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <p className="font-medium">{e.data.title || e.data.client.names || "Untitled booking"}</p>
@@ -260,7 +246,7 @@ export default function ClientsManager() {
 function NoticeLine({ notice }: { notice: Notice }) {
   const error = notice.kind === "error";
   return (
-    <p role={error ? "alert" : "status"} className={cn("flex items-start gap-2 rounded-md border p-4 text-sm", error ? "border-error/40 text-error" : "border-success/40")}>
+    <p role={error ? "alert" : "status"} className={cn("flex items-start gap-2 rounded-lg border p-4 text-sm", error ? "border-error/40 text-error" : "border-success/40")}>
       {error ? <CircleAlert aria-hidden className="mt-0.5 size-4 shrink-0" /> : <CircleCheck aria-hidden className="mt-0.5 size-4 shrink-0 text-success" />}
       {notice.text}
     </p>
@@ -284,7 +270,7 @@ function UpiSettings({ token, settings, onSaved }: { token: string; settings: Se
     }
   };
   return (
-    <section aria-labelledby="upi-title" className="max-w-2xl rounded-lg border border-border bg-surface p-6">
+    <section aria-labelledby="upi-title" className="max-w-2xl rounded-xl border border-border bg-surface p-6">
       <h2 id="upi-title" className="font-display text-2xl">
         Advance payments
       </h2>
@@ -308,7 +294,7 @@ function UpiSettings({ token, settings, onSaved }: { token: string; settings: Se
 
 function Section({ title, icon, children, note }: { title: string; icon?: ReactNode; note?: string; children: ReactNode }) {
   return (
-    <details open className="group rounded-lg border border-border bg-surface">
+    <details open className="group rounded-xl border border-border bg-surface">
       <summary className="flex cursor-pointer list-none items-center gap-3 p-5 [&::-webkit-details-marker]:hidden">
         {icon && <span aria-hidden className="text-muted">{icon}</span>}
         <span className="font-display text-2xl">{title}</span>
@@ -320,7 +306,7 @@ function Section({ title, icon, children, note }: { title: string; icon?: ReactN
   );
 }
 
-const input = "h-11 w-full rounded-md border border-border-strong bg-bg px-3 text-sm outline-none focus:border-fg";
+const input = "h-11 w-full rounded-lg border border-border-strong bg-bg px-3 text-sm outline-none focus:border-fg";
 
 function BookingEditor({
   initial,
@@ -433,7 +419,7 @@ function BookingEditor({
         {pin && (
           <div className="mt-4 space-y-3">
             <p className="text-sm text-muted">{saved && !dirty ? "Send this to the client:" : "Save the booking first, then send this to the client:"}</p>
-            <pre className="whitespace-pre-wrap rounded-md border border-border bg-bg p-3 font-sans text-sm">{invite}</pre>
+            <pre className="whitespace-pre-wrap rounded-lg border border-border bg-bg p-3 font-sans text-sm">{invite}</pre>
             <div className="flex flex-wrap gap-2">
               <Button
                 type="button"
@@ -449,7 +435,7 @@ function BookingEditor({
                 <Copy aria-hidden className="size-4" /> {copied ? "Copied" : "Copy message"}
               </Button>
               {wa && saved && !dirty && (
-                <a href={wa} target="_blank" rel="noreferrer" className="inline-flex h-11 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-medium hover:border-fg">
+                <a href={wa} target="_blank" rel="noreferrer" className="inline-flex h-11 items-center gap-2 rounded-lg border border-border-strong px-4 text-sm font-medium hover:border-fg">
                   <MessageCircle aria-hidden className="size-4" /> Send on WhatsApp
                 </a>
               )}
@@ -477,9 +463,9 @@ function BookingEditor({
           </div>
           <label className="block text-sm">
             <span className="font-medium">Notes for the client</span>
-            <textarea value={b.package.notes} onChange={(e) => update({ package: { ...b.package, notes: e.target.value } })} rows={2} className="mt-2 w-full rounded-md border border-border-strong bg-bg p-3 outline-none focus:border-fg" />
+            <textarea value={b.package.notes} onChange={(e) => update({ package: { ...b.package, notes: e.target.value } })} rows={2} className="mt-2 w-full rounded-lg border border-border-strong bg-bg p-3 outline-none focus:border-fg" />
           </label>
-          <p className="tabular rounded-md bg-fg/[0.04] p-4 text-sm">
+          <p className="tabular rounded-lg bg-fg/[0.04] p-4 text-sm">
             Subtotal {formatRupees(m.subtotal)}
             {b.package.discount > 0 && <> − discount {formatRupees(b.package.discount)}</>} + GST {formatRupees(m.gst)} ={" "}
             <b>{formatRupees(m.total)}</b>. Advance {formatRupees(b.advance)}
@@ -499,7 +485,7 @@ function BookingEditor({
             {signature && <img src={signature} alt={`Signature of ${b.contract.signed.name}`} className="h-20 rounded border border-border bg-white p-1" />}
             <details>
               <summary className="cursor-pointer text-muted hover:text-fg">Read the signed agreement</summary>
-              <pre className="mt-3 max-h-96 overflow-auto whitespace-pre-wrap rounded-md border border-border bg-bg p-4 font-sans">{b.contract.signed.text}</pre>
+              <pre className="mt-3 max-h-96 overflow-auto whitespace-pre-wrap rounded-lg border border-border bg-bg p-4 font-sans">{b.contract.signed.text}</pre>
             </details>
             <button
               type="button"
@@ -529,7 +515,7 @@ function BookingEditor({
               value={b.contract.text}
               onChange={(e) => update({ contract: { text: e.target.value } })}
               rows={14}
-              className="w-full rounded-md border border-border-strong bg-bg p-4 font-sans text-sm leading-relaxed outline-none focus:border-fg"
+              className="w-full rounded-lg border border-border-strong bg-bg p-4 font-sans text-sm leading-relaxed outline-none focus:border-fg"
             />
           </div>
         )}
@@ -540,7 +526,7 @@ function BookingEditor({
           {b.payments.length === 0 && <p className="text-sm text-muted">No payments yet.</p>}
           <ul className="space-y-2">
             {b.payments.map((p) => (
-              <li key={p.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-md border border-border p-3 text-sm">
+              <li key={p.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-border p-3 text-sm">
                 <span className="tabular font-medium">{formatRupees(p.amount)}</span>
                 <span className="text-muted">
                   {p.method} · {p.reference || "no reference"} · {new Date(p.at).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
@@ -553,7 +539,7 @@ function BookingEditor({
                   <button
                     type="button"
                     onClick={() => update({ payments: b.payments.map((x) => (x.id === p.id ? { ...x, status: "confirmed" } : x)) })}
-                    className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-md bg-fg px-3 text-bg"
+                    className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg bg-fg px-3 text-bg"
                   >
                     <Check aria-hidden className="size-4" /> Mark as received
                   </button>
@@ -657,7 +643,7 @@ function BookingEditor({
       <div className="flex flex-wrap items-center gap-4">
         {confirmDelete ? (
           <>
-            <button type="button" onClick={() => void remove()} className="inline-flex h-11 items-center gap-2 rounded-md bg-error px-4 text-sm font-medium text-white">
+            <button type="button" onClick={() => void remove()} className="inline-flex h-11 items-center gap-2 rounded-lg bg-error px-4 text-sm font-medium text-white">
               <Trash2 aria-hidden className="size-4" /> Yes, delete this booking
             </button>
             <button type="button" onClick={() => setConfirmDelete(false)} className="text-sm text-muted">
@@ -675,7 +661,7 @@ function BookingEditor({
 
       {/* Save bar, always in reach on long bookings. */}
       <div className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-30 lg:bottom-4">
-        <div className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-surface/95 p-3 shadow-lg backdrop-blur-md">
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-surface/95 p-3 shadow-lg backdrop-blur-md">
           <Button type="button" onClick={() => void save()} loading={busy} loadingLabel="Saving…" disabled={!dirty && saved}>
             {saved ? "Save changes" : "Create booking"}
           </Button>

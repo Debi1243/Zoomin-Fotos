@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import { CircleAlert, EyeOff, LoaderCircle, LogOut, Pencil, Plus, RefreshCw, Star, Trash2, Undo2 } from "lucide-react";
+import { WarningCircleIcon as CircleAlert, EyeSlashIcon as EyeOff, CircleNotchIcon as LoaderCircle, SignOutIcon as LogOut, PencilSimpleIcon as Pencil, PlusIcon as Plus, ArrowClockwiseIcon as RefreshCw, StarIcon as Star, TrashIcon as Trash2, ArrowUUpLeftIcon as Undo2 } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { control, TextField, TextareaField } from "@/components/forms/Field";
 import { explain, readStoredToken, remembered, SignIn, storeToken, type Notice } from "@/components/admin/auth";
@@ -184,12 +184,12 @@ export default function ReviewsManager() {
       </div>
 
       {error && (
-        <p role="alert" className="flex items-start gap-2 rounded-md border border-error/40 p-4 text-sm text-error">
+        <p role="alert" className="flex items-start gap-2 rounded-lg border border-error/40 p-4 text-sm text-error">
           <CircleAlert aria-hidden className="mt-0.5 size-4 shrink-0" /> {error}
         </p>
       )}
       {saved && !error && (
-        <p role="status" className="rounded-md border border-success/40 p-4 text-sm">
+        <p role="status" className="rounded-lg border border-success/40 p-4 text-sm">
           {saved}
         </p>
       )}
@@ -212,7 +212,7 @@ export default function ReviewsManager() {
       )}
 
       {!endpoint ? (
-        <p className="max-w-[60ch] rounded-lg border border-border bg-surface p-5 text-sm leading-relaxed text-muted">
+        <p className="max-w-[60ch] rounded-xl border border-border bg-surface p-5 text-sm leading-relaxed text-muted">
           Clients can send reviews from the website once your Google Sheet is connected on the{" "}
           <a href="../dashboard/" className="link-underline text-fg">Dashboard</a> tab. Until then the reviews page asks them to email you, and you can add those here with <b>Add a review</b>.
         </p>
@@ -294,7 +294,7 @@ export default function ReviewsManager() {
 
 function ReviewCard({ review, meta, muted, children }: { review: Omit<Testimonial, "photoId">; meta?: string; muted?: boolean; children: React.ReactNode }) {
   return (
-    <article className={cn("flex h-full flex-col rounded-lg border border-border bg-surface p-5", muted && "opacity-70")}>
+    <article className={cn("flex h-full flex-col rounded-xl border border-border bg-surface p-5", muted && "opacity-70")}>
       <div className="flex items-center justify-between gap-3">
         <span role="img" aria-label={`${review.rating} out of 5 stars`}>
           {[1, 2, 3, 4, 5].map((i) => (
@@ -340,7 +340,7 @@ function Editor({
   };
 
   return (
-    <form onSubmit={submit} aria-labelledby="editor-title" className="space-y-6 rounded-lg border border-border-strong bg-surface p-5 sm:p-8">
+    <form onSubmit={submit} aria-labelledby="editor-title" className="space-y-6 rounded-xl border border-border-strong bg-surface p-5 sm:p-8">
       <div>
         <h2 id="editor-title" className="font-display text-2xl">
           {from ? "Publish this review" : initial.name ? "Edit review" : "Add a review"}

@@ -23,7 +23,7 @@ export function LogoMark({ size = "sm", className }: { size?: "sm" | "lg"; class
 
 export default function Logo({ size = "sm", className }: { size?: "sm" | "lg"; className?: string }) {
   return (
-    <Link href="/" className={cn("inline-flex shrink-0 rounded-sm", className)} aria-label={`${brand.name}, home`}>
+    <Link href="/" className={cn("inline-flex shrink-0 rounded-md", className)} aria-label={`${brand.name}, home`}>
       <LogoMark size={size} className={size === "sm" ? "h-11 md:h-12" : "h-20"} />
     </Link>
   );

@@ -2,37 +2,37 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { Menu, MessageCircle, X } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import Logo from "../ui/Logo";
 import { ButtonLink, WhatsAppButton } from "../ui/Button";
 import { isActive, primaryNav } from "@/lib/site";
 import { whatsappHref } from "@/lib/brand";
 import { cn } from "@/lib/cn";
 
-function subscribeScroll(cb: () => void) {
-  window.addEventListener("scroll", cb, { passive: true });
-  return () => window.removeEventListener("scroll", cb);
-}
-
 const navActive = (pathname: string, href: string) => (href === "/" ? pathname === "/" : isActive(pathname, href));
 
+/** Two lines that turn into a cross when the menu opens, on the site's one motion curve. */
+function MenuToggleIcon({ open }: { open: boolean }) {
+  const line = "absolute left-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-500 ease-[var(--ease-base)] motion-reduce:transition-none";
+  return (
+    <span aria-hidden className="relative block h-3 w-5">
+      <span className={cn(line, "top-0", open ? "translate-y-[5px] rotate-45" : "")} />
+      <span className={cn(line, "bottom-0", open ? "-translate-y-[5px] -rotate-45" : "")} />
+    </span>
+  );
+}
+
 /**
- * Sticky header. Desktop: logo, the six sections, WhatsApp and "Book Your Shoot".
- * Phones: logo, a WhatsApp shortcut and a menu that opens as a full-height sheet.
+ * A compact bar that floats just below the top edge, translucent over a blur.
+ * Desktop: logo, the six sections, WhatsApp and "Book your shoot".
+ * Phones: logo, a WhatsApp shortcut and a toggle that opens a full-height menu panel.
  */
 export default function SiteHeader() {
   const pathname = usePathname();
-  const scrolled = useSyncExternalStore(subscribeScroll, () => window.scrollY > 8, () => false);
   const [open, setOpen] = useState(false);
-  const menuRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = menuRef.current;
-    if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    if (!open && dialog.open) dialog.close();
-  }, [open]);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // Following a link closes the menu.
   const [lastPath, setLastPath] = useState(pathname);
@@ -41,21 +41,40 @@ export default function SiteHeader() {
     setOpen(false);
   }
 
+  // While the menu is open: the page behind it can't be scrolled or tabbed to, and Escape closes it.
+  useEffect(() => {
+    if (!open) return;
+    const behind = [document.getElementById("main"), document.querySelector("footer"), document.querySelector(".booking-bar")].filter(
+      (el): el is HTMLElement => el instanceof HTMLElement,
+    );
+    behind.forEach((el) => (el.inert = true));
+    const overflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    panelRef.current?.querySelector<HTMLElement>("a")?.focus({ preventScroll: true });
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      behind.forEach((el) => (el.inert = false));
+      document.documentElement.style.overflow = overflow;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b bg-bg/95 pt-[env(safe-area-inset-top)] backdrop-blur transition-[border-color,box-shadow] duration-200",
-        scrolled ? "border-border shadow-sm" : "border-transparent",
-      )}
-    >
+    <header className="sticky top-0 z-50 px-4 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-6">
       <a
         href="#main"
-        className="sr-only rounded-md bg-fg px-4 py-2 text-sm text-bg focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60]"
+        className="sr-only rounded-lg bg-fg px-4 py-2 text-sm text-bg focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60]"
       >
         Skip to content
       </a>
 
-      <div className="container-page flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
+      <div className="relative z-50 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-2xl border border-border/80 bg-bg/80 py-2 pl-3 pr-2 shadow-sm backdrop-blur-xl lg:w-fit lg:gap-6">
         <Logo />
 
         <nav aria-label="Primary" className="hidden lg:block">
@@ -68,18 +87,11 @@ export default function SiteHeader() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "group relative inline-flex h-10 items-center rounded-md px-3 text-[0.9375rem] font-medium transition-colors",
-                      active ? "text-fg" : "text-muted hover:text-fg",
+                      "inline-flex h-10 items-center rounded-lg px-3 title-4 transition-colors duration-300",
+                      active ? "bg-sand text-fg" : "text-muted hover:bg-sand-soft hover:text-fg",
                     )}
                   >
                     {item.label}
-                    <span
-                      aria-hidden
-                      className={cn(
-                        "absolute inset-x-3 bottom-1 h-0.5 origin-left rounded-full transition-[scale,background-color] duration-300 ease-[var(--ease-out-expo)]",
-                        active ? "scale-x-100 bg-primary" : "scale-x-0 bg-border-strong group-hover:scale-x-100",
-                      )}
-                    />
                   </Link>
                 </li>
               );
@@ -96,7 +108,7 @@ export default function SiteHeader() {
           </div>
           <div className="hidden sm:block">
             <ButtonLink href="/contact#quote" arrow={false}>
-              Book Your Shoot
+              Book your shoot
             </ButtonLink>
           </div>
           <a
@@ -106,43 +118,35 @@ export default function SiteHeader() {
             data-track="whatsapp_click"
             data-track-source="header-icon"
             aria-label="Chat on WhatsApp"
-            className="grid size-11 place-items-center rounded-md text-whatsapp hover:bg-sand-soft sm:hidden"
+            className="grid size-11 place-items-center rounded-lg text-whatsapp transition-colors duration-300 hover:bg-sand-soft active:scale-[0.98] sm:hidden"
           >
-            <MessageCircle aria-hidden className="size-6" />
+            <WhatsappLogoIcon aria-hidden weight="fill" className="size-6" />
           </a>
           <button
+            ref={toggleRef}
             type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            aria-haspopup="dialog"
+            onClick={() => setOpen((o) => !o)}
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="grid size-11 place-items-center rounded-md border border-border bg-surface text-fg hover:border-fg lg:hidden"
+            aria-controls="site-menu"
+            className="grid size-11 place-items-center rounded-lg border border-border bg-surface text-fg transition-colors duration-300 hover:border-fg active:scale-[0.98] lg:hidden"
           >
-            <Menu aria-hidden className="size-5" />
+            <MenuToggleIcon open={open} />
           </button>
         </div>
       </div>
 
-      <dialog
-        ref={menuRef}
+      <div
+        id="site-menu"
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
         aria-label="Menu"
-        onClose={() => setOpen(false)}
-        onClick={(e) => e.target === e.currentTarget && setOpen(false)}
-        className="menu-sheet m-0 ml-auto h-dvh max-h-none w-full max-w-sm bg-bg p-0 text-fg shadow-md backdrop:bg-fg/40 lg:hidden"
+        hidden={!open}
+        className={cn("menu-panel fixed inset-0 z-40 overflow-y-auto bg-bg/95 backdrop-blur-2xl lg:hidden", open && "is-open")}
       >
-        <div className="flex h-full flex-col px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[env(safe-area-inset-top)]">
-          <div className="flex h-16 items-center justify-between">
-            <span className="label text-muted">Menu</span>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-label="Close menu"
-              className="grid size-11 place-items-center rounded-md border border-border bg-surface hover:border-fg"
-            >
-              <X aria-hidden className="size-5" />
-            </button>
-          </div>
-          <nav aria-label="Menu" className="mt-2">
+        <div className="mx-auto flex min-h-full max-w-xl flex-col px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[calc(6rem+env(safe-area-inset-top))] sm:px-6">
+          <nav aria-label="Menu">
             <ul className="divide-y divide-border border-y border-border">
               {primaryNav.map((item, i) => {
                 const active = navActive(pathname, item.href);
@@ -151,26 +155,25 @@ export default function SiteHeader() {
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}
-                      className={cn(
-                        "flex h-14 items-center justify-between font-display text-xl font-semibold",
-                        active ? "text-accent" : "text-fg",
-                      )}
+                      onClick={() => setOpen(false)}
+                      className={cn("flex h-16 items-center justify-between heading-5", active ? "text-accent" : "text-fg")}
                     >
                       {item.label}
+                      {active && <span className="caption-4 text-muted">You are here</span>}
                     </Link>
                   </li>
                 );
               })}
             </ul>
           </nav>
-          <div className="mt-auto grid gap-3 pt-8">
-            <ButtonLink href="/contact#quote" size="lg" className="w-full">
-              Book Your Shoot
+          <div className="menu-link mt-auto grid gap-3 pt-8" style={{ "--i": primaryNav.length } as CSSProperties}>
+            <ButtonLink href="/contact#quote" size="lg" className="w-full" onClick={() => setOpen(false)}>
+              Book your shoot
             </ButtonLink>
             <WhatsAppButton href={whatsappHref} source="menu" size="lg" className="w-full" />
           </div>
         </div>
-      </dialog>
+      </div>
     </header>
   );
 }

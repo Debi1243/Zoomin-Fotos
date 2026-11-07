@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Copy, FilePlus2, FileText, LoaderCircle, MessageCircle, Plus, Printer, ReceiptIndianRupee, Trash2 } from "lucide-react";
+import { CopyIcon as Copy, FilePlusIcon as FilePlus2, FileTextIcon as FileText, CircleNotchIcon as LoaderCircle, WhatsappLogoIcon as MessageCircle, PlusIcon as Plus, PrinterIcon as Printer, ReceiptIcon as ReceiptIndianRupee, TrashIcon as Trash2 } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { control } from "@/components/forms/Field";
 import BillDocument, { docTitle } from "./BillDocument";
@@ -148,7 +148,7 @@ function Desk() {
 
   if (!doc) {
     return (
-      <div className="rounded-lg border border-border bg-surface p-8 text-center">
+      <div className="rounded-xl border border-border bg-surface p-8 text-center">
         <p className="text-muted">No documents yet.</p>
         <div className="mt-4 flex justify-center gap-3">
           <Button onClick={() => create("quote")} arrow={false}>New quotation</Button>
@@ -264,7 +264,7 @@ function Desk() {
 
           <ul className="mt-5 space-y-4">
             {doc.items.map((i, n) => (
-              <li key={i.id} className="rounded-md border border-border p-3">
+              <li key={i.id} className="rounded-lg border border-border p-3">
                 <div className="flex items-start gap-2">
                   <span className="tabular mt-3 w-5 shrink-0 text-sm text-muted">{n + 1}</span>
                   <div className="grid flex-1 gap-2">
@@ -280,7 +280,7 @@ function Desk() {
                     type="button"
                     aria-label={`Remove item ${n + 1}`}
                     onClick={() => update({ items: doc.items.filter((x) => x.id !== i.id) })}
-                    className="grid size-11 shrink-0 place-items-center rounded-md text-muted hover:bg-sand-soft hover:text-error"
+                    className="grid size-11 shrink-0 place-items-center rounded-lg text-muted hover:bg-sand-soft hover:text-error"
                   >
                     <Trash2 aria-hidden className="size-4" />
                   </button>
@@ -309,7 +309,7 @@ function Desk() {
               <input className={input} type="number" min={0} max={28} step="any" disabled={!doc.gst.on} value={doc.gst.rate} onChange={(e) => update({ gst: { ...doc.gst, rate: Math.min(28, num(e.target.value)) } })} />
             </Field>
           </div>
-          <p className="tabular mt-4 rounded-md bg-sand-soft px-4 py-3 text-sm">
+          <p className="tabular mt-4 rounded-lg bg-sand-soft px-4 py-3 text-sm">
             Total <strong className="font-bold">{formatRupees(t.total)}</strong>
             {t.advance > 0 && doc.kind === "bill" && <> · Balance due <strong className="font-bold">{formatRupees(t.balance)}</strong></>}
           </p>
@@ -338,7 +338,7 @@ function Desk() {
           </div>
         </Panel>
 
-        <details className="rounded-lg border border-border bg-surface p-5">
+        <details className="rounded-xl border border-border bg-surface p-5">
           <summary className="cursor-pointer font-display font-semibold">Studio details (on every document)</summary>
           <div className="mt-4 grid gap-4">
             <Field label="Studio GSTIN">
@@ -369,7 +369,7 @@ function Desk() {
                 href={share}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-11 items-center gap-2 rounded-md bg-whatsapp px-4 text-sm font-semibold text-white hover:bg-whatsapp-hover"
+                className="inline-flex h-11 items-center gap-2 rounded-lg bg-whatsapp px-4 text-sm font-semibold text-white hover:bg-whatsapp-hover"
               >
                 <MessageCircle aria-hidden className="size-4" /> Send on WhatsApp
               </a>
@@ -391,7 +391,7 @@ function Desk() {
           <p className="mt-2 text-xs text-muted">
             Saved on this device only. To send a PDF: Print or save PDF, choose “Save as PDF”, then attach it in WhatsApp.
           </p>
-          <div className="mt-4 overflow-x-auto rounded-lg border border-border bg-white shadow-sm">
+          <div className="mt-4 overflow-x-auto rounded-xl border border-border bg-white shadow-sm">
             <div className="min-w-[38rem]">
               <BillDocument d={doc} profile={profile} />
             </div>
@@ -411,7 +411,7 @@ function Desk() {
 
 function Panel({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-lg border border-border bg-surface p-5">
+    <section className="rounded-xl border border-border bg-surface p-5">
       <h2 className="font-display text-base font-semibold">{title}</h2>
       <div className="mt-4">{children}</div>
     </section>

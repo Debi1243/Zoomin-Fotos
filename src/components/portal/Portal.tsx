@@ -3,33 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import {
-  CalendarDays,
-  Camera,
-  Check,
-  CircleAlert,
-  ClipboardList,
-  Clock,
-  Download,
-  ExternalLink,
-  FileSignature,
-  Film,
-  Images,
-  LoaderCircle,
-  LogOut,
-  MapPin,
-  MessageCircle,
-  NotebookPen,
-  Phone,
-  Play,
-  Printer,
-  ReceiptText,
-  Wallet,
-  X,
-  BookOpen,
-  PartyPopper,
-  Star,
-} from "lucide-react";
+import { CalendarDotsIcon as CalendarDays, CameraIcon as Camera, CheckIcon as Check, WarningCircleIcon as CircleAlert, ClipboardTextIcon as ClipboardList, ClockIcon as Clock, DownloadSimpleIcon as Download, ArrowSquareOutIcon as ExternalLink, SignatureIcon as FileSignature, FilmStripIcon as Film, ImagesIcon as Images, CircleNotchIcon as LoaderCircle, SignOutIcon as LogOut, MapPinIcon as MapPin, WhatsappLogoIcon as MessageCircle, NotebookIcon as NotebookPen, PhoneIcon as Phone, PlayIcon as Play, PrinterIcon as Printer, ReceiptIcon as ReceiptText, WalletIcon as Wallet, XIcon as X, BookOpenIcon as BookOpen, ConfettiIcon as PartyPopper, StarIcon as Star } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/forms/Field";
 import RowsEditor from "@/components/forms/RowsEditor";
@@ -192,7 +166,7 @@ export default function Portal() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               className={cn(
-                "flex flex-col items-center gap-0.5 rounded-full px-1 py-2 text-[0.6875rem] font-medium transition-colors sm:flex-row sm:justify-center sm:gap-2 sm:text-sm",
+                "flex flex-col items-center gap-0.5 rounded-full px-1 py-2 text-xs font-medium transition-colors sm:flex-row sm:justify-center sm:gap-2 sm:text-sm",
                 tab === t.id ? "bg-fg text-bg" : "text-muted hover:text-fg",
               )}
             >
@@ -237,7 +211,7 @@ function Login({ onLogin, error, busy }: { onLogin: (a: Auth, remember: boolean)
   };
   return (
     <Shell>
-      <form onSubmit={submit} className="max-w-md space-y-5 rounded-lg border border-border bg-surface p-6 sm:p-8">
+      <form onSubmit={submit} className="max-w-md space-y-5 rounded-xl border border-border bg-surface p-6 sm:p-8">
         <p className="text-sm text-muted">Sign in with the booking code and PIN we sent you on WhatsApp or email.</p>
         <TextField id="portal-code" label="Booking code" autoCapitalize="characters" autoComplete="username" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} required />
         <TextField id="portal-pin" label="PIN" type="password" inputMode="numeric" autoComplete="current-password" value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))} error={error ?? undefined} required />
@@ -320,7 +294,7 @@ function BookingTab({ b, signature, call }: { b: Booking; signature: string; cal
               >
                 {step.done ? <Check aria-hidden className="size-4" /> : i + 1}
               </span>
-              <span className={cn("mt-2 text-[0.6875rem] leading-tight sm:text-xs", step.done || i === current ? "text-fg" : "text-muted")}>{step.label}</span>
+              <span className={cn("mt-2 text-xs leading-tight sm:text-xs", step.done || i === current ? "text-fg" : "text-muted")}>{step.label}</span>
             </li>
           ))}
         </ol>
@@ -517,7 +491,7 @@ function AgreementDialog({ b, signature, call, onClose }: { b: Booking; signatur
 
   return (
     <Sheet title={signed ? "Signed agreement" : "Your agreement"} onClose={onClose}>
-      <pre className="whitespace-pre-wrap font-sans text-[0.9375rem] leading-relaxed">{signed ? signed.text : b.contract.text}</pre>
+      <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed">{signed ? signed.text : b.contract.text}</pre>
       {signed ? (
         <div className="mt-8 border-t border-border pt-5 text-sm">
           {/* eslint-disable-next-line @next/next/no-img-element -- the client's own drawn signature */}
@@ -580,7 +554,7 @@ function InvoiceDialog({ b, onClose }: { b: Booking; onClose: () => void }) {
         </Button>
       }
     >
-      <div className="overflow-hidden rounded-lg border border-border">
+      <div className="overflow-hidden rounded-xl border border-border">
         <Invoice b={b} />
       </div>
       {mounted &&
@@ -630,12 +604,12 @@ function PayDialog({ b, amount, call, onClose }: { b: Booking; amount: number; c
           <div className="grid items-center gap-6 sm:grid-cols-2">
             <div className="space-y-3">
               <p className="font-medium">1. Pay</p>
-              <a href={upi} className="flex h-13 w-full items-center justify-center gap-2 rounded-md bg-primary px-5 font-medium text-primary-fg">
+              <a href={upi} className="flex h-13 w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 font-medium text-primary-fg">
                 <Wallet aria-hidden className="size-5" /> Open my UPI app
               </a>
               <p className="text-sm text-muted">Opens Google Pay, PhonePe, Paytm or your bank app with the amount filled in. On a computer, scan the code with your phone.</p>
             </div>
-            <UpiQr link={upi} className="mx-auto w-48 rounded-lg border border-border bg-white p-2 [&_svg]:h-auto [&_svg]:w-full" />
+            <UpiQr link={upi} className="mx-auto w-48 rounded-xl border border-border bg-white p-2 [&_svg]:h-auto [&_svg]:w-full" />
           </div>
         ) : (
           <p className="text-sm">
@@ -739,7 +713,7 @@ function DayTab({ b }: { b: Booking }) {
         ) : (
           <ul className="grid gap-3 sm:grid-cols-2">
             {b.team.map((t, i) => (
-              <li key={i} className="flex items-center gap-3 rounded-xl border border-border p-3">
+              <li key={i} className="flex items-center gap-3 rounded-2xl border border-border p-3">
                 <span aria-hidden className="festive-gradient grid size-11 shrink-0 place-items-center rounded-full font-medium text-white">
                   {t.name.trim().charAt(0).toUpperCase() || "?"}
                 </span>
@@ -847,7 +821,7 @@ function DeliveryTab({ b }: { b: Booking }) {
               </p>
               <p className="mt-1 text-sm text-muted">A few words from you helps other couples find us.</p>
             </div>
-            <Link href={reviewHref} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-medium hover:border-fg">
+            <Link href={reviewHref} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-lg border border-border-strong px-4 text-sm font-medium hover:border-fg">
               Leave a review
             </Link>
           </div>
@@ -873,7 +847,7 @@ function DeliveryTab({ b }: { b: Booking }) {
               </span>
             </div>
             {yt && ready && (
-              <a href={d.url} target="_blank" rel="noreferrer" className="group relative mt-4 block overflow-hidden rounded-xl">
+              <a href={d.url} target="_blank" rel="noreferrer" className="group relative mt-4 block overflow-hidden rounded-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element -- YouTube's own thumbnail */}
                 <img src={youtubeThumb(yt)} alt="" className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <span className="absolute inset-0 grid place-items-center bg-black/25">
@@ -886,7 +860,7 @@ function DeliveryTab({ b }: { b: Booking }) {
             {!ready && d.expected && <p className="mt-3 text-sm text-muted">Expected by {longDate(d.expected, { day: "numeric", month: "long" })}</p>}
             {d.note && <p className="mt-3 text-sm">{d.note}</p>}
             {d.url && ready ? (
-              <a href={d.url} target="_blank" rel="noreferrer" className="mt-4 inline-flex h-11 items-center gap-2 rounded-md bg-fg px-4 text-sm font-medium text-bg">
+              <a href={d.url} target="_blank" rel="noreferrer" className="mt-4 inline-flex h-11 items-center gap-2 rounded-lg bg-fg px-4 text-sm font-medium text-bg">
                 {d.kind === "photos" ? <Download aria-hidden className="size-4" /> : <ExternalLink aria-hidden className="size-4" />}
                 {d.kind === "photos" ? "Open your gallery" : d.kind === "album" ? "See the album" : "Watch now"}
               </a>

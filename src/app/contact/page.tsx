@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { EnvelopeIcon as Mail, MapPinIcon as MapPin, PhoneIcon as Phone } from "@phosphor-icons/react/dist/ssr";
 import PageHero from "@/components/sections/PageHero";
 import QuoteForm from "@/components/forms/QuoteForm";
 import { WhatsAppButton } from "@/components/ui/Button";
@@ -36,7 +36,7 @@ export default function ContactPage() {
             <QuoteForm />
           </div>
           <aside className="lg:col-span-4">
-            <div className="rounded-lg border border-border bg-surface p-5 sm:p-6">
+            <div className="rounded-xl border border-border bg-surface p-5 sm:p-6">
               <h2 className="font-display text-h3">Prefer to just chat?</h2>
               <p className="mt-2 text-sm text-muted">Message us on WhatsApp with any question, or call during {brand.hours}.</p>
               <WhatsAppButton href={whatsappHref} source="contact-aside" size="lg" className="mt-5 w-full" />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ExternalLink, Trash2 } from "lucide-react";
+import { ArrowSquareOutIcon as ExternalLink, TrashIcon as Trash2 } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/forms/Field";
 import { CategorySelect, categoryName } from "@/components/admin/CategorySelect";
@@ -78,7 +78,7 @@ export default function VideoManager({ videos, busy, save }: Props) {
         clicks it.
       </p>
 
-      <form onSubmit={add} noValidate className="mt-6 grid gap-5 rounded-lg border border-border bg-surface p-5 md:grid-cols-[1fr_12rem] md:gap-6">
+      <form onSubmit={add} noValidate className="mt-6 grid gap-5 rounded-xl border border-border bg-surface p-5 md:grid-cols-[1fr_12rem] md:gap-6">
         <div className="space-y-4">
           <TextField
             id="video-link"
@@ -116,7 +116,7 @@ export default function VideoManager({ videos, busy, save }: Props) {
             Add video
           </Button>
         </div>
-        <div aria-hidden className="hidden aspect-video overflow-hidden rounded-md bg-inverse md:block md:self-start">
+        <div aria-hidden className="hidden aspect-video overflow-hidden rounded-lg bg-inverse md:block md:self-start">
           {youtubeId && (
             // eslint-disable-next-line @next/next/no-img-element -- preview straight from YouTube
             <img src={youtubeThumb(youtubeId)} alt="" className="size-full object-cover" />
@@ -129,7 +129,7 @@ export default function VideoManager({ videos, busy, save }: Props) {
       ) : (
         <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {videos.map((video) => (
-            <li key={video.id} className="overflow-hidden rounded-lg border border-border bg-surface">
+            <li key={video.id} className="overflow-hidden rounded-xl border border-border bg-surface">
               {/* eslint-disable-next-line @next/next/no-img-element -- thumbnail served by YouTube */}
               <img src={youtubeThumb(video.youtubeId)} alt="" loading="lazy" className="aspect-video w-full bg-inverse object-cover" />
               <div className="space-y-3 p-4">
@@ -159,7 +159,7 @@ export default function VideoManager({ videos, busy, save }: Props) {
                     <button
                       type="button"
                       onClick={() => void remove(video)}
-                      className="inline-flex h-9 items-center gap-1.5 rounded-md bg-error px-3 text-sm font-medium text-white"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-error px-3 text-sm font-medium text-white"
                     >
                       <Trash2 aria-hidden className="size-4" /> Yes, delete
                     </button>

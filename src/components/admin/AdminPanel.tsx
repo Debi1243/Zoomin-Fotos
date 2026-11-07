@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import { CircleAlert, CircleCheck, ImagePlus, LoaderCircle, LogOut, Star, Trash2, X } from "lucide-react";
+import { WarningCircleIcon as CircleAlert, CheckCircleIcon as CircleCheck, ImageSquareIcon as ImagePlus, CircleNotchIcon as LoaderCircle, SignOutIcon as LogOut, StarIcon as Star, TrashIcon as Trash2, XIcon as X } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/forms/Field";
 import { cn } from "@/lib/cn";
@@ -267,7 +267,7 @@ export default function AdminPanel() {
 
       <div aria-live="polite" className="space-y-3 empty:hidden">
         {busy && (
-          <p className="flex items-center gap-2 rounded-md border border-border bg-surface p-4 text-sm">
+          <p className="flex items-center gap-2 rounded-lg border border-border bg-surface p-4 text-sm">
             <LoaderCircle aria-hidden className="size-4 animate-spin" /> {busy}
           </p>
         )}
@@ -302,7 +302,7 @@ export default function AdminPanel() {
           />
           <label
             htmlFor="photo-files"
-            className="inline-flex h-12 cursor-pointer items-center gap-2 rounded-md border border-border-strong px-4 text-sm font-medium transition-colors hover:border-fg focus-within:ring-4 focus-within:ring-fg/10"
+            className="inline-flex h-12 cursor-pointer items-center gap-2 rounded-lg border border-border-strong px-4 text-sm font-medium transition-colors hover:border-fg focus-within:ring-4 focus-within:ring-fg/10"
           >
             <ImagePlus aria-hidden className="size-4" /> Choose photos
           </label>
@@ -312,9 +312,9 @@ export default function AdminPanel() {
           <form onSubmit={upload} className="mt-8 space-y-4">
             <ul className="grid gap-4 md:grid-cols-2">
               {pending.map((p) => (
-                <li key={p.key} className="flex gap-4 rounded-lg border border-border bg-surface p-4">
+                <li key={p.key} className="flex gap-4 rounded-xl border border-border bg-surface p-4">
                   {/* eslint-disable-next-line @next/next/no-img-element -- local preview of a file not yet uploaded */}
-                  <img src={p.preview} alt="" className="size-28 shrink-0 rounded-sm object-cover sm:size-32" />
+                  <img src={p.preview} alt="" className="size-28 shrink-0 rounded-md object-cover sm:size-32" />
                   <div className="min-w-0 flex-1 space-y-3">
                     <TextField
                       id={`title-${p.key}`}
@@ -349,7 +349,7 @@ export default function AdminPanel() {
                   <button
                     type="button"
                     onClick={() => setPending((list) => list.filter((x) => x.key !== p.key))}
-                    className="self-start rounded-md p-1 text-muted hover:text-fg"
+                    className="self-start rounded-lg p-1 text-muted hover:text-fg"
                     aria-label={`Remove ${p.title || p.file.name} from the upload`}
                   >
                     <X aria-hidden className="size-4" />
@@ -413,7 +413,7 @@ export default function AdminPanel() {
         ) : (
           <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {shown.map((photo) => (
-              <li key={photo.id} className="relative overflow-hidden rounded-lg border border-border bg-surface">
+              <li key={photo.id} className="relative overflow-hidden rounded-xl border border-border bg-surface">
                 <button
                   type="button"
                   onClick={() => void toggleFeatured(photo)}
@@ -456,7 +456,7 @@ export default function AdminPanel() {
                       <button
                         type="button"
                         onClick={() => void remove(photo)}
-                        className="inline-flex h-9 items-center gap-1.5 rounded-md bg-error px-3 text-sm font-medium text-white"
+                        className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-error px-3 text-sm font-medium text-white"
                       >
                         <Trash2 aria-hidden className="size-4" /> Yes, delete
                       </button>
@@ -491,7 +491,7 @@ function NoticeLine({ notice, onClose }: { notice: Notice; onClose: () => void }
     <p
       role={notice.kind === "error" ? "alert" : undefined}
       className={cn(
-        "flex items-start gap-2 rounded-md border p-4 text-sm",
+        "flex items-start gap-2 rounded-lg border p-4 text-sm",
         notice.kind === "error" ? "border-error/40 text-error" : "border-success/40",
       )}
     >

@@ -7,8 +7,9 @@ import HomeReviews from "@/components/sections/home/HomeReviews";
 import BookingSteps from "@/components/sections/BookingSteps";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
+import TaglineReveal from "@/components/sections/TaglineReveal";
 import JsonLd from "@/components/shared/JsonLd";
-import { brand, getService, homeFaqs, services } from "@/lib/data";
+import { brand, getService, homeFaqs, homeTagline, services } from "@/lib/data";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
 export default function HomePage() {
@@ -16,15 +17,19 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Above the fold: what, where, from what price, one primary action. */}
       <Hero />
+      {/* The argument: what we shoot, why us, the core promise, then the prices that back it up. */}
       <ServiceCards />
+      <WhyUs />
+      <TaglineReveal text={homeTagline} className="section-y border-t border-border" />
       {weddings?.packages && (
         <Packages
           items={weddings.packages}
           service="Wedding"
           label="Wedding packages"
           title="Clear prices. Everything listed."
-          className="section-y border-t border-border"
+          className="section-y bg-sand-soft"
           footer={
             <>
               <PackagesLink href="/packages#compare">Compare all packages side by side</PackagesLink>
@@ -33,8 +38,8 @@ export default function HomePage() {
           }
         />
       )}
+      {/* Proof, then how booking works, then objections, then the same action as the top. */}
       <FeaturedPortfolio />
-      <WhyUs />
       <HomeReviews className="pb-16 md:pb-24" />
       <BookingSteps />
       <Faq items={homeFaqs} />

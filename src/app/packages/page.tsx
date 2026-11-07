@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import PageHero from "@/components/sections/PageHero";
 import Packages from "@/components/sections/Packages";
 import PackageCompare from "@/components/sections/PackageCompare";
@@ -70,7 +70,7 @@ export default function PackagesPage() {
               <li key={s.slug}>
                 <Link
                   href={`/services/${s.slug}`}
-                  className="lift group flex h-full items-center justify-between gap-4 rounded-lg border border-border bg-surface p-5 hover:border-border-strong"
+                  className="lift group flex h-full items-center justify-between gap-4 rounded-xl border border-border bg-surface p-5 hover:border-border-strong"
                 >
                   <span>
                     <span className="block font-display text-lg">{s.title}</span>
@@ -93,7 +93,7 @@ export default function PackagesPage() {
       </section>
 
       <Faq items={homeFaqs.slice(0, 4)} title="Questions about packages" name="packages-faq" />
-      <ClosingCta />
+      <ClosingCta href="/contact#quote" label="Get a quote" />
       <JsonLd
         data={{
           "@context": "https://schema.org",
