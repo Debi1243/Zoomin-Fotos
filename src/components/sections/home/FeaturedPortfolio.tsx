@@ -21,7 +21,7 @@ export default function FeaturedPortfolio() {
   ];
 
   return (
-    <section aria-labelledby="portfolio-title" className="section-y bg-sand-soft">
+    <section aria-labelledby="portfolio-title" className="section-y surface-dark">
       <div className="container-page">
         <SectionHeader
           id="portfolio-title"

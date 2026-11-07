@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/navigation/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
@@ -12,8 +12,10 @@ import { headScript } from "@/lib/theme";
 import { brand } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
 
-// One typeface for the whole site (regular, medium, semibold, bold).
+// Manrope for reading and interface text (regular, medium, semibold, bold).
 const sans = Manrope({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-manrope", display: "swap" });
+// Fraunces, a soft editorial serif, for headings only: the "wedding album" voice.
+const serif = Fraunces({ subsets: ["latin"], style: ["normal", "italic"], axes: ["opsz", "SOFT"], variable: "--font-fraunces", display: "swap" });
 
 const title = `Photographer in ${brand.city} | Wedding Packages from ₹25,000 | ${brand.name}`;
 
@@ -43,7 +45,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" suppressHydrationWarning className={sans.variable}>
+    <html lang="en-IN" suppressHydrationWarning className={`${sans.variable} ${serif.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: headScript }} />
       </head>

@@ -17,12 +17,12 @@ export default function ClosingCta({
   label = "See packages and prices",
 }: Props) {
   return (
-    <section aria-labelledby="cta-title" className="surface-inverse">
-      <div className="container-page py-16 text-center md:py-24">
+    <section aria-labelledby="cta-title" className="surface-dark">
+      <div className="container-page py-20 text-center md:py-32">
         <h2 id="cta-title" className="reveal mx-auto max-w-[680px] heading-4 md:heading-2">
           {title}
         </h2>
-        <p className="reveal mx-auto mt-4 max-w-[680px] body-3 text-inverse-muted md:body-7">{text}</p>
+        <p className="reveal mx-auto mt-4 max-w-[680px] body-3 text-muted md:body-7">{text}</p>
         <div className="reveal mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
           <ButtonLink href={href} size="lg" className="w-full sm:w-auto">
             {label}

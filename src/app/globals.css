@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   Design tokens: "modern editorial commerce"
-   Warm paper background, near-black ink, and one terracotta that
-   means "book". Colour is defined once here and mapped into Tailwind
-   below. One light theme only: the brand is warm and light.
+   Design tokens: "wedding album"
+   Warm paper pages, near-black ink, one terracotta that means "book",
+   and deep warm charcoal "print room" bands (.surface-dark) where the
+   photographs sit, so they glow like prints. Colour is defined once here
+   and mapped into Tailwind below.
    Contrast (WCAG): ink on bg 15.4:1, muted on bg 5.4:1,
    white on primary 4.6:1, accent text on bg 5.9:1.
    ────────────────────────────────────────────────────────────── */
@@ -106,9 +107,10 @@
   --color-warning: var(--warning);
   --color-error: var(--error);
 
-  /* One typeface for the whole site. "font-display" is kept as a name for older markup. */
+  /* Manrope for reading text and interface; Fraunces (a soft serif) for headings. */
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-mono: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 
   --shadow-sm: var(--shadow-sm);
@@ -133,16 +135,17 @@
    Text styles
    Every piece of text uses one of these names. Each one is a step of
    Tailwind's type scale (size and its own line height) plus a weight,
-   so no size is ever invented. One typeface: Manrope.
+   so no size is ever invented. Headings 1 to 5 are set in the Fraunces
+   serif at a light weight; everything else is Manrope.
    Bigger headings step down a style on phones, e.g. "heading-4 md:heading-2".
    ────────────────────────────────────────────────────────────── */
 
-@utility heading-1 { font-size: 3.75rem; line-height: 1; font-weight: 600; letter-spacing: -0.025em; }
-@utility heading-2 { font-size: 3rem; line-height: 1; font-weight: 600; letter-spacing: -0.025em; }
-@utility heading-3 { font-size: 2.25rem; line-height: 2.5rem; font-weight: 600; letter-spacing: -0.02em; }
-@utility heading-4 { font-size: 1.875rem; line-height: 2.25rem; font-weight: 600; letter-spacing: -0.02em; }
-@utility heading-5 { font-size: 1.5rem; line-height: 2rem; font-weight: 600; letter-spacing: -0.01em; }
-@utility heading-6 { font-size: 1.25rem; line-height: 1.75rem; font-weight: 600; }
+@utility heading-1 { font-family: var(--font-display); font-size: 3.75rem; line-height: 1.05; font-weight: 400; letter-spacing: -0.03em; font-variation-settings: "opsz" 144, "SOFT" 50; }
+@utility heading-2 { font-family: var(--font-display); font-size: 3rem; line-height: 1.08; font-weight: 400; letter-spacing: -0.025em; font-variation-settings: "opsz" 144, "SOFT" 50; }
+@utility heading-3 { font-family: var(--font-display); font-size: 2.25rem; line-height: 2.625rem; font-weight: 400; letter-spacing: -0.02em; font-variation-settings: "opsz" 96, "SOFT" 50; }
+@utility heading-4 { font-family: var(--font-display); font-size: 1.875rem; line-height: 2.25rem; font-weight: 400; letter-spacing: -0.015em; font-variation-settings: "opsz" 72, "SOFT" 50; }
+@utility heading-5 { font-family: var(--font-display); font-size: 1.5rem; line-height: 2rem; font-weight: 450; letter-spacing: -0.01em; font-variation-settings: "opsz" 48, "SOFT" 50; }
+@utility heading-6 { font-family: var(--font-sans); font-size: 1.25rem; line-height: 1.75rem; font-weight: 600; }
 
 @utility title-1 { font-size: 1.25rem; line-height: 1.75rem; font-weight: 500; }
 @utility title-2 { font-size: 1.125rem; line-height: 1.75rem; font-weight: 500; }
@@ -227,7 +230,9 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; }
+  /* Page and section headings are serif; smaller card titles (h3, h4) stay in Manrope unless a heading style says otherwise. */
+  h1, h2 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; }
+  h3, h4 { font-family: var(--font-sans); font-weight: 600; text-wrap: balance; }
   p { text-wrap: pretty; }
 
   ::selection { background: var(--sand); color: var(--fg); }
@@ -299,19 +304,44 @@
   &:hover::after, &:focus-visible::after { transform: scaleX(1); }
 }
 
-/* Hero headings: the one place a gradient is used, on the text only, left to right. */
-.hero-heading {
-  width: fit-content;
-  /* Room for descenders: the gradient is clipped to the text box, and Heading 1 sets lines at 1. */
-  padding-bottom: 0.1em;
-  background-image: linear-gradient(90deg, #000000, #666666);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* Page headings: plain ink, set in the serif. (The old grey gradient is retired.) */
+.hero-heading { width: fit-content; }
+
+/* Headings may mark a word or phrase with <em>: serif italic in the accent colour, like an album caption. */
+:is(h1, h2) em { font-style: italic; color: var(--accent); }
+
+/* Deep warm charcoal "print room" band. It re-points the page tokens, so every component
+   inside (cards, filters, links, the logo) turns light-on-dark without its own dark styles. */
+@utility surface-dark {
+  --bg: #1b1815;
+  --surface: #26221e;
+  --elevated: #2e2924;
+  --sand: #3a342e;
+  --sand-soft: #221e1a;
+  --fg: #f5f0e8;
+  --fg-muted: #bfb5a8;
+  --border: #3a342e;
+  --border-strong: #5a5148;
+  --accent: #e7a189;
+  --whatsapp-text: #6fd3a0;
+  --whatsapp-text-hover: #9be3bd;
+  --inverse-muted: #bfb5a8;
+  --focus: #f5f0e8;
+  background: var(--bg);
+  color: var(--fg);
+  color-scheme: dark;
 }
 
-/* Headings may mark one word with <em>: it takes the accent colour, no italics. */
-:is(h1, h2) em { font-style: normal; color: var(--accent); }
+/* Eyebrow with a short rule in front of it, as used on section headers. */
+.label-rule { display: inline-flex; align-items: center; gap: 0.75rem; }
+.label-rule::before { content: ""; width: 2rem; height: 1px; background: currentColor; opacity: 0.6; }
+
+/* Full-width hero photograph: a soft scrim keeps the headline readable over any photo. */
+.hero-scrim {
+  background:
+    linear-gradient(0deg, rgb(20 16 12 / 0.85) 0%, rgb(20 16 12 / 0.55) 40%, rgb(20 16 12 / 0) 72%),
+    linear-gradient(90deg, rgb(20 16 12 / 0.5) 0%, rgb(20 16 12 / 0) 60%);
+}
 
 /* Older section markers (admin, portal): a short terracotta bar before a label. */
 .festive-gradient { background-color: var(--primary); }
@@ -416,7 +446,7 @@
 
 /* Tagline reveal: each word starts muted and turns to full ink as it crosses the trigger line. */
 .tagline-word {
-  color: rgb(32 32 32 / 0.3);
+  color: color-mix(in srgb, var(--fg) 30%, transparent);
   transition: color 500ms var(--ease-base);
 }
 .tagline-word.is-lit { color: var(--fg); }
