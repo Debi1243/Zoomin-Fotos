@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import { CircleAlert, CircleCheck, LoaderCircle, LogOut } from "lucide-react";
+import { WarningCircleIcon as CircleAlert, CheckCircleIcon as CircleCheck, CircleNotchIcon as LoaderCircle, SignOutIcon as LogOut } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { explain, readStoredToken, remembered, SignIn, storeToken, type Notice } from "@/components/admin/auth";
 import { commitChange, GitHubError, loadContent, verifyToken } from "@/lib/github";
@@ -108,7 +108,7 @@ export default function PricingEditor() {
           <span className="block font-medium">{label}</span>
           <span className="block text-xs text-muted">{note}</span>
         </label>
-        <span className={cn("flex h-11 w-32 shrink-0 items-center sm:w-40 rounded-md border bg-bg px-3 focus-within:border-fg", bad ? "border-error" : "border-border-strong")}>
+        <span className={cn("flex h-11 w-32 shrink-0 items-center sm:w-40 rounded-lg border bg-bg px-3 focus-within:border-fg", bad ? "border-error" : "border-border-strong")}>
           {kind === "price" && <span className="text-muted">₹</span>}
           <input
             id={`price-${id}`}
@@ -139,17 +139,17 @@ export default function PricingEditor() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
-        <section className="min-w-0 rounded-lg border border-border bg-surface p-5">
+        <section className="min-w-0 rounded-xl border border-border bg-surface p-5">
           <h2 className="font-display text-2xl">For each event</h2>
           <p className="mt-1 text-sm text-muted">Charged once for every event the client picks.</p>
           <ul className="mt-3 divide-y divide-border">{pricedItems.perEvent.map((i) => field(i.id, i.label, i.note, "price"))}</ul>
         </section>
-        <section className="min-w-0 rounded-lg border border-border bg-surface p-5">
+        <section className="min-w-0 rounded-xl border border-border bg-surface p-5">
           <h2 className="font-display text-2xl">Once per booking</h2>
           <p className="mt-1 text-sm text-muted">Add-ons, charged once whatever the number of events. Extra hours are per hour.</p>
           <ul className="mt-3 divide-y divide-border">{pricedItems.once.map((i) => field(i.id, i.label, i.note, "price"))}</ul>
         </section>
-        <section className="min-w-0 rounded-lg border border-border bg-surface p-5">
+        <section className="min-w-0 rounded-xl border border-border bg-surface p-5">
           <h2 className="font-display text-2xl">Event length</h2>
           <p className="mt-1 text-sm text-muted">How much of a full day each event costs. 100% charges the full rates above; 60% charges a little over half.</p>
           <ul className="mt-3 divide-y divide-border">{pricedItems.baseEvents.map((e) => field(e.id, e.label, e.note, "share"))}</ul>

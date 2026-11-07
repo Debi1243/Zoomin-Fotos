@@ -1,23 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
-import {
-  CircleAlert,
-  Copy,
-  ExternalLink,
-  LoaderCircle,
-  LogOut,
-  Mail,
-  MessageCircle,
-  MousePointerClick,
-  Phone,
-  RefreshCw,
-  Sheet,
-  Smartphone,
-  UsersRound,
-  Eye,
-  Inbox,
-} from "lucide-react";
+import { WarningCircleIcon as CircleAlert, CopyIcon as Copy, ArrowSquareOutIcon as ExternalLink, CircleNotchIcon as LoaderCircle, SignOutIcon as LogOut, EnvelopeIcon as Mail, WhatsappLogoIcon as MessageCircle, CursorClickIcon as MousePointerClick, PhoneIcon as Phone, ArrowClockwiseIcon as RefreshCw, TableIcon as Sheet, DeviceMobileIcon as Smartphone, UsersThreeIcon as UsersRound, EyeIcon as Eye, TrayIcon as Inbox } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/forms/Field";
 import { explain, readStoredToken, remembered, SignIn, storeToken, type Notice } from "@/components/admin/auth";
@@ -239,7 +223,7 @@ export default function Dashboard() {
       ) : (
         <>
           {error && (
-            <p role="alert" className="flex items-start gap-2 rounded-md border border-error/40 p-4 text-sm text-error">
+            <p role="alert" className="flex items-start gap-2 rounded-lg border border-error/40 p-4 text-sm text-error">
               <CircleAlert aria-hidden className="mt-0.5 size-4 shrink-0" /> {error}
             </p>
           )}
@@ -374,7 +358,7 @@ function Overview({ data, days, onStatus }: { data: Data; days: number; onStatus
 
 function Stat({ icon, label, value, note }: { icon: ReactNode; label: string; value: number; note?: string }) {
   return (
-    <li className="rounded-lg border border-border bg-surface p-5">
+    <li className="rounded-xl border border-border bg-surface p-5">
       <p className="flex items-center gap-2 text-sm text-muted">
         <span aria-hidden>{icon}</span> {label}
       </p>
@@ -388,7 +372,7 @@ function DailyChart({ daily }: { daily: { day: number; count: number }[] }) {
   const max = Math.max(1, ...daily.map((d) => d.count));
   const fmt = (t: number) => new Date(t).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
   return (
-    <section aria-labelledby="daily-title" className="rounded-lg border border-border bg-surface p-5">
+    <section aria-labelledby="daily-title" className="rounded-xl border border-border bg-surface p-5">
       <h2 id="daily-title" className="text-sm text-muted">
         Page visits per day
       </h2>
@@ -426,7 +410,7 @@ function Ranked({
   const total = rows.reduce((s, r) => s + r.n, 0);
   const max = rows[0]?.n ?? 1;
   return (
-    <section className="rounded-lg border border-border bg-surface p-5">
+    <section className="rounded-xl border border-border bg-surface p-5">
       <h2 className="flex items-center gap-2 text-sm text-muted">
         {icon && <span aria-hidden>{icon}</span>}
         {title}
@@ -437,7 +421,7 @@ function Ranked({
         <ol className="mt-4 space-y-2.5">
           {rows.slice(0, 8).map((r) => (
             <li key={`${r.label}-${r.sub}`} className="relative">
-              <div aria-hidden className="absolute inset-y-0 left-0 rounded-sm bg-fg/[0.06]" style={{ width: `${(r.n / max) * 100}%` }} />
+              <div aria-hidden className="absolute inset-y-0 left-0 rounded-md bg-fg/[0.06]" style={{ width: `${(r.n / max) * 100}%` }} />
               <div className="relative flex items-baseline justify-between gap-4 px-2 py-1.5 text-sm">
                 <span className="min-w-0 truncate">
                   {r.label}
@@ -455,9 +439,9 @@ function Ranked({
 
 function EnquiryCard({ q, onStatus }: { q: Enquiry; onStatus: (q: Enquiry, status: string) => void }) {
   const wa = whatsapp(q.phone);
-  const action = "inline-flex h-9 items-center gap-1.5 rounded-md border border-border px-3 text-sm transition-colors hover:border-fg";
+  const action = "inline-flex h-9 items-center gap-1.5 rounded-lg border border-border px-3 text-sm transition-colors hover:border-fg";
   return (
-    <li className={cn("rounded-lg border bg-surface p-5", q.status === "New" ? "border-border-strong" : "border-border")}>
+    <li className={cn("rounded-xl border bg-surface p-5", q.status === "New" ? "border-border-strong" : "border-border")}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="flex flex-wrap items-center gap-2">
@@ -476,7 +460,7 @@ function EnquiryCard({ q, onStatus }: { q: Enquiry; onStatus: (q: Enquiry, statu
           <select
             value={q.status}
             onChange={(e) => onStatus(q, e.target.value)}
-            className="h-9 rounded-md border border-border bg-bg px-2 text-sm"
+            className="h-9 rounded-lg border border-border bg-bg px-2 text-sm"
           >
             {STATUSES.map((s) => (
               <option key={s}>{s}</option>
@@ -584,7 +568,7 @@ function Setup({ token, current, onSaved, onCancel }: { token: string; current: 
               value={dashboardScript}
               aria-label="Dashboard script"
               onFocus={(e) => e.currentTarget.select()}
-              className="mt-3 h-32 w-full rounded-md border border-border bg-bg p-3 font-mono text-xs"
+              className="mt-3 h-32 w-full rounded-lg border border-border bg-bg p-3 font-mono text-xs"
             />
           </div>
         </li>

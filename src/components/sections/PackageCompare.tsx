@@ -1,4 +1,4 @@
-import { Check, Minus } from "lucide-react";
+import { CheckIcon as Check, MinusIcon as Minus } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { formatRupees, type Package, weddingComparison } from "@/lib/data";
@@ -24,7 +24,7 @@ export default function PackageCompare({ packages }: { packages: Package[] }) {
           title="Wedding packages side by side"
           intro="Every package includes all raw photos and videos. A dash means the package doesn't list it, but you can add it with the package builder."
         />
-        <div className="mt-8 overflow-x-auto rounded-lg border border-border bg-surface md:mt-10" role="region" aria-label="Package comparison" tabIndex={0}>
+        <div className="mt-8 overflow-x-auto rounded-xl border border-border bg-surface md:mt-10" role="region" aria-label="Package comparison" tabIndex={0}>
           <table className="w-full min-w-[40rem] border-collapse text-sm">
             <caption className="sr-only">What each wedding package includes. Prices are for one day, plus GST.</caption>
             <thead>
@@ -60,7 +60,7 @@ export default function PackageCompare({ packages }: { packages: Package[] }) {
                       href={quoteHref({ service: "Wedding", pkg: p.name, price: p.price })}
                       data-track="package_select"
                       data-track-source={`compare:${p.name}`}
-                      className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-fg hover:bg-primary-hover"
+                      className="inline-flex h-10 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-fg hover:bg-primary-hover"
                     >
                       Book {p.name}
                     </Link>

@@ -31,16 +31,16 @@ export default function ConsentBanner() {
     <div
       role="region"
       aria-label="Analytics consent"
-      className="fixed inset-x-3 bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-40 mx-auto max-w-xl rounded-lg border border-border bg-surface p-4 text-sm shadow-md lg:bottom-6"
+      className="fixed inset-x-3 bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-40 mx-auto max-w-xl rounded-xl border border-border bg-surface p-4 text-sm shadow-md lg:bottom-6"
     >
       <p className="text-muted">
         We use Google Analytics to see which pages help people book. No ads, and nothing is shared for marketing. Is that okay?
       </p>
       <div className="mt-3 flex gap-2">
-        <button type="button" onClick={() => choose("granted")} className="h-10 rounded-md bg-fg px-4 font-semibold text-bg">
+        <button type="button" onClick={() => choose("granted")} className="h-10 rounded-lg bg-fg px-4 font-semibold text-bg">
           Allow
         </button>
-        <button type="button" onClick={() => choose("denied")} className="h-10 rounded-md border border-border-strong px-4 font-semibold">
+        <button type="button" onClick={() => choose("denied")} className="h-10 rounded-lg border border-border-strong px-4 font-semibold">
           No thanks
         </button>
       </div>

@@ -81,7 +81,7 @@ export function SignIn({ onSignIn, notice }: { onSignIn: (token: string, remembe
         <Button type="submit">Sign in</Button>
       </form>
 
-      <div className="rounded-lg border border-border bg-surface p-6 text-sm leading-relaxed lg:col-span-6 lg:col-start-7">
+      <div className="rounded-xl border border-border bg-surface p-6 text-sm leading-relaxed lg:col-span-6 lg:col-start-7">
         <h2 className="font-medium">Getting an access key (one time)</h2>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-muted">
           <li>

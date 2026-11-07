@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, RefreshCw } from "lucide-react";
+import { CopyIcon as Copy, ArrowClockwiseIcon as RefreshCw } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { dashboardScript } from "@/lib/dashboard-script";
 
@@ -18,7 +18,7 @@ export default function ScriptUpdate({ onDone, reason }: { onDone: () => void; r
     }
   };
   return (
-    <section aria-labelledby="update-title" className="max-w-3xl rounded-lg border border-border-strong bg-surface p-6">
+    <section aria-labelledby="update-title" className="max-w-3xl rounded-xl border border-border-strong bg-surface p-6">
       <h2 id="update-title" className="font-display text-2xl">
         Update your sheet script
       </h2>
@@ -45,7 +45,7 @@ export default function ScriptUpdate({ onDone, reason }: { onDone: () => void; r
         value={dashboardScript}
         aria-label="Sheet script"
         onFocus={(e) => e.currentTarget.select()}
-        className="mt-4 h-28 w-full rounded-md border border-border bg-bg p-3 font-mono text-xs"
+        className="mt-4 h-28 w-full rounded-lg border border-border bg-bg p-3 font-mono text-xs"
       />
     </section>
   );

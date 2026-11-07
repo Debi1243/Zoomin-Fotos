@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Eraser } from "lucide-react";
+import { EraserIcon as Eraser } from "@phosphor-icons/react/dist/ssr";
 
 /** A box to sign in with a finger, stylus or mouse. Hands back a small PNG of the strokes. */
 export default function SignaturePad({ onChange }: { onChange: (png: string | null) => void }) {
@@ -58,7 +58,7 @@ export default function SignaturePad({ onChange }: { onChange: (png: string | nu
           ref={canvas}
           aria-label="Signature box. Draw your signature here."
           role="img"
-          className="h-40 w-full touch-none rounded-md border border-border-strong bg-white"
+          className="h-40 w-full touch-none rounded-lg border border-border-strong bg-white"
           onPointerDown={(e) => {
             e.currentTarget.setPointerCapture(e.pointerId);
             setup();

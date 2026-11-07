@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
-import { BadgeIndianRupee, Clapperboard, MessageCircle, SlidersHorizontal, type LucideIcon } from "lucide-react";
+import { CurrencyInrIcon as BadgeIndianRupee, FilmSlateIcon as Clapperboard, WhatsappLogoIcon as MessageCircle, SlidersHorizontalIcon as SlidersHorizontal } from "@phosphor-icons/react/dist/ssr";
+import type { Icon as LucideIcon } from "@phosphor-icons/react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { reasons } from "@/lib/data";
 
@@ -15,12 +16,12 @@ export default function WhyUs() {
           {reasons.map((r, i) => {
             const Icon = icons[i % icons.length];
             return (
-              <li key={r.title} className="stagger-in rounded-lg border border-border bg-surface p-5 md:p-6" style={{ "--i": i } as CSSProperties}>
-                <span className="grid size-11 place-items-center rounded-md bg-sand-soft text-accent">
+              <li key={r.title} className="stagger-in rounded-xl border border-border bg-surface p-6" style={{ "--i": i } as CSSProperties}>
+                <span className="grid size-11 place-items-center rounded-lg bg-sand-soft text-accent">
                   <Icon aria-hidden className="size-5" />
                 </span>
-                <h3 className="mt-4 font-display text-lg">{r.title}</h3>
-                <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">{r.text}</p>
+                <h3 className="mt-4 heading-6">{r.title}</h3>
+                <p className="mt-2 body-6 text-muted">{r.text}</p>
               </li>
             );
           })}

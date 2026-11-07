@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Trash2 } from "lucide-react";
+import { PlusIcon as Plus, TrashIcon as Trash2 } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 
 export type RowField = {
@@ -18,7 +18,7 @@ export type RowField = {
 type Row = Record<string, string | number>;
 
 const input =
-  "h-10 w-full min-w-0 rounded-md border border-border-strong bg-bg px-3 text-sm outline-none transition-colors focus:border-fg disabled:opacity-60";
+  "h-10 w-full min-w-0 rounded-lg border border-border-strong bg-bg px-3 text-sm outline-none transition-colors focus:border-fg disabled:opacity-60";
 
 /**
  * Edits a list of small records (timeline items, family members, invoice lines). Each row is a
@@ -53,7 +53,7 @@ export default function RowsEditor<T extends Row>({
       {rows.length === 0 && empty && <p className="text-sm text-muted">{empty}</p>}
       <ol className="space-y-3">
         {rows.map((row, i) => (
-          <li key={i} className="flex gap-2 rounded-lg border border-border bg-bg/40 p-3 sm:border-0 sm:bg-transparent sm:p-0">
+          <li key={i} className="flex gap-2 rounded-xl border border-border bg-bg/40 p-3 sm:border-0 sm:bg-transparent sm:p-0">
             <div className="grid min-w-0 flex-1 grid-cols-2 gap-2 sm:grid-cols-12">
               {fields.map((f) => {
                 const id = `${label}-${i}-${f.key}`.replace(/\W+/g, "-");
@@ -87,7 +87,7 @@ export default function RowsEditor<T extends Row>({
               <button
                 type="button"
                 onClick={() => onChange(rows.filter((_, j) => j !== i))}
-                className={cn("grid size-10 shrink-0 place-items-center self-end rounded-md text-muted hover:text-error", i === 0 && "sm:mt-5")}
+                className={cn("grid size-10 shrink-0 place-items-center self-end rounded-lg text-muted hover:text-error", i === 0 && "sm:mt-5")}
                 aria-label={`Remove row ${i + 1} from ${label}`}
               >
                 <Trash2 aria-hidden className="size-4" />
@@ -100,7 +100,7 @@ export default function RowsEditor<T extends Row>({
         <button
           type="button"
           onClick={() => onChange([...rows, blank()])}
-          className="mt-3 inline-flex h-10 items-center gap-1.5 rounded-md border border-dashed border-border-strong px-3 text-sm hover:border-fg"
+          className="mt-3 inline-flex h-10 items-center gap-1.5 rounded-lg border border-dashed border-border-strong px-3 text-sm hover:border-fg"
         >
           <Plus aria-hidden className="size-4" /> {addLabel}
         </button>

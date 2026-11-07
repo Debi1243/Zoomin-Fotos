@@ -24,10 +24,10 @@ export default function SectionHeader({ label, title, intro, action, id, center,
     >
       <div className={cn("max-w-2xl", center && "mx-auto")}>
         <p className="label text-accent">{label}</p>
-        <h2 id={id} className="mt-3 font-display text-h2">
+        <h2 id={id} className="mt-3 heading-4 md:heading-2">
           {title}
         </h2>
-        {intro && <p className="mt-4 text-lead text-muted">{intro}</p>}
+        {intro && <p className="mt-4 body-3 text-muted md:body-7">{intro}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </header>

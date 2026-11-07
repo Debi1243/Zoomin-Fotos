@@ -1,8 +1,8 @@
 import type { CSSProperties } from "react";
-import { ExternalLink } from "lucide-react";
+import { ArrowSquareOutIcon as ExternalLink } from "@phosphor-icons/react/dist/ssr";
 import ReviewCard from "@/components/testimonials/ReviewCard";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { ButtonLink } from "@/components/ui/Button";
+import { ButtonLink, buttonClasses } from "@/components/ui/Button";
 import { brand } from "@/lib/data";
 import { testimonials } from "@/lib/testimonials";
 
@@ -26,7 +26,7 @@ export default function HomeReviews({ className }: { className?: string }) {
               title="What our clients say"
               intro={`${count === 1 ? "One review" : `${count} reviews`}, averaging ${average.toFixed(1)} out of 5.`}
               action={
-                <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-accent link-underline">
+                <a href={brand.googleReviews} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 button-sm text-accent link-underline">
                   Read them on Google <ExternalLink aria-hidden className="size-3.5" />
                 </a>
               }
@@ -40,20 +40,20 @@ export default function HomeReviews({ className }: { className?: string }) {
             </ul>
           </>
         ) : (
-          <div className="reveal flex flex-col gap-6 rounded-lg border border-border bg-surface p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <div className="reveal flex flex-col gap-6 rounded-xl border border-border bg-surface p-6 md:flex-row md:items-center md:justify-between md:p-8">
             <div>
               <p className="label text-accent">Reviews</p>
-              <h2 id="reviews-title" className="mt-3 font-display text-h3">
+              <h2 id="reviews-title" className="mt-3 heading-5 md:heading-4">
                 See what our clients say on Google
               </h2>
-              <p className="mt-2 max-w-[52ch] text-muted">Read genuine reviews from our clients on our Google Business listing, or leave one if we photographed you.</p>
+              <p className="mt-2 max-w-[52ch] body-3 text-muted">Read genuine reviews from our clients on our Google Business listing, or leave one if we photographed you.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row md:shrink-0">
               <a
                 href={brand.googleReviews}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-border-strong bg-surface px-4 text-sm font-semibold hover:border-fg"
+                className={buttonClasses({ variant: "secondary" })}
               >
                 Google reviews <ExternalLink aria-hidden className="size-4" />
               </a>

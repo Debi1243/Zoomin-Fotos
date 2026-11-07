@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition, type FormEvent } from "react";
-import { CircleAlert, CircleCheck, MessageCircle } from "lucide-react";
+import { WarningCircleIcon as CircleAlert, CheckCircleIcon as CircleCheck, WhatsappLogoIcon as MessageCircle } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { ChoiceGroup, TextField, TextareaField } from "./Field";
 import { submitContact } from "@/app/contact/actions";
@@ -107,8 +107,8 @@ export default function QuoteForm() {
   return (
     <>
       {sent && (
-        <div role="status" className="rounded-lg border border-border bg-surface p-6 shadow-sm sm:p-8">
-          <CircleCheck aria-hidden className="size-9 text-success" strokeWidth={1.75} />
+        <div role="status" className="rounded-xl border border-border bg-surface p-6 shadow-sm sm:p-8">
+          <CircleCheck aria-hidden className="size-9 text-success" />
           <h2 className="mt-4 font-display text-h3">Thanks, {sent.name.split(" ")[0]}. Your enquiry is ready.</h2>
           <p className="mt-3 max-w-[52ch] text-muted">
             {sent.opened
@@ -123,7 +123,7 @@ export default function QuoteForm() {
               rel="noopener noreferrer"
               data-track="whatsapp_click"
               data-track-source="quote-form-success"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-whatsapp px-5 font-semibold text-white hover:bg-whatsapp-hover"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 font-semibold text-white hover:bg-whatsapp-hover"
             >
               <MessageCircle aria-hidden className="size-[1.125rem]" />
               {sent.opened ? "Open WhatsApp again" : "Open WhatsApp"}
@@ -142,10 +142,10 @@ export default function QuoteForm() {
         onChange={onChange}
         noValidate
         aria-label="Get a photography quote"
-        className="space-y-6 rounded-lg border border-border bg-surface p-5 shadow-sm sm:p-8"
+        className="space-y-6 rounded-xl border border-border bg-surface p-5 shadow-sm sm:p-8"
       >
         {pkg && (
-          <p className="rounded-md bg-sand-soft px-4 py-3 text-sm">
+          <p className="rounded-lg bg-sand-soft px-4 py-3 text-sm">
             Package: <strong className="font-semibold">{pkg}</strong>
             <input type="hidden" name="pkg" value={pkg} />
           </p>

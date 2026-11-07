@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ChevronRight } from "lucide-react";
+import { CaretRightIcon as ChevronRight } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 
 type Crumb = { href: string; label: string };
@@ -26,14 +26,14 @@ export default function PageHero({ label, title, intro, crumbs, children, media,
         <div>
           {crumbs ? (
             <nav aria-label="Breadcrumb">
-              <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted">
-                <li className="flex items-center gap-1.5">
-                  <Link href="/" className="hover:text-fg">Home</Link>
+              <ol className="flex flex-wrap items-center gap-2 caption-2 text-muted">
+                <li className="flex items-center gap-2">
+                  <Link href="/" className="transition-colors duration-300 hover:text-fg">Home</Link>
                   <ChevronRight aria-hidden className="size-3.5" />
                 </li>
                 {crumbs.map((c) => (
-                  <li key={c.href} className="flex items-center gap-1.5">
-                    <Link href={c.href} className="hover:text-fg">{c.label}</Link>
+                  <li key={c.href} className="flex items-center gap-2">
+                    <Link href={c.href} className="transition-colors duration-300 hover:text-fg">{c.label}</Link>
                     <ChevronRight aria-hidden className="size-3.5" />
                   </li>
                 ))}
@@ -43,8 +43,8 @@ export default function PageHero({ label, title, intro, crumbs, children, media,
           ) : (
             <p className="label text-accent">{label}</p>
           )}
-          <h1 className="mt-4 max-w-[20ch] font-display text-h1">{title}</h1>
-          {intro && <p className="mt-5 max-w-[60ch] text-lead text-muted">{intro}</p>}
+          <h1 className="hero-heading mt-4 max-w-[680px] heading-3 md:heading-1">{title}</h1>
+          {intro && <p className="mt-4 max-w-[680px] body-3 text-muted md:body-7">{intro}</p>}
           {children}
         </div>
       </div>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRightIcon as ArrowRight, CheckIcon as Check } from "@phosphor-icons/react/dist/ssr";
 import PageHero from "@/components/sections/PageHero";
 import PhotoFrame from "@/components/photos/PhotoFrame";
 import PortfolioGallery from "@/components/photos/PortfolioGallery";
@@ -12,9 +12,11 @@ import HomeReviews from "@/components/sections/home/HomeReviews";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { ButtonLink, WhatsAppButton } from "@/components/ui/Button";
+import { ButtonLink, WhatsAppLink } from "@/components/ui/Button";
+import TaglineReveal from "@/components/sections/TaglineReveal";
+import BookingSteps from "@/components/sections/BookingSteps";
 import JsonLd from "@/components/shared/JsonLd";
-import { brand, formatRupees, getService, photosIn, services, startingPrice, videosIn, waLink } from "@/lib/data";
+import { brand, formatRupees, generalFaqs, getService, photosIn, services, startingPrice, videosIn, waLink } from "@/lib/data";
 import { quoteHref, quoteServiceFor } from "@/lib/contact";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
@@ -56,6 +58,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   const path = `/services/${s.slug}`;
   const title = serviceTitle(s.title);
   const single = s.packages?.length === 1;
+  const ctaLabel = from ? "Check your date and price" : "Get a quote";
+  const faqs = [...s.faqs, ...generalFaqs().filter((g) => !s.faqs.some((f) => f.q === g.q))];
 
   return (
     <>
@@ -72,24 +76,24 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           )
         }
       >
-        <p className="mt-5 text-lg">
+        <p className="mt-6 body-7">
           {from ? (
             <>
-              {single ? "From" : "Packages from"} <strong className="tabular font-display text-2xl font-bold text-accent">{formatRupees(from)}</strong>{" "}
-              <span className="text-muted">+ GST</span>
+              {single ? "From" : "Packages from"} <strong className="tabular heading-5 text-accent">{formatRupees(from)}</strong>{" "}
+              <span className="text-muted">plus GST</span>
             </>
           ) : (
-            <span className="font-semibold">Priced for your shoot. Ask for a quote.</span>
+            <span className="body-1">Priced for your shoot. Ask for a quote.</span>
           )}
         </p>
-        <p className="mt-2 text-sm text-muted">
-          <span className="font-semibold text-fg">Ideal for:</span> {s.idealFor}
+        <p className="mt-2 body-6 text-muted">
+          <span className="body-4 text-fg">Ideal for:</span> {s.idealFor}
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href={quoteHref({ service: quoteService })} size="lg">
-            Get a Quote
+        <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+          <ButtonLink href={quoteHref({ service: quoteService })} size="lg" className="w-full sm:w-auto">
+            {ctaLabel}
           </ButtonLink>
-          <WhatsAppButton href={waLink(`Hi Zoomin Fotos! I'd like to know more about ${title.toLowerCase()}.`)} source={`service:${s.slug}`} size="lg" />
+          <WhatsAppLink href={waLink(`Hi Zoomin Fotos! I'd like to know more about ${title.toLowerCase()}.`)} source={`service:${s.slug}`} />
         </div>
       </PageHero>
 
@@ -115,15 +119,15 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           <SectionHeader id="includes-title" label="What's included" title={`What you get with ${title.toLowerCase()}`} />
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {s.includes.map((item) => (
-              <li key={item.title} className="reveal rounded-lg border border-border bg-surface p-5">
-                <h3 className="font-display text-lg">{item.title}</h3>
-                <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">{item.text}</p>
+              <li key={item.title} className="reveal rounded-xl border border-border bg-surface p-6">
+                <h3 className="heading-6">{item.title}</h3>
+                <p className="mt-2 body-6 text-muted">{item.text}</p>
               </li>
             ))}
           </ul>
-          <div className="mt-8 rounded-lg border border-border bg-surface p-5">
-            <h3 className="font-display text-base font-semibold">You receive</h3>
-            <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+          <div className="mt-8 rounded-xl border border-border bg-surface p-6">
+            <h3 className="body-1">You receive</h3>
+            <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2 body-3">
               {s.deliverables.map((d) => (
                 <li key={d} className="flex items-center gap-2">
                   <Check aria-hidden className="size-4 text-success" />
@@ -131,14 +135,16 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 </li>
               ))}
             </ul>
-            <p className="mt-4 border-t border-border pt-4 text-sm text-muted">
-              <span className="font-semibold text-fg">Not included unless quoted:</span> travel and stay outside {brand.city}, and anything not listed in your package or quote.
+            <p className="mt-4 border-t border-border pt-4 body-6 text-muted">
+              <span className="body-4 text-fg">Not included unless quoted:</span> travel and stay outside {brand.city}, and anything not listed in your package or quote.
             </p>
           </div>
         </div>
       </section>
 
-      <section aria-labelledby="gallery-title" className="section-y">
+      <TaglineReveal text={s.short} className="section-y" />
+
+      <section aria-labelledby="gallery-title" className="section-y border-t border-border">
         <div className="container-page">
           <SectionHeader
             id="gallery-title"
@@ -154,7 +160,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       <FilmGrid videos={videosIn(s.slug)} />
       {s.slug === "weddings" && <PackageBuilder className="border-t border-border" />}
       <HomeReviews className="pb-16 md:pb-24" />
-      <Faq items={s.faqs} title={`${s.title}: common questions`} />
+      <BookingSteps />
+      <Faq items={faqs} title={`${s.title}: common questions`} />
 
       <section aria-labelledby="related-title" className="section-y border-t border-border">
         <div className="container-page">
@@ -166,13 +173,13 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 <li key={r.slug}>
                   <Link
                     href={`/services/${r.slug}`}
-                    className="lift group flex h-full items-center justify-between gap-4 rounded-lg border border-border bg-surface p-5 hover:border-border-strong"
+                    className="lift group flex h-full items-center justify-between gap-4 rounded-xl border border-border bg-surface p-6 hover:border-border-strong"
                   >
                     <span>
-                      <span className="block font-display text-lg">{r.title}</span>
-                      <span className="mt-1 block text-sm text-muted">{rFrom ? `From ${formatRupees(rFrom)} + GST` : "Ask for a quote"}</span>
+                      <span className="block heading-6">{r.title}</span>
+                      <span className="mt-1 block caption-2 text-muted">{rFrom ? `From ${formatRupees(rFrom)} + GST` : "Ask for a quote"}</span>
                     </span>
-                    <ArrowRight aria-hidden className="size-5 shrink-0 text-accent transition-transform group-hover:translate-x-0.5" />
+                    <ArrowRight aria-hidden className="size-5 shrink-0 text-accent transition-transform duration-500 group-hover:translate-x-0.5" />
                   </Link>
                 </li>
               );
@@ -181,7 +188,12 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </div>
       </section>
 
-      <ClosingCta />
+      <ClosingCta
+        title={`Tell us your date, and we will tell you if it is free.`}
+        text={from ? `${title} from ${formatRupees(from)} plus GST. Every price is negotiable.` : `${title} is priced for your shoot. Send your date and we will send a clear quote.`}
+        href={quoteHref({ service: quoteService })}
+        label={ctaLabel}
+      />
       <JsonLd
         data={[
           {

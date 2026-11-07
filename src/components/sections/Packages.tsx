@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
-import { Check, Clock, Users } from "lucide-react";
+import { CheckIcon as Check, ClockIcon as Clock, UsersIcon as Users } from "@phosphor-icons/react/dist/ssr";
 import { ButtonLink } from "@/components/ui/Button";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/cn";
@@ -54,41 +54,41 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
               <article
                 aria-labelledby={`${id}-${i}`}
                 className={cn(
-                  "lift relative flex h-full flex-col rounded-lg border bg-surface p-5 md:p-6",
+                  "lift relative flex h-full flex-col rounded-xl border bg-surface p-6",
                   p.featured ? "border-primary" : "border-border hover:border-border-strong",
                 )}
               >
                 {p.featured && (
-                  <span className="absolute -top-3 left-5 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-fg">
+                  <span className="absolute -top-3 left-6 rounded-full bg-primary px-3 py-1 caption-3 text-primary-fg">
                     Most complete
                   </span>
                 )}
-                <h3 id={`${id}-${i}`} className="font-display text-h3">{p.name}</h3>
-                <p className="mt-1 text-sm text-muted">{p.tagline.charAt(0).toUpperCase() + p.tagline.slice(1)}</p>
+                <h3 id={`${id}-${i}`} className="heading-5">{p.name}</h3>
+                <p className="mt-1 body-6 text-muted">{p.tagline.charAt(0).toUpperCase() + p.tagline.slice(1)}</p>
 
-                <p className="mt-5">
-                  {p.startingFrom && <span className="block text-sm text-muted">Starting from</span>}
-                  <span className="tabular font-display text-price font-bold text-fg">{formatRupees(p.price)}</span>
-                  <span className="ml-1.5 text-sm text-muted">+ GST</span>
+                <p className="mt-6">
+                  {p.startingFrom && <span className="block caption-2 text-muted">Starting from</span>}
+                  <span className="tabular heading-4 text-fg">{formatRupees(p.price)}</span>
+                  <span className="ml-2 caption-2 text-muted">+ GST</span>
                 </p>
-                <p className="mt-1 text-sm text-muted">{p.note ?? "Price is negotiable"}</p>
+                <p className="mt-1 caption-2 text-muted">{p.note ?? "Price is negotiable"}</p>
 
-                <dl className="mt-5 grid gap-2 border-t border-border pt-5 text-sm">
+                <dl className="mt-6 grid gap-2 border-t border-border pt-6 body-6">
                   {p.team && (
-                    <div className="flex gap-2.5">
+                    <div className="flex gap-2">
                       <dt><Users aria-label="Team" className="mt-0.5 size-4 text-accent" /></dt>
                       <dd>{p.team}</dd>
                     </div>
                   )}
-                  <div className="flex gap-2.5">
+                  <div className="flex gap-2">
                     <dt><Clock aria-label="Coverage" className="mt-0.5 size-4 text-accent" /></dt>
                     <dd>{p.unit ? p.unit.replace(/\s*\+\s*GST$/, "").replace(/^per /, "One ") : "1 day of coverage"}</dd>
                   </div>
                 </dl>
 
-                <ul className="mt-4 grid gap-2.5 text-sm leading-relaxed">
+                <ul className="mt-4 grid gap-2 body-6">
                   {p.items.map((item) => (
-                    <li key={item} className="flex gap-2.5">
+                    <li key={item} className="flex gap-2">
                       <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-success" />
                       {item}
                     </li>
@@ -104,14 +104,14 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
                     data-track-source={`${service}:${p.name}`}
                     aria-label={`Book the ${p.name} package`}
                   >
-                    Book {single ? "this shoot" : "Package"}
+                    Book {single ? "this shoot" : "this package"}
                   </ButtonLink>
                 </div>
               </article>
             </li>
           ))}
         </ul>
-        {!single && <p className="mt-1 text-center text-sm text-muted lg:hidden">Swipe to see all {items.length} packages</p>}
+        {!single && <p className="mt-1 text-center caption-2 text-muted lg:hidden">Swipe to see all {items.length} packages</p>}
         {footer && <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">{footer}</div>}
       </div>
     </section>
@@ -121,7 +121,7 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
 /** A plain link styled for the row under the package cards. */
 export function PackagesLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="link-underline w-fit text-[0.9375rem] font-semibold text-accent">
+    <Link href={href} className="link-underline w-fit button-sm text-accent">
       {children}
     </Link>
   );

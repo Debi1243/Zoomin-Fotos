@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Plus_Jakarta_Sans } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/navigation/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
@@ -12,8 +12,8 @@ import { headScript } from "@/lib/theme";
 import { brand } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
 
-const sans = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
-const display = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-jakarta", display: "swap" });
+// One typeface for the whole site (regular, medium, semibold, bold).
+const sans = Manrope({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-manrope", display: "swap" });
 
 const title = `Photographer in ${brand.city} | Wedding Packages from ₹25,000 | ${brand.name}`;
 
@@ -43,7 +43,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" suppressHydrationWarning className={`${sans.variable} ${display.variable}`}>
+    <html lang="en-IN" suppressHydrationWarning className={sans.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: headScript }} />
       </head>

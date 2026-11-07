@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ExternalLink } from "lucide-react";
+import { ArrowSquareOutIcon as ExternalLink } from "@phosphor-icons/react/dist/ssr";
 import PageHero from "@/components/sections/PageHero";
 import ReviewCard from "@/components/testimonials/ReviewCard";
 import ClosingCta from "@/components/sections/ClosingCta";

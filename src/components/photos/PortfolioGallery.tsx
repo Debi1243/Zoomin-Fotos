@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { ArrowLeftIcon as ArrowLeft, ArrowRightIcon as ArrowRight, XIcon as X } from "@phosphor-icons/react/dist/ssr";
 import PhotoFrame from "./PhotoFrame";
 import type { Photo, ServiceSlug } from "@/lib/data";
 import { cn } from "@/lib/cn";
@@ -69,7 +69,7 @@ export default function PortfolioGallery({
               aria-pressed={filter === f.slug}
               onClick={() => setFilter(f.slug)}
               className={cn(
-                "chip inline-flex h-11 shrink-0 items-center gap-2 rounded-md border px-4 text-sm font-medium transition-colors",
+                "chip inline-flex h-11 shrink-0 items-center gap-2 rounded-lg border px-4 text-sm font-medium transition-colors",
                 filter === f.slug ? "border-primary bg-primary text-primary-fg" : "border-border bg-surface hover:border-fg",
               )}
             >
@@ -144,7 +144,7 @@ export default function PortfolioGallery({
                 type="button"
                 onClick={() => setOpenIndex(null)}
                 aria-label="Close"
-                className="grid size-11 place-items-center rounded-md border border-white/20 transition-colors hover:bg-white/10"
+                className="grid size-11 place-items-center rounded-lg border border-white/20 transition-colors hover:bg-white/10"
               >
                 <X aria-hidden className="size-5" />
               </button>
@@ -166,7 +166,7 @@ export default function PortfolioGallery({
                 type="button"
                 onClick={() => step(-1)}
                 aria-label="Previous photograph"
-                className="absolute left-2 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-md border border-white/20 transition-colors hover:bg-white/10 sm:grid"
+                className="absolute left-2 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-lg border border-white/20 transition-colors hover:bg-white/10 sm:grid"
               >
                 <ArrowLeft aria-hidden className="size-5" />
               </button>
@@ -174,7 +174,7 @@ export default function PortfolioGallery({
                 type="button"
                 onClick={() => step(1)}
                 aria-label="Next photograph"
-                className="absolute right-2 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-md border border-white/20 transition-colors hover:bg-white/10 sm:grid"
+                className="absolute right-2 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-lg border border-white/20 transition-colors hover:bg-white/10 sm:grid"
               >
                 <ArrowRight aria-hidden className="size-5" />
               </button>
@@ -185,10 +185,10 @@ export default function PortfolioGallery({
                 <span className="ml-3 text-sm text-[#f4f2ec]/70">{current.place}</span>
               </p>
               <div className="flex gap-2 sm:hidden">
-                <button type="button" onClick={() => step(-1)} aria-label="Previous photograph" className="grid size-11 place-items-center rounded-md border border-white/20">
+                <button type="button" onClick={() => step(-1)} aria-label="Previous photograph" className="grid size-11 place-items-center rounded-lg border border-white/20">
                   <ArrowLeft aria-hidden className="size-5" />
                 </button>
-                <button type="button" onClick={() => step(1)} aria-label="Next photograph" className="grid size-11 place-items-center rounded-md border border-white/20">
+                <button type="button" onClick={() => step(1)} aria-label="Next photograph" className="grid size-11 place-items-center rounded-lg border border-white/20">
                   <ArrowRight aria-hidden className="size-5" />
                 </button>
               </div>

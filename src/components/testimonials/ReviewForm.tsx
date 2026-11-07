@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { CircleAlert, CircleCheck, Star } from "lucide-react";
+import { WarningCircleIcon as CircleAlert, CheckCircleIcon as CircleCheck, StarIcon as Star } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
 import { control, TextField, TextareaField } from "@/components/forms/Field";
 import { reviewEvents } from "@/lib/testimonials";
@@ -48,8 +48,8 @@ export default function ReviewForm() {
 
   if (state.done) {
     return (
-      <div role="status" className="flex flex-col items-start gap-4 rounded-lg border border-border bg-surface p-8">
-        <CircleCheck aria-hidden className="size-10 text-success" strokeWidth={1.5} />
+      <div role="status" className="flex flex-col items-start gap-4 rounded-xl border border-border bg-surface p-8">
+        <CircleCheck aria-hidden className="size-10 text-success" />
         <p className="font-display text-h3">Thank you{name ? `, ${name.split(" ")[0]}` : ""}.</p>
         <p className="max-w-[44ch] text-muted">Your review means a lot to us. It will appear on this page once we&apos;ve had a look.</p>
       </div>
@@ -74,7 +74,7 @@ export default function ReviewForm() {
 
   const shown = hover || rating;
   return (
-    <form onSubmit={submit} noValidate className="space-y-6 rounded-lg border border-border bg-surface p-5 sm:p-8">
+    <form onSubmit={submit} noValidate className="space-y-6 rounded-xl border border-border bg-surface p-5 sm:p-8">
       <fieldset>
         <legend className="text-sm font-medium">Your rating</legend>
         <div className="mt-3 flex items-center gap-1" onMouseLeave={() => setHover(0)}>

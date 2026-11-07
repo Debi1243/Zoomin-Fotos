@@ -39,7 +39,7 @@ export default function PhotoFrame({ photo, sizes, priority = false, fill = fals
   return (
     <div
       style={style}
-      className={cn("photo-frame relative overflow-hidden bg-sand", !square && "rounded-lg", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
+      className={cn("photo-frame relative overflow-hidden bg-sand", !square && "rounded-xl", fill ? "size-full" : aspects[photo.aspect], reveal && "reveal-photo", className)}
     >
       {photo.src ? (
         <Image
@@ -48,19 +48,19 @@ export default function PhotoFrame({ photo, sizes, priority = false, fill = fals
           fill
           sizes={sizes}
           priority={priority}
-          className={cn(contain ? "object-contain" : "object-cover", "transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]")}
+          className={cn(contain ? "object-contain" : "object-cover", "transition-transform duration-[900ms] ease-[var(--ease-base)] group-hover:scale-[1.04]")}
         />
       ) : (
         <div
           role="img"
           aria-label={label}
-          className={cn("frame absolute inset-0 transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]", `frame-${photo.tone}`)}
+          className={cn("frame absolute inset-0 transition-transform duration-[900ms] ease-[var(--ease-base)] group-hover:scale-[1.04]", `frame-${photo.tone}`)}
         />
       )}
       {caption && !photo.src && (
         <div aria-hidden className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 text-[#f4f2ec] md:p-5">
-          <span className="font-display text-lg leading-tight italic md:text-xl">{photo.title}</span>
-          <span className="label shrink-0 text-[0.625rem] text-[#f4f2ec]/75">ZF {photo.id}</span>
+          <span className="title-2 md:title-1">{photo.title}</span>
+          <span className="label shrink-0 text-xs text-[#f4f2ec]/75">ZF {photo.id}</span>
         </div>
       )}
     </div>
