@@ -20,7 +20,7 @@ type Props = {
 /** The top of every inner page: breadcrumbs or a label, the page heading and an intro. */
 export default function PageHero({ label, title, intro, crumbs, children, media, className }: Props) {
   return (
-    <section className={cn("container-page pb-12 pt-8 md:pb-16 md:pt-12", className)}>
+    <section className={cn("page-hero container-page pb-12 pt-8 md:pb-16 md:pt-12", className)}>
       <div className={cn("grid gap-8", media && "lg:grid-cols-2 lg:items-center lg:gap-12")}>
         {media && <div className="lg:order-2">{media}</div>}
         <div>
@@ -44,7 +44,7 @@ export default function PageHero({ label, title, intro, crumbs, children, media,
             <p className="label text-accent">{label}</p>
           )}
           <h1 className="hero-heading mt-4 max-w-[680px] heading-3 md:heading-1">{title}</h1>
-          {intro && <p className="mt-4 max-w-[680px] body-3 text-muted md:body-7">{intro}</p>}
+          {intro && <p className="rise mt-4 max-w-[680px] body-3 text-muted md:body-7">{intro}</p>}
           {children}
         </div>
       </div>

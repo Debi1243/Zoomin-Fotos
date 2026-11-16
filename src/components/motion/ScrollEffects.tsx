@@ -86,11 +86,13 @@ export default function ScrollEffects() {
             );
           }
 
-          // Photographs develop in: a fade with a gentle zoom out.
+          // Photographs open like a print being unmasked: the frame's clip opens out from the centre
+          // while the photo inside settles from a gentle zoom.
           batch(fresh(find(root, PHOTOS)), (els) => {
             const shots = els.flatMap((el) => Array.from(el.querySelectorAll(":scope > .frame, :scope > img")));
-            gsap.fromTo(shots, { opacity: 0 }, { opacity: 1, duration: 0.8, stagger: 0.07, clearProps: "opacity" });
-            gsap.fromTo(shots, { scale: 1.06 }, { scale: 1, duration: 1.2, stagger: 0.07, clearProps: "transform" });
+            gsap.fromTo(els, { clipPath: "inset(10% 10% 10% 10%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, stagger: 0.08, clearProps: "clipPath" });
+            gsap.fromTo(shots, { opacity: 0 }, { opacity: 1, duration: 0.6, stagger: 0.08, clearProps: "opacity" });
+            gsap.fromTo(shots, { scale: 1.18 }, { scale: 1, duration: 1.4, stagger: 0.08, clearProps: "transform" });
           });
 
           // Headings are split into lines only when they play, so the line breaks match the loaded fonts.

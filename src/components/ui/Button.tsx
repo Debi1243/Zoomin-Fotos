@@ -4,14 +4,14 @@ import { ArrowRightIcon as ArrowRight, CircleNotchIcon as LoaderCircle, Whatsapp
 import { cn } from "@/lib/cn";
 
 /**
- * primary: bordeaux, for booking actions only. whatsapp: opens a WhatsApp chat.
+ * primary: sindoor vermilion, for booking actions only. whatsapp: opens a WhatsApp chat.
  * secondary: outlined, for everything else. inverse: kept for older callers; same as secondary.
  */
 type Variant = "primary" | "whatsapp" | "secondary" | "inverse";
 type Size = "md" | "lg";
 
 const base =
-  "btn group/btn relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg " +
+  "btn group/btn relative isolate inline-flex overflow-hidden select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg " +
   "transition-[background-color,border-color,color,box-shadow,translate,scale] duration-300 ease-[var(--ease-base)] " +
   "hover:-translate-y-px active:translate-y-0 active:scale-[0.98] " +
   "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
