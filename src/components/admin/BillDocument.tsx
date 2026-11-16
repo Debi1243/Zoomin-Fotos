@@ -22,11 +22,11 @@ export default function BillDocument({ d, profile }: { d: BillDoc; profile: Stud
   return (
     <article
       aria-label={`${title} ${d.number}`}
-      className="bill-doc mx-auto w-full max-w-[210mm] bg-white p-6 text-[13px] leading-relaxed text-[#202020] [print-color-adjust:exact] sm:p-10"
+      className="bill-doc mx-auto w-full max-w-[210mm] bg-white p-6 text-[13px] leading-relaxed text-[#1f1a1d] [print-color-adjust:exact] sm:p-10"
     >
-      <header className="flex flex-wrap items-start justify-between gap-6 border-b-2 border-[#b65c45] pb-5">
+      <header className="flex flex-wrap items-start justify-between gap-6 border-b-2 border-[#7b2d3d] pb-5">
         <div>
-          <LogoMark size="lg" className="h-14 text-[#202020]" />
+          <LogoMark size="lg" className="h-14 text-[#1f1a1d]" />
           <p className="mt-3 font-display text-lg font-bold">{brand.name}</p>
           <p className="text-neutral-600">
             {profile.address || `${brand.city}, ${brand.region}`}
@@ -41,7 +41,7 @@ export default function BillDocument({ d, profile }: { d: BillDoc; profile: Stud
           </p>
         </div>
         <div className="text-right">
-          <p className="font-display text-2xl font-bold uppercase tracking-wide text-[#b65c45]">{title}</p>
+          <p className="font-display text-2xl font-bold uppercase tracking-wide text-[#7b2d3d]">{title}</p>
           <dl className="mt-2 grid grid-cols-[auto_auto] justify-end gap-x-3 text-neutral-700">
             <dt className="text-neutral-500">No.</dt>
             <dd className="tabular font-semibold">{d.number}</dd>
@@ -83,7 +83,7 @@ export default function BillDocument({ d, profile }: { d: BillDoc; profile: Stud
 
       <table className="mt-6 w-full border-collapse">
         <thead>
-          <tr className="bg-[#f3eee7] text-left">
+          <tr className="bg-[#f7f1eb] text-left">
             <th className={`${label} w-8 px-2 py-2`}>#</th>
             <th className={`${label} px-2 py-2`}>Description</th>
             <th className={`${label} px-2 py-2 text-right`}>Qty</th>
@@ -136,7 +136,7 @@ export default function BillDocument({ d, profile }: { d: BillDoc; profile: Stud
               </div>
             </>
           )}
-          <div className="border-t-2 border-[#202020] text-[15px] font-bold">
+          <div className="border-t-2 border-[#1f1a1d] text-[15px] font-bold">
             <dt>Total</dt>
             <dd>{money(t.total)}</dd>
           </div>
@@ -147,7 +147,7 @@ export default function BillDocument({ d, profile }: { d: BillDoc; profile: Stud
                 <dd>{d.kind === "quote" ? money(t.advance) : `− ${money(t.advance)}`}</dd>
               </div>
               {d.kind === "bill" && (
-                <div className="border-t border-neutral-300 font-bold text-[#b65c45]">
+                <div className="border-t border-neutral-300 font-bold text-[#7b2d3d]">
                   <dt>Balance due</dt>
                   <dd>{money(t.balance)}</dd>
                 </div>

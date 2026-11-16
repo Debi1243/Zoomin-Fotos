@@ -6,7 +6,7 @@ import { bookingSteps } from "@/lib/data";
 /** How booking works, in three steps, ending in the quote form. */
 export default function BookingSteps() {
   return (
-    <section aria-labelledby="steps-title" className="section-y bg-sand-soft">
+    <section aria-labelledby="steps-title" className="section-y surface-soft">
       <div className="container-page">
         <SectionHeader id="steps-title" label="How booking works" title="Book your shoot in three simple steps" />
         <ol className="mt-10 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-6">

@@ -4,7 +4,7 @@ import { ArrowRightIcon as ArrowRight, CircleNotchIcon as LoaderCircle, Whatsapp
 import { cn } from "@/lib/cn";
 
 /**
- * primary: terracotta, for booking actions only. whatsapp: opens a WhatsApp chat.
+ * primary: bordeaux, for booking actions only. whatsapp: opens a WhatsApp chat.
  * secondary: outlined, for everything else. inverse: kept for older callers; same as secondary.
  */
 type Variant = "primary" | "whatsapp" | "secondary" | "inverse";
@@ -12,15 +12,15 @@ type Size = "md" | "lg";
 
 const base =
   "btn group/btn relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg " +
-  "transition-[background-color,border-color,color,translate,scale] duration-300 ease-[var(--ease-base)] " +
+  "transition-[background-color,border-color,color,box-shadow,translate,scale] duration-300 ease-[var(--ease-base)] " +
   "hover:-translate-y-px active:translate-y-0 active:scale-[0.98] " +
   "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-primary-fg hover:bg-primary-hover",
-  whatsapp: "bg-whatsapp text-white hover:bg-whatsapp-hover",
-  secondary: "border border-border-strong bg-surface text-fg hover:border-fg hover:bg-sand-soft",
-  inverse: "border border-border-strong bg-surface text-fg hover:border-fg hover:bg-sand-soft",
+  primary: "btn-primary text-primary-fg",
+  whatsapp: "btn-whatsapp bg-whatsapp text-white hover:bg-whatsapp-hover",
+  secondary: "btn-secondary border border-border-strong bg-surface text-fg hover:border-accent hover:bg-sand-soft",
+  inverse: "btn-secondary border border-border-strong bg-surface text-fg hover:border-accent hover:bg-sand-soft",
 };
 
 /** Main buttons: 8px by 12px padding. A minimum height keeps them easy to tap on phones. */
