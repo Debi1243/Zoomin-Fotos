@@ -17,7 +17,7 @@ export default function BookingBar() {
   const onContact = pathname.startsWith("/contact");
 
   return (
-    <nav aria-label="Quick booking" className="booking-bar fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_-4px_16px_-8px_rgb(32_32_32/0.15)] backdrop-blur transition-[translate] duration-500 lg:hidden">
+    <nav aria-label="Quick booking" className="booking-bar fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/95 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_-4px_16px_-8px_rgb(58_20_32/0.18)] backdrop-blur transition-[translate] duration-500 lg:hidden">
       <div className="mx-auto flex max-w-xl gap-3">
         <WhatsAppButton href={whatsappHref} source="booking-bar" className="flex-1">
           WhatsApp

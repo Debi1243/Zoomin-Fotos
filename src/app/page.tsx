@@ -29,7 +29,7 @@ export default function HomePage() {
           service="Wedding"
           label="Wedding packages"
           title="Clear prices. Everything listed."
-          className="section-y bg-sand-soft"
+          className="section-y surface-soft"
           footer={
             <>
               <PackagesLink href="/packages#compare">Compare all packages side by side</PackagesLink>

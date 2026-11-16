@@ -8,7 +8,7 @@ export function Stars({ n, className }: { n: number; className?: string }) {
   return (
     <span className={className} role="img" aria-label={`${n} out of 5 stars`}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <Star key={i} aria-hidden className={i <= n ? "inline size-4 fill-[#c98a1b] text-[#c98a1b]" : "inline size-4 text-border-strong"} />
+        <Star key={i} aria-hidden className={i <= n ? "inline size-4 fill-gold-soft text-gold-soft" : "inline size-4 text-border-strong"} />
       ))}
     </span>
   );

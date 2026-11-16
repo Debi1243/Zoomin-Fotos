@@ -1,34 +1,44 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   Design tokens: "wedding album"
-   Warm paper pages, near-black ink, one terracotta that means "book",
-   and deep warm charcoal "print room" bands (.surface-dark) where the
-   photographs sit, so they glow like prints. Colour is defined once here
-   and mapped into Tailwind below.
-   Contrast (WCAG): ink on bg 15.4:1, muted on bg 5.4:1,
-   white on primary 4.6:1, accent text on bg 5.9:1.
+   Design tokens: "ivory, bordeaux and champagne gold"
+   Soft ivory pages, plum-black ink (the logo's line art), one deep
+   bordeaux wine that means "book", antique gold for fine rules, stars
+   and highlights, and deep aubergine "print room" bands (.surface-dark)
+   where the photographs sit, so they glow like prints. Colour is defined
+   once here and mapped into Tailwind below.
+   Contrast (WCAG): ink on bg 16.2:1, muted on bg 6.1:1 (5.3:1 on sand),
+   white on primary 9.2:1, accent text on bg 6.9:1 (6.0:1 on sand),
+   gold text on bg 4.7:1. Dark bands: ink 15.9:1, muted 9.1:1, gold 10.2:1.
    ────────────────────────────────────────────────────────────── */
 
 :root {
   color-scheme: light;
 
-  --bg: #faf8f5;
+  --bg: #fbf8f3;
   --surface: #ffffff;
   --elevated: #ffffff;
-  --sand: #e9e2d9;
-  --sand-soft: #f3eee7;
-  --fg: #202020;
-  --fg-muted: #666666;
-  --border: #e4ddd3;
-  --border-strong: #cfc6ba;
+  /* Champagne blush bands and fills. */
+  --sand: #f1e6de;
+  --sand-soft: #f7f1eb;
+  --fg: #1f1a1d;
+  --fg-muted: #675b5f;
+  --border: #e9ddd5;
+  --border-strong: #d4c3ba;
 
-  /* Terracotta is reserved for booking actions and prices. */
-  --primary: #b65c45;
-  --primary-hover: #9e4c37;
+  /* Bordeaux is reserved for booking actions and prices. */
+  --primary: #7b2d3d;
+  --primary-hover: #64232f;
   --primary-fg: #ffffff;
-  /* A deeper terracotta that is safe for small text on the page background. */
-  --accent: #9a4a35;
+  /* The two ends of the primary button's soft gradient. */
+  --primary-from: #8c3648;
+  --primary-to: #6c2534;
+  /* A rose-wine that is safe for small text on the page and the blush bands. */
+  --accent: #8e3a4b;
+
+  /* Antique gold: text-safe on ivory; the soft tone is for rules, stars and other decoration only. */
+  --gold-text: #8a6a2f;
+  --gold-soft: #c4a265;
 
   /* WhatsApp action: darker than WhatsApp's own green so white text passes AA (5.3:1). */
   --whatsapp: #1f7a4d;
@@ -42,7 +52,7 @@
   --sindoor: var(--accent);
   --rani: var(--accent);
   --peacock: #3d6b5e;
-  --gold: #8a6a2f;
+  --gold: var(--gold-text);
   --marigold-glow: var(--primary);
   --sindoor-glow: var(--primary);
   --rani-glow: var(--primary);
@@ -53,15 +63,18 @@
   /* "Inverse" is a warm sand band, never black. */
   --inverse: var(--sand);
   --inverse-fg: var(--fg);
-  --inverse-muted: #5a544c;
-  --inverse-border: #d9d0c4;
+  --inverse-muted: #5e5357;
+  --inverse-border: #dfcfc4;
 
   --success: #1d7348;
   --warning: #8f5600;
   --error: #b3261e;
 
-  --shadow-sm: 0 1px 2px rgb(32 32 32 / 0.06);
-  --shadow-md: 0 1px 2px rgb(32 32 32 / 0.05), 0 8px 24px -12px rgb(32 32 32 / 0.18);
+  /* Soft shadows, tinted with the wine so they read warm rather than grey. */
+  --shadow-sm: 0 1px 2px rgb(58 20 32 / 0.06), 0 2px 8px -4px rgb(58 20 32 / 0.08);
+  --shadow-md: 0 1px 2px rgb(58 20 32 / 0.05), 0 12px 32px -14px rgb(58 20 32 / 0.24);
+  --shadow-primary: 0 1px 1px rgb(58 20 32 / 0.18), 0 8px 22px -10px rgb(123 45 61 / 0.6);
+  --shadow-primary-hover: 0 1px 1px rgb(58 20 32 / 0.2), 0 14px 30px -12px rgb(123 45 61 / 0.7);
 
   /* Height of the sticky booking bar on phones (0 on desktop). Sticky panels sit above it. */
   --tabbar-h: 4.5rem;
@@ -94,6 +107,8 @@
   --color-rani: var(--rani);
   --color-peacock: var(--peacock);
   --color-gold: var(--gold);
+  --color-gold-text: var(--gold-text);
+  --color-gold-soft: var(--gold-soft);
   --color-marigold-glow: var(--marigold-glow);
   --color-sindoor-glow: var(--sindoor-glow);
   --color-rani-glow: var(--rani-glow);
@@ -235,7 +250,7 @@
   h3, h4 { font-family: var(--font-sans); font-weight: 600; text-wrap: balance; }
   p { text-wrap: pretty; }
 
-  ::selection { background: var(--sand); color: var(--fg); }
+  ::selection { background: color-mix(in srgb, var(--primary) 18%, var(--bg)); color: var(--fg); }
 
   :focus-visible {
     outline: 2px solid var(--focus, var(--fg));
@@ -275,9 +290,9 @@
   text-transform: uppercase;
 }
 
-/* Warm sand band, for quiet contrast between sections. */
+/* Champagne blush band, for quiet contrast between sections. */
 @utility surface-inverse {
-  background: var(--inverse);
+  background: linear-gradient(180deg, var(--sand-soft), var(--inverse));
   color: var(--inverse-fg);
   --focus: var(--fg);
 }
@@ -313,28 +328,63 @@
 /* Deep warm charcoal "print room" band. It re-points the page tokens, so every component
    inside (cards, filters, links, the logo) turns light-on-dark without its own dark styles. */
 @utility surface-dark {
-  --bg: #1b1815;
-  --surface: #26221e;
-  --elevated: #2e2924;
-  --sand: #3a342e;
-  --sand-soft: #221e1a;
-  --fg: #f5f0e8;
-  --fg-muted: #bfb5a8;
-  --border: #3a342e;
-  --border-strong: #5a5148;
-  --accent: #e7a189;
+  --bg: #1c1519;
+  --surface: #261c21;
+  --elevated: #30242a;
+  --sand: #3c2e35;
+  --sand-soft: #221a1e;
+  --fg: #f7f0ea;
+  --fg-muted: #c5b5b1;
+  --border: #3a2c33;
+  --border-strong: #5b4750;
+  /* On the dark bands the accent turns champagne gold. */
+  --accent: #dcc08a;
+  --gold-text: #dcc08a;
+  --gold-soft: #b89657;
   --whatsapp-text: #6fd3a0;
   --whatsapp-text-hover: #9be3bd;
-  --inverse-muted: #bfb5a8;
-  --focus: #f5f0e8;
-  background: var(--bg);
+  --inverse-muted: #c5b5b1;
+  --focus: #f7f0ea;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -16px rgb(0 0 0 / 0.6);
+  /* A faint wine glow in one corner and a trace of gold in the other, like light falling on a print. */
+  background:
+    radial-gradient(70% 55% at 0% 0%, rgb(123 45 61 / 0.32), rgb(123 45 61 / 0) 70%),
+    radial-gradient(60% 50% at 100% 100%, rgb(196 162 101 / 0.1), rgb(196 162 101 / 0) 70%),
+    var(--bg);
   color: var(--fg);
   color-scheme: dark;
 }
 
 /* Eyebrow with a short rule in front of it, as used on section headers. */
 .label-rule { display: inline-flex; align-items: center; gap: 0.75rem; }
-.label-rule::before { content: ""; width: 2rem; height: 1px; background: currentColor; opacity: 0.6; }
+.label-rule::before { content: ""; width: 2rem; height: 1px; background: linear-gradient(90deg, var(--gold-soft), currentColor); opacity: 0.85; }
+
+/* Soft blush section band: a gentle wash from ivory into champagne. */
+@utility surface-soft {
+  background: linear-gradient(180deg, var(--sand-soft) 0%, color-mix(in srgb, var(--sand) 55%, var(--sand-soft)) 100%);
+}
+
+/* Primary (booking) button: a soft bordeaux gradient with a warm glow that deepens on hover. */
+.btn-primary {
+  background-color: var(--primary);
+  background-image: linear-gradient(180deg, var(--primary-from), var(--primary-to));
+  box-shadow: var(--shadow-primary), inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  background-image: linear-gradient(180deg, var(--primary), var(--primary-hover));
+  box-shadow: var(--shadow-primary-hover), inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+/* WhatsApp button: the same soft depth, in green. */
+.btn-whatsapp {
+  background-image: linear-gradient(180deg, var(--whatsapp), var(--whatsapp-hover));
+  box-shadow: 0 1px 1px rgb(15 74 45 / 0.2), 0 8px 22px -12px rgb(31 122 77 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+.btn-whatsapp:hover { background-image: linear-gradient(180deg, var(--whatsapp-hover), #145636); }
+/* Outlined button: a soft shadow that grows under the pointer. */
+.btn-secondary { box-shadow: var(--shadow-sm); }
+.btn-secondary:hover { box-shadow: var(--shadow-md); }
 
 /* Full-width hero photograph. The scrim is shaped to the text, not the frame: a pool of shade
    rising from the bottom left corner where the copy sits, and a low band under the prices, so
@@ -349,11 +399,11 @@
 
 /* Hero type: bright on the photo, with a soft shadow so it holds even where the shade is thin. */
 .hero-title { color: #ffffff; text-shadow: 0 2px 24px rgb(0 0 0 / 0.35); }
-.hero-title em { color: #ffb08f; }
+.hero-title em { color: #f1d39b; }
 .hero-lede { color: #ffffff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.45); }
 
-/* Older section markers (admin, portal): a short terracotta bar before a label. */
-.festive-gradient { background-color: var(--primary); }
+/* Older section markers (admin, portal): a short bordeaux-to-gold bar before a label. */
+.festive-gradient { background-color: var(--primary); background-image: linear-gradient(90deg, var(--primary), var(--gold-soft)); }
 .label-dot {
   display: inline-block;
   width: 1rem;
@@ -367,13 +417,13 @@
 
 /* Photo frames: toned stand-ins until a real photograph is added. */
 /* Flat, toned colour blocks; no gradients in backgrounds. */
-.frame { background: #8a6d5c; }
-.frame-amber { background: #9a6a3f; }
-.frame-dusk { background: #6e5a68; }
-.frame-rose { background: #9c7470; }
-.frame-sage { background: #6c7a5e; }
-.frame-sky { background: #647d91; }
-.frame-ink { background: #4a453e; }
+.frame { background: #86655f; }
+.frame-amber { background: #9a7444; }
+.frame-dusk { background: #6b5466; }
+.frame-rose { background: #9b6d72; }
+.frame-sage { background: #6c7a62; }
+.frame-sky { background: #627a8c; }
+.frame-ink { background: #463a40; }
 
 .lightbox[open] { animation: fade-in 300ms var(--ease-base); }
 .lightbox[open]::backdrop { animation: fade-in 300ms var(--ease-base); }
@@ -420,7 +470,7 @@
   /* Cards lift a little under the pointer and press back down when tapped. Only transform moves. */
   .lift { transition: translate 500ms var(--ease-base), border-color 300ms var(--ease-base), box-shadow 500ms var(--ease-base); }
   @media (hover: hover) {
-    .lift:hover { translate: 0 -4px; box-shadow: var(--shadow-md); }
+    .lift:hover { translate: 0 -4px; box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--gold-soft) 55%, var(--border)); }
   }
 
   /* The floating header steps out of the way while the visitor scrolls down through photos, and comes

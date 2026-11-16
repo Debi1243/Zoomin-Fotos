@@ -58,7 +58,7 @@ export default function PackagesPage() {
       )}
       <PackageBuilder className="border-t border-border" />
 
-      <section id="other" aria-labelledby="other-title" className="section-y scroll-mt-20 bg-sand-soft">
+      <section id="other" aria-labelledby="other-title" className="section-y scroll-mt-20 surface-soft">
         <div className="container-page">
           <p className="label text-accent">Other shoots</p>
           <h2 id="other-title" className="mt-3 font-display text-h2">Quoted for your shoot</h2>

@@ -22,17 +22,17 @@ export default async function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 72,
-          background: "#faf8f5",
-          color: "#202020",
+          background: "#fbf8f3",
+          color: "#1f1a1d",
         }}
       >
         <img src={logoSrc} alt="" width={200} height={101} />
         <div style={{ display: "flex", fontSize: 76, lineHeight: 1.05, letterSpacing: -2, fontWeight: 700, maxWidth: 960 }}>
           Beautiful memories. Affordable photography.
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 26, color: "#666666" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 26, color: "#675b5f" }}>
           <span>Wedding packages from ₹25,000 + GST · Bhubaneswar, Odisha</span>
-          <div style={{ width: 22, height: 22, borderRadius: 999, background: "#b65c45" }} />
+          <div style={{ width: 22, height: 22, borderRadius: 999, background: "#7b2d3d" }} />
         </div>
       </div>
     ),

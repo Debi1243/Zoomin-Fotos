@@ -54,7 +54,7 @@ export default function Hero() {
           </p>
           <div className="rise mt-7 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between" style={{ "--i": 2 } as CSSProperties}>
             <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
-              <ButtonLink href="/packages" size="lg" className="w-full shadow-[0_8px_24px_-8px_rgb(182_92_69/0.7)] sm:w-auto">
+              <ButtonLink href="/packages" size="lg" className="w-full sm:w-auto">
                 See packages and prices
               </ButtonLink>
               {/* A glass button: clearly a second way in, without competing with the solid primary. */}

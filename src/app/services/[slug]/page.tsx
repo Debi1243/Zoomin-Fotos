@@ -114,7 +114,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         />
       )}
 
-      <section aria-labelledby="includes-title" className="section-y bg-sand-soft">
+      <section aria-labelledby="includes-title" className="section-y surface-soft">
         <div className="container-page">
           <SectionHeader id="includes-title" label="What's included" title={`What you get with ${title.toLowerCase()}`} />
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
