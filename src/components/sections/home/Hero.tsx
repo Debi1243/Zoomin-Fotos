@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { MapPinIcon } from "@phosphor-icons/react/dist/ssr";
-import { ButtonLink, WhatsAppLink } from "@/components/ui/Button";
+import { MapPinIcon, WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import { ButtonLink } from "@/components/ui/Button";
 import { brand, formatRupees, pickPhotos, startingPrice, waLink } from "@/lib/data";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -9,7 +9,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 /**
  * A full-width photograph, framed like a print, with the headline set over it in the serif.
  * Says what we do, where, from what price, and how to book. One primary action (see the packages);
- * WhatsApp sits beside it as a quiet link. A dark scrim keeps the white text readable over any photo.
+ * WhatsApp sits beside it as a glass button. A scrim shaped to the text keeps it readable while the photo stays bright.
  * The heading never waits on an animation, so it is the page's first paint.
  */
 export default function Hero() {
@@ -40,40 +40,51 @@ export default function Hero() {
         <div aria-hidden className="hero-scrim absolute inset-0 -z-10 hidden md:block" />
 
         <div className="container-page pb-8 pt-2 md:pb-14 md:pt-24 lg:pb-16">
-          <p className="rise inline-flex items-center gap-2 label text-fg/85">
+          <p className="rise inline-flex items-center gap-2 rounded-full border border-white/25 bg-black/40 px-3 py-1 label text-white backdrop-blur-sm">
             <MapPinIcon aria-hidden className="size-4" />
             {brand.city}, {brand.region}
           </p>
-          <h1 id="hero-title" className="mt-4 max-w-[18ch] heading-3 text-fg sm:heading-2 lg:heading-1 xl:text-[4.5rem]">
+          <h1 id="hero-title" className="mt-4 max-w-[18ch] heading-3 hero-title sm:heading-2 lg:heading-1 xl:text-[4.5rem]">
             Beautiful memories.
             <br />
             <em>Affordable photography.</em>
           </h1>
-          <p className="rise mt-5 max-w-[56ch] body-3 text-fg/85 md:body-7" style={{ "--i": 1 } as CSSProperties}>
+          <p className="rise mt-5 max-w-[56ch] body-3 hero-lede md:body-7" style={{ "--i": 1 } as CSSProperties}>
             Wedding, maternity, family and event photography in {brand.city}, with every package and price on the page before you message us.
           </p>
           <div className="rise mt-7 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between" style={{ "--i": 2 } as CSSProperties}>
             <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
-              <ButtonLink href="/packages" size="lg" className="w-full sm:w-auto">
+              <ButtonLink href="/packages" size="lg" className="w-full shadow-[0_8px_24px_-8px_rgb(182_92_69/0.7)] sm:w-auto">
                 See packages and prices
               </ButtonLink>
-              <WhatsAppLink href={waLink("Hi Zoomin Fotos! I'd like to know more about your photography packages.")} source="hero" />
+              {/* A glass button: clearly a second way in, without competing with the solid primary. */}
+              <a
+                href={waLink("Hi Zoomin Fotos! I'd like to know more about your photography packages.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="whatsapp_click"
+                data-track-source="hero"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-white/40 bg-white/10 px-4 py-3 button-md text-white backdrop-blur-md transition-[background-color,border-color,translate] duration-300 ease-[var(--ease-base)] hover:-translate-y-px hover:border-white/70 hover:bg-white/20 active:translate-y-0 sm:w-auto"
+              >
+                <WhatsappLogoIcon aria-hidden weight="fill" className="size-5 text-[#4ee59a]" />
+                Ask us on WhatsApp
+              </a>
             </div>
             {(wedding || preWedding) && (
-              <dl className="flex flex-wrap gap-x-8 gap-y-3 border-t border-fg/25 pt-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <dl className="flex flex-wrap gap-x-8 gap-y-3 border-t border-white/30 pt-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
                 {wedding && (
                   <div>
-                    <dt className="caption-4 uppercase tracking-[0.08em] text-fg/70">Weddings from</dt>
-                    <dd className="mt-1 tabular heading-5 text-fg">{formatRupees(wedding)}</dd>
+                    <dt className="caption-4 uppercase tracking-[0.08em] text-white/85">Weddings from</dt>
+                    <dd className="mt-1 tabular heading-5 text-white">{formatRupees(wedding)}</dd>
                   </div>
                 )}
                 {preWedding && (
                   <div>
-                    <dt className="caption-4 uppercase tracking-[0.08em] text-fg/70">Pre-wedding from</dt>
-                    <dd className="mt-1 tabular heading-5 text-fg">{formatRupees(preWedding)}</dd>
+                    <dt className="caption-4 uppercase tracking-[0.08em] text-white/85">Pre-wedding from</dt>
+                    <dd className="mt-1 tabular heading-5 text-white">{formatRupees(preWedding)}</dd>
                   </div>
                 )}
-                <div className="self-end caption-5 text-fg/70">Prices plus GST</div>
+                <div className="self-end caption-5 text-white/80">Prices plus GST</div>
               </dl>
             )}
           </div>
