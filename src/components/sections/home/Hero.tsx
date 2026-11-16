@@ -19,9 +19,9 @@ export default function Hero() {
 
   return (
     <section aria-labelledby="hero-title" className="px-2 pb-16 pt-3 sm:px-4 md:pb-24 md:pt-4">
-      <div className="surface-dark relative isolate mx-auto flex max-w-[96rem] flex-col justify-end overflow-hidden rounded-3xl md:min-h-[min(88svh,52rem)]">
-        {/* Phones: the photo sits above the text and fades into the dark card. Wider screens: it fills the card behind the text. */}
-        <div className="relative aspect-[4/3] overflow-hidden md:absolute md:inset-0 md:-z-20 md:aspect-auto">
+      <div className="surface-dark relative isolate mx-auto flex max-w-[96rem] flex-col justify-end overflow-hidden rounded-3xl lg:min-h-[max(46rem,min(88svh,52rem))]">
+        {/* Phones: the photo sits above the text and fades into the dark card. Laptops and up, where the card is tall enough to keep the text below the faces: it fills the card behind the text. */}
+        <div className="relative aspect-[4/3] overflow-hidden md:aspect-[2/1] lg:absolute lg:inset-0 lg:-z-20 lg:aspect-auto">
           {/* The photo layer is a little taller than its frame, so it can drift down as the page scrolls (data-parallax). */}
           {photo?.src && (
             <div data-parallax="10" className="absolute inset-x-0 bottom-0 h-[115%] will-change-transform">
@@ -35,11 +35,11 @@ export default function Hero() {
               />
             </div>
           )}
-          <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-bg to-transparent md:hidden" />
+          <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-bg to-transparent lg:hidden" />
         </div>
-        <div aria-hidden className="hero-scrim absolute inset-0 -z-10 hidden md:block" />
+        <div aria-hidden className="hero-scrim absolute inset-0 -z-10 hidden lg:block" />
 
-        <div className="container-page pb-8 pt-2 md:pb-14 md:pt-24 lg:pb-16">
+        <div className="container-page pb-8 pt-2 md:pb-14 lg:pt-24 lg:pb-16">
           <p className="rise inline-flex items-center gap-2 rounded-full border border-white/25 bg-black/40 px-3 py-1 label text-white backdrop-blur-sm">
             <MapPinIcon aria-hidden className="size-4" />
             {brand.city}, {brand.region}
