@@ -16,10 +16,16 @@ export default function WhyUs() {
           {reasons.map((r, i) => {
             const Icon = icons[i % icons.length];
             return (
-              <li key={r.title} className="stagger-in rounded-xl border border-border bg-surface p-6" style={{ "--i": i } as CSSProperties}>
-                <span className="grid size-11 place-items-center rounded-lg bg-sand-soft text-accent">
-                  <Icon aria-hidden className="size-5" />
-                </span>
+              <li key={r.title} className="stagger-in lift rounded-xl border border-border bg-surface p-6 hover:border-border-strong" style={{ "--i": i } as CSSProperties}>
+                {/* Numbered like the pages of an album: a serif folio on the right, the icon on the left. */}
+                <div className="flex items-start justify-between">
+                  <span className="grid size-11 place-items-center rounded-lg bg-sand-soft text-accent">
+                    <Icon aria-hidden className="size-5" />
+                  </span>
+                  <span aria-hidden className="font-display heading-5 italic tabular text-muted">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
                 <h3 className="mt-4 heading-6">{r.title}</h3>
                 <p className="mt-2 body-6 text-muted">{r.text}</p>
               </li>

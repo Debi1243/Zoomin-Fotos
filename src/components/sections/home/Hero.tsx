@@ -22,15 +22,18 @@ export default function Hero() {
       <div className="surface-dark relative isolate mx-auto flex max-w-[96rem] flex-col justify-end overflow-hidden rounded-3xl md:min-h-[min(88svh,52rem)]">
         {/* Phones: the photo sits above the text and fades into the dark card. Wider screens: it fills the card behind the text. */}
         <div className="relative aspect-[4/3] overflow-hidden md:absolute md:inset-0 md:-z-20 md:aspect-auto">
+          {/* The photo layer is a little taller than its frame, so it can drift down as the page scrolls (data-parallax). */}
           {photo?.src && (
-            <Image
-              src={`${basePath}${photo.src}`}
-              alt={`${photo.title}, a wedding photographed by ${brand.name}`}
-              fill
-              priority
-              sizes="100vw"
-              className="hero-photo object-cover object-[50%_35%]"
-            />
+            <div data-parallax="10" className="absolute inset-x-0 bottom-0 h-[115%] will-change-transform">
+              <Image
+                src={`${basePath}${photo.src}`}
+                alt={`${photo.title}, a wedding photographed by ${brand.name}`}
+                fill
+                priority
+                sizes="100vw"
+                className="hero-photo object-cover object-[50%_30%]"
+              />
+            </div>
           )}
           <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-bg to-transparent md:hidden" />
         </div>

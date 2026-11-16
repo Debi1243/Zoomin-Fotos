@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { gsap, MOTION_OK, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
 
 /** Elements that rise or slide in once as they enter the screen, and where they start from. */
 const SLIDES = [
@@ -14,7 +14,8 @@ const SLIDES = [
 const PHOTOS = ".reveal-photo";
 const LINES = ".reveal-line";
 const RISE = ".rise";
-const ALL = [...SLIDES.map((s) => s.sel), PHOTOS, LINES, RISE].join(", ");
+const HEADINGS = ".reveal-heading";
+const ALL = [...SLIDES.map((s) => s.sel), PHOTOS, LINES, RISE, HEADINGS].join(", ");
 
 /** Inline styles GSAP leaves behind are cleared at the end, so hover and CSS states take over again. */
 const CLEAR = "opacity,visibility,transform";
@@ -32,6 +33,9 @@ const markIn = (els: Element[]) => els.forEach((el) => el.classList.add("is-in")
  *   The heading itself never waits on an animation.
  * - Sections, cards and photographs rise and fade in once as they enter the screen. Elements that
  *   enter together are batched and staggered 70ms apart.
+ * - Section headings (`.reveal-heading`) rise line by line from behind a mask, like type set on a page.
+ *   The split is undone as soon as it has played, so the heading is plain text again for readers.
+ * - Layers marked `data-parallax="<percent>"` drift slower than the page while their section scrolls by.
  * Everything moves only opacity and transforms on the site's one decelerating curve, and nothing
  * runs for visitors who prefer reduced motion (globals.css shows the content straight away).
  * Triggers are rebuilt on every navigation and all of them are reverted when the page changes.
@@ -89,12 +93,40 @@ export default function ScrollEffects() {
             gsap.fromTo(shots, { scale: 1.06 }, { scale: 1, duration: 1.2, stagger: 0.07, clearProps: "transform" });
           });
 
+          // Headings are split into lines only when they play, so the line breaks match the loaded fonts.
+          batch(fresh(find(root, HEADINGS)), (els) =>
+            els.forEach((el, n) => {
+              const split = SplitText.create(el, { type: "lines", mask: "lines", linesClass: "split-line" });
+              gsap.set(el, { autoAlpha: 1 });
+              gsap.from(split.lines, {
+                yPercent: 110,
+                duration: 1,
+                delay: n * 0.07,
+                stagger: 0.1,
+                onComplete: () => {
+                  split.revert();
+                  gsap.set(el, { clearProps: CLEAR });
+                },
+              });
+            }),
+          );
+
           batch(fresh(find(root, LINES)), (els) =>
             gsap.fromTo(els, { scaleX: 0 }, { scaleX: 1, transformOrigin: "left center", duration: 0.7, stagger: 0.07, clearProps: "transform" }),
           );
         };
 
         setup(document);
+
+        // Parallax: background photographs drift down a little as their section scrolls away. Scrubbed to
+        // the scrollbar and moving only a transform, on layers that are clipped by their frame.
+        gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
+          gsap.to(el, {
+            yPercent: Number(el.dataset.parallax) || 10,
+            ease: "none",
+            scrollTrigger: { trigger: el.closest("section") ?? el, start: "top top", end: "bottom top", scrub: true },
+          });
+        });
 
         // New elements (streamed sections, gallery filters) are picked up as they mount.
         let queued: Element[] = [];

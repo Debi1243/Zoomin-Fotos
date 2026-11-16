@@ -19,7 +19,7 @@ export default function ClosingCta({
   return (
     <section aria-labelledby="cta-title" className="surface-dark">
       <div className="container-page py-20 text-center md:py-32">
-        <h2 id="cta-title" className="reveal mx-auto max-w-[680px] heading-4 md:heading-2">
+        <h2 id="cta-title" className="reveal-heading mx-auto max-w-[680px] heading-4 md:heading-2">
           {title}
         </h2>
         <p className="reveal mx-auto mt-4 max-w-[680px] body-3 text-muted md:body-7">{text}</p>
