@@ -9,7 +9,7 @@ import { ButtonLink, WhatsAppButton } from "../ui/Button";
 import { isActive, primaryNav } from "@/lib/site";
 import { whatsappHref } from "@/lib/brand";
 import { cn } from "@/lib/cn";
-import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
+import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from "@/lib/gsap";
 
 const navActive = (pathname: string, href: string) => (href === "/" ? pathname === "/" : isActive(pathname, href));
 
@@ -34,6 +34,7 @@ export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   // Following a link closes the menu.
   const [lastPath, setLastPath] = useState(pathname);
@@ -83,8 +84,31 @@ export default function SiteHeader() {
     { dependencies: [open], scope: panelRef, revertOnUpdate: true },
   );
 
+  // Scrolling down past the hero tucks the header away; any scroll up (or focus inside it) brings it back.
+  // Never while the phone menu is open. Visitors who prefer reduced motion keep it in place.
+  useGSAP(
+    () => {
+      const header = headerRef.current;
+      if (!header || open) {
+        header?.classList.remove("is-hidden");
+        return;
+      }
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        ScrollTrigger.create({
+          start: 0,
+          end: "max",
+          onUpdate: (self) => header.classList.toggle("is-hidden", self.direction === 1 && self.scroll() > 320),
+        });
+        return () => header.classList.remove("is-hidden");
+      });
+      return () => mm.revert();
+    },
+    { dependencies: [open, pathname], revertOnUpdate: true },
+  );
+
   return (
-    <header className="sticky top-0 z-50 px-4 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-6">
+    <header ref={headerRef} className="site-header sticky top-0 z-50 px-4 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-6">
       <a
         href="#main"
         className="sr-only rounded-lg bg-fg px-4 py-2 text-sm text-bg focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60]"
