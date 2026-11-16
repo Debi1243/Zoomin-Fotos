@@ -13,7 +13,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
  * The heading never waits on an animation, so it is the page's first paint.
  */
 export default function Hero() {
-  const [photo] = pickPhotos(["01"]);
+  const [photo] = pickPhotos(["40"]);
   const wedding = startingPrice("weddings");
   const preWedding = startingPrice("pre-wedding");
 
@@ -31,7 +31,7 @@ export default function Hero() {
                 fill
                 priority
                 sizes="100vw"
-                className="hero-photo object-cover object-[50%_30%]"
+                className="hero-photo object-cover object-[50%_12%]"
               />
             </div>
           )}
