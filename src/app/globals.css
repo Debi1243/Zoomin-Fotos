@@ -336,12 +336,21 @@
 .label-rule { display: inline-flex; align-items: center; gap: 0.75rem; }
 .label-rule::before { content: ""; width: 2rem; height: 1px; background: currentColor; opacity: 0.6; }
 
-/* Full-width hero photograph: a soft scrim keeps the headline readable over any photo. */
+/* Full-width hero photograph. The scrim is shaped to the text, not the frame: a pool of shade
+   rising from the bottom left corner where the copy sits, and a low band under the prices, so
+   the faces and colour in the upper two thirds of the photo stay clear and bright. */
 .hero-scrim {
   background:
-    linear-gradient(0deg, rgb(20 16 12 / 0.85) 0%, rgb(20 16 12 / 0.55) 40%, rgb(20 16 12 / 0) 72%),
-    linear-gradient(90deg, rgb(20 16 12 / 0.5) 0%, rgb(20 16 12 / 0) 60%);
+    radial-gradient(120% 85% at 0% 100%, rgb(14 10 8 / 0.86) 0%, rgb(14 10 8 / 0.68) 40%, rgb(14 10 8 / 0) 76%),
+    linear-gradient(0deg, rgb(14 10 8 / 0.7) 0%, rgb(14 10 8 / 0.25) 22%, rgb(14 10 8 / 0) 42%);
 }
+/* A touch more life in the photograph itself. */
+.hero-photo { filter: saturate(1.12) contrast(1.04) brightness(1.03); }
+
+/* Hero type: bright on the photo, with a soft shadow so it holds even where the shade is thin. */
+.hero-title { color: #ffffff; text-shadow: 0 2px 24px rgb(0 0 0 / 0.35); }
+.hero-title em { color: #ffb08f; }
+.hero-lede { color: #ffffff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.45); }
 
 /* Older section markers (admin, portal): a short terracotta bar before a label. */
 .festive-gradient { background-color: var(--primary); }
