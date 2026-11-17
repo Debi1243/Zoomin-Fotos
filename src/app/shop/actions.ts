@@ -11,7 +11,16 @@ import {
   type ConfirmPaymentResult,
   type StartCheckoutResult,
 } from "@/lib/checkout";
-import { createOrder, fetchOrder, priceCart, razorpayKeys, verifySignature, type RazorpayOrder } from "@/lib/razorpay";
+import {
+  createOrder,
+  fetchOrder,
+  MIN_AMOUNT_PAISE,
+  priceCart,
+  razorpayKeys,
+  RazorpayError,
+  verifySignature,
+  type RazorpayOrder,
+} from "@/lib/razorpay";
 
 const OFFLINE = "Online payment isn't available right now. Please send your order on WhatsApp instead.";
 const NOTIFY_TIMEOUT_MS = 8000;
@@ -26,12 +35,17 @@ export async function startCheckout(input: { lines: unknown; customer: unknown }
 
   const lines = cartLinesSchema.safeParse(input.lines);
   const priced = lines.success ? priceCart(lines.data) : null;
-  if (!priced || priced.total <= 0) return { ok: false, message: "Something in your cart has changed. Please refresh the page and try again." };
+  if (!priced || priced.total * 100 < MIN_AMOUNT_PAISE) return { ok: false, message: "Something in your cart has changed. Please refresh the page and try again." };
 
   try {
     const order = await createOrder(keys, customer.data, priced.lines, priced.total);
     return { ok: true, keyId: keys.keyId, orderId: order.id, amount: order.amount, currency: "INR", customer: customer.data };
   } catch (err) {
+    if (err instanceof RazorpayError && err.status === 401) {
+      // Wrong, revoked or mismatched keys in deploy/.env. Customers can still order on WhatsApp.
+      console.error("Razorpay rejected the API keys (401). Check RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET in deploy/.env.");
+      return { ok: false, message: OFFLINE };
+    }
     console.error(err);
     return { ok: false, message: `We couldn't start the payment. Please try again, or send your order on WhatsApp.` };
   }

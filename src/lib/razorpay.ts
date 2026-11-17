@@ -12,6 +12,19 @@ import type { Customer } from "./checkout";
 
 const API = "https://api.razorpay.com/v1";
 const TIMEOUT_MS = 10000;
+/** Razorpay's smallest order: ₹1, in paise. */
+export const MIN_AMOUNT_PAISE = 100;
+
+/** A failed Razorpay API call. `status` 401 means the Key ID / Key Secret pair is wrong or revoked. */
+export class RazorpayError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+    this.name = "RazorpayError";
+  }
+}
 
 export function razorpayKeys() {
   const keyId = process.env.RAZORPAY_KEY_ID?.trim();
@@ -79,7 +92,7 @@ export async function createOrder(keys: Keys, customer: Customer, lines: PricedL
     signal: AbortSignal.timeout(TIMEOUT_MS),
     cache: "no-store",
   });
-  if (!res.ok) throw new Error(`Razorpay order failed: ${res.status} ${(await res.text()).slice(0, 300)}`);
+  if (!res.ok) throw new RazorpayError(`Razorpay order failed: ${res.status} ${(await res.text()).slice(0, 300)}`, res.status);
   return (await res.json()) as RazorpayOrder;
 }
 
@@ -89,7 +102,7 @@ export async function fetchOrder(keys: Keys, orderId: string) {
     signal: AbortSignal.timeout(TIMEOUT_MS),
     cache: "no-store",
   });
-  if (!res.ok) throw new Error(`Razorpay order lookup failed: ${res.status}`);
+  if (!res.ok) throw new RazorpayError(`Razorpay order lookup failed: ${res.status}`, res.status);
   return (await res.json()) as RazorpayOrder;
 }
 
