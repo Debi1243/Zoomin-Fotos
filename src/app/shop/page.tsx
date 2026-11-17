@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import { notFound } from "next/navigation";
 import PageHero from "@/components/sections/PageHero";
 import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
@@ -9,7 +10,7 @@ import Shop from "@/components/shop/Shop";
 import { WhatsAppButton } from "@/components/ui/Button";
 import { brand, waLink } from "@/lib/brand";
 import { products, shopCategories } from "@/lib/shop";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, shopEnabled } from "@/lib/site";
 
 const description = `Photo albums, frames, prints, canvas, calendars and photo gifts in ${brand.city}, made from your own photographs. Choose a product and order on WhatsApp.`;
 
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/shop" },
   openGraph: { title: "Shop: Albums, Frames, Prints & Photo Gifts", description, url: "/shop" },
+  // Kept out of search engines while the shop is switched off (see shopEnabled in src/lib/site.ts).
+  ...(!shopEnabled && { robots: { index: false, follow: false } }),
 };
 
 const steps = [
@@ -47,6 +50,7 @@ const faqs = [
 ];
 
 export default function ShopPage() {
+  if (!shopEnabled) notFound();
   return (
     <>
       <PageHero
