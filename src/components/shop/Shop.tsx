@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import {
   CheckIcon as Check,
+  CheckCircleIcon as CheckCircle,
+  LockSimpleIcon as Lock,
   MinusIcon as Minus,
   PlusIcon as Plus,
   ShoppingBagIcon as Bag,
@@ -11,9 +13,11 @@ import {
   XIcon as X,
 } from "@phosphor-icons/react/dist/ssr";
 import ProductMockup from "./ProductMockup";
+import Checkout, { type PaidOrder } from "./Checkout";
 import { cart, useCart, type CartLine } from "./cart-store";
 import { buttonClasses } from "@/components/ui/Button";
 import { formatRupees, waLink } from "@/lib/brand";
+import { onlinePayments } from "@/lib/checkout";
 import { lowestPrice, type Product, type ShopCategory } from "@/lib/shop";
 import { cn } from "@/lib/cn";
 import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
@@ -140,43 +144,94 @@ function CartDrawer({ open, onClose, products }: { open: boolean; onClose: () =>
     .filter((l): l is NonNullable<typeof l> => !!l);
   const total = items.reduce((sum, l) => sum + l.price * l.qty, 0);
   const anySample = items.some((l) => l.product.placeholder);
+  const [step, setStep] = useState<"cart" | "details">("cart");
+  const [paid, setPaid] = useState<PaidOrder | null>(null);
+  // Razorpay opens its own window above the page; a modal dialog would sit on top of it and block it.
+  const [paying, setPaying] = useState(false);
+  const payingRef = useRef(false);
 
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
-    if (open && !d.open) d.showModal();
-    if (!open && d.open) d.close();
-  }, [open]);
+    const show = open && !paying;
+    if (show && !d.open) d.showModal();
+    if (!show && d.open) d.close();
+  }, [open, paying]);
+
+  const close = () => {
+    if (payingRef.current) return;
+    if (paid) setPaid(null);
+    setStep("cart");
+    onClose();
+  };
 
   return (
     <dialog
       ref={ref}
       aria-labelledby="cart-title"
-      onClose={onClose}
+      onClose={close}
       onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        if (e.target === e.currentTarget) ref.current?.close();
       }}
       className="cart-drawer m-0 ml-auto h-dvh max-h-none w-full max-w-md bg-transparent p-0"
     >
       <div className="cart-panel flex h-full flex-col bg-bg text-fg shadow-lg">
         <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
           <h2 id="cart-title" className="heading-5">
-            Your cart
+            {paid ? "Order placed" : step === "details" ? "Checkout" : "Your cart"}
           </h2>
-          <button type="button" onClick={onClose} aria-label="Close cart" className="grid size-11 place-items-center rounded-lg border border-border transition-colors hover:border-fg">
+          <button type="button" onClick={() => ref.current?.close()} aria-label="Close cart" className="grid size-11 place-items-center rounded-lg border border-border transition-colors hover:border-fg">
             <X aria-hidden className="size-5" />
           </button>
         </div>
 
-        {items.length === 0 ? (
+        {paid ? (
+          <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center" role="status">
+            <CheckCircle aria-hidden weight="fill" className="size-12 text-whatsapp-text" />
+            <p className="title-2">Thank you, {paid.name.split(" ")[0]}. Payment received.</p>
+            <p className="body-6 text-muted">
+              We have your order and {formatRupees(paid.amount / 100)} payment. Send us the photos you want printed on WhatsApp and we will share a
+              preview before we make it.
+            </p>
+            <p className="caption-2 text-muted">
+              Payment ID: <span className="tabular select-all text-fg">{paid.paymentId}</span>
+            </p>
+            <a
+              href={waLink(`Hi Zoomin Fotos! I just paid for a shop order (payment ID ${paid.paymentId}). Here are my photos.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="whatsapp_click"
+              data-track-source="shop-paid"
+              className={buttonClasses({ variant: "whatsapp", size: "lg", className: "mt-2 w-full" })}
+            >
+              <WhatsApp aria-hidden weight="fill" className="size-5" />
+              Send my photos on WhatsApp
+            </a>
+          </div>
+        ) : items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
             <Bag aria-hidden className="size-10 text-gold-soft" />
             <p className="title-2">Your cart is empty</p>
             <p className="body-6 text-muted">Add an album, a frame or a few prints, then send the whole order to us on WhatsApp.</p>
-            <button type="button" onClick={onClose} className={buttonClasses({ variant: "secondary", className: "mt-2" })}>
+            <button type="button" onClick={() => ref.current?.close()} className={buttonClasses({ variant: "secondary", className: "mt-2" })}>
               Keep browsing
             </button>
           </div>
+        ) : step === "details" ? (
+          <Checkout
+            lines={lines}
+            total={total}
+            onBack={() => setStep("cart")}
+            onPaying={(p) => {
+              payingRef.current = p;
+              setPaying(p);
+            }}
+            onPaid={(order) => {
+              setPaid(order);
+              setStep("cart");
+              cart.clear();
+            }}
+          />
         ) : (
           <>
             <ul className="flex-1 divide-y divide-border overflow-y-auto px-5">
@@ -221,18 +276,31 @@ function CartDrawer({ open, onClose, products }: { open: boolean; onClose: () =>
                 <p className="tabular font-display text-2xl">{formatRupees(total)}</p>
               </div>
               <p className="mt-2 caption-2 text-muted">
-                {anySample ? "Some prices are samples. " : ""}We confirm the final price, your photos and delivery on WhatsApp before you pay. Delivery
-                in Bhubaneswar, or pick up from the studio.
+                {onlinePayments
+                  ? `${anySample ? "Some prices are samples. " : ""}Pay online now, or send the order on WhatsApp and pay once we confirm the price. Either way we collect your photos on WhatsApp. Delivery in Bhubaneswar, or pick up from the studio.`
+                  : `${anySample ? "Some prices are samples. " : ""}We confirm the final price, your photos and delivery on WhatsApp before you pay. Delivery in Bhubaneswar, or pick up from the studio.`}
               </p>
+              {onlinePayments && (
+                <button
+                  type="button"
+                  onClick={() => setStep("details")}
+                  data-track="checkout_open"
+                  data-track-source="shop-cart"
+                  className={buttonClasses({ size: "lg", className: "mt-4 w-full" })}
+                >
+                  <Lock aria-hidden weight="bold" className="size-5" />
+                  Checkout and pay online
+                </button>
+              )}
               <a
                 href={waLink(orderText(items))}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track="whatsapp_click"
                 data-track-source="shop-cart"
-                className={buttonClasses({ variant: "whatsapp", size: "lg", className: "mt-4 w-full" })}
+                className={buttonClasses({ variant: onlinePayments ? "secondary" : "whatsapp", size: "lg", className: onlinePayments ? "mt-2 w-full" : "mt-4 w-full" })}
               >
-                <WhatsApp aria-hidden weight="fill" className="size-5" />
+                <WhatsApp aria-hidden weight="fill" className={cn("size-5", onlinePayments && "text-whatsapp-text")} />
                 Send order on WhatsApp
               </a>
               <button type="button" onClick={() => cart.clear()} className="mt-2 inline-flex min-h-11 w-full items-center justify-center button-sm text-muted transition-colors hover:text-fg">
@@ -246,7 +314,7 @@ function CartDrawer({ open, onClose, products }: { open: boolean; onClose: () =>
   );
 }
 
-/** Category filters, sorting, the product grid and the cart. Orders go to the studio on WhatsApp. */
+/** Category filters, sorting, the product grid and the cart. Orders are paid online (Razorpay) or sent to the studio on WhatsApp. */
 export default function Shop({ products, categories }: { products: Product[]; categories: ShopCategory[] }) {
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState<Sort>("featured");

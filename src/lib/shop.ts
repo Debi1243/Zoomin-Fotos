@@ -3,8 +3,8 @@ import shopData from "@/content/shop.json";
 
 /**
  * The shop: albums, frames, prints, canvas, calendars and photo gifts, read from src/content/shop.json.
- * There is no checkout. Visitors pick products and send the order to the studio on WhatsApp,
- * where the studio confirms the photos, the final price and delivery.
+ * Visitors either pay online through Razorpay (src/lib/checkout.ts, src/app/shop/actions.ts) or send
+ * the order to the studio on WhatsApp, where the studio confirms the photos, the final price and delivery.
  */
 
 export const mockups = ["album", "frame", "collage", "print", "canvas", "triptych", "calendar", "mug", "cushion", "magnets"] as const;
