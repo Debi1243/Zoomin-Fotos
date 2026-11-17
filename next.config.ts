@@ -21,6 +21,32 @@ const nextConfig: NextConfig = {
       resolveAlias: { "@/app/contact/actions": "./src/lib/contact-static.ts" },
     },
   }),
+  // The live site sits behind Cloudflare, which tells us the visitor's scheme in X-Forwarded-Proto.
+  // Send plain-http visitors to https, and tell browsers to stay on https (HSTS is ignored over http).
+  // Requests without the header (local dev, the LAN health check) are left alone.
+  ...(!isStatic && {
+    async redirects() {
+      return [
+        {
+          source: "/:path*",
+          has: [
+            { type: "header", key: "x-forwarded-proto", value: "http" },
+            { type: "host", value: "(?<host>.+)" },
+          ],
+          destination: "https://:host/:path*",
+          permanent: true,
+        },
+      ];
+    },
+    async headers() {
+      return [
+        {
+          source: "/:path*",
+          headers: [{ key: "Strict-Transport-Security", value: "max-age=15552000" }],
+        },
+      ];
+    },
+  }),
 };
 
 export default nextConfig;
