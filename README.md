@@ -49,13 +49,21 @@ The shop (`/shop`, switched on with `shopEnabled` in `src/lib/site.ts`) takes pa
 WhatsApp ordering.
 
 1. The visitor fills their cart, taps **Checkout and pay online** and enters name, mobile, email (optional) and delivery address.
-2. The `startCheckout` Server Action (`src/app/shop/actions.ts`) prices the cart from `src/content/shop.json` and creates a
+2. The `startCheckout` Server Action (`src/app/payments/actions.ts`) prices the cart from `src/content/shop.json` and creates a
    Razorpay order with the customer details in its notes. The browser never sets the amount.
    Orders below ₹1 (100 paise, Razorpay's minimum) are refused. If Razorpay rejects the keys (HTTP 401) the server
    logs it and the customer is pointed to WhatsApp.
 3. Razorpay Checkout opens (UPI, cards, netbanking, wallets). On success, `confirmPayment` checks Razorpay's HMAC SHA-256
    signature with the Key Secret, then sends the paid order to the studio's Google Sheet (which emails it) and
    `CONTACT_WEBHOOK_URL`, whichever are set up. Every order is also in the Razorpay dashboard under **Orders** and **Payments**.
+
+### Wedding package advance
+
+Every wedding package card (home page, `/services/weddings`, `/packages`) also has **Pay ₹5,000 advance online**. The
+customer enters name, mobile, email (optional), wedding date and venue, and pays the advance. `startPackageCheckout`
+looks up the package and works out the advance on the server; the payment is verified and reported the same way as a
+shop order (session "Package booking (advance paid)"). Change the amount with `BOOKING_ADVANCE` in `src/lib/checkout.ts`,
+and which services take online bookings with `payableServices` there.
 
 Online payment needs the Node server (Docker image). The GitHub Pages static export has no server, so it shows WhatsApp ordering only.
 

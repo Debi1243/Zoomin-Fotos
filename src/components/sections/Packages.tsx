@@ -6,6 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/cn";
 import { formatRupees, type Package } from "@/lib/data";
 import { quoteHref } from "@/lib/contact";
+import PackagePay from "@/components/payments/PackagePay";
 
 const defaultIntro =
   "Prices are for one day of coverage, plus GST, and every price is negotiable. Tell us about your day and we will shape a package around it.";
@@ -21,13 +22,15 @@ type Props = {
   footer?: ReactNode;
   id?: string;
   className?: string;
+  /** The service slug (e.g. "weddings") when its packages can be booked with an advance paid online. */
+  payOnline?: string;
 };
 
 /**
  * Package cards. On phones they sit in a row you swipe through; on wide screens, side by side.
  * Only the package's own published details are shown.
  */
-export default function Packages({ items, service, intro = defaultIntro, label, title, footer, id = "packages", className }: Props) {
+export default function Packages({ items, service, intro = defaultIntro, label, title, footer, id = "packages", className, payOnline }: Props) {
   const single = items.length === 1;
   return (
     <section id={id} aria-labelledby={`${id}-title`} className={cn("section-y scroll-mt-20", className)}>
@@ -106,6 +109,7 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
                   >
                     Book {single ? "this shoot" : "this package"}
                   </ButtonLink>
+                  {payOnline && <PackagePay service={payOnline} pkg={p.name} price={p.price} />}
                 </div>
               </article>
             </li>

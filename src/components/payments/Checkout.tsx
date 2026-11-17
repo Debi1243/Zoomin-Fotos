@@ -1,19 +1,20 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { ArrowLeftIcon as ArrowLeft, CircleNotchIcon as Spinner, LockSimpleIcon as Lock } from "@phosphor-icons/react/dist/ssr";
 import { buttonClasses } from "@/components/ui/Button";
-import { confirmPayment, startCheckout } from "@/app/shop/actions";
+import { confirmPayment } from "@/app/payments/actions";
 import { brand, formatRupees } from "@/lib/brand";
-import { emptyCustomer, type Customer, type CustomerErrors, type CustomerField } from "@/lib/checkout";
+import type { StartCheckoutResult } from "@/lib/checkout";
 import { cn } from "@/lib/cn";
-import type { CartLine } from "./cart-store";
 
 const control =
   "h-11 w-full rounded-lg border border-border-strong bg-surface px-3 body-6 text-fg transition-colors duration-300 hover:border-fg focus-visible:border-fg aria-invalid:border-error";
 
 const SCRIPT = "https://checkout.razorpay.com/v1/checkout.js";
+/** Name, phone, email and address are remembered in this browser so a second payment is quicker. */
 const SAVED = "zf-checkout-details";
+const REMEMBER = ["name", "phone", "email", "address", "city", "pincode"];
 
 type RazorpaySuccess = { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string };
 type RazorpayFailure = { error?: { description?: string } };
@@ -25,7 +26,7 @@ declare global {
 }
 
 let loading: Promise<void> | null = null;
-/** Loads Razorpay Checkout only when someone actually pays, so the shop page stays light. */
+/** Loads Razorpay Checkout only when someone actually pays, so pages stay light. */
 function loadRazorpay() {
   if (window.Razorpay) return Promise.resolve();
   loading ??= new Promise<void>((resolve, reject) => {
@@ -43,47 +44,80 @@ function loadRazorpay() {
   return loading;
 }
 
-function savedDetails(): Customer {
+export type Field = {
+  name: string;
+  label: string;
+  type?: "text" | "tel" | "email" | "date";
+  autoComplete: string;
+  inputMode?: "tel" | "numeric" | "email";
+  optional?: boolean;
+  /** Half width on the two-column grid. */
+  half?: boolean;
+  min?: string;
+};
+
+function initialValues(fields: Field[], defaults: Record<string, string>) {
+  let saved: Record<string, unknown> = {};
   try {
-    const parsed = JSON.parse(localStorage.getItem(SAVED) ?? "{}") as Partial<Customer>;
-    return { ...emptyCustomer, ...Object.fromEntries(Object.entries(parsed).filter(([, v]) => typeof v === "string")), note: "" };
+    saved = JSON.parse(localStorage.getItem(SAVED) ?? "{}") as Record<string, unknown>;
   } catch {
-    return emptyCustomer;
+    // Storage blocked: start empty.
   }
+  return Object.fromEntries(
+    fields.map((f) => {
+      const v = saved[f.name];
+      return [f.name, REMEMBER.includes(f.name) && typeof v === "string" && v ? v : (defaults[f.name] ?? "")];
+    }),
+  );
 }
 
-const fields: { name: CustomerField; label: string; type?: string; autoComplete: string; inputMode?: "tel" | "numeric" | "email"; optional?: boolean; wide?: boolean }[] = [
-  { name: "name", label: "Full name", autoComplete: "name", wide: true },
-  { name: "phone", label: "Mobile number", type: "tel", autoComplete: "tel", inputMode: "tel" },
-  { name: "email", label: "Email", type: "email", autoComplete: "email", inputMode: "email", optional: true },
-  { name: "address", label: "House, street and area", autoComplete: "street-address", wide: true },
-  { name: "city", label: "City", autoComplete: "address-level2" },
-  { name: "pincode", label: "PIN code", autoComplete: "postal-code", inputMode: "numeric" },
-  { name: "note", label: "Anything we should know", autoComplete: "off", optional: true, wide: true },
-];
+function remember(values: Record<string, string>) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SAVED) ?? "{}") as Record<string, string>;
+    for (const k of REMEMBER) if (values[k]) saved[k] = values[k];
+    localStorage.setItem(SAVED, JSON.stringify(saved));
+  } catch {
+    // Storage blocked: details just aren't remembered for next time.
+  }
+}
 
 export type PaidOrder = { paymentId: string; amount: number; name: string };
 
 /**
- * Delivery details, then Razorpay Checkout. The amount comes from the server, which prices the
- * cart from shop.json; the server also checks Razorpay's signature before the order counts as paid.
+ * The customer's details, then Razorpay Checkout. `start` asks the server to create the order: the
+ * server sets the amount (from shop.json or the package list), never the browser. After payment the
+ * server checks Razorpay's signature before anything counts as paid.
  */
 export default function Checkout({
-  lines,
-  total,
+  fields,
+  defaults = {},
+  title,
+  intro,
+  amount,
+  description,
+  start,
   onBack,
   onPaying,
   onPaid,
+  footnote,
 }: {
-  lines: CartLine[];
-  total: number;
-  onBack: () => void;
-  /** Razorpay opens its own window, so the cart steps aside while it is open. */
+  fields: Field[];
+  defaults?: Record<string, string>;
+  title: string;
+  intro: ReactNode;
+  /** In rupees, shown on the pay button. The server decides what is actually charged. */
+  amount: number;
+  /** Shown in the Razorpay window. */
+  description: string;
+  start: (values: Record<string, string>) => Promise<StartCheckoutResult>;
+  onBack?: { label: string; onClick: () => void };
+  /** Razorpay opens its own window, so a modal dialog has to step aside while it is open. */
   onPaying: (paying: boolean) => void;
   onPaid: (order: PaidOrder) => void;
+  footnote?: ReactNode;
 }) {
-  const [values, setValues] = useState<Customer>(savedDetails);
-  const [errors, setErrors] = useState<CustomerErrors>({});
+  const [values, setValues] = useState<Record<string, string>>(() => initialValues(fields, defaults));
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -94,18 +128,14 @@ export default function Checkout({
     setMessage("");
     setErrors({});
     try {
-      const [order] = await Promise.all([startCheckout({ lines, customer: values }), loadRazorpay()]);
+      const [order] = await Promise.all([start(values), loadRazorpay()]);
       if (!order.ok) {
         setErrors(order.errors ?? {});
         setMessage(order.message);
         setBusy(false);
         return;
       }
-      try {
-        localStorage.setItem(SAVED, JSON.stringify({ ...order.customer, note: "" }));
-      } catch {
-        // Storage blocked: details just aren't remembered for next time.
-      }
+      remember(values);
       const Razorpay = window.Razorpay;
       if (!Razorpay) throw new Error("Razorpay did not load");
 
@@ -116,15 +146,15 @@ export default function Checkout({
         amount: order.amount,
         currency: order.currency,
         name: brand.name,
-        description: `Shop order, ${lines.reduce((n, l) => n + l.qty, 0)} item(s)`,
-        prefill: { name: order.customer.name, email: order.customer.email, contact: order.customer.phone },
+        description,
+        prefill: order.prefill,
         theme: { color: "#a8321f" },
         modal: {
           ondismiss: () => {
             if (settled) return;
             onPaying(false);
             setBusy(false);
-            setMessage("Payment cancelled. Nothing was charged. You can try again or send your order on WhatsApp.");
+            setMessage("Payment cancelled. Nothing was charged. You can try again or message us on WhatsApp.");
           },
         },
         handler: async (r: RazorpaySuccess) => {
@@ -135,7 +165,7 @@ export default function Checkout({
           }));
           onPaying(false);
           setBusy(false);
-          if (result.ok) onPaid({ paymentId: result.paymentId, amount: result.amount || order.amount, name: order.customer.name });
+          if (result.ok) onPaid({ paymentId: result.paymentId, amount: result.amount || order.amount, name: order.prefill.name });
           else setMessage(result.message);
         },
       });
@@ -147,26 +177,28 @@ export default function Checkout({
     } catch {
       onPaying(false);
       setBusy(false);
-      setMessage("We couldn't open the payment window. Check your connection and try again, or send your order on WhatsApp.");
+      setMessage("We couldn't open the payment window. Check your connection and try again, or message us on WhatsApp.");
     }
   }
 
   return (
     <form onSubmit={pay} noValidate className="flex min-h-0 flex-1 flex-col">
       <div className="flex-1 overflow-y-auto px-5 py-4">
-        <button type="button" onClick={onBack} className="inline-flex min-h-11 items-center gap-2 button-sm text-muted transition-colors hover:text-fg">
-          <ArrowLeft aria-hidden className="size-4" />
-          Back to cart
-        </button>
-        <h3 className="mt-2 title-2">Delivery details</h3>
-        <p className="mt-1 caption-2 text-muted">We call or WhatsApp you on this number to collect your photos and arrange delivery.</p>
+        {onBack && (
+          <button type="button" onClick={onBack.onClick} className="inline-flex min-h-11 items-center gap-2 button-sm text-muted transition-colors hover:text-fg">
+            <ArrowLeft aria-hidden className="size-4" />
+            {onBack.label}
+          </button>
+        )}
+        <h3 className={cn("title-2", onBack && "mt-2")}>{title}</h3>
+        <div className="mt-1 caption-2 text-muted">{intro}</div>
 
         <div className="mt-4 grid grid-cols-2 gap-3">
           {fields.map((f) => {
             const id = `checkout-${f.name}`;
             const error = errors[f.name];
             return (
-              <div key={f.name} className={cn(f.wide || f.name === "phone" || f.name === "email" ? "col-span-2" : "col-span-1")}>
+              <div key={f.name} className={f.half ? "col-span-1" : "col-span-2"}>
                 <label htmlFor={id} className="caption-4 text-muted">
                   {f.label}
                   {f.optional && " (optional)"}
@@ -177,8 +209,9 @@ export default function Checkout({
                   type={f.type ?? "text"}
                   inputMode={f.inputMode}
                   autoComplete={f.autoComplete}
+                  min={f.min}
                   required={!f.optional}
-                  value={values[f.name]}
+                  value={values[f.name] ?? ""}
                   onChange={(e) => setValues((v) => ({ ...v, [f.name]: e.target.value }))}
                   aria-invalid={!!error || undefined}
                   aria-describedby={error ? `${id}-error` : undefined}
@@ -201,11 +234,11 @@ export default function Checkout({
             {message}
           </p>
         )}
-        <button type="submit" disabled={busy} className={buttonClasses({ size: "lg", className: "w-full" })} data-track="checkout_start" data-track-source="shop-cart">
+        <button type="submit" disabled={busy} className={buttonClasses({ size: "lg", className: "w-full" })} data-track="checkout_start">
           {busy ? <Spinner aria-hidden className="size-5 animate-spin" /> : <Lock aria-hidden weight="bold" className="size-5" />}
-          {busy ? "Opening secure payment" : `Pay ${formatRupees(total)}`}
+          {busy ? "Opening secure payment" : `Pay ${formatRupees(amount)}`}
         </button>
-        <p className="mt-2 text-center caption-3 text-muted">Secure payment by Razorpay: UPI, cards, netbanking and wallets.</p>
+        <p className="mt-2 text-center caption-3 text-muted">{footnote ?? "Secure payment by Razorpay: UPI, cards, netbanking and wallets."}</p>
       </div>
     </form>
   );

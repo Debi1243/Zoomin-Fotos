@@ -13,10 +13,11 @@ import {
   XIcon as X,
 } from "@phosphor-icons/react/dist/ssr";
 import ProductMockup from "./ProductMockup";
-import Checkout, { type PaidOrder } from "./Checkout";
+import Checkout, { type Field, type PaidOrder } from "@/components/payments/Checkout";
+import { startCheckout } from "@/app/payments/actions";
 import { cart, useCart, type CartLine } from "./cart-store";
 import { buttonClasses } from "@/components/ui/Button";
-import { formatRupees, waLink } from "@/lib/brand";
+import { brand, formatRupees, waLink } from "@/lib/brand";
 import { onlinePayments } from "@/lib/checkout";
 import { lowestPrice, type Product, type ShopCategory } from "@/lib/shop";
 import { cn } from "@/lib/cn";
@@ -38,6 +39,16 @@ function orderText(lines: { product: Product; option: string; qty: number; price
     "Please confirm the price and delivery. I'll share my photos here.",
   ].join("\n");
 }
+
+const deliveryFields: Field[] = [
+  { name: "name", label: "Full name", autoComplete: "name" },
+  { name: "phone", label: "Mobile number", type: "tel", autoComplete: "tel", inputMode: "tel" },
+  { name: "email", label: "Email", type: "email", autoComplete: "email", inputMode: "email", optional: true },
+  { name: "address", label: "House, street and area", autoComplete: "street-address" },
+  { name: "city", label: "City", autoComplete: "address-level2", half: true },
+  { name: "pincode", label: "PIN code", autoComplete: "postal-code", inputMode: "numeric", half: true },
+  { name: "note", label: "Anything we should know", autoComplete: "off", optional: true },
+];
 
 function ProductCard({ product, index, categoryLabel }: { product: Product; index: number; categoryLabel: string }) {
   const [optionLabel, setOptionLabel] = useState(product.options[0].label);
@@ -219,9 +230,14 @@ function CartDrawer({ open, onClose, products }: { open: boolean; onClose: () =>
           </div>
         ) : step === "details" ? (
           <Checkout
-            lines={lines}
-            total={total}
-            onBack={() => setStep("cart")}
+            fields={deliveryFields}
+            defaults={{ city: brand.city }}
+            title="Delivery details"
+            intro="We call or WhatsApp you on this number to collect your photos and arrange delivery."
+            amount={total}
+            description={`Shop order, ${lines.reduce((n, l) => n + l.qty, 0)} item(s)`}
+            start={(customer) => startCheckout({ lines, customer })}
+            onBack={{ label: "Back to cart", onClick: () => setStep("cart") }}
             onPaying={(p) => {
               payingRef.current = p;
               setPaying(p);
