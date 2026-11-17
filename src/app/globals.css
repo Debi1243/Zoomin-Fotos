@@ -1,80 +1,87 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   Design tokens: "ivory, bordeaux and champagne gold"
-   Soft ivory pages, plum-black ink (the logo's line art), one deep
-   bordeaux wine that means "book", antique gold for fine rules, stars
-   and highlights, and deep aubergine "print room" bands (.surface-dark)
-   where the photographs sit, so they glow like prints. Colour is defined
-   once here and mapped into Tailwind below.
-   Contrast (WCAG): ink on bg 16.2:1, muted on bg 6.1:1 (5.3:1 on sand),
-   white on primary 9.2:1, accent text on bg 6.9:1 (6.0:1 on sand),
-   gold text on bg 4.7:1. Dark bands: ink 15.9:1, muted 9.1:1, gold 10.2:1.
+   Design tokens: "midnight, marigold and sindoor"
+   Warm ivory pages and midnight-navy ink; one sindoor vermilion that means
+   "book"; marigold gold for rules, stars and highlights; and deep midnight
+   "print room" bands (.surface-dark) where the photographs sit, so the reds
+   and golds of a wedding glow against them. Colour is defined once here and
+   mapped into Tailwind below.
+   Contrast (WCAG): ink on bg 16.3:1, muted on bg 6.3:1 (5.6:1 on sand),
+   white on primary 6.7:1 (5.5:1 at the light end of its gradient),
+   accent text on bg 6.5:1 (5.7:1 on sand), gold text on bg 5.7:1 (5.0:1 on sand).
+   Dark bands: ink 16.8:1, muted 9.8:1, marigold 10.8:1.
    ────────────────────────────────────────────────────────────── */
 
 :root {
   color-scheme: light;
 
-  --bg: #fbf8f3;
+  --bg: #fbf8f2;
   --surface: #ffffff;
   --elevated: #ffffff;
-  /* Champagne blush bands and fills. */
-  --sand: #f1e6de;
-  --sand-soft: #f7f1eb;
-  --fg: #1f1a1d;
-  --fg-muted: #675b5f;
-  --border: #e9ddd5;
-  --border-strong: #d4c3ba;
+  /* Champagne bands and fills. */
+  --sand: #f2e9da;
+  --sand-soft: #f8f3ea;
+  --fg: #141a2b;
+  --fg-muted: #555c6e;
+  --border: #e8e0d1;
+  --border-strong: #d3c7b2;
 
-  /* Bordeaux is reserved for booking actions and prices. */
-  --primary: #7b2d3d;
-  --primary-hover: #64232f;
+  /* Sindoor vermilion is reserved for booking actions and prices. */
+  --primary: #a8321f;
+  --primary-hover: #8c2817;
   --primary-fg: #ffffff;
   /* The two ends of the primary button's soft gradient. */
-  --primary-from: #8c3648;
-  --primary-to: #6c2534;
-  /* A rose-wine that is safe for small text on the page and the blush bands. */
-  --accent: #8e3a4b;
+  --primary-from: #bd3b25;
+  --primary-to: #962b1a;
+  /* Vermilion that is safe for small text on the page and the champagne bands. */
+  --accent: #a3341f;
 
-  /* Antique gold: text-safe on ivory; the soft tone is for rules, stars and other decoration only. */
-  --gold-text: #8a6a2f;
-  --gold-soft: #c4a265;
+  /* Marigold: the text tone is safe on ivory; the soft tone is for rules, stars and other decoration only. */
+  --gold-text: #855a12;
+  --gold-soft: #e2a73c;
 
   /* WhatsApp action: darker than WhatsApp's own green so white text passes AA (5.3:1). */
   --whatsapp: #1f7a4d;
   --whatsapp-hover: #18643f;
-  /* WhatsApp green as text: darker again, so it passes AA on the sand bands too (5.6:1 on #e9e2d9). */
+  /* WhatsApp green as text: darker again, so it passes AA on the sand bands too. */
   --whatsapp-text: #18643f;
   --whatsapp-text-hover: #0f4a2d;
 
-  /* Legacy names still used by the admin and client portal. All map onto the warm palette. */
+  /* Legacy names still used by the admin and client portal. All map onto the palette. */
   --marigold: var(--accent);
   --sindoor: var(--accent);
   --rani: var(--accent);
-  --peacock: #3d6b5e;
+  --peacock: #2f5f73;
   --gold: var(--gold-text);
   --marigold-glow: var(--primary);
   --sindoor-glow: var(--primary);
   --rani-glow: var(--primary);
-  --peacock-glow: #3d6b5e;
+  --peacock-glow: #2f5f73;
   --gold-glow: var(--sand);
   --glow-alpha: 0;
 
-  /* "Inverse" is a warm sand band, never black. */
+  /* "Inverse" is a warm champagne band, never black. */
   --inverse: var(--sand);
   --inverse-fg: var(--fg);
-  --inverse-muted: #5e5357;
-  --inverse-border: #dfcfc4;
+  --inverse-muted: #4f5568;
+  --inverse-border: #dccfb9;
 
   --success: #1d7348;
   --warning: #8f5600;
   --error: #b3261e;
 
-  /* Soft shadows, tinted with the wine so they read warm rather than grey. */
-  --shadow-sm: 0 1px 2px rgb(58 20 32 / 0.06), 0 2px 8px -4px rgb(58 20 32 / 0.08);
-  --shadow-md: 0 1px 2px rgb(58 20 32 / 0.05), 0 12px 32px -14px rgb(58 20 32 / 0.24);
-  --shadow-primary: 0 1px 1px rgb(58 20 32 / 0.18), 0 8px 22px -10px rgb(123 45 61 / 0.6);
-  --shadow-primary-hover: 0 1px 1px rgb(58 20 32 / 0.2), 0 14px 30px -12px rgb(123 45 61 / 0.7);
+  /* Soft shadows, tinted with midnight so they read deep rather than grey. */
+  --shadow-sm: 0 1px 2px rgb(15 22 42 / 0.06), 0 2px 8px -4px rgb(15 22 42 / 0.08);
+  --shadow-md: 0 1px 2px rgb(15 22 42 / 0.05), 0 12px 32px -14px rgb(15 22 42 / 0.26);
+  --shadow-lg: 0 2px 4px rgb(15 22 42 / 0.05), 0 28px 60px -24px rgb(15 22 42 / 0.4);
+  --shadow-primary: 0 1px 1px rgb(60 16 8 / 0.2), 0 8px 22px -10px rgb(168 50 31 / 0.65);
+  --shadow-primary-hover: 0 1px 1px rgb(60 16 8 / 0.22), 0 16px 32px -12px rgb(168 50 31 / 0.75);
+
+  /* Motion timings, shared by CSS and the view transitions between pages. */
+  --dur-quick: 200ms;
+  --dur-base: 400ms;
+  --dur-slow: 700ms;
 
   /* Height of the sticky booking bar on phones (0 on desktop). Sticky panels sit above it. */
   --tabbar-h: 4.5rem;
@@ -325,35 +332,45 @@
 /* Headings may mark a word or phrase with <em>: serif italic in the accent colour, like an album caption. */
 :is(h1, h2) em { font-style: italic; color: var(--accent); }
 
-/* Deep warm charcoal "print room" band. It re-points the page tokens, so every component
+/* Deep midnight "print room" band. It re-points the page tokens, so every component
    inside (cards, filters, links, the logo) turns light-on-dark without its own dark styles. */
 @utility surface-dark {
-  --bg: #1c1519;
-  --surface: #261c21;
-  --elevated: #30242a;
-  --sand: #3c2e35;
-  --sand-soft: #221a1e;
-  --fg: #f7f0ea;
-  --fg-muted: #c5b5b1;
-  --border: #3a2c33;
-  --border-strong: #5b4750;
-  /* On the dark bands the accent turns champagne gold. */
-  --accent: #dcc08a;
-  --gold-text: #dcc08a;
-  --gold-soft: #b89657;
+  --bg: #0b1222;
+  --surface: #111a2e;
+  --elevated: #18233b;
+  --sand: #1f2b46;
+  --sand-soft: #0e1628;
+  --fg: #f7f2e8;
+  --fg-muted: #b3bccf;
+  --border: #1f2a42;
+  --border-strong: #36435f;
+  /* On the dark bands the accent turns marigold. */
+  --accent: #f3bc55;
+  --gold-text: #f3bc55;
+  --gold-soft: #d99a2b;
   --whatsapp-text: #6fd3a0;
   --whatsapp-text-hover: #9be3bd;
-  --inverse-muted: #c5b5b1;
-  --focus: #f7f0ea;
+  --inverse-muted: #b3bccf;
+  --focus: #f7f2e8;
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
   --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -16px rgb(0 0 0 / 0.6);
-  /* A faint wine glow in one corner and a trace of gold in the other, like light falling on a print. */
+  /* A warm sindoor glow in one corner and a trace of marigold in the other, like stage light on a print. */
   background:
-    radial-gradient(70% 55% at 0% 0%, rgb(123 45 61 / 0.32), rgb(123 45 61 / 0) 70%),
-    radial-gradient(60% 50% at 100% 100%, rgb(196 162 101 / 0.1), rgb(196 162 101 / 0) 70%),
+    radial-gradient(70% 55% at 0% 0%, rgb(168 50 31 / 0.28), rgb(168 50 31 / 0) 70%),
+    radial-gradient(60% 50% at 100% 100%, rgb(243 188 85 / 0.12), rgb(243 188 85 / 0) 70%),
     var(--bg);
   color: var(--fg);
   color-scheme: dark;
+}
+
+/* Inner page tops: a faint wash of marigold and sindoor light behind the heading, like the glow before a ceremony. */
+.page-hero { position: relative; isolation: isolate; }
+.page-hero::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  inset: -7rem calc(50% - 50vw) 0;
+  background:
+    radial-gradient(42rem 22rem at 12% 0%, rgb(226 167 60 / 0.2), rgb(226 167 60 / 0) 70%),
+    radial-gradient(38rem 20rem at 88% 8%, rgb(168 50 31 / 0.1), rgb(168 50 31 / 0) 70%);
 }
 
 /* Eyebrow with a short rule in front of it, as used on section headers. */
@@ -365,7 +382,7 @@
   background: linear-gradient(180deg, var(--sand-soft) 0%, color-mix(in srgb, var(--sand) 55%, var(--sand-soft)) 100%);
 }
 
-/* Primary (booking) button: a soft bordeaux gradient with a warm glow that deepens on hover. */
+/* Primary (booking) button: a soft vermilion gradient with a warm glow that deepens on hover. */
 .btn-primary {
   background-color: var(--primary);
   background-image: linear-gradient(180deg, var(--primary-from), var(--primary-to));
@@ -386,23 +403,74 @@
 .btn-secondary { box-shadow: var(--shadow-sm); }
 .btn-secondary:hover { box-shadow: var(--shadow-md); }
 
-/* Full-width hero photograph. The scrim is shaped to the text, not the frame: a pool of shade
-   rising from the bottom left corner where the copy sits, and a low band under the prices, so
-   the faces and colour in the upper two thirds of the photo stay clear and bright. */
+/* ──────────────────────────────────────────────────────────────
+   Home hero
+   Still by default: one photograph (above the text on phones, behind it on wider screens).
+   With motion allowed and a screen at least 44rem tall (HERO_PIN in lib/gsap.ts), the section
+   grows several screens tall and its stage sticks to the top, so the photographs can wipe
+   through one after another as the page scrolls (HeroScroll.tsx drives that).
+   ────────────────────────────────────────────────────────────── */
+:root { --hero-h: calc(100svh - var(--tabbar-h) - env(safe-area-inset-bottom)); }
+/* The hero slides up under the floating header, so the photograph shows through its glass. */
+.hero-scroll { margin-top: calc(-4.625rem - env(safe-area-inset-top)); }
+
+.hero-slide { display: none; }
+.hero-slide:first-child { display: block; }
+.hero-photo { object-position: var(--pos-sm, 50% 30%); }
+.hero-media { aspect-ratio: 4 / 3; }
+@media (width >= 48rem) {
+  .hero-photo { object-position: var(--pos-md, 50% 20%); }
+  .hero-media { aspect-ratio: auto; }
+  .hero-stage > div { min-height: min(88svh, 52rem); }
+}
+
+@media not ((prefers-reduced-motion: no-preference) and (min-height: 44rem)) {
+  .hero-meta, .hero-cue { display: none !important; }
+}
+html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
+
+@media (prefers-reduced-motion: no-preference) and (min-height: 44rem) {
+  .js-motion .hero-scroll { height: calc(var(--hero-h) + (var(--slides, 1) - 1) * 85svh); }
+  .js-motion .hero-stage { position: sticky; top: 0; height: var(--hero-h); }
+  .js-motion .hero-stage > div { min-height: 0; }
+  .js-motion .hero-media { aspect-ratio: auto; flex: 1 1 0; min-height: 30%; }
+  .js-motion .hero-slide { display: block; }
+  /* Until the timeline takes over, the later photographs wait below their clip and the captions below their mask. */
+  .js-motion .hero-slide:not(:first-child) { clip-path: inset(100% 0 0 0); }
+  .js-motion .hero-scroll:not(.is-live) .hero-cap:not(:first-child) { visibility: hidden; }
+  .js-motion .hero-fill { transform: scaleX(0); }
+  .js-motion :is(button, span):first-child > :is(.hero-fill, span > .hero-fill) { transform: none; }
+
+  /* The scroll cue: a bead of light that runs down its line, again and again. */
+  .hero-cue-line { position: relative; }
+  .hero-cue-line::after {
+    content: ""; position: absolute; inset-inline: 0; top: 0; height: 40%;
+    background: linear-gradient(180deg, transparent, #f6c768);
+    animation: cue-run 2.2s var(--ease-base) infinite;
+  }
+}
+@keyframes cue-run {
+  from { translate: 0 -100%; }
+  to { translate: 0 260%; }
+}
+
+/* The shade is shaped to the text, not the frame: a pool rising from the lower left where the copy
+   sits, and a low band under the prices, so the faces in the upper part of each photo stay bright. */
 .hero-scrim {
   background:
-    radial-gradient(120% 85% at 0% 100%, rgb(14 10 8 / 0.86) 0%, rgb(14 10 8 / 0.68) 40%, rgb(14 10 8 / 0) 76%),
-    linear-gradient(0deg, rgb(14 10 8 / 0.7) 0%, rgb(14 10 8 / 0.25) 22%, rgb(14 10 8 / 0) 42%);
+    radial-gradient(120% 85% at 0% 100%, rgb(8 12 24 / 0.86) 0%, rgb(8 12 24 / 0.66) 40%, rgb(8 12 24 / 0) 76%),
+    linear-gradient(0deg, rgb(8 12 24 / 0.72) 0%, rgb(8 12 24 / 0.25) 24%, rgb(8 12 24 / 0) 44%),
+    linear-gradient(180deg, rgb(8 12 24 / 0.35) 0%, rgb(8 12 24 / 0) 18%);
 }
-/* A touch more life in the photograph itself. */
-.hero-photo { filter: saturate(1.12) contrast(1.04) brightness(1.03); }
+/* A touch more life in the photographs themselves. */
+.hero-photo { filter: saturate(1.1) contrast(1.04) brightness(1.03); }
 
 /* Hero type: bright on the photo, with a soft shadow so it holds even where the shade is thin. */
 .hero-title { color: #ffffff; text-shadow: 0 2px 24px rgb(0 0 0 / 0.35); }
-.hero-title em { color: #f1d39b; }
+.hero-title em { color: #f6c768; }
 .hero-lede { color: #ffffff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.45); }
 
-/* Older section markers (admin, portal): a short bordeaux-to-gold bar before a label. */
+/* Older section markers (admin, portal): a short vermilion-to-marigold bar before a label. */
 .festive-gradient { background-color: var(--primary); background-image: linear-gradient(90deg, var(--primary), var(--gold-soft)); }
 .label-dot {
   display: inline-block;
@@ -464,8 +532,30 @@
   .js-motion:not(.motion-ready) .reveal-photo:not(.is-in) > :is(.frame, img),
   .js-motion:not(.motion-ready) .reveal-line:not(.is-in) { animation: motion-fallback 1ms 3s forwards; }
 
-  /* Moving between pages: the new page fades up. */
-  [data-navigated] .page-enter { animation: page-in 500ms var(--ease-base) backwards; }
+  /* Moving between pages, in browsers without view transitions: the new page fades up. */
+  @supports not (view-transition-name: none) {
+    [data-navigated] .page-enter { animation: page-in 500ms var(--ease-base) backwards; }
+  }
+
+  /* Primary buttons: a band of light sweeps across under the pointer, like a flash on satin. */
+  .btn-primary::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.28) 48%, rgb(255 255 255 / 0) 62%);
+    translate: -120% 0;
+  }
+  @media (hover: hover) {
+    .btn-primary:hover::after { translate: 120% 0; transition: translate 900ms var(--ease-base); }
+  }
+
+  /* Photographs in cards and galleries: a slow zoom under the pointer, with a soft vignette lifting. */
+  @media (hover: hover) {
+    .group .photo-frame::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(8 12 24 / 0.28));
+      opacity: 0.6; transition: opacity 600ms var(--ease-base);
+    }
+    .group:hover .photo-frame::after { opacity: 0; }
+  }
 
   /* Cards lift a little under the pointer and press back down when tapped. Only transform moves. */
   .lift { transition: translate 500ms var(--ease-base), border-color 300ms var(--ease-base), box-shadow 500ms var(--ease-base); }
@@ -483,6 +573,34 @@
   .booking-bar { animation: bar-up 600ms var(--ease-base) 400ms backwards; }
 
   .price-pop { display: inline-block; animation: price-pop 300ms var(--ease-base); }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Page transitions (React <ViewTransition> in app/template.tsx)
+   The old page lifts and softens out quickly; the new page rises into focus a beat later.
+   The floating header and the phone booking bar are named, so they stay perfectly still.
+   ────────────────────────────────────────────────────────────── */
+::view-transition { pointer-events: none; }
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; }
+::view-transition-group(site-header),
+::view-transition-group(booking-bar) { animation: none; z-index: 100; }
+::view-transition-old(site-header),
+::view-transition-old(booking-bar) { display: none; }
+::view-transition-new(site-header),
+::view-transition-new(booking-bar) { animation: none; }
+::view-transition-old(.page-exit) { animation: vt-out 260ms cubic-bezier(0.4, 0, 1, 1) both; }
+::view-transition-new(.page-enter) { animation: vt-in 650ms var(--ease-base) 140ms both; }
+@keyframes vt-out {
+  to { opacity: 0; transform: translateY(-1.25rem) scale(0.985); filter: blur(6px); }
+}
+@keyframes vt-in {
+  from { opacity: 0; transform: translateY(2rem); filter: blur(8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) { animation-duration: 0s !important; animation-delay: 0s !important; }
 }
 
 /* Heading line masks: a little room below each line so italic descenders are never clipped. */

@@ -108,7 +108,7 @@ export default function SiteHeader() {
   );
 
   return (
-    <header ref={headerRef} className="site-header sticky top-0 z-50 px-4 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-6">
+    <header ref={headerRef} style={{ viewTransitionName: "site-header" }} className="site-header sticky top-0 z-50 px-4 pt-[calc(0.75rem+env(safe-area-inset-top))] sm:px-6">
       <a
         href="#main"
         className="sr-only rounded-lg bg-fg px-4 py-2 text-sm text-bg focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60]"
