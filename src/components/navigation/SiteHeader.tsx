@@ -26,7 +26,7 @@ function MenuToggleIcon({ open }: { open: boolean }) {
 
 /**
  * A compact bar that floats just below the top edge, translucent over a blur.
- * Desktop: logo, the six sections, WhatsApp and "Book your shoot".
+ * Desktop: logo, the seven sections, WhatsApp and "Book your shoot".
  * Phones: logo, a WhatsApp shortcut and a toggle that opens a full-height menu panel.
  */
 export default function SiteHeader() {
