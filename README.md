@@ -19,7 +19,9 @@ npm run build && npm start
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin used for metadata, sitemap and structured data. Defaults to `https://debi1243.github.io/Zoomin-Fotos`. |
-| `CONTACT_WEBHOOK_URL` | Where contact form submissions are POSTed as JSON (Zapier, Make, Slack, a CRM, your own API). Without it, the form succeeds only in local development and shows an "email us" fallback in production. |
+| `CONTACT_WEBHOOK_URL` | Where contact form submissions are POSTed as JSON (Zapier, Make, Slack, a CRM, your own API). Without it, the form succeeds only in local development and shows an "email us" fallback in production. Paid shop orders are POSTed here too (`"type": "shop_order"`). |
+| `RAZORPAY_KEY_ID` | Razorpay Key ID for shop payments (`rzp_test_...` or `rzp_live_...`). Read on the server at run time and handed to Razorpay Checkout, so changing it needs no rebuild. |
+| `RAZORPAY_KEY_SECRET` | The matching Razorpay Key Secret. Server only: used to create orders and to verify payment signatures. Never commit it. Without both keys the cart offers WhatsApp ordering and "Pay online" says it is unavailable. |
 
 ## GitHub Pages
 
@@ -37,7 +39,31 @@ published through its own Cloudflare Tunnel. Every push to `main` goes live auto
 A failed build leaves the previous version running. Progress is logged to `~/zoominfotos-deploy.log` on the server.
 
 To redeploy without waiting, run `deploy/deploy.sh` (needs Tailscale and SSH access to the server).
-Secrets live only on the server in `deploy/.env`: `CLOUDFLARE_TUNNEL_TOKEN`, and optionally `CONTACT_WEBHOOK_URL`.
+Secrets live only on the server in `deploy/.env`: `CLOUDFLARE_TUNNEL_TOKEN`, and optionally `CONTACT_WEBHOOK_URL`,
+`RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET`. After changing `deploy/.env`, run `deploy/auto-deploy.sh --force` on the server
+(or `deploy/deploy.sh` from your machine) so the container restarts with the new values.
+
+## Shop payments (Razorpay)
+
+The shop (`/shop`, switched on with `shopEnabled` in `src/lib/site.ts`) takes payment through Razorpay Checkout, next to
+WhatsApp ordering.
+
+1. The visitor fills their cart, taps **Checkout and pay online** and enters name, mobile, email (optional) and delivery address.
+2. The `startCheckout` Server Action (`src/app/shop/actions.ts`) prices the cart from `src/content/shop.json` and creates a
+   Razorpay order with the customer details in its notes. The browser never sets the amount.
+3. Razorpay Checkout opens (UPI, cards, netbanking, wallets). On success, `confirmPayment` checks Razorpay's HMAC SHA-256
+   signature with the Key Secret, then sends the paid order to the studio's Google Sheet (which emails it) and
+   `CONTACT_WEBHOOK_URL`, whichever are set up. Every order is also in the Razorpay dashboard under **Orders** and **Payments**.
+
+Online payment needs the Node server (Docker image). The GitHub Pages static export has no server, so it shows WhatsApp ordering only.
+
+**Test mode.** Put the `rzp_test_...` Key ID and its secret in `deploy/.env`. Pay with Razorpay's test card
+`4111 1111 1111 1111` (any future expiry, any CVV) or the test UPI ID `success@razorpay`. No real money moves.
+
+**Going live.** Finish account activation (KYC) in the Razorpay dashboard, switch the dashboard to Live mode, open
+**Account & Settings → API Keys** and generate live keys. Replace both values in `deploy/.env` with the `rzp_live_...`
+pair and redeploy with `--force`. Make sure every product in `shop.json` has its real price (`placeholder` removed),
+because that is what customers are charged. Regenerate a key in the dashboard if its secret was ever shared.
 
 ## Pages
 

@@ -11,8 +11,9 @@ import { WhatsAppButton } from "@/components/ui/Button";
 import { brand, waLink } from "@/lib/brand";
 import { products, shopCategories } from "@/lib/shop";
 import { absoluteUrl, shopEnabled } from "@/lib/site";
+import { onlinePayments } from "@/lib/checkout";
 
-const description = `Photo albums, frames, prints, canvas, calendars and photo gifts in ${brand.city}, made from your own photographs. Choose a product and order on WhatsApp.`;
+const description = `Photo albums, frames, prints, canvas, calendars and photo gifts in ${brand.city}, made from your own photographs. Choose a product and pay online or order on WhatsApp.`;
 
 export const metadata: Metadata = {
   title: "Shop: Albums, Frames, Prints & Photo Gifts",
@@ -25,7 +26,9 @@ export const metadata: Metadata = {
 
 const steps = [
   { title: "Choose your products", text: "Pick a size or finish and add it to your cart, or order a single product straight away." },
-  { title: "Send the order on WhatsApp", text: "Your cart goes to us as one message. Share the photos you want printed in the same chat." },
+  onlinePayments
+    ? { title: "Pay online or on WhatsApp", text: "Check out with UPI, card or netbanking, or send your cart to us on WhatsApp. Then share the photos you want printed in the chat." }
+    : { title: "Send the order on WhatsApp", text: "Your cart goes to us as one message. Share the photos you want printed in the same chat." },
   { title: "Approve the design", text: "We colour-correct your photos and send a preview of the album or print, with the final price." },
   { title: "Pick up or get it delivered", text: "Collect it from the studio or have it delivered in Bhubaneswar. We quote other cities on request." },
 ];
@@ -41,7 +44,9 @@ const faqs = [
   },
   {
     q: "How do I pay?",
-    a: "Nothing is charged on this website. Once we confirm your order and the final price on WhatsApp, we send you the payment details.",
+    a: onlinePayments
+      ? "Either way works. Check out on this page and pay securely through Razorpay with UPI, a card, netbanking or a wallet, or send your cart to us on WhatsApp and pay once we confirm the final price."
+      : "Nothing is charged on this website. Once we confirm your order and the final price on WhatsApp, we send you the payment details.",
   },
   {
     q: "Do you deliver outside Bhubaneswar?",
@@ -61,7 +66,11 @@ export default function ShopPage() {
             Albums, frames and prints, <em>made from your photos</em>
           </>
         }
-        intro="Turn your wedding, family and portrait photographs into something you can hold. Choose a product, add it to your cart and send your order to us on WhatsApp. We confirm your photos and the final price before you pay."
+        intro={
+          onlinePayments
+            ? "Turn your wedding, family and portrait photographs into something you can hold. Choose a product, add it to your cart, then pay online or send your order to us on WhatsApp."
+            : "Turn your wedding, family and portrait photographs into something you can hold. Choose a product, add it to your cart and send your order to us on WhatsApp. We confirm your photos and the final price before you pay."
+        }
       />
 
       <section id="products" aria-label="Products" className="scroll-mt-20 border-t border-border pb-16 pt-8 md:pb-24 md:pt-12">

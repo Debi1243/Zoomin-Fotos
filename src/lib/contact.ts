@@ -20,7 +20,7 @@ export const sessionOptions = quoteServices.map((s) => s.value);
 export const budgetsFor = (service: string) => [...(quoteServices.find((s) => s.value === service)?.budgets ?? []), NOT_SURE];
 
 /** Indian mobile numbers, with or without +91 / 0, spaces or dashes. */
-const PHONE = /^(?:\+?91[\s-]?|0)?[6-9]\d{4}[\s-]?\d{5}$/;
+export const PHONE = /^(?:\+?91[\s-]?|0)?[6-9]\d{4}[\s-]?\d{5}$/;
 
 export const contactSchema = z.object({
   session: z.enum(sessionOptions, "Choose what you'd like photographed."),

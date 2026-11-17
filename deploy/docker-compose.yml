@@ -21,6 +21,9 @@ services:
     restart: unless-stopped
     environment:
       CONTACT_WEBHOOK_URL: "${CONTACT_WEBHOOK_URL:-}"
+      # Shop payments (Razorpay). Set both in deploy/.env on the server; never in git.
+      RAZORPAY_KEY_ID: "${RAZORPAY_KEY_ID:-}"
+      RAZORPAY_KEY_SECRET: "${RAZORPAY_KEY_SECRET:-}"
     ports:
       - "30030:3000" # LAN/Tailscale check: http://192.168.1.145:30030
     networks:
