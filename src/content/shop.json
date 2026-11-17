@@ -1,0 +1,213 @@
+{
+  "_readme": "Shop products. Every product marked \"placeholder\": true shows a 'Sample price' tag on the site until the studio confirms it: set the real prices, then set placeholder to false or delete the line. 'photo' is the sample photograph shown in the product mock-up (a path under /public/photos). To show a real product photograph instead, add \"image\": \"/shop/your-file.webp\" and put the file in /public/shop. Prices are in rupees, inclusive of GST unless the note says otherwise.",
+  "categories": [
+    { "slug": "albums", "label": "Albums" },
+    { "slug": "frames", "label": "Frames" },
+    { "slug": "prints", "label": "Prints" },
+    { "slug": "canvas", "label": "Canvas" },
+    { "slug": "calendars", "label": "Calendars" },
+    { "slug": "gifts", "label": "Photo gifts" }
+  ],
+  "products": [
+    {
+      "id": "premium-wedding-album",
+      "name": "Premium wedding album",
+      "category": "albums",
+      "mockup": "album",
+      "description": "Lay-flat pages on thick, archival photo paper, bound in a padded cover with your names.",
+      "photo": "/photos/weddings-red-and-gold-by-candlelight.webp",
+      "options": [
+        { "label": "12 x 36 in, 30 sheets", "price": 12000 },
+        { "label": "12 x 36 in, 40 sheets", "price": 15000 },
+        { "label": "12 x 36 in, 50 sheets", "price": 18000 }
+      ],
+      "badge": "Bestseller",
+      "placeholder": true
+    },
+    {
+      "id": "magazine-album",
+      "name": "Magazine album",
+      "category": "albums",
+      "mockup": "album",
+      "description": "A slim, soft-cover album for a pre-wedding, birthday or family shoot.",
+      "photo": "/photos/prewedding-lantern-laughter.webp",
+      "options": [
+        { "label": "8 x 12 in, 20 pages", "price": 3500 },
+        { "label": "12 x 12 in, 30 pages", "price": 5500 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "parents-mini-album",
+      "name": "Parents' mini album",
+      "category": "albums",
+      "mockup": "album",
+      "description": "A small copy of your wedding album, made for both sets of parents.",
+      "photo": "/photos/wedding-bidaai.webp",
+      "options": [
+        { "label": "6 x 8 in, 20 sheets", "price": 2500 },
+        { "label": "Set of 2", "price": 4500 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "classic-wooden-frame",
+      "name": "Classic wooden frame",
+      "category": "frames",
+      "mockup": "frame",
+      "description": "Your photograph printed, mounted and framed in solid wood with a white mat, ready to hang.",
+      "photo": "/photos/portrait-silk-saree.webp",
+      "options": [
+        { "label": "8 x 10 in", "price": 899 },
+        { "label": "12 x 18 in", "price": 1799 },
+        { "label": "16 x 24 in", "price": 2999 }
+      ],
+      "badge": "Popular",
+      "placeholder": true
+    },
+    {
+      "id": "tabletop-frame",
+      "name": "Tabletop frame",
+      "category": "frames",
+      "mockup": "frame",
+      "description": "A small stand-up frame for a desk or bedside table.",
+      "photo": "/photos/kids-pink-flower-crown.webp",
+      "options": [
+        { "label": "5 x 7 in", "price": 499 },
+        { "label": "6 x 8 in", "price": 649 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "collage-frame",
+      "name": "Collage frame",
+      "category": "frames",
+      "mockup": "collage",
+      "description": "Up to six of your favourite moments together in one frame.",
+      "photo": "/photos/wedding-haldi-petals.webp",
+      "options": [
+        { "label": "4 photos, 12 x 18 in", "price": 1999 },
+        { "label": "6 photos, 16 x 24 in", "price": 2999 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "photo-prints",
+      "name": "Photo prints",
+      "category": "prints",
+      "mockup": "print",
+      "description": "Lustre-finish prints from your gallery, colour-checked by us before they go to print.",
+      "photo": "/photos/prewedding-couple-evening.webp",
+      "options": [
+        { "label": "4 x 6 in, pack of 50", "price": 750 },
+        { "label": "5 x 7 in, pack of 25", "price": 650 },
+        { "label": "8 x 12 in, single", "price": 199 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "fine-art-print",
+      "name": "Fine art print",
+      "category": "prints",
+      "mockup": "print",
+      "description": "Museum-grade matte paper with a soft white border, for framing or gifting.",
+      "photo": "/photos/portrait-olive-backlit.webp",
+      "options": [
+        { "label": "A4", "price": 899 },
+        { "label": "A3", "price": 1499 },
+        { "label": "A2", "price": 2499 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "gallery-canvas",
+      "name": "Gallery-wrap canvas",
+      "category": "canvas",
+      "mockup": "canvas",
+      "description": "Printed on cotton canvas and stretched over a wooden frame, with the photo wrapping round the edges.",
+      "photo": "/photos/wedding-veil-moon.webp",
+      "options": [
+        { "label": "12 x 18 in", "price": 2499 },
+        { "label": "20 x 30 in", "price": 4999 },
+        { "label": "24 x 36 in", "price": 6999 }
+      ],
+      "badge": "Popular",
+      "placeholder": true
+    },
+    {
+      "id": "split-canvas",
+      "name": "Three-panel canvas",
+      "category": "canvas",
+      "mockup": "triptych",
+      "description": "One photograph split across three canvases, for a large living-room wall.",
+      "photo": "/photos/prewedding-ring-golden.webp",
+      "options": [
+        { "label": "3 x 12 x 24 in", "price": 7999 },
+        { "label": "3 x 16 x 32 in", "price": 10999 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "wall-calendar",
+      "name": "Wall calendar",
+      "category": "calendars",
+      "mockup": "calendar",
+      "description": "Twelve months, twelve of your photographs, with family birthdays and anniversaries marked.",
+      "photo": "/photos/kids-bougainvillea-walk.webp",
+      "options": [
+        { "label": "A4, 12 months", "price": 999 },
+        { "label": "A3, 12 months", "price": 1499 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "desk-calendar",
+      "name": "Desk calendar",
+      "category": "calendars",
+      "mockup": "calendar",
+      "description": "A stand-up calendar for the office desk, one photograph for each month.",
+      "photo": "/photos/events-the-first-birthday.webp",
+      "options": [{ "label": "8 x 6 in, 12 months", "price": 699 }],
+      "placeholder": true
+    },
+    {
+      "id": "photo-mug",
+      "name": "Photo mug",
+      "category": "gifts",
+      "mockup": "mug",
+      "description": "A ceramic mug printed with your photograph. Microwave and dishwasher safe.",
+      "photo": "/photos/events-a-birthday-hug.webp",
+      "options": [
+        { "label": "White mug", "price": 399 },
+        { "label": "Magic mug (appears when hot)", "price": 549 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "photo-cushion",
+      "name": "Photo cushion",
+      "category": "gifts",
+      "mockup": "cushion",
+      "description": "A soft satin cushion with your photograph on the front, filler included.",
+      "photo": "/photos/kids-little-fairy.webp",
+      "options": [
+        { "label": "12 x 12 in", "price": 699 },
+        { "label": "16 x 16 in", "price": 899 }
+      ],
+      "placeholder": true
+    },
+    {
+      "id": "fridge-magnets",
+      "name": "Photo magnets",
+      "category": "gifts",
+      "mockup": "magnets",
+      "description": "A set of fridge magnets cut from your favourite shots. A lovely return gift.",
+      "photo": "/photos/wedding-couple-reception.webp",
+      "options": [
+        { "label": "Set of 6", "price": 599 },
+        { "label": "Set of 12", "price": 999 }
+      ],
+      "placeholder": true
+    }
+  ]
+}
