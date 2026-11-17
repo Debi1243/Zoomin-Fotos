@@ -1,6 +1,12 @@
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://debi1243.github.io/Zoomin-Fotos").replace(/\/$/, "");
 
-export const primaryNav = [
+/**
+ * The shop (/shop). While false it is hidden: no menu or footer link, left out of the sitemap,
+ * and the page itself shows "Page not found". Set it to true to open the shop.
+ */
+export const shopEnabled = false;
+
+const allNav = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/packages", label: "Packages" },
@@ -9,6 +15,8 @@ export const primaryNav = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ] as const;
+
+export const primaryNav = allNav.filter((item) => item.href !== "/shop" || shopEnabled);
 
 export function absoluteUrl(path = "/") {
   return `${siteUrl}${path === "/" ? "" : path}`;
