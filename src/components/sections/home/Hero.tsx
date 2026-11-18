@@ -85,9 +85,9 @@ export default function Hero() {
                   {brand.city}, {brand.region}
                 </p>
                 <h1 id="hero-title" className="mt-3 max-w-[18ch] heading-3 hero-title sm:heading-2 md:mt-4 lg:heading-1 xl:text-[4.5rem]">
-                  Beautiful memories.
-                  <br />
-                  <em>Affordable photography.</em>
+                  Not Just Photographs.
+                  {/* Its own balanced block, so "Forever." never sits alone on the last line. */}
+                  <em className="block text-balance">The Moments You&apos;ll Relive Forever.</em>
                 </h1>
                 <p className="rise mt-3 max-w-[56ch] body-6 hero-lede sm:body-3 md:mt-5 md:body-7" style={{ "--i": 1 } as CSSProperties}>
                   Wedding, maternity, family and event photography in {brand.city}, with every package and price on the page before you message us.
