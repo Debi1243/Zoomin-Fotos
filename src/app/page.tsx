@@ -56,6 +56,12 @@ export default function HomePage() {
           logo: absoluteUrl("/icon.png"),
           image: absoluteUrl("/opengraph-image"),
           email: brand.email,
+          contactPoint: {
+            "@type": "ContactPoint",
+            contactType: "customer support",
+            email: brand.supportEmail,
+            telephone: brand.phone.replace(/\s/g, ""),
+          },
           telephone: brand.phone.replace(/\s/g, ""),
           priceRange: "₹15,000+",
           address: {

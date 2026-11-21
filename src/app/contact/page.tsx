@@ -3,7 +3,7 @@ import { EnvelopeIcon as Mail, MapPinIcon as MapPin, PhoneIcon as Phone } from "
 import PageHero from "@/components/sections/PageHero";
 import QuoteForm from "@/components/forms/QuoteForm";
 import { WhatsAppButton } from "@/components/ui/Button";
-import { brand, locationLine, mailHref, telHref, whatsappHref } from "@/lib/data";
+import { brand, locationLine, mailHref, supportMailHref, telHref, whatsappHref } from "@/lib/data";
 
 const description = `Get a photography quote from ${brand.name}, ${brand.city}. Tell us your date, place and budget, and we confirm availability on WhatsApp.`;
 
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 const details = [
   { label: "Call", value: brand.phone, href: telHref, icon: Phone },
   { label: "Email", value: brand.email, href: mailHref, icon: Mail },
+  { label: "Support for orders and bookings", value: brand.supportEmail, href: supportMailHref, icon: Mail },
   { label: "Studio", value: locationLine, icon: MapPin },
 ];
 

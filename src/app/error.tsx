@@ -11,7 +11,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
         <h1 className="max-w-[18ch] font-display text-h1">We couldn&apos;t load this page.</h1>
         <p className="mt-6 max-w-[48ch] text-lead text-muted">
           Please try again. If it keeps happening, email us at{" "}
-          <a href={`mailto:${brand.email}`} className="link-underline text-fg">{brand.email}</a>.
+          <a href={`mailto:${brand.supportEmail}`} className="link-underline text-fg">{brand.supportEmail}</a>.
         </p>
         <Button size="lg" className="mt-10" onClick={reset}>Try again</Button>
       </div>
