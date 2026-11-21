@@ -85,7 +85,7 @@ export default function PackagePay({ service, pkg, price }: { service: string; p
               <p className="title-2">Thank you, {paid.name.split(" ")[0]}. Your advance is paid.</p>
               <p className="body-6 text-muted">
                 We have your {formatRupees(paid.amount / 100)} advance for the {pkg} package. We will call you to confirm your date, your events and the
-                balance.
+                balance. If we can&apos;t take your date, we refund the advance in full.
               </p>
               <p className="caption-2 text-muted">
                 Payment ID: <span className="tabular select-all text-fg">{paid.paymentId}</span>
@@ -113,6 +113,7 @@ export default function PackagePay({ service, pkg, price }: { service: string; p
                       {pkg}: {formatRupees(price)} + GST. Pay a {formatRupees(advance)} advance now to request your date. The balance is due once we
                       confirm the date and the final price.
                     </p>
+                    <p className="mt-1">If your date isn&apos;t available, we refund the advance in full.</p>
                   </>
                 }
                 amount={advance}

@@ -62,7 +62,8 @@ WhatsApp ordering.
 Every wedding package card (home page, `/services/weddings`, `/packages`) also has **Pay ₹5,000 advance online**. The
 customer enters name, mobile, email (optional), wedding date and venue, and pays the advance. `startPackageCheckout`
 looks up the package and works out the advance on the server; the payment is verified and reported the same way as a
-shop order (session "Package booking (advance paid)"). Change the amount with `BOOKING_ADVANCE` in `src/lib/checkout.ts`,
+shop order (session "Package booking (advance paid)"). If the date isn't available the advance is refunded in full (the form and confirmation say so); refund it from the
+payment in the Razorpay dashboard (**Payments → Refund**). Change the amount with `BOOKING_ADVANCE` in `src/lib/checkout.ts`,
 and which services take online bookings with `payableServices` there.
 
 Online payment needs the Node server (Docker image). The GitHub Pages static export has no server, so it shows WhatsApp ordering only.
