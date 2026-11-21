@@ -102,6 +102,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           items={s.packages}
           service={quoteService}
           intro={s.packagesIntro}
+          payOnline={s.slug === "weddings" ? s.slug : undefined}
           className="border-t border-border"
           footer={
             s.slug === "weddings" ? (

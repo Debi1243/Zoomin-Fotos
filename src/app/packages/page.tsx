@@ -50,7 +50,7 @@ export default function PackagesPage() {
       </PageHero>
 
       {weddings?.packages && (
-        <Packages items={weddings.packages} service="Wedding" title="Wedding packages" className="border-t border-border" />
+        <Packages items={weddings.packages} service="Wedding" title="Wedding packages" className="border-t border-border" payOnline="weddings" />
       )}
       {weddings?.packages && <PackageCompare packages={weddings.packages} />}
       {preWedding?.packages && (

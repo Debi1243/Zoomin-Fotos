@@ -1,6 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { products } from "./shop";
-import type { Customer } from "./checkout";
+import { formatRupees } from "./brand";
+import type { Booking, Customer } from "./checkout";
 
 /**
  * Server-only Razorpay helpers. Never import this file from a client component.
@@ -51,10 +52,12 @@ export function priceCart(lines: { id: string; option: string; qty: number }[]) 
   return { lines: priced, total };
 }
 
+const clip = (s: string) => s.slice(0, 256);
+
 /** Razorpay keeps up to 15 notes of 256 characters each; the order is split across them. */
-function orderNotes(customer: Customer, lines: PricedLine[]) {
-  const clip = (s: string) => s.slice(0, 256);
+export function shopNotes(customer: Customer, lines: PricedLine[]) {
   const notes: Record<string, string> = {
+    kind: "shop",
     name: clip(customer.name),
     phone: clip(customer.phone),
     email: clip(customer.email || "-"),
@@ -77,17 +80,31 @@ function orderNotes(customer: Customer, lines: PricedLine[]) {
   return notes;
 }
 
+/** Notes for a package booking advance: who, which package, which date and where. */
+export function bookingNotes(booking: Booking, pkg: { service: string; name: string; price: number }) {
+  return {
+    kind: "booking",
+    name: clip(booking.name),
+    phone: clip(booking.phone),
+    email: clip(booking.email || "-"),
+    package: clip(`${pkg.service}: ${pkg.name} (${formatRupees(pkg.price)} + GST)`),
+    date: clip(booking.date),
+    venue: clip(booking.venue),
+    note: clip(booking.note || "-"),
+  };
+}
+
 export type RazorpayOrder = { id: string; amount: number; amount_paid: number; currency: string; status: string; receipt?: string; notes: Record<string, string> };
 
-export async function createOrder(keys: Keys, customer: Customer, lines: PricedLine[], totalRupees: number) {
+export async function createOrder(keys: Keys, amountRupees: number, notes: Record<string, string>, receiptPrefix: string) {
   const res = await fetch(`${API}/orders`, {
     method: "POST",
     headers: { Authorization: auth(keys), "Content-Type": "application/json" },
     body: JSON.stringify({
-      amount: totalRupees * 100,
+      amount: amountRupees * 100,
       currency: "INR",
-      receipt: `shop-${Date.now().toString(36)}`,
-      notes: orderNotes(customer, lines),
+      receipt: `${receiptPrefix}-${Date.now().toString(36)}`,
+      notes,
     }),
     signal: AbortSignal.timeout(TIMEOUT_MS),
     cache: "no-store",

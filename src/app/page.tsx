@@ -27,6 +27,7 @@ export default function HomePage() {
         <Packages
           items={weddings.packages}
           service="Wedding"
+          payOnline="weddings"
           label="Wedding packages"
           title="Clear prices. Everything listed."
           className="section-y surface-soft"

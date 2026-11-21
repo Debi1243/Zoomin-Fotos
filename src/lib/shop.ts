@@ -3,7 +3,7 @@ import shopData from "@/content/shop.json";
 
 /**
  * The shop: albums, frames, prints, canvas, calendars and photo gifts, read from src/content/shop.json.
- * Visitors either pay online through Razorpay (src/lib/checkout.ts, src/app/shop/actions.ts) or send
+ * Visitors either pay online through Razorpay (src/lib/checkout.ts, src/app/payments/actions.ts) or send
  * the order to the studio on WhatsApp, where the studio confirms the photos, the final price and delivery.
  */
 
