@@ -8,7 +8,7 @@ import { contentRepo } from "@/lib/site";
  * the script checks with GitHub itself. Each enquiry is also emailed to the studio.
  */
 /** Bumped whenever the script changes, so the admin pages can ask for the newer copy. */
-export const SCRIPT_VERSION = 4;
+export const SCRIPT_VERSION = 5;
 
 export const dashboardScript = `// Zoomin Fotos dashboard and client portal. Paste this whole file into Extensions > Apps Script.
 const VERSION = ${SCRIPT_VERSION};

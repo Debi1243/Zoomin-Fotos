@@ -7,7 +7,7 @@ export const brand = {
   tagline: "Beautiful memories. Affordable photography.",
   description:
     "Affordable wedding, pre-wedding, maternity, family and event photography in Bhubaneswar, Odisha, with transparent packages and easy WhatsApp booking.",
-  email: "fotoszoomin@gmail.com",
+  email: "info@zoominfotos.in",
   phone: "+91 70222 49799",
   /** The number customers message on WhatsApp. Today the studio phone; change it here if a separate business number is used. */
   whatsapp: "+91 70222 49799",
