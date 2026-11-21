@@ -4,7 +4,7 @@ import videoData from "@/content/videos.json";
 import { HANDLE_PATTERN, MAX_TAGS } from "./instagram";
 
 // Contact details and formatting live in ./brand, which client components can import without the photo data.
-export { brand, formatRupees, locationLine, mailHref, telHref, waLink, whatsappHref } from "./brand";
+export { brand, formatRupees, locationLine, mailHref, supportMailHref, telHref, waLink, whatsappHref } from "./brand";
 
 /**
  * All site content lives here: contact details, services, packages and prices, FAQs.

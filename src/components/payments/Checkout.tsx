@@ -161,7 +161,7 @@ export default function Checkout({
           settled = true;
           const result = await confirmPayment({ orderId: r.razorpay_order_id, paymentId: r.razorpay_payment_id, signature: r.razorpay_signature }).catch(() => ({
             ok: false as const,
-            message: `We couldn't confirm the payment. If money left your account, message us on WhatsApp at ${brand.whatsapp}. Your payment ID is ${r.razorpay_payment_id}.`,
+            message: `We couldn't confirm the payment. If money left your account, message us on WhatsApp at ${brand.whatsapp} or email ${brand.supportEmail}. Your payment ID is ${r.razorpay_payment_id}.`,
           }));
           onPaying(false);
           setBusy(false);

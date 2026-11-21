@@ -104,7 +104,7 @@ export async function confirmPayment(input: ConfirmPaymentInput): Promise<Confir
     /^pay_\w+$/.test(paymentId) &&
     verifySignature(keys.keySecret, orderId, paymentId, signature);
   if (!valid) {
-    return { ok: false, message: `We couldn't confirm this payment. If money left your account, message us on WhatsApp at ${brand.whatsapp} with your payment details.` };
+    return { ok: false, message: `We couldn't confirm this payment. If money left your account, message us on WhatsApp at ${brand.whatsapp} or email ${brand.supportEmail} with your payment details.` };
   }
 
   let amount = 0;

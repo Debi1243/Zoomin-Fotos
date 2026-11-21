@@ -14,7 +14,7 @@ import Invoice from "@/components/portal/Invoice";
 import { bookingSchema, deliveryNames, money, stage, type Booking, type Planning } from "@/lib/booking";
 import { callSheet } from "@/lib/sheet";
 import { dataEndpoint, settings } from "@/lib/settings";
-import { brand, formatRupees, mailHref, telHref } from "@/lib/data";
+import { brand, formatRupees, supportMailHref, telHref } from "@/lib/data";
 import { parseYouTubeId, youtubeThumb } from "@/lib/youtube";
 import { cn } from "@/lib/cn";
 
@@ -749,8 +749,8 @@ function DayTab({ b }: { b: Booking }) {
               <MessageCircle aria-hidden className="size-4" /> WhatsApp
             </a>
           )}
-          <a href={mailHref} className="inline-flex h-11 items-center gap-2 rounded-full border border-border-strong px-4 text-sm hover:border-fg">
-            {brand.email}
+          <a href={supportMailHref} className="inline-flex h-11 items-center gap-2 rounded-full border border-border-strong px-4 text-sm hover:border-fg">
+            {brand.supportEmail}
           </a>
         </div>
       </Card>
