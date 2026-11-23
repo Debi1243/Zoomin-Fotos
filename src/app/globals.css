@@ -18,15 +18,17 @@
   color-scheme: dark;
 
   --bg: #07080c;
-  --surface: #0e1017;
-  --elevated: #151821;
+  /* Cards and panels are frosted glass: translucent midnight, blurred over the cobalt light behind. */
+  --surface: rgb(20 24 36 / 0.55);
+  --elevated: rgb(24 28 42 / 0.82);
   /* Raised midnight bands and fills. */
   --sand: #121520;
   --sand-soft: #0b0d13;
   --fg: #eef1f7;
   --fg-muted: #a3abbd;
-  --border: #1e222e;
-  --border-strong: #323949;
+  /* Glass edges: a thin line of light rather than a grey rule. */
+  --border: rgb(255 255 255 / 0.09);
+  --border-strong: rgb(255 255 255 / 0.18);
 
   /* Cobalt blue is reserved for booking actions and prices. */
   --primary: #0047ab;
@@ -242,8 +244,14 @@
     html { scroll-behavior: smooth; }
   }
 
+  /* The page is lit by soft cobalt light that stays put while the glass slides over it. */
   body {
-    background: var(--bg);
+    background:
+      radial-gradient(60rem 42rem at 8% -8%, rgb(0 71 171 / 0.26), rgb(0 71 171 / 0) 70%),
+      radial-gradient(48rem 36rem at 100% 45%, rgb(77 134 255 / 0.1), rgb(77 134 255 / 0) 70%),
+      radial-gradient(56rem 40rem at 15% 105%, rgb(0 71 171 / 0.18), rgb(0 71 171 / 0) 70%),
+      var(--bg);
+    background-attachment: fixed;
     color: var(--fg);
     font-family: var(--font-sans);
     font-size: 1rem;
@@ -265,6 +273,22 @@
     outline-offset: 3px;
     border-radius: 4px;
   }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Glass
+   Every card, panel and outlined button (anything on bg-surface or
+   bg-elevated) is frosted glass: the translucent token colour, a blur and a
+   lift in saturation of whatever is behind it, and a faint sheen across the
+   top edge. In the components layer, so a utility on the element still wins.
+   ────────────────────────────────────────────────────────────── */
+@layer components {
+  .bg-surface, .bg-elevated, .glass {
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0) 45%);
+  }
+  .glass { background-color: var(--surface); border: 1px solid var(--border); }
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -337,14 +361,14 @@
    inside (cards, filters, links, the logo) turns light-on-dark without its own dark styles. */
 @utility surface-dark {
   --bg: #030408;
-  --surface: #0a0c12;
-  --elevated: #11141c;
+  --surface: rgb(16 19 30 / 0.5);
+  --elevated: rgb(20 23 36 / 0.82);
   --sand: #151927;
   --sand-soft: #080a0f;
   --fg: #f4f6fb;
   --fg-muted: #aab2c4;
-  --border: #1a1e29;
-  --border-strong: #2e3546;
+  --border: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.16);
   /* On the black bands the accent stays bright cobalt. */
   --accent: #6b9bff;
   --gold-text: #9dbcff;

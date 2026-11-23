@@ -29,7 +29,7 @@ export default function PackageCompare({ packages }: { packages: Package[] }) {
             <caption className="sr-only">What each wedding package includes. Prices are for one day, plus GST.</caption>
             <thead>
               <tr className="border-b border-border">
-                <th scope="col" className="sticky left-0 z-10 w-40 bg-surface p-4 text-left font-semibold text-muted">Package</th>
+                <th scope="col" className="sticky left-0 z-10 w-40 bg-elevated p-4 text-left font-semibold text-muted">Package</th>
                 {packages.map((p) => (
                   <th key={p.name} scope="col" className="p-4 text-center align-bottom">
                     <span className="block font-display text-lg">{p.name}</span>
@@ -42,7 +42,7 @@ export default function PackageCompare({ packages }: { packages: Package[] }) {
             <tbody>
               {weddingComparison.map((row) => (
                 <tr key={row.label} className="border-b border-border last:border-0 bg-surface even:bg-sand-soft">
-                  <th scope="row" className="sticky left-0 z-10 bg-inherit p-4 text-left font-medium">
+                  <th scope="row" className="sticky left-0 z-10 bg-elevated [tr:nth-child(even)_&]:bg-sand p-4 text-left font-medium">
                     {row.label}
                   </th>
                   {row.values.map((v, i) => (
@@ -53,7 +53,7 @@ export default function PackageCompare({ packages }: { packages: Package[] }) {
                 </tr>
               ))}
               <tr>
-                <td className="sticky left-0 z-10 bg-surface p-4" />
+                <td className="sticky left-0 z-10 bg-elevated p-4" />
                 {packages.map((p) => (
                   <td key={p.name} className="p-4 text-center">
                     <Link

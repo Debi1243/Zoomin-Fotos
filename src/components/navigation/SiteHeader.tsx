@@ -116,7 +116,7 @@ export default function SiteHeader() {
         Skip to content
       </a>
 
-      <div className="relative z-50 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-2xl border border-border/80 bg-bg/90 py-2 pl-3 pr-2 shadow-sm backdrop-blur-xl lg:w-fit lg:gap-6">
+      <div className="relative z-50 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-2xl border border-border-strong bg-bg/75 py-2 pl-3 pr-2 shadow-sm backdrop-blur-xl backdrop-saturate-150 lg:w-fit lg:gap-6">
         <Logo />
 
         <nav aria-label="Primary" className="hidden lg:block">
@@ -188,7 +188,7 @@ export default function SiteHeader() {
         aria-hidden={!open}
         className={cn(
           // Opens over 300ms, closes a little faster (200ms), so leaving never feels slow.
-          "menu-panel fixed inset-0 z-40 overflow-y-auto bg-bg/95 backdrop-blur-2xl transition-[opacity,visibility] lg:hidden",
+          "menu-panel fixed inset-0 z-40 overflow-y-auto bg-bg/80 backdrop-blur-2xl backdrop-saturate-150 transition-[opacity,visibility] lg:hidden",
           open ? "is-open visible opacity-100 duration-300" : "invisible opacity-0 duration-200",
         )}
       >
