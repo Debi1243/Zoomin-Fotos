@@ -661,7 +661,7 @@ function BookingEditor({
 
       {/* Save bar, always in reach on long bookings. */}
       <div className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-30 lg:bottom-4">
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-surface/95 p-3 shadow-lg backdrop-blur-md">
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-elevated p-3 shadow-lg backdrop-blur-md">
           <Button type="button" onClick={() => void save()} loading={busy} loadingLabel="Saving…" disabled={!dirty && saved}>
             {saved ? "Save changes" : "Create booking"}
           </Button>

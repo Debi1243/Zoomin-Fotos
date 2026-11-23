@@ -685,7 +685,7 @@ function PlanningTab({ b, call }: { b: Booking; call: (body: object) => Promise<
         </Card>
       ))}
       <div className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-20 lg:bottom-4">
-        <div className="flex items-center gap-3 rounded-2xl border border-border bg-surface/95 p-3 shadow-lg backdrop-blur-md">
+        <div className="flex items-center gap-3 rounded-2xl border border-border bg-elevated p-3 shadow-lg backdrop-blur-md">
           <Button type="button" onClick={() => void save()} loading={state.busy} loadingLabel="Saving…" disabled={!dirty}>
             Save plans
           </Button>

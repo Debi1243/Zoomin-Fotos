@@ -146,7 +146,7 @@ export default function PackageBuilder({ className }: { className?: string }) {
             aria-label="Your estimate"
             className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+0.75rem)] z-30 lg:top-24 lg:bottom-auto lg:col-span-4"
           >
-            <div className="overflow-hidden rounded-xl border border-border bg-surface/95 shadow-md backdrop-blur-md lg:shadow-none">
+            <div className="overflow-hidden rounded-xl border border-border bg-elevated shadow-md backdrop-blur-md lg:shadow-none">
               <div className="flex items-center gap-4 p-4 lg:block lg:p-6">
                 <div className="min-w-0 flex-1">
                   <p className="label text-xs text-muted lg:text-xs">Estimated package</p>
