@@ -148,7 +148,7 @@ export default function Checkout({
         name: brand.name,
         description,
         prefill: order.prefill,
-        theme: { color: "#a8321f" },
+        theme: { color: "#0047ab" },
         modal: {
           ondismiss: () => {
             if (settled) return;

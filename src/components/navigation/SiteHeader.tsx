@@ -116,7 +116,7 @@ export default function SiteHeader() {
         Skip to content
       </a>
 
-      <div className="relative z-50 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-2xl border border-border/80 bg-bg/80 py-2 pl-3 pr-2 shadow-sm backdrop-blur-xl lg:w-fit lg:gap-6">
+      <div className="relative z-50 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 rounded-2xl border border-border/80 bg-bg/90 py-2 pl-3 pr-2 shadow-sm backdrop-blur-xl lg:w-fit lg:gap-6">
         <Logo />
 
         <nav aria-label="Primary" className="hidden lg:block">

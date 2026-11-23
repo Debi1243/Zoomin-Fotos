@@ -454,7 +454,7 @@ export default function AdminPanel() {
                   title={photo.featured ? "Featured on the home page" : "Feature on the home page"}
                   className={cn(
                     "absolute right-3 top-3 z-10 grid size-10 place-items-center rounded-full shadow-md backdrop-blur transition-colors disabled:opacity-60",
-                    photo.featured ? "bg-[var(--marigold-glow)] text-[#1a1712]" : "bg-black/45 text-white hover:bg-black/65",
+                    photo.featured ? "bg-[var(--marigold-glow)] text-[#05070c]" : "bg-black/45 text-white hover:bg-black/65",
                   )}
                 >
                   <Star aria-hidden className={cn("size-5", photo.featured && "fill-current")} />
