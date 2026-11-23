@@ -118,7 +118,7 @@ export default function Hero() {
                     <div className="relative h-6 overflow-hidden" aria-hidden>
                       {slides.map(({ photo }, i) => (
                         <p key={photo!.id} data-hero-cap className="hero-cap absolute inset-0 flex items-baseline gap-3 whitespace-nowrap text-white">
-                          <span className="tabular caption-3 text-[#f6c768]">{pad(i + 1)}</span>
+                          <span className="tabular caption-3 text-[#9dbcff]">{pad(i + 1)}</span>
                           <span className="caption-4 uppercase tracking-[0.08em] text-white/80">{kind[photo!.category]}</span>
                           <span className="truncate font-display text-base italic text-white">{photo!.title}</span>
                         </p>
@@ -134,7 +134,7 @@ export default function Hero() {
                           className="group/tick relative flex h-6 flex-1 cursor-pointer items-center"
                         >
                           <span className="relative block h-0.5 w-full overflow-hidden rounded-full bg-white/25 transition-[height] duration-300 group-hover/tick:h-1">
-                            <span data-hero-fill className="hero-fill absolute inset-0 origin-left rounded-full bg-[#f6c768]" />
+                            <span data-hero-fill className="hero-fill absolute inset-0 origin-left rounded-full bg-[#9dbcff]" />
                           </span>
                         </button>
                       ))}

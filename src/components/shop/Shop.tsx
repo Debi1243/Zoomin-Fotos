@@ -432,7 +432,7 @@ export default function Shop({ products, categories }: { products: Product[]; ca
         >
           <Bag aria-hidden className="size-5" />
           View cart
-          <span key={bump} className="cart-bump tabular grid min-w-6 place-items-center rounded-full bg-gold-soft px-1.5 caption-3 text-[#141a2b]">
+          <span key={bump} className="cart-bump tabular grid min-w-6 place-items-center rounded-full bg-gold-soft px-1.5 caption-3 text-[#05070c]">
             {count}
           </span>
         </button>

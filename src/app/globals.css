@@ -1,82 +1,83 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   Design tokens: "midnight, marigold and sindoor"
-   Warm ivory pages and midnight-navy ink; one sindoor vermilion that means
-   "book"; marigold gold for rules, stars and highlights; and deep midnight
-   "print room" bands (.surface-dark) where the photographs sit, so the reds
-   and golds of a wedding glow against them. Colour is defined once here and
-   mapped into Tailwind below.
-   Contrast (WCAG): ink on bg 16.3:1, muted on bg 6.3:1 (5.6:1 on sand),
-   white on primary 6.7:1 (5.5:1 at the light end of its gradient),
-   accent text on bg 6.5:1 (5.7:1 on sand), gold text on bg 5.7:1 (5.0:1 on sand).
-   Dark bands: ink 16.8:1, muted 9.8:1, marigold 10.8:1.
+   Design tokens: "midnight black and cobalt"
+   Near-black midnight pages with cool white ink; one cobalt blue (#0047AB)
+   that means "book"; a brighter cobalt for links, italics and small accents;
+   and a pale cobalt for rules, stars and highlights. The deep "print room"
+   bands (.surface-dark) go blacker still, lit by a cobalt glow, so the
+   photographs sit on true black. Colour is defined once here and mapped into
+   Tailwind below.
+   Contrast (WCAG): ink on bg 17.7:1 (16.1:1 on sand), muted on bg 8.7:1
+   (7.7:1 on elevated cards), white on primary 8.4:1 (7.0:1 at the light end
+   of its gradient, 6.2:1 on hover), accent text on bg 7.4:1 (6.6:1 on cards),
+   pale cobalt text on bg 10.6:1. Dark bands: ink 18.3:1, accent 7.6:1.
    ────────────────────────────────────────────────────────────── */
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  --bg: #fbf8f2;
-  --surface: #ffffff;
-  --elevated: #ffffff;
-  /* Champagne bands and fills. */
-  --sand: #f2e9da;
-  --sand-soft: #f8f3ea;
-  --fg: #141a2b;
-  --fg-muted: #555c6e;
-  --border: #e8e0d1;
-  --border-strong: #d3c7b2;
+  --bg: #07080c;
+  --surface: #0e1017;
+  --elevated: #151821;
+  /* Raised midnight bands and fills. */
+  --sand: #121520;
+  --sand-soft: #0b0d13;
+  --fg: #eef1f7;
+  --fg-muted: #a3abbd;
+  --border: #1e222e;
+  --border-strong: #323949;
 
-  /* Sindoor vermilion is reserved for booking actions and prices. */
-  --primary: #a8321f;
-  --primary-hover: #8c2817;
+  /* Cobalt blue is reserved for booking actions and prices. */
+  --primary: #0047ab;
+  --primary-hover: #1a5cc4;
   --primary-fg: #ffffff;
   /* The two ends of the primary button's soft gradient. */
-  --primary-from: #bd3b25;
-  --primary-to: #962b1a;
-  /* Vermilion that is safe for small text on the page and the champagne bands. */
-  --accent: #a3341f;
+  --primary-from: #0a52c0;
+  --primary-to: #003d94;
+  /* Brighter cobalt that is safe for small text on the page, the bands and cards. */
+  --accent: #6b9bff;
 
-  /* Marigold: the text tone is safe on ivory; the soft tone is for rules, stars and other decoration only. */
-  --gold-text: #855a12;
-  --gold-soft: #e2a73c;
+  /* Pale cobalt: the text tone is safe on midnight; the soft tone is for rules, stars and other decoration only. */
+  --gold-text: #9dbcff;
+  --gold-soft: #4d86ff;
 
   /* WhatsApp action: darker than WhatsApp's own green so white text passes AA (5.3:1). */
   --whatsapp: #1f7a4d;
   --whatsapp-hover: #18643f;
-  /* WhatsApp green as text: darker again, so it passes AA on the sand bands too. */
-  --whatsapp-text: #18643f;
-  --whatsapp-text-hover: #0f4a2d;
+  /* WhatsApp green as text: brighter, so it passes AA on midnight (9.3:1 on the bands). */
+  --whatsapp-text: #4fd08f;
+  --whatsapp-text-hover: #8be3b6;
 
   /* Legacy names still used by the admin and client portal. All map onto the palette. */
   --marigold: var(--accent);
   --sindoor: var(--accent);
   --rani: var(--accent);
-  --peacock: #2f5f73;
+  --peacock: #6b9bff;
   --gold: var(--gold-text);
-  --marigold-glow: var(--primary);
+  --marigold-glow: var(--gold-soft);
   --sindoor-glow: var(--primary);
   --rani-glow: var(--primary);
-  --peacock-glow: #2f5f73;
+  --peacock-glow: #0047ab;
   --gold-glow: var(--sand);
   --glow-alpha: 0;
 
-  /* "Inverse" is a warm champagne band, never black. */
+  /* "Inverse" is a raised midnight band. */
   --inverse: var(--sand);
   --inverse-fg: var(--fg);
-  --inverse-muted: #4f5568;
-  --inverse-border: #dccfb9;
+  --inverse-muted: #a3abbd;
+  --inverse-border: #262b39;
 
-  --success: #1d7348;
-  --warning: #8f5600;
-  --error: #b3261e;
+  --success: #4cc38a;
+  --warning: #f0b44c;
+  --error: #ff7a70;
 
-  /* Soft shadows, tinted with midnight so they read deep rather than grey. */
-  --shadow-sm: 0 1px 2px rgb(15 22 42 / 0.06), 0 2px 8px -4px rgb(15 22 42 / 0.08);
-  --shadow-md: 0 1px 2px rgb(15 22 42 / 0.05), 0 12px 32px -14px rgb(15 22 42 / 0.26);
-  --shadow-lg: 0 2px 4px rgb(15 22 42 / 0.05), 0 28px 60px -24px rgb(15 22 42 / 0.4);
-  --shadow-primary: 0 1px 1px rgb(60 16 8 / 0.2), 0 8px 22px -10px rgb(168 50 31 / 0.65);
-  --shadow-primary-hover: 0 1px 1px rgb(60 16 8 / 0.22), 0 16px 32px -12px rgb(168 50 31 / 0.75);
+  /* Shadows on black need more weight to read; the primary glow is cobalt. */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4), 0 2px 8px -4px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -14px rgb(0 0 0 / 0.7);
+  --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.4), 0 28px 60px -24px rgb(0 0 0 / 0.8);
+  --shadow-primary: 0 1px 1px rgb(0 12 40 / 0.4), 0 8px 22px -10px rgb(0 71 171 / 0.75);
+  --shadow-primary-hover: 0 1px 1px rgb(0 12 40 / 0.45), 0 16px 32px -12px rgb(26 92 196 / 0.85);
 
   /* Motion timings, shared by CSS and the view transitions between pages. */
   --dur-quick: 200ms;
@@ -297,7 +298,7 @@
   text-transform: uppercase;
 }
 
-/* Champagne blush band, for quiet contrast between sections. */
+/* Raised midnight band, for quiet contrast between sections. */
 @utility surface-inverse {
   background: linear-gradient(180deg, var(--sand-soft), var(--inverse));
   color: var(--inverse-fg);
@@ -332,57 +333,57 @@
 /* Headings may mark a word or phrase with <em>: serif italic in the accent colour, like an album caption. */
 :is(h1, h2) em { font-style: italic; color: var(--accent); }
 
-/* Deep midnight "print room" band. It re-points the page tokens, so every component
+/* Black "print room" band. It re-points the page tokens, so every component
    inside (cards, filters, links, the logo) turns light-on-dark without its own dark styles. */
 @utility surface-dark {
-  --bg: #0b1222;
-  --surface: #111a2e;
-  --elevated: #18233b;
-  --sand: #1f2b46;
-  --sand-soft: #0e1628;
-  --fg: #f7f2e8;
-  --fg-muted: #b3bccf;
-  --border: #1f2a42;
-  --border-strong: #36435f;
-  /* On the dark bands the accent turns marigold. */
-  --accent: #f3bc55;
-  --gold-text: #f3bc55;
-  --gold-soft: #d99a2b;
-  --whatsapp-text: #6fd3a0;
-  --whatsapp-text-hover: #9be3bd;
-  --inverse-muted: #b3bccf;
-  --focus: #f7f2e8;
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
-  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -16px rgb(0 0 0 / 0.6);
-  /* A warm sindoor glow in one corner and a trace of marigold in the other, like stage light on a print. */
+  --bg: #030408;
+  --surface: #0a0c12;
+  --elevated: #11141c;
+  --sand: #151927;
+  --sand-soft: #080a0f;
+  --fg: #f4f6fb;
+  --fg-muted: #aab2c4;
+  --border: #1a1e29;
+  --border-strong: #2e3546;
+  /* On the black bands the accent stays bright cobalt. */
+  --accent: #6b9bff;
+  --gold-text: #9dbcff;
+  --gold-soft: #4d86ff;
+  --whatsapp-text: #4fd08f;
+  --whatsapp-text-hover: #8be3b6;
+  --inverse-muted: #aab2c4;
+  --focus: #f4f6fb;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.5), 0 16px 36px -16px rgb(0 0 0 / 0.8);
+  /* A cobalt glow in one corner and a fainter one in the other, like stage light on a print. */
   background:
-    radial-gradient(70% 55% at 0% 0%, rgb(168 50 31 / 0.28), rgb(168 50 31 / 0) 70%),
-    radial-gradient(60% 50% at 100% 100%, rgb(243 188 85 / 0.12), rgb(243 188 85 / 0) 70%),
+    radial-gradient(70% 55% at 0% 0%, rgb(0 71 171 / 0.32), rgb(0 71 171 / 0) 70%),
+    radial-gradient(60% 50% at 100% 100%, rgb(77 134 255 / 0.12), rgb(77 134 255 / 0) 70%),
     var(--bg);
   color: var(--fg);
   color-scheme: dark;
 }
 
-/* Inner page tops: a faint wash of marigold and sindoor light behind the heading, like the glow before a ceremony. */
+/* Inner page tops: a faint wash of cobalt light behind the heading. */
 .page-hero { position: relative; isolation: isolate; }
 .page-hero::before {
   content: ""; position: absolute; z-index: -1; pointer-events: none;
   inset: -7rem calc(50% - 50vw) 0;
   background:
-    radial-gradient(42rem 22rem at 12% 0%, rgb(226 167 60 / 0.2), rgb(226 167 60 / 0) 70%),
-    radial-gradient(38rem 20rem at 88% 8%, rgb(168 50 31 / 0.1), rgb(168 50 31 / 0) 70%);
+    radial-gradient(42rem 22rem at 12% 0%, rgb(0 71 171 / 0.3), rgb(0 71 171 / 0) 70%),
+    radial-gradient(38rem 20rem at 88% 8%, rgb(77 134 255 / 0.12), rgb(77 134 255 / 0) 70%);
 }
 
 /* Eyebrow with a short rule in front of it, as used on section headers. */
 .label-rule { display: inline-flex; align-items: center; gap: 0.75rem; }
 .label-rule::before { content: ""; width: 2rem; height: 1px; background: linear-gradient(90deg, var(--gold-soft), currentColor); opacity: 0.85; }
 
-/* Soft blush section band: a gentle wash from ivory into champagne. */
+/* Soft section band: a gentle wash from midnight into a raised midnight. */
 @utility surface-soft {
   background: linear-gradient(180deg, var(--sand-soft) 0%, color-mix(in srgb, var(--sand) 55%, var(--sand-soft)) 100%);
 }
 
-/* Primary (booking) button: a soft vermilion gradient with a warm glow that deepens on hover. */
+/* Primary (booking) button: a soft cobalt gradient with a blue glow that brightens on hover. */
 .btn-primary {
   background-color: var(--primary);
   background-image: linear-gradient(180deg, var(--primary-from), var(--primary-to));
@@ -445,7 +446,7 @@ html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
   .hero-cue-line { position: relative; }
   .hero-cue-line::after {
     content: ""; position: absolute; inset-inline: 0; top: 0; height: 40%;
-    background: linear-gradient(180deg, transparent, #f6c768);
+    background: linear-gradient(180deg, transparent, #9dbcff);
     animation: cue-run 2.2s var(--ease-base) infinite;
   }
 }
@@ -458,19 +459,19 @@ html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
    sits, and a low band under the prices, so the faces in the upper part of each photo stay bright. */
 .hero-scrim {
   background:
-    radial-gradient(120% 85% at 0% 100%, rgb(8 12 24 / 0.86) 0%, rgb(8 12 24 / 0.66) 40%, rgb(8 12 24 / 0) 76%),
-    linear-gradient(0deg, rgb(8 12 24 / 0.72) 0%, rgb(8 12 24 / 0.25) 24%, rgb(8 12 24 / 0) 44%),
-    linear-gradient(180deg, rgb(8 12 24 / 0.35) 0%, rgb(8 12 24 / 0) 18%);
+    radial-gradient(120% 85% at 0% 100%, rgb(3 4 8 / 0.86) 0%, rgb(3 4 8 / 0.66) 40%, rgb(3 4 8 / 0) 76%),
+    linear-gradient(0deg, rgb(3 4 8 / 0.72) 0%, rgb(3 4 8 / 0.25) 24%, rgb(3 4 8 / 0) 44%),
+    linear-gradient(180deg, rgb(3 4 8 / 0.35) 0%, rgb(3 4 8 / 0) 18%);
 }
 /* A touch more life in the photographs themselves. */
 .hero-photo { filter: saturate(1.1) contrast(1.04) brightness(1.03); }
 
 /* Hero type: bright on the photo, with a soft shadow so it holds even where the shade is thin. */
 .hero-title { color: #ffffff; text-shadow: 0 2px 24px rgb(0 0 0 / 0.35); }
-.hero-title em { color: #f6c768; }
+.hero-title em { color: #9dbcff; }
 .hero-lede { color: #ffffff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.45); }
 
-/* Older section markers (admin, portal): a short vermilion-to-marigold bar before a label. */
+/* Older section markers (admin, portal): a short cobalt bar before a label. */
 .festive-gradient { background-color: var(--primary); background-image: linear-gradient(90deg, var(--primary), var(--gold-soft)); }
 .label-dot {
   display: inline-block;
@@ -551,7 +552,7 @@ html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
   @media (hover: hover) {
     .group .photo-frame::after {
       content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(8 12 24 / 0.28));
+      background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(3 4 8 / 0.28));
       opacity: 0.6; transition: opacity 600ms var(--ease-base);
     }
     .group:hover .photo-frame::after { opacity: 0; }
@@ -708,8 +709,8 @@ picture {
   container-type: inline-size;
   aspect-ratio: 5 / 4;
   background:
-    radial-gradient(80% 70% at 25% 15%, rgb(255 255 255 / 0.75), rgb(255 255 255 / 0) 70%),
-    radial-gradient(60% 50% at 90% 100%, rgb(226 167 60 / 0.16), rgb(226 167 60 / 0) 70%),
+    radial-gradient(80% 70% at 25% 15%, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0) 70%),
+    radial-gradient(60% 50% at 90% 100%, rgb(0 71 171 / 0.28), rgb(0 71 171 / 0) 70%),
     var(--sand);
 }
 .mock-stage > * { transition: translate 700ms var(--ease-base), rotate 700ms var(--ease-base); }
@@ -773,7 +774,7 @@ picture {
 .mock-calendar-month { display: block; margin-top: 1.8cqw; font-family: var(--font-display); font-size: 3.2cqw; line-height: 1; color: #141a2b; }
 .mock-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1cqw; margin-top: 1.6cqw; }
 .mock-calendar-grid > span { height: 1.1cqw; border-radius: 0.3cqw; background: #e3d9c8; }
-.mock-calendar-grid > span.is-marked { background: #a8321f; }
+.mock-calendar-grid > span.is-marked { background: #0047ab; }
 
 /* Mug: a white body with a wrapped print and a handle. */
 .mock-mug { position: relative; width: 40cqw; aspect-ratio: 1 / 1.05; margin-right: 9cqw; }
@@ -816,7 +817,7 @@ picture {
 
 /* Cart drawer: slides in from the right edge (fades only, for reduced motion). */
 .cart-drawer[open] { animation: fade-in 300ms var(--ease-base); }
-.cart-drawer::backdrop { background: rgb(11 18 34 / 0.55); backdrop-filter: blur(4px); }
+.cart-drawer::backdrop { background: rgb(0 0 0 / 0.65); backdrop-filter: blur(4px); }
 .cart-drawer[open]::backdrop { animation: fade-in 300ms var(--ease-base); }
 @media (prefers-reduced-motion: no-preference) {
   .cart-drawer[open] .cart-panel { animation: cart-in 500ms var(--ease-base); }
