@@ -15,8 +15,8 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: `${basePath}/`,
     display: "standalone",
     orientation: "portrait",
-    background_color: "#07080c",
-    theme_color: "#07080c",
+    background_color: "#061413",
+    theme_color: "#061413",
     icons: [
       { src: `${basePath}/icon.png`, sizes: "512x512", type: "image/png", purpose: "any" },
       { src: `${basePath}/apple-icon.png`, sizes: "180x180", type: "image/png" },

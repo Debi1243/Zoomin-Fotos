@@ -118,12 +118,12 @@ export default function DepthGallery({ photos, filters }: { photos: Photo[]; fil
           if (e.key === "ArrowRight") step(1);
         }}
         onClick={(e) => e.target === e.currentTarget && setOpenIndex(null)}
-        className="lightbox m-0 h-dvh max-h-none w-screen max-w-none bg-[#05060a] p-0 text-[#eef1f7] backdrop:bg-[#05060a]"
+        className="lightbox m-0 h-dvh max-h-none w-screen max-w-none bg-[#041010] p-0 text-[#f1ebe0] backdrop:bg-[#041010]"
       >
         {current && openIndex !== null && (
           <div className="flex h-full flex-col">
             <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6">
-              <p className="label tabular text-[#eef1f7]/70">
+              <p className="label tabular text-[#f1ebe0]/70">
                 {openIndex + 1} / {list.length}
               </p>
               <button type="button" onClick={() => setOpenIndex(null)} aria-label="Close" className="grid size-11 place-items-center rounded-lg border border-white/20 transition-colors hover:bg-white/10">
@@ -134,7 +134,7 @@ export default function DepthGallery({ photos, filters }: { photos: Photo[]; fil
             <div className="flex items-center justify-between gap-4 px-4 py-5 sm:px-6">
               <p className="min-w-0">
                 <span className="font-display text-xl">{current.title}</span>
-                <span className="ml-3 text-sm text-[#eef1f7]/70">{current.place}</span>
+                <span className="ml-3 text-sm text-[#f1ebe0]/70">{current.place}</span>
               </p>
               <div className="flex shrink-0 gap-2">
                 <button type="button" onClick={() => step(-1)} aria-label="Previous photo" className="grid size-11 place-items-center rounded-lg border border-white/20 transition-colors hover:bg-white/10">
