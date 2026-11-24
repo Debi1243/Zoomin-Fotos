@@ -17,7 +17,7 @@ const sans = Manrope({ subsets: ["latin"], weight: ["400", "500", "600", "700"],
 // Fraunces, a soft editorial serif, for headings only: the "wedding album" voice.
 const serif = Fraunces({ subsets: ["latin"], style: ["normal", "italic"], axes: ["opsz", "SOFT"], variable: "--font-fraunces", display: "swap" });
 
-const title = `Photographer in ${brand.city} | Wedding Packages from ₹25,000 | ${brand.name}`;
+const title = `Wedding Photographer in ${brand.city}, ${brand.region} | Photos & Films | ${brand.name}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

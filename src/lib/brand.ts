@@ -4,9 +4,11 @@
  */
 export const brand = {
   name: "Zoomin Fotos",
-  tagline: "Beautiful memories. Affordable photography.",
+  tagline: "Not just photographs. The moments you'll relive forever.",
+  /** The supporting line under the headline. */
+  promise: "Wedding photography and films crafted around your story, your emotions and the moments that matter.",
   description:
-    "Affordable wedding, pre-wedding, maternity, family and event photography in Bhubaneswar, Odisha, with transparent packages and easy WhatsApp booking.",
+    "Wedding photography and films in Bhubaneswar, Odisha, crafted around your story. Candid, pre-wedding, maternity, newborn, event and commercial photography, with transparent packages and easy WhatsApp booking.",
   email: "info@zoominfotos.in",
   /** For help with an existing booking, order, payment or the client portal. General enquiries use `email`. */
   supportEmail: "support@zoominfotos.in",

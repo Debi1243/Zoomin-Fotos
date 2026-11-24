@@ -26,7 +26,7 @@ function MenuToggleIcon({ open }: { open: boolean }) {
 
 /**
  * A compact bar that floats just below the top edge, translucent over a blur.
- * Desktop: logo, the seven sections, WhatsApp and "Book your shoot".
+ * Desktop: logo, the sections, WhatsApp and "Check availability".
  * Phones: logo, a WhatsApp shortcut and a toggle that opens a full-height menu panel.
  */
 export default function SiteHeader() {
@@ -150,7 +150,7 @@ export default function SiteHeader() {
           </div>
           <div className="hidden sm:block">
             <ButtonLink href="/contact#quote" arrow={false}>
-              Book your shoot
+              Check availability
             </ButtonLink>
           </div>
           <a
@@ -215,7 +215,7 @@ export default function SiteHeader() {
           </nav>
           <div className="menu-link mt-auto grid gap-3 pt-8">
             <ButtonLink href="/contact#quote" size="lg" className="w-full" onClick={() => setOpen(false)}>
-              Book your shoot
+              Check availability
             </ButtonLink>
             <WhatsAppButton href={whatsappHref} source="menu" size="lg" className="w-full" />
           </div>

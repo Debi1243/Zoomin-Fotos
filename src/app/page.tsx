@@ -3,6 +3,7 @@ import ServiceCards from "@/components/sections/home/ServiceCards";
 import Packages, { PackagesLink } from "@/components/sections/Packages";
 import FeaturedPortfolio from "@/components/sections/home/FeaturedPortfolio";
 import WhyUs from "@/components/sections/home/WhyUs";
+import TrustStrip from "@/components/sections/home/TrustStrip";
 import HomeReviews from "@/components/sections/home/HomeReviews";
 import BookingSteps from "@/components/sections/BookingSteps";
 import Faq from "@/components/sections/Faq";
@@ -17,12 +18,12 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Above the fold: what, where, from what price, one primary action. */}
+      {/* Above the fold: the promise, a wedding photograph and two ways in. */}
       <Hero />
-      {/* The argument: what we shoot, why us, the core promise, then the prices that back it up. */}
+      {/* Proof first: verified facts, then the work itself, told as a wedding day. */}
+      <TrustStrip />
+      <FeaturedPortfolio />
       <ServiceCards />
-      <WhyUs />
-      <TaglineReveal text={homeTagline} className="section-y border-t border-border" />
       {weddings?.packages && (
         <Packages
           items={weddings.packages}
@@ -39,8 +40,9 @@ export default function HomePage() {
           }
         />
       )}
-      {/* Proof, then how booking works, then objections, then the same action as the top. */}
-      <FeaturedPortfolio />
+      <WhyUs />
+      <TaglineReveal text={homeTagline} className="section-y border-t border-border" />
+      {/* Clients in their own words, how booking works, objections, then the same action as the top. */}
       <HomeReviews className="pb-16 md:pb-24" />
       <BookingSteps />
       <Faq items={homeFaqs} />

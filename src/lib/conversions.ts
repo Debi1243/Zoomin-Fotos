@@ -3,7 +3,7 @@
  * visitor has accepted analytics in the consent banner; until then these calls do nothing.
  * The studio's own visit counter (src/lib/track.ts) records the same clicks without cookies.
  *
- * Events: whatsapp_click, quote_form_start, quote_form_submit, call_click, package_select.
+ * Events: whatsapp_click, check_availability, quote_form_start, quote_form_submit, call_click, package_select.
  */
 
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";

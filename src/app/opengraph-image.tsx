@@ -5,7 +5,7 @@ import { brand } from "@/lib/data";
 
 export const dynamic = "force-static";
 
-export const alt = `${brand.name}: wedding, portrait and commercial photography in Bhubaneswar`;
+export const alt = `${brand.name}: wedding photography and films in Bhubaneswar, Odisha`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -28,7 +28,7 @@ export default async function OpengraphImage() {
       >
         <img src={logoSrc} alt="" width={200} height={101} />
         <div style={{ display: "flex", fontSize: 76, lineHeight: 1.05, letterSpacing: -2, fontWeight: 700, maxWidth: 960 }}>
-          Beautiful memories. Affordable photography.
+          Not just photographs. The moments you&apos;ll relive forever.
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 26, color: "#a3abbd" }}>
           <span>Wedding packages from ₹25,000 + GST · Bhubaneswar, Odisha</span>
