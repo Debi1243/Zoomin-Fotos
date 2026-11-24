@@ -55,7 +55,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="border-t border-border">
-        <div className="container-page py-5 text-xs text-muted">
+        <div className="container-page py-5 text-center text-xs text-muted">
           <p>© {year} {brand.name}, {brand.city}. All prices are before GST. All photographs are by {brand.name}.</p>
         </div>
       </div>
