@@ -8,7 +8,8 @@ import type { Photo, ServiceSlug } from "@/lib/data";
 import { cn } from "@/lib/cn";
 import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
 
-type Filter = { slug: ServiceSlug | "all"; label: string; count: number };
+/** A gallery filter: a service category, or a collection of photograph ids that cuts across them. */
+export type Filter = { slug: ServiceSlug | "all" | (string & {}); label: string; count: number; ids?: string[] };
 
 const ratio: Record<Photo["aspect"], number> = { tall: 3 / 2, portrait: 5 / 4, landscape: 2 / 3, square: 1 };
 
@@ -36,6 +37,7 @@ export default function PortfolioGallery({
   filters = [],
   eager = 3,
   compact = false,
+  linkable = false,
 }: {
   photos: Photo[];
   filters?: Filter[];
@@ -43,12 +45,35 @@ export default function PortfolioGallery({
   eager?: number;
   /** Two columns even on phones, for galleries inside longer pages. */
   compact?: boolean;
+  /** Keep the chosen filter in the address (#weddings), so a category can be linked to and shared. */
+  linkable?: boolean;
 }) {
   const [filter, setFilter] = useState<Filter["slug"]>("all");
   const columns = Math.max(useSyncExternalStore(subscribeColumns, getColumns, () => 3), compact ? 2 : 1);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const list = filter === "all" ? photos : photos.filter((p) => p.category === filter);
+  const active = filters.find((f) => f.slug === filter);
+  const list = filter === "all" ? photos : active?.ids ? photos.filter((p) => active.ids!.includes(p.id)) : photos.filter((p) => p.category === filter);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // A link such as /portfolio#candid opens the gallery on that filter.
+  useEffect(() => {
+    if (!linkable) return;
+    const fromHash = () => {
+      const slug = decodeURIComponent(location.hash.slice(1));
+      if (!filters.some((f) => f.slug === slug)) return;
+      setFilter(slug);
+      rootRef.current?.scrollIntoView({ block: "start" });
+    };
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+  }, [linkable, filters]);
+
+  const choose = (slug: Filter["slug"]) => {
+    setFilter(slug);
+    if (linkable) history.replaceState(null, "", slug === "all" ? location.pathname + location.search : `#${slug}`);
+  };
   const current = openIndex === null ? null : list[openIndex];
 
   useEffect(() => {
@@ -84,13 +109,13 @@ export default function PortfolioGallery({
   return (
     <>
       {filters.length > 1 && (
-        <div role="group" aria-label="Filter by category" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
+        <div ref={rootRef} role="group" aria-label="Filter by category" className="-mx-4 flex scroll-mt-24 gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
           {filters.map((f) => (
             <button
               key={f.slug}
               type="button"
               aria-pressed={filter === f.slug}
-              onClick={() => setFilter(f.slug)}
+              onClick={() => choose(f.slug)}
               className={cn(
                 "chip inline-flex h-11 shrink-0 items-center gap-2 rounded-lg border px-4 text-sm font-medium transition-colors",
                 filter === f.slug ? "border-primary bg-primary text-primary-fg" : "border-border bg-surface hover:border-fg",
