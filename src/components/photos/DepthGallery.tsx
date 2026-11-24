@@ -43,6 +43,7 @@ export default function DepthGallery({ photos, filters }: { photos: Photo[]; fil
   const dialogRef = useRef<HTMLDialogElement>(null);
   const list = filter === "all" ? photos : photos.filter((p) => p.category === filter);
   const current = openIndex === null ? null : list[openIndex];
+  const labelOf = (slug: ServiceSlug) => filters.find((f) => f.slug === slug)?.label ?? "";
   const step = (d: number) => setOpenIndex((i) => (i === null ? i : (i + d + list.length) % list.length));
 
   useEffect(() => {
@@ -81,6 +82,7 @@ export default function DepthGallery({ photos, filters }: { photos: Photo[]; fil
             {col.map(({ photo, index }) => (
               <li key={photo.id}>
                 <button type="button" onClick={() => setOpenIndex(index)} className="depth-card group text-left" aria-label={`View ${photo.title} full screen`}>
+                  <span className="depth-glass block">
                   <span className={cn("depth-face block", aspects[photo.aspect])}>
                     {photo.src && (
                       <Image
@@ -93,10 +95,12 @@ export default function DepthGallery({ photos, filters }: { photos: Photo[]; fil
                         className="object-cover transition-transform duration-[900ms] ease-[var(--ease-base)] group-hover:scale-[1.03]"
                       />
                     )}
+                    <span className="depth-pill">{labelOf(photo.category)}</span>
                   </span>
-                  <span className="mt-3 flex items-baseline justify-between gap-4 px-1 text-sm">
+                  <span className="flex items-baseline justify-between gap-4 px-2 pb-1 pt-3 text-sm">
                     <span className="text-fg">{photo.title}</span>
                     <span className="shrink-0 text-muted">{photo.place}</span>
+                  </span>
                   </span>
                 </button>
               </li>

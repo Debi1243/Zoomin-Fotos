@@ -26,7 +26,12 @@ export default function WorkPage() {
       .filter((f) => f.count > 0),
   ];
   return (
-    <section aria-labelledby="work-title" className="page-hero overflow-x-clip pb-24 pt-4 md:pb-32 md:pt-10">
+    <section aria-labelledby="work-title" className="page-hero relative isolate overflow-x-clip pb-24 pt-4 md:pb-32 md:pt-10">
+      <div className="work-orbs" aria-hidden>
+        <span />
+        <span />
+        <span />
+      </div>
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           <p className="label label-rule justify-center text-gold-text">Portfolio</p>

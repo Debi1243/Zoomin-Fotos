@@ -867,22 +867,76 @@ picture {
   transform-origin: 50% 50%;
 }
 .depth-list li:nth-child(even) .depth-card { --ry: -8deg; }
+/* A pane of frosted glass around each photo, catching the cobalt light behind it. */
+.depth-glass {
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(155deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.03) 45%, rgb(107 155 255 / 0.08));
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    inset 0 -1px 0 rgb(255 255 255 / 0.04),
+    0 30px 60px -28px rgb(0 0 0 / 0.95),
+    0 0 50px -20px rgb(0 71 171 / 0.6);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  cursor: zoom-in;
+  transition: border-color 300ms, box-shadow 300ms;
+}
+.depth-glass::after {
+  /* A sheen across the top edge of the glass. */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, rgb(255 255 255 / 0.14), transparent 30%);
+  pointer-events: none;
+}
+.depth-card:hover .depth-glass, .depth-card:focus-visible .depth-glass {
+  border-color: rgb(157 188 255 / 0.45);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 30px 70px -24px rgb(0 0 0 / 0.95),
+    0 0 70px -12px rgb(0 71 171 / 0.85);
+}
 .depth-face {
   position: relative;
   overflow: hidden;
   border-radius: 0.875rem;
   background: var(--sand);
-  border: 1px solid rgb(255 255 255 / 0.1);
-  box-shadow: 0 30px 60px -28px rgb(0 0 0 / 0.95), 0 0 46px -18px rgb(0 71 171 / 0.55);
-  cursor: zoom-in;
-  transition: border-color 300ms, box-shadow 300ms;
 }
-.depth-card:hover .depth-face, .depth-card:focus-visible .depth-face {
-  border-color: rgb(157 188 255 / 0.4);
-  box-shadow: 0 30px 70px -24px rgb(0 0 0 / 0.95), 0 0 60px -12px rgb(0 71 171 / 0.8);
+.depth-pill {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgb(10 14 26 / 0.35);
+  border: 1px solid rgb(255 255 255 / 0.22);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
 }
-.depth-card:focus-visible { outline: none; }
-.depth-card:focus-visible .depth-face { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* Slow cobalt lights behind the page, so the glass always has colour to frost. */
+.work-orbs { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.work-orbs span {
+  position: sticky;
+  display: block;
+  top: 10vh;
+  width: 46vmax;
+  height: 46vmax;
+  margin-bottom: -46vmax;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.85;
+}
+.work-orbs span:nth-child(1) { margin-left: -12vmax; background: radial-gradient(circle, #0047ab, transparent 65%); }
+.work-orbs span:nth-child(2) { margin-left: calc(100% - 30vmax); top: 40vh; background: radial-gradient(circle, #1a5cc4, transparent 65%); opacity: 0.7; }
+.work-orbs span:nth-child(3) { margin-left: 30%; top: 70vh; background: radial-gradient(circle, #4d86ff, transparent 65%); opacity: 0.4; }
 .depth-face img { -webkit-user-drag: none; }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
