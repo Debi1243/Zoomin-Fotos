@@ -159,7 +159,7 @@ export default function PortfolioGallery({
                     priority={filter === "all" && index < eager}
                     reveal={index >= 3}
                   />
-                  <span className="mt-2 flex items-baseline justify-between gap-2 text-xs sm:mt-3 sm:gap-4 sm:text-sm">
+                  <span className="photo-caption mt-2 flex items-baseline justify-between gap-2 text-xs sm:mt-3 sm:gap-4 sm:text-sm">
                     <span className="text-fg">{photo.title}</span>
                     <span className="text-muted">{photo.place}</span>
                   </span>

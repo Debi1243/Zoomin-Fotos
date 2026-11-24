@@ -26,7 +26,7 @@ import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
 type Sort = "featured" | "price-asc" | "price-desc";
 
 const control =
-  "h-11 rounded-lg border border-border-strong bg-surface px-3 body-6 text-fg transition-colors duration-300 hover:border-fg focus-visible:border-fg";
+  "field h-11 rounded-lg border border-border-strong bg-surface px-3 body-6 text-fg transition-[border-color,box-shadow] duration-300 hover:border-fg focus-visible:border-fg";
 
 function orderText(lines: { product: Product; option: string; qty: number; price: number }[]) {
   const rows = lines.map((l, i) => `${i + 1}. ${l.product.name} (${l.option}) x ${l.qty}: ${formatRupees(l.price * l.qty)}`);
@@ -64,7 +64,7 @@ function ProductCard({ product, index, categoryLabel }: { product: Product; inde
 
   return (
     <li
-      className={cn("group flex flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm transition-shadow duration-500 hover:shadow-md", index >= 3 && "stagger-in")}
+      className={cn("lift group flex flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm hover:border-border-strong", index >= 3 && "stagger-in")}
       data-top={index < 3 || undefined}
       style={{ "--i": index % 3 } as CSSProperties}
     >

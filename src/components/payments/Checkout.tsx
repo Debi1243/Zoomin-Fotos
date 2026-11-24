@@ -9,7 +9,7 @@ import type { StartCheckoutResult } from "@/lib/checkout";
 import { cn } from "@/lib/cn";
 
 const control =
-  "h-11 w-full rounded-lg border border-border-strong bg-surface px-3 body-6 text-fg transition-colors duration-300 hover:border-fg focus-visible:border-fg aria-invalid:border-error";
+  "field h-11 w-full rounded-lg border border-border-strong bg-surface px-3 body-6 text-fg transition-[border-color,box-shadow] duration-300 hover:border-fg focus-visible:border-fg aria-invalid:border-error";
 
 const SCRIPT = "https://checkout.razorpay.com/v1/checkout.js";
 /** Name, phone, email and address are remembered in this browser so a second payment is quicker. */

@@ -7,6 +7,7 @@ import BookingBar from "@/components/navigation/BookingBar";
 import Analytics from "@/components/shared/Analytics";
 import PhotoGuard from "@/components/shared/PhotoGuard";
 import ScrollEffects from "@/components/motion/ScrollEffects";
+import HoverGlow from "@/components/motion/HoverGlow";
 import ConsentBanner from "@/components/shared/ConsentBanner";
 import { headScript } from "@/lib/theme";
 import { brand } from "@/lib/data";
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteFooter />
         <BookingBar />
         <ScrollEffects />
+        <HoverGlow />
         <Analytics />
         <ConsentBanner />
         <PhotoGuard />

@@ -76,7 +76,7 @@ export default function PackagesPage() {
                     <span className="block font-display text-lg">{s.title}</span>
                     <span className="mt-1 block text-sm text-muted">Ask for a quote</span>
                   </span>
-                  <ArrowRight aria-hidden className="size-5 shrink-0 text-accent transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight aria-hidden className="size-5 shrink-0 text-accent transition-transform group-hover:translate-x-1" />
                 </Link>
               </li>
             ))}

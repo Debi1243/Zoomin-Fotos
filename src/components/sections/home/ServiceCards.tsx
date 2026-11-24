@@ -39,7 +39,7 @@ export default function ServiceCards() {
                     <p className="mt-2 hidden body-6 text-muted sm:block">{s.text}</p>
                     <span className="mt-auto inline-flex items-center gap-2 pt-3 button-sm text-fg">
                       {from || s.priceNote ? "View packages" : "See photos and details"}
-                      <ArrowRight aria-hidden className="size-4 transition-transform duration-500 group-hover:translate-x-0.5" />
+                      <ArrowRight aria-hidden className="size-4 transition-transform duration-500 group-hover:translate-x-1" />
                     </span>
                   </div>
                 </Link>

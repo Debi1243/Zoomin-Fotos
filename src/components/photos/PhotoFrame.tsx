@@ -48,13 +48,13 @@ export default function PhotoFrame({ photo, sizes, priority = false, fill = fals
           fill
           sizes={sizes}
           priority={priority}
-          className={cn(contain ? "object-contain" : "object-cover", "transition-transform duration-[900ms] ease-[var(--ease-base)] group-hover:scale-[1.04]")}
+          className={cn(contain ? "object-contain" : "object-cover", "transition-transform duration-[900ms] ease-[var(--ease-base)] group-hover:scale-[1.06]")}
         />
       ) : (
         <div
           role="img"
           aria-label={label}
-          className={cn("frame absolute inset-0 transition-transform duration-[900ms] ease-[var(--ease-base)] group-hover:scale-[1.04]", `frame-${photo.tone}`)}
+          className={cn("frame absolute inset-0 transition-transform duration-[900ms] ease-[var(--ease-base)] group-hover:scale-[1.06]", `frame-${photo.tone}`)}
         />
       )}
       {caption && !photo.src && (

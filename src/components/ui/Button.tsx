@@ -13,7 +13,7 @@ type Size = "md" | "lg";
 const base =
   "btn group/btn relative isolate inline-flex overflow-hidden select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg " +
   "transition-[background-color,border-color,color,box-shadow,translate,scale] duration-300 ease-[var(--ease-base)] " +
-  "hover:-translate-y-px active:translate-y-0 active:scale-[0.98] " +
+  "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] " +
   "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
@@ -34,7 +34,7 @@ export function buttonClasses({ variant = "primary", size = "md", className }: {
 }
 
 function Arrow() {
-  return <ArrowRight aria-hidden className="size-4 transition-transform duration-500 group-hover/btn:translate-x-0.5" />;
+  return <ArrowRight aria-hidden className="size-4 transition-transform duration-500 group-hover/btn:translate-x-1" />;
 }
 
 type LinkProps = ComponentProps<typeof Link> & { variant?: Variant; size?: Size; arrow?: boolean; children: ReactNode };
