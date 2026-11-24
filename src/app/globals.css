@@ -850,3 +850,139 @@ picture {
 }
 @keyframes cart-in { from { translate: 100% 0; } }
 @keyframes cart-bump { 40% { scale: 1.25; } }
+
+/* ──────────────────────────────────────────────────────────────
+   3D portfolio (/work): a coverflow shelf of every photograph.
+   The centre card faces the viewer; the rest turn inwards and step back
+   into the dark, over a cobalt-lit floor that catches their reflection.
+   Positions come from Coverflow.tsx as --x and --z (in card widths) and --ry.
+   ────────────────────────────────────────────────────────────── */
+.coverflow-stage {
+  --card-w: min(62vw, 17rem, 38svh);
+  height: calc(var(--card-w) * 1.25 + 4.5rem);
+  perspective: calc(var(--card-w) * 4);
+  perspective-origin: 50% 40%;
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+  margin-inline: -1rem;
+}
+@media (width >= 40rem) { .coverflow-stage { --card-w: min(40vw, 22rem, 44svh); margin-inline: 0; } }
+@media (width >= 64rem) { .coverflow-stage { --card-w: min(26vw, 24rem, 44svh); } }
+.coverflow-stage.is-dragging { cursor: grabbing; }
+.coverflow-stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 1rem; }
+.coverflow-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 55% at 50% 42%, rgb(0 71 171 / 0.38), transparent 70%);
+  pointer-events: none;
+}
+.coverflow-floor {
+  position: absolute;
+  inset: auto 0 0;
+  height: 4.5rem;
+  background: linear-gradient(180deg, rgb(77 134 255 / 0.08), transparent);
+  border-top: 1px solid rgb(157 188 255 / 0.12);
+  pointer-events: none;
+}
+.coverflow-track {
+  position: absolute;
+  inset: 0 0 4.5rem;
+  transform-style: preserve-3d;
+}
+.coverflow-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--card-w);
+  aspect-ratio: 4 / 5;
+  margin: calc(var(--card-w) * -0.625) 0 0 calc(var(--card-w) * -0.5);
+  transform:
+    translate3d(calc(var(--x) * var(--card-w)), 0, calc(var(--z) * var(--card-w)))
+    rotateY(var(--ry));
+  transition: transform 650ms var(--ease-base), opacity 650ms var(--ease-base);
+  will-change: transform;
+}
+.is-dragging .coverflow-card { transition: none; }
+.coverflow-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 0.875rem;
+  background: var(--sand);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow: 0 30px 60px -24px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(0 0 0 / 0.4);
+  -webkit-box-reflect: below 10px linear-gradient(transparent 72%, rgb(255 255 255 / 0.16));
+}
+.coverflow-card[data-card] .coverflow-face {
+  border-color: rgb(157 188 255 / 0.35);
+  box-shadow: 0 30px 70px -20px rgb(0 0 0 / 0.95), 0 0 50px -12px rgb(0 71 171 / 0.7);
+  cursor: zoom-in;
+}
+.coverflow-face img { pointer-events: none; -webkit-user-drag: none; }
+.coverflow-shade {
+  position: absolute;
+  inset: 0;
+  background: #05060a;
+  opacity: var(--shade);
+  transition: opacity 650ms var(--ease-base);
+}
+.is-dragging .coverflow-shade { transition: none; }
+.coverflow-expand {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  background: rgb(7 8 12 / 0.45);
+  border: 1px solid rgb(255 255 255 / 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.coverflow-btn {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: border-color 200ms, background-color 200ms;
+}
+.coverflow-btn:hover { border-color: var(--accent); background: var(--sand); }
+.coverflow-btn:disabled { opacity: 0.4; pointer-events: none; }
+.coverflow-range {
+  appearance: none;
+  height: 2.75rem;
+  background: transparent;
+  cursor: pointer;
+}
+.coverflow-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent) var(--fill), rgb(255 255 255 / 0.14) var(--fill));
+}
+.coverflow-range::-moz-range-track { height: 4px; border-radius: 999px; background: rgb(255 255 255 / 0.14); }
+.coverflow-range::-moz-range-progress { height: 4px; border-radius: 999px; background: var(--accent); }
+.coverflow-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(0 71 171 / 0.55);
+}
+.coverflow-range::-moz-range-thumb { width: 18px; height: 18px; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgb(0 71 171 / 0.55); }
+.coverflow-range:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 0.5rem; }
+@media (prefers-reduced-motion: reduce) {
+  .coverflow-card, .coverflow-shade { transition-duration: 1ms; }
+}
