@@ -36,6 +36,7 @@ export default function HomePage() {
             <>
               <PackagesLink href="/packages#compare">Compare all packages side by side</PackagesLink>
               <PackagesLink href="/packages#builder">Build your own package</PackagesLink>
+              <PackagesLink href="/packages#packages">What&apos;s included and what costs extra</PackagesLink>
             </>
           }
         />

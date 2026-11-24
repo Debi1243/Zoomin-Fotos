@@ -16,7 +16,7 @@ import { ButtonLink, WhatsAppLink } from "@/components/ui/Button";
 import TaglineReveal from "@/components/sections/TaglineReveal";
 import BookingSteps from "@/components/sections/BookingSteps";
 import JsonLd from "@/components/shared/JsonLd";
-import { brand, formatRupees, generalFaqs, getService, photosIn, services, startingPrice, videosIn, waLink } from "@/lib/data";
+import { brand, customPackagesLine, formatRupees, generalFaqs, getService, photosIn, services, startingPrice, videosIn, waLink } from "@/lib/data";
 import { quoteHref, quoteServiceFor } from "@/lib/contact";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
@@ -101,6 +101,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         <Packages
           items={s.packages}
           service={quoteService}
+          terms={s.slug === "weddings"}
           intro={s.packagesIntro}
           payOnline={s.slug === "weddings" ? s.slug : undefined}
           className="border-t border-border"
@@ -191,7 +192,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
       <ClosingCta
         title={`Tell us your date, and we will tell you if it is free.`}
-        text={from ? `${title} from ${formatRupees(from)} plus GST. Every price is negotiable.` : `${title} is priced for your shoot. Send your date and we will send a clear quote.`}
+        text={from ? `${title} from ${formatRupees(from)} plus GST. ${customPackagesLine}` : `${title} is priced for your shoot. Send your date and we will send a clear quote.`}
         href={quoteHref({ service: quoteService })}
         label={ctaLabel}
       />

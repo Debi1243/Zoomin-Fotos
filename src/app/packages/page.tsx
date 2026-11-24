@@ -9,7 +9,7 @@ import Faq from "@/components/sections/Faq";
 import ClosingCta from "@/components/sections/ClosingCta";
 import JsonLd from "@/components/shared/JsonLd";
 import { WhatsAppButton } from "@/components/ui/Button";
-import { brand, getService, homeFaqs, services, waLink } from "@/lib/data";
+import { brand, customPackagesLine, getService, homeFaqs, services, waLink } from "@/lib/data";
 import { absoluteUrl } from "@/lib/site";
 
 const description = `Photography packages and prices in ${brand.city}: wedding packages from ₹25,000 per day and pre-wedding shoots from ₹15,000, plus GST. Compare packages or build your own.`;
@@ -32,7 +32,7 @@ export default function PackagesPage() {
         label="Packages"
         crumbs={[]}
         title="Photography packages and prices"
-        intro="Every price is on the page, before GST, and every price is negotiable. Choose a package, compare them side by side, or build your own."
+        intro={`Every price is on the page, before GST, with what each package includes and what costs extra. ${customPackagesLine} Choose a package, compare them side by side, or build your own.`}
       >
         <nav aria-label="On this page" className="mt-6 flex flex-wrap gap-2">
           {[
@@ -50,7 +50,7 @@ export default function PackagesPage() {
       </PageHero>
 
       {weddings?.packages && (
-        <Packages items={weddings.packages} service="Wedding" title="Wedding packages" className="border-t border-border" payOnline="weddings" />
+        <Packages items={weddings.packages} service="Wedding" title="Wedding packages" className="border-t border-border" payOnline="weddings" terms />
       )}
       {weddings?.packages && <PackageCompare packages={weddings.packages} />}
       {preWedding?.packages && (

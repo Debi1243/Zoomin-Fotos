@@ -23,6 +23,9 @@ export const brand = {
   googleReviews: "https://share.google/MrFH24KEedQoNTOly",
 };
 
+/** Said wherever the site talks about changing a package, in place of any talk of negotiating. */
+export const customPackagesLine = "Custom packages available based on your event requirements.";
+
 export const formatRupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 export const telHref = `tel:${brand.phone.replace(/\s/g, "")}`;

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import pricingData from "@/content/pricing.json";
+import { formatRupees } from "./brand";
 
 /**
  * The online package builder (/services and /services/weddings). The estimate is the crew and
@@ -86,14 +87,37 @@ export const initialSelection: Selection = {
   options: ["album", "film"],
 };
 
-export function estimate(s: Selection) {
-  const days = builderEvents.filter((e) => s.events.includes(e.id)).reduce((sum, e) => sum + e.weight, 0);
+/** What one full day of the chosen crew and per-event extras costs. */
+export function dayRate(s: Selection) {
   const crewPerDay = crew.reduce((sum, c) => sum + c.price * (s.counts[c.id] ?? 0), 0);
   const coveragePerDay = coverage.filter((c) => s.options.includes(c.id)).reduce((sum, c) => sum + c.price, 0);
-  const once = addOns.filter((a) => s.options.includes(a.id)).reduce((sum, a) => sum + a.price, 0);
-  const hours = (s.counts[extraHours.id] ?? 0) * extraHours.price;
-  const total = (crewPerDay + coveragePerDay) * days + (s.events.length ? once + hours : 0);
-  return Math.round(total / 500) * 500;
+  return crewPerDay + coveragePerDay;
+}
+
+/** What one event costs with the current crew and extras. */
+export const eventPrice = (s: Selection, e: BuilderEvent) => Math.round(dayRate(s) * e.weight);
+
+export type Line = { label: string; detail?: string; amount: number };
+
+/**
+ * The estimate, line by line: each chosen event (crew and per-event extras for that event's share
+ * of a day), then each one-off add-on and the extra hours. The lines add up to `subtotal`; `total`
+ * is that rounded to the nearest ₹500, which is the figure shown and sent with the enquiry.
+ */
+export function breakdown(s: Selection) {
+  const events = builderEvents.filter((e) => s.events.includes(e.id));
+  const lines: Line[] = events.map((e) => ({ label: e.label, detail: e.note, amount: eventPrice(s, e) }));
+  if (events.length) {
+    for (const a of addOns.filter((a) => s.options.includes(a.id))) lines.push({ label: a.label, amount: a.price });
+    const hours = s.counts[extraHours.id] ?? 0;
+    if (hours) lines.push({ label: `${hours} extra hour${hours > 1 ? "s" : ""}`, detail: `${formatRupees(extraHours.price)} per hour`, amount: hours * extraHours.price });
+  }
+  const subtotal = lines.reduce((sum, l) => sum + l.amount, 0);
+  return { lines, subtotal, total: Math.round(subtotal / 500) * 500 };
+}
+
+export function estimate(s: Selection) {
+  return breakdown(s).total;
 }
 
 /** A plain-text summary of the choices, used to fill in the booking form. */
@@ -105,7 +129,19 @@ export function summary(s: Selection) {
   const hours = s.counts[extraHours.id] ? [`${s.counts[extraHours.id]} extra hour${s.counts[extraHours.id] > 1 ? "s" : ""}`] : [];
   return [
     `Events: ${events.join(", ") || "none yet"}`,
-    `Coverage: ${[...team, ...extras].join(", ") || "none"}`,
+    `Coverage per event: ${[...team, ...extras].join(", ") || "none"}`,
     `Add-ons: ${[...once, ...hours].join(", ") || "none"}`,
+  ].join("\n");
+}
+
+/** The summary plus the itemised estimate, as sent with the enquiry so the studio sees exactly what was chosen. */
+export function quoteNotes(s: Selection) {
+  const { lines, subtotal, total } = breakdown(s);
+  return [
+    summary(s),
+    "",
+    "Estimate:",
+    ...lines.map((l) => `- ${l.label}: ${formatRupees(l.amount)}`),
+    `Total: about ${formatRupees(total)} + GST${total !== subtotal ? ` (${formatRupees(subtotal)}, rounded)` : ""}`,
   ].join("\n");
 }

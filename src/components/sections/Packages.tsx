@@ -4,12 +4,12 @@ import { CheckIcon as Check, ClockIcon as Clock, UsersIcon as Users } from "@pho
 import { ButtonLink } from "@/components/ui/Button";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/cn";
-import { formatRupees, type Package } from "@/lib/data";
+import { customPackagesLine, formatRupees, weddingFacts, type Package } from "@/lib/data";
 import { quoteHref } from "@/lib/contact";
 import PackagePay from "@/components/payments/PackagePay";
+import PackageTerms from "@/components/sections/PackageTerms";
 
-const defaultIntro =
-  "Prices are for one day of coverage, plus GST, and every price is negotiable. Tell us about your day and we will shape a package around it.";
+const defaultIntro = `Prices are for one day of coverage, plus GST. ${customPackagesLine}`;
 
 type Props = {
   items: Package[];
@@ -24,13 +24,17 @@ type Props = {
   className?: string;
   /** The service slug (e.g. "weddings") when its packages can be booked with an advance paid online. */
   payOnline?: string;
+  /** What's included, extra charges, delivery and customisation, under the cards. */
+  terms?: boolean;
+  /** Show each wedding package's key numbers (team, edited photos, highlight film) in a grid. */
+  facts?: boolean;
 };
 
 /**
  * Package cards. On phones they sit in a row you swipe through; on wide screens, side by side.
  * Only the package's own published details are shown.
  */
-export default function Packages({ items, service, intro = defaultIntro, label, title, footer, id = "packages", className, payOnline }: Props) {
+export default function Packages({ items, service, intro = defaultIntro, label, title, footer, id = "packages", className, payOnline, terms = false, facts = service === "Wedding" }: Props) {
   const single = items.length === 1;
   return (
     <section id={id} aria-labelledby={`${id}-title`} className={cn("section-y scroll-mt-20", className)}>
@@ -75,6 +79,19 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
                   <span className="ml-2 caption-2 text-muted">+ GST</span>
                 </p>
                 {p.note && <p className="mt-1 caption-2 text-muted">{p.note}</p>}
+                {p.bestFor && <p className="mt-4 body-6 text-fg">{p.bestFor}</p>}
+
+                {/* The numbers that set the packages apart, in the same place on every card. */}
+                {facts && weddingFacts(p.name).length > 0 && (
+                  <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border">
+                    {weddingFacts(p.name).map((f) => (
+                      <div key={f.label} className="bg-surface px-3 py-2.5">
+                        <dt className="caption-5 text-muted">{f.label}</dt>
+                        <dd className={cn("mt-0.5 body-4 tabular", f.value === "Not included" ? "text-muted" : "text-fg")}>{f.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
 
                 <dl className="mt-6 grid gap-2 border-t border-border pt-6 body-6">
                   {p.team && (
@@ -117,6 +134,7 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
         </ul>
         {!single && <p className="mt-1 text-center caption-2 text-muted lg:hidden">Swipe to see all {items.length} packages</p>}
         {footer && <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">{footer}</div>}
+        {terms && <PackageTerms className="mt-10 md:mt-12" />}
       </div>
     </section>
   );

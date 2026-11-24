@@ -4,7 +4,7 @@ import videoData from "@/content/videos.json";
 import { HANDLE_PATTERN, MAX_TAGS } from "./instagram";
 
 // Contact details and formatting live in ./brand, which client components can import without the photo data.
-export { brand, formatRupees, locationLine, mailHref, supportMailHref, telHref, waLink, whatsappHref } from "./brand";
+export { brand, customPackagesLine, formatRupees, locationLine, mailHref, supportMailHref, telHref, waLink, whatsappHref } from "./brand";
 
 /**
  * All site content lives here: contact details, services, packages and prices, FAQs.
@@ -66,6 +66,8 @@ export type Package = {
   unit?: string;
   note?: string;
   tagline: string;
+  /** Who the package suits and what they come away with, in a sentence. */
+  bestFor?: string;
   team?: string;
   items: string[];
   featured?: boolean;
@@ -114,6 +116,7 @@ export const services: Service[] = [
         name: "Essence",
         price: 25000,
         tagline: "The beginning of beautiful memories",
+        bestFor: "For an intimate one-day wedding: every moment kept in full, with a film and an album to relive it.",
         team: "1 photographer, 1 cinematographer",
         items: ["All raw photos (high resolution)", "All raw videos", "1 premium photo album (standard size)", "1 full-length edited video"],
       },
@@ -121,6 +124,7 @@ export const services: Service[] = [
         name: "Signature",
         price: 35000,
         tagline: "More moments, more stories",
+        bestFor: "For couples who want more angles and something to share: a second photographer, edited photos and a highlight video.",
         team: "2 photographers, 1 cinematographer",
         items: [
           "All raw photos and videos",
@@ -134,6 +138,7 @@ export const services: Service[] = [
         name: "Luxe",
         price: 45000,
         tagline: "Every detail, beautifully told",
+        bestFor: "For a big family wedding told in detail: two photographers, two cinematographers, a teaser and a reel.",
         team: "2 photographers, 2 cinematographers",
         items: [
           "All raw photos and videos",
@@ -149,6 +154,7 @@ export const services: Service[] = [
         name: "Infinity",
         price: 55000,
         tagline: "A complete story from every angle",
+        bestFor: "For the whole story from every angle: a drone, 150 edited photos, a cinematic film and a luxury album.",
         team: "2 photographers, 2 cinematographers, 1 drone",
         featured: true,
         items: [
@@ -186,6 +192,7 @@ export const services: Service[] = [
         unit: "per shoot + GST",
         note: "Includes everything",
         tagline: "More than pictures, a story of you",
+        bestFor: "For save-the-dates and invitations, and to get comfortable in front of the camera before the big day.",
         items: ["Professional photography", "Drone shots", "Edited photos", "Premium album"],
       },
     ],
@@ -501,6 +508,18 @@ export const weddingComparison: { label: string; values: [string, string, string
   { label: "Instagram reels", values: ["—", "—", "1", "2 to 3"] },
   { label: "Wedding invitation video", values: ["—", "—", "—", "Yes"] },
 ];
+
+/** The rows of the comparison that differ most between packages, shown on each wedding package card. */
+const factRows = ["Photographers", "Cinematographers", "Edited photos", "Highlight video"];
+
+/** A wedding package's key numbers, read from the comparison table so the two never disagree. */
+export function weddingFacts(packageName: string) {
+  const i = getService("weddings")?.packages?.findIndex((p) => p.name === packageName) ?? -1;
+  if (i < 0) return [];
+  return weddingComparison
+    .filter((r) => factRows.includes(r.label))
+    .map((r) => ({ label: r.label, value: r.values[i] === "—" ? "Not included" : r.values[i].replace(" cinematic film", "") }));
+}
 
 const serviceBySlug = new Map<string, Service>(services.map((s) => [s.slug, s]));
 

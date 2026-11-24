@@ -1,25 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { CheckIcon as Check, MinusIcon as Minus, PlusIcon as Plus, ArrowCounterClockwiseIcon as RotateCcw } from "@phosphor-icons/react/dist/ssr";
+import { CaretDownIcon as CaretDown, CheckIcon as Check, MinusIcon as Minus, PlusIcon as Plus, ArrowCounterClockwiseIcon as RotateCcw } from "@phosphor-icons/react/dist/ssr";
 import { buttonClasses } from "@/components/ui/Button";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { cn } from "@/lib/cn";
 import { formatRupees } from "@/lib/brand";
 import {
   addOns,
+  breakdown,
   builderEvents,
   coverage,
   crew,
-  estimate,
+  eventPrice,
   extraHours,
   initialSelection,
-  summary,
+  quoteNotes,
   type Counter,
   type Selection,
   type Toggle,
 } from "@/lib/package-builder";
+
+const DESKTOP = "(min-width: 1024px)";
+const subscribeDesktop = (cb: () => void) => {
+  const m = window.matchMedia(DESKTOP);
+  m.addEventListener("change", cb);
+  return () => m.removeEventListener("change", cb);
+};
 
 /** Rolls the shown price towards the new estimate instead of jumping. */
 function useRolling(value: number) {
@@ -54,8 +62,10 @@ function useRolling(value: number) {
  */
 export default function PackageBuilder({ className }: { className?: string }) {
   const router = useRouter();
+  // On computers the breakdown is always open beside the choices; on phones it starts folded.
+  const isDesktop = useSyncExternalStore(subscribeDesktop, () => window.matchMedia(DESKTOP).matches, () => false);
   const [sel, setSel] = useState<Selection>(initialSelection);
-  const total = estimate(sel);
+  const { lines, subtotal, total } = breakdown(sel);
   const shown = useRolling(total);
   const [bump, setBump] = useState(0);
 
@@ -74,7 +84,7 @@ export default function PackageBuilder({ className }: { className?: string }) {
     const params = new URLSearchParams({
       service: onlyPreWedding ? "Pre-wedding" : "Wedding",
       package: `My own package, about ${formatRupees(total)} + GST`,
-      notes: summary(sel),
+      notes: quoteNotes(sel),
     });
     router.push(`/contact?${params}#quote`);
   };
@@ -102,7 +112,7 @@ export default function PackageBuilder({ className }: { className?: string }) {
           id="builder-title"
           label="Package builder"
           title="Build your own wedding package"
-          intro="Pick your events, your team and the extras you want. The estimate updates as you go, and we confirm the final price with you."
+          intro="Pick your events, your team and the extras you want. The estimate updates as you go, line by line, and is sent with your enquiry. We confirm the final price in your quote."
         />
 
         <div className="mt-10 grid items-start gap-8 md:mt-12 lg:grid-cols-12 lg:gap-x-10">
@@ -110,7 +120,13 @@ export default function PackageBuilder({ className }: { className?: string }) {
             <Group step="1" title="Choose events">
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {builderEvents.map((e) => (
-                  <Tile key={e.id} on={sel.events.includes(e.id)} onClick={() => toggleEvent(e.id)} label={e.label} note={e.note} />
+                  <Tile
+                    key={e.id}
+                    on={sel.events.includes(e.id)}
+                    onClick={() => toggleEvent(e.id)}
+                    label={e.label}
+                    note={`${e.note} · ${formatRupees(eventPrice(sel, e))}`}
+                  />
                 ))}
               </div>
             </Group>
@@ -161,7 +177,7 @@ export default function PackageBuilder({ className }: { className?: string }) {
                     </span>
                   </p>
                   <p className="mt-1 hidden text-sm text-muted lg:mt-4 lg:block">
-                    {empty ? "Choose at least one event to see an estimate." : `${sel.events.length} event${sel.events.length > 1 ? "s" : ""}. Prices are negotiable.`}
+                    {empty ? "Choose at least one event to see an estimate." : `${sel.events.length} event${sel.events.length > 1 ? "s" : ""}. We confirm the final price in your quote.`}
                   </p>
                 </div>
                 <button
@@ -175,16 +191,56 @@ export default function PackageBuilder({ className }: { className?: string }) {
                   Get a quote
                 </button>
               </div>
-              <div className="hidden border-t border-border px-6 py-4 lg:block">
-                <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-muted">{summary(sel)}</pre>
-                <button
-                  type="button"
-                  onClick={() => update(initialSelection)}
-                  className="mt-2 inline-flex min-h-11 items-center gap-2 text-sm text-muted transition-colors duration-300 hover:text-fg"
-                >
-                  <RotateCcw aria-hidden className="size-3.5" /> Start again
-                </button>
-              </div>
+              {/* The itemised estimate: open beside the choices on computers, one tap away on phones. */}
+              <details className="group border-t border-border" open={isDesktop || undefined}>
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-4 py-2 body-5 text-muted lg:hidden [&::-webkit-details-marker]:hidden">
+                  {empty ? "No events chosen yet" : `See the breakdown (${lines.length} item${lines.length > 1 ? "s" : ""})`}
+                  <CaretDown aria-hidden className="size-4 transition-transform duration-300 group-open:rotate-180" />
+                </summary>
+                <div className="max-h-[45vh] overflow-y-auto px-4 pb-4 lg:max-h-none lg:px-6 lg:py-4">
+                  {empty ? (
+                    <p className="body-6 text-muted">Choose at least one event to see an estimate.</p>
+                  ) : (
+                    <table className="w-full body-6">
+                      <caption className="sr-only">Your estimate, item by item</caption>
+                      <tbody>
+                        {lines.map((l) => (
+                          <tr key={l.label} className="border-b border-border/60 last:border-0">
+                            <th scope="row" className="py-2 pr-3 text-left font-normal">
+                              <span className="text-fg">{l.label}</span>
+                              {l.detail && <span className="block caption-5 text-muted">{l.detail}</span>}
+                            </th>
+                            <td className="tabular py-2 text-right align-top text-fg">{formatRupees(l.amount)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot>
+                        <tr className="border-t border-border">
+                          <th scope="row" className="pt-3 text-left body-4 text-fg">Estimate</th>
+                          <td className="tabular pt-3 text-right body-4 text-fg">{formatRupees(total)} + GST</td>
+                        </tr>
+                        {total !== subtotal && (
+                          <tr>
+                            <td colSpan={2} className="pt-1 caption-5 text-muted">
+                              {formatRupees(subtotal)}, rounded to the nearest ₹500.
+                            </td>
+                          </tr>
+                        )}
+                      </tfoot>
+                    </table>
+                  )}
+                  <p className="mt-3 caption-5 text-muted">
+                    Crew, drone, traditional video and live streaming are charged for every event you pick. Add-ons are charged once.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => update(initialSelection)}
+                    className="mt-2 inline-flex min-h-11 items-center gap-2 text-sm text-muted transition-colors duration-300 hover:text-fg"
+                  >
+                    <RotateCcw aria-hidden className="size-3.5" /> Start again
+                  </button>
+                </div>
+              </details>
             </div>
           </div>
         </div>
