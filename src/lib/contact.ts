@@ -79,12 +79,14 @@ const longDate = (iso: string) =>
 /** The enquiry as the studio reads it in WhatsApp: one fact per line, most important first. */
 export function enquiryText(q: ContactInput) {
   return [
-    "Hi Zoomin Fotos! New enquiry from the website:",
+    "Hi Zoomin Fotos! I'd like to check availability.",
     "",
-    `Service: ${q.session}${q.pkg ? ` (${q.pkg})` : ""}`,
+    `Event: ${q.session}`,
+    ...(q.pkg ? [`Package: ${q.pkg}`] : []),
     `Date: ${longDate(q.date)}`,
     `Location: ${q.location}`,
     `Budget: ${q.budget}`,
+    "",
     `Name: ${q.name}`,
     `Phone: ${q.phone}`,
     ...(q.email ? [`Email: ${q.email}`] : []),

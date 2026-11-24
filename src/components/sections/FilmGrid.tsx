@@ -16,7 +16,7 @@ type Props = {
 export default function FilmGrid({ videos, showCategory = false, className }: Props) {
   if (!videos.length) return null;
   return (
-    <section aria-labelledby="films-title" className={className ?? "section-y border-t border-border"}>
+    <section id="films" aria-labelledby="films-title" className={className ?? "section-y border-t border-border"}>
       <div className="container-page">
         <SectionHeader
           id="films-title"

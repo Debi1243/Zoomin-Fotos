@@ -11,10 +11,10 @@ type Props = {
 
 /** The last section of a landing page: the same primary action as the top, with WhatsApp as a quiet second way in. */
 export default function ClosingCta({
-  title = "Your moments deserve beautiful photography.",
-  text = "Find the right photography package for your celebration.",
-  href = "/packages",
-  label = "See packages and prices",
+  title = "Your story deserves to be told beautifully.",
+  text = "Send us your date and venue. We'll tell you straight away if we're free, and help you choose the right package.",
+  href = "/contact?service=Wedding#quote",
+  label = "Check Availability",
 }: Props) {
   return (
     <section aria-labelledby="cta-title" className="surface-dark">

@@ -8,7 +8,7 @@ import { whatsappHref } from "@/lib/brand";
 const HIDDEN = ["/admin", "/portal"];
 
 /**
- * The two ways to book, always one tap away on phones and tablets: WhatsApp and the quick quote form.
+ * The two ways to book, always one tap away on phones and tablets: WhatsApp and the quick enquiry form.
  * Desktop has the same actions in the header.
  */
 export default function BookingBar() {
@@ -23,8 +23,8 @@ export default function BookingBar() {
           WhatsApp
         </WhatsAppButton>
         {!onContact && (
-          <ButtonLink href="/contact#quote" className="flex-1" arrow={false}>
-            Get a quote
+          <ButtonLink href="/contact#quote" className="flex-1" arrow={false} data-track="check_availability" data-track-source="booking-bar">
+            Check availability
           </ButtonLink>
         )}
       </div>

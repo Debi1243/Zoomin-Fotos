@@ -4,7 +4,7 @@ import videoData from "@/content/videos.json";
 import { HANDLE_PATTERN, MAX_TAGS } from "./instagram";
 
 // Contact details and formatting live in ./brand, which client components can import without the photo data.
-export { brand, formatRupees, locationLine, mailHref, supportMailHref, telHref, waLink, whatsappHref } from "./brand";
+export { brand, customPackagesLine, formatRupees, locationLine, mailHref, supportMailHref, telHref, waLink, whatsappHref } from "./brand";
 
 /**
  * All site content lives here: contact details, services, packages and prices, FAQs.
@@ -52,7 +52,7 @@ export type Service = {
   deliverables: string[];
   faqs: { q: string; a: string }[];
   packages?: Package[];
-  /** Line under the packages heading; defaults to the one-day, plus-GST, negotiable note. */
+  /** Line under the packages heading; defaults to the one-day, plus-GST, custom-packages note. */
   packagesIntro?: string;
 };
 
@@ -66,6 +66,8 @@ export type Package = {
   unit?: string;
   note?: string;
   tagline: string;
+  /** Who the package suits and what they come away with, in a sentence. */
+  bestFor?: string;
   team?: string;
   items: string[];
   featured?: boolean;
@@ -100,7 +102,7 @@ export const services: Service[] = [
     faqs: [
       {
         q: "Are the package prices fixed?",
-        a: "Prices are for one day of coverage, plus GST, and are negotiable. Multi-day weddings, travel and add-ons are quoted together so you get one clear number.",
+        a: "Prices are for one day of coverage, plus GST. Custom packages available based on your event requirements. Multi-day weddings, travel and add-ons are quoted together so you get one clear number.",
       },
       {
         q: "How far in advance should we book?",
@@ -114,6 +116,7 @@ export const services: Service[] = [
         name: "Essence",
         price: 25000,
         tagline: "The beginning of beautiful memories",
+        bestFor: "For an intimate one-day wedding: every moment kept in full, with a film and an album to relive it.",
         team: "1 photographer, 1 cinematographer",
         items: ["All raw photos (high resolution)", "All raw videos", "1 premium photo album (standard size)", "1 full-length edited video"],
       },
@@ -121,6 +124,7 @@ export const services: Service[] = [
         name: "Signature",
         price: 35000,
         tagline: "More moments, more stories",
+        bestFor: "For couples who want more angles and something to share: a second photographer, edited photos and a highlight video.",
         team: "2 photographers, 1 cinematographer",
         items: [
           "All raw photos and videos",
@@ -134,6 +138,7 @@ export const services: Service[] = [
         name: "Luxe",
         price: 45000,
         tagline: "Every detail, beautifully told",
+        bestFor: "For a big family wedding told in detail: two photographers, two cinematographers, a teaser and a reel.",
         team: "2 photographers, 2 cinematographers",
         items: [
           "All raw photos and videos",
@@ -149,6 +154,7 @@ export const services: Service[] = [
         name: "Infinity",
         price: 55000,
         tagline: "A complete story from every angle",
+        bestFor: "For the whole story from every angle: a drone, 150 edited photos, a cinematic film and a luxury album.",
         team: "2 photographers, 2 cinematographers, 1 drone",
         featured: true,
         items: [
@@ -186,6 +192,7 @@ export const services: Service[] = [
         unit: "per shoot + GST",
         note: "Includes everything",
         tagline: "More than pictures, a story of you",
+        bestFor: "For save-the-dates and invitations, and to get comfortable in front of the camera before the big day.",
         items: ["Professional photography", "Drone shots", "Edited photos", "Premium album"],
       },
     ],
@@ -367,25 +374,34 @@ export const bookingSteps = [
 ];
 
 /**
- * Why book with us. Every point here is backed by what the site itself publishes:
- * the prices, the package contents and the package builder.
+ * Why book with us. Every point is backed by something the studio already publishes or does:
+ * the package teams and films, the booking agreement (backup cameras and duplicate cards),
+ * delivery dates in the quote and the client portal's planning lists and delivery tracker.
  */
 export const reasons = [
   {
-    title: "Prices on the page",
-    text: "Wedding packages from ₹25,000 and pre-wedding shoots from ₹15,000, plus GST. No “call for price” guessing.",
+    title: "A professional team, sized to your day",
+    text: "From one photographer and one cinematographer up to two of each and a drone, so both families and both sides of the mandap are covered.",
   },
   {
-    title: "Photos and video together",
-    text: "Every wedding package includes a photographer and a cinematographer, all raw files, an album and a full-length film.",
+    title: "Creative storytelling",
+    text: "Candid photographs and films edited as a story, not a slideshow. Infinity includes a 7 to 10 minute cinematic, storyline-driven highlight film.",
   },
   {
-    title: "Packages that flex",
-    text: "Pick a ready package or build your own, event by event. Every price is negotiable.",
+    title: "Backup equipment",
+    text: "We work with backup cameras and duplicate memory cards, and say so in writing in every booking agreement.",
   },
   {
-    title: "Booking on WhatsApp",
-    text: "Ask questions, check your date and confirm your booking in the app you already use.",
+    title: "A defined delivery process",
+    text: "Your delivery dates are written into your quote before you book. Track your teaser, photos, films and album from “Not started” to “Ready” in your client portal.",
+  },
+  {
+    title: "Personalised planning",
+    text: "A planning call before the day, and a private portal where you share your schedule, venues, family list and the photos you must have.",
+  },
+  {
+    title: "Consistent quality",
+    text: "Every photograph on this site is our own, from real weddings and shoots in Odisha. No stock images, ever.",
   },
 ];
 
@@ -415,7 +431,7 @@ export const homeFaqs = [
   },
   {
     q: "Can I customise a package?",
-    a: "Yes. Every price is negotiable, and you can build your own wedding package event by event, adding photographers, cinematographers, a drone, an album or a same-day edit.",
+    a: "Yes. Custom packages available based on your event requirements. You can also build your own wedding package event by event in the package builder, adding photographers, cinematographers, a drone, an album or a same-day edit, and see an itemised estimate before you ask.",
   },
   travelFaq,
   deliveryFaq,
@@ -430,17 +446,42 @@ export const homeFaqs = [
 ];
 
 /**
- * The kinds of shoot customers look for, each pointing at the service page that covers it.
- * Maternity shares a card with baby and kids (one page covers both), and family portraits sit
- * with portraits. Prices are only shown where the studio publishes them.
+ * The services on the home page, each pointing at the page that covers it. Candid photography and
+ * cinematography are part of every wedding package, so they show that instead of a price.
+ * Maternity and newborn share one page; there are no maternity photographs yet, so the card uses
+ * a photograph of a little one. Prices are only shown where the studio publishes them.
  */
-export const homeServices: { title: string; slug: ServiceSlug; photoId: string; text: string }[] = [
-  { title: "Wedding", slug: "weddings", photoId: "81", text: "Every ritual from haldi to bidaai, in photos and film." },
-  { title: "Pre-wedding", slug: "pre-wedding", photoId: "24", text: "A relaxed shoot at a place that means something to you both." },
-  { title: "Maternity, Baby & Kids", slug: "maternity-newborn", photoId: "44", text: "Calm sessions for bumps, newborns and little ones, at their own pace." },
-  { title: "Birthday & Event", slug: "events", photoId: "70", text: "Birthdays, anniversaries and functions, without interrupting them." },
-  { title: "Family & Portraits", slug: "portraits", photoId: "73", text: "Natural portraits for families, couples and individuals." },
-  { title: "Commercial", slug: "commercial", photoId: "42", text: "Product, food and brand photos that help you sell." },
+export const homeServices: { title: string; href: string; photoId: string; text: string; slug?: ServiceSlug; priceNote?: string }[] = [
+  { title: "Wedding Photography", slug: "weddings", href: "/services/weddings", photoId: "81", text: "Every ritual from haldi to bidaai, in photographs and film." },
+  { title: "Candid Photography", href: "/services/candid-photography", photoId: "56", text: "Unposed laughter, glances and tears, caught as they happen.", priceNote: "In every wedding package" },
+  { title: "Wedding Cinematography", href: "/services/wedding-cinematography", photoId: "63", text: "Highlight films, teasers and reels that tell your day as a story.", priceNote: "In every wedding package" },
+  { title: "Pre-Wedding Photography", slug: "pre-wedding", href: "/services/pre-wedding", photoId: "24", text: "A relaxed shoot at a place that means something to you both." },
+  { title: "Maternity & Newborn", slug: "maternity-newborn", href: "/services/maternity-newborn", photoId: "44", text: "Calm, baby-led sessions for bumps, newborns and little ones." },
+  { title: "Event Photography", slug: "events", href: "/services/events", photoId: "91", text: "Concerts, birthdays and functions, without interrupting them." },
+  { title: "Commercial Photography", slug: "commercial", href: "/services/commercial", photoId: "42", text: "Product, food and brand photographs that help you sell." },
+  { title: "Portraits & Family", slug: "portraits", href: "/services/portraits", photoId: "73", text: "Natural portraits for families, couples and individuals." },
+];
+
+/**
+ * A wedding day told in the order it unfolds, from getting ready to the reception. The photographs
+ * come from several of our weddings, so the page says so; none of it is staged for the website.
+ */
+export const weddingStory: { id: string; title: string; text: string; photoIds: string[] }[] = [
+  { id: "getting-ready", title: "Getting ready", text: "Nerves, laughter and the last touches, before anyone else sees the bride.", photoIds: ["30", "34", "66", "80"] },
+  { id: "haldi", title: "Haldi", text: "Turmeric, petals and the whole family joining in.", photoIds: ["60", "21", "64", "33"] },
+  { id: "ceremony", title: "The ceremony", text: "Every ritual at the mandap, from the mukut to sindoor daan.", photoIds: ["40", "28", "01", "53"] },
+  { id: "portraits", title: "The two of you", text: "A quiet half hour away from the crowd, timed for the best light.", photoIds: ["65", "56", "55", "62"] },
+  { id: "bidaai", title: "Bidaai", text: "The goodbye nobody is ready for.", photoIds: ["09", "59"] },
+  { id: "reception", title: "The reception", text: "Lights, family and a long evening of celebration.", photoIds: ["67", "14", "57"] },
+];
+
+/**
+ * Portfolio collections that cut across the service categories. Each lists photograph ids, so the
+ * gallery can filter by them; an id that has been deleted is simply skipped.
+ */
+export const collections: { slug: string; label: string; ids: string[] }[] = [
+  { slug: "haldi-mehendi", label: "Haldi & Mehendi", ids: ["21", "33", "60", "64", "29", "30"] },
+  { slug: "candid", label: "Candid moments", ids: ["56", "59", "58", "21", "96", "62", "36", "63", "35", "29", "70", "71", "50"] },
 ];
 
 /** The lowest published price for a service, if it publishes any. */
@@ -467,6 +508,18 @@ export const weddingComparison: { label: string; values: [string, string, string
   { label: "Instagram reels", values: ["—", "—", "1", "2 to 3"] },
   { label: "Wedding invitation video", values: ["—", "—", "—", "Yes"] },
 ];
+
+/** The rows of the comparison that differ most between packages, shown on each wedding package card. */
+const factRows = ["Photographers", "Cinematographers", "Edited photos", "Highlight video"];
+
+/** A wedding package's key numbers, read from the comparison table so the two never disagree. */
+export function weddingFacts(packageName: string) {
+  const i = getService("weddings")?.packages?.findIndex((p) => p.name === packageName) ?? -1;
+  if (i < 0) return [];
+  return weddingComparison
+    .filter((r) => factRows.includes(r.label))
+    .map((r) => ({ label: r.label, value: r.values[i] === "—" ? "Not included" : r.values[i].replace(" cinematic film", "") }));
+}
 
 const serviceBySlug = new Map<string, Service>(services.map((s) => [s.slug, s]));
 

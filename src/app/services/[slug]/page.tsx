@@ -16,7 +16,7 @@ import { ButtonLink, WhatsAppLink } from "@/components/ui/Button";
 import TaglineReveal from "@/components/sections/TaglineReveal";
 import BookingSteps from "@/components/sections/BookingSteps";
 import JsonLd from "@/components/shared/JsonLd";
-import { brand, formatRupees, generalFaqs, getService, photosIn, services, startingPrice, videosIn, waLink } from "@/lib/data";
+import { brand, customPackagesLine, formatRupees, generalFaqs, getService, photosIn, services, startingPrice, videosIn, waLink } from "@/lib/data";
 import { quoteHref, quoteServiceFor } from "@/lib/contact";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
@@ -24,6 +24,16 @@ export const dynamicParams = false;
 
 const serviceTitle = (t: string) =>
   `${t.replace(/^Weddings$/, "Wedding").replace(/^Events$/, "Event").replace(/^Portraits$/, "Portrait")} photography`;
+
+/** What people type into Google for each service, used as the page title. */
+const seoTitles: Record<string, string> = {
+  weddings: `Wedding Photographer in ${brand.city}, ${brand.region}`,
+  "pre-wedding": `Pre-Wedding Photographer in ${brand.city}`,
+  "maternity-newborn": `Maternity & Newborn Photographer in ${brand.city}`,
+  events: `Event Photographer in ${brand.city}`,
+  commercial: `Commercial & Product Photographer in ${brand.city}`,
+  portraits: `Portrait & Family Photographer in ${brand.city}`,
+};
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -35,7 +45,7 @@ export async function generateMetadata({ params }: PageProps<"/services/[slug]">
   if (!s) return {};
   const path = `/services/${s.slug}`;
   const from = startingPrice(s.slug);
-  const title = `${serviceTitle(s.title)} in ${brand.city}${from ? ` from ${formatRupees(from)}` : ""}`;
+  const title = `${seoTitles[s.slug] ?? `${serviceTitle(s.title)} in ${brand.city}`}${from ? ` from ${formatRupees(from)}` : ""}`;
   const description = `${s.short} ${from ? `Packages from ${formatRupees(from)} + GST. ` : ""}${brand.name}, ${brand.city}, ${brand.region}.`;
   return {
     title,
@@ -66,7 +76,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       <PageHero
         label={s.title}
         crumbs={[{ href: "/services", label: "Services" }]}
-        title={title}
+        title={`${title} in ${s.slug === "weddings" ? brand.region : brand.city}`}
         intro={s.intro}
         media={
           cover && (
@@ -101,6 +111,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         <Packages
           items={s.packages}
           service={quoteService}
+          terms={s.slug === "weddings"}
           intro={s.packagesIntro}
           payOnline={s.slug === "weddings" ? s.slug : undefined}
           className="border-t border-border"
@@ -191,7 +202,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
       <ClosingCta
         title={`Tell us your date, and we will tell you if it is free.`}
-        text={from ? `${title} from ${formatRupees(from)} plus GST. Every price is negotiable.` : `${title} is priced for your shoot. Send your date and we will send a clear quote.`}
+        text={from ? `${title} from ${formatRupees(from)} plus GST. ${customPackagesLine}` : `${title} is priced for your shoot. Send your date and we will send a clear quote.`}
         href={quoteHref({ service: quoteService })}
         label={ctaLabel}
       />

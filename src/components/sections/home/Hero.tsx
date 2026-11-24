@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { MapPinIcon, WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
+import { CalendarCheckIcon, MapPinIcon, WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import { ButtonLink } from "@/components/ui/Button";
 import HeroScroll from "@/components/sections/home/HeroScroll";
 import { brand, formatRupees, pickPhotos, startingPrice, waLink, type ServiceSlug } from "@/lib/data";
@@ -90,25 +91,37 @@ export default function Hero() {
                   <em className="block text-balance">The Moments You&apos;ll Relive Forever.</em>
                 </h1>
                 <p className="rise mt-3 max-w-[56ch] body-6 hero-lede sm:body-3 md:mt-5 md:body-7" style={{ "--i": 1 } as CSSProperties}>
-                  Wedding, maternity, family and event photography in {brand.city}, with every package and price on the page before you message us.
+                  {brand.promise}
                 </p>
                 <div className="rise mt-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-5 md:mt-7" style={{ "--i": 2 } as CSSProperties}>
-                  <ButtonLink href="/packages" size="lg" className="w-full sm:w-auto">
-                    See packages and prices
+                  <ButtonLink href="/portfolio#wedding-story" size="lg" className="w-full sm:w-auto">
+                    View Wedding Stories
                   </ButtonLink>
                   {/* A glass button: clearly a second way in, without competing with the solid primary. */}
+                  <Link
+                    href="/contact?service=Wedding#quote"
+                    data-track="check_availability"
+                    data-track-source="hero"
+                    className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-white/40 bg-white/10 px-4 py-3 button-md text-white backdrop-blur-md transition-[background-color,border-color,translate] duration-300 ease-[var(--ease-base)] hover:-translate-y-px hover:border-white/70 hover:bg-white/20 active:translate-y-0 sm:w-auto"
+                  >
+                    <CalendarCheckIcon aria-hidden className="size-5 text-[#9dbcff]" />
+                    Check Availability
+                  </Link>
+                </div>
+                <p className="rise mt-3 flex flex-wrap items-center gap-x-1.5 caption-2 text-white/80 md:mt-4" style={{ "--i": 2 } as CSSProperties}>
+                  Prefer to chat?{" "}
                   <a
-                    href={waLink("Hi Zoomin Fotos! I'd like to know more about your photography packages.")}
+                    href={waLink("Hi Zoomin Fotos! I'd like to check availability for my wedding.")}
                     target="_blank"
                     rel="noopener noreferrer"
                     data-track="whatsapp_click"
                     data-track-source="hero"
-                    className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-white/40 bg-white/10 px-4 py-3 button-md text-white backdrop-blur-md transition-[background-color,border-color,translate] duration-300 ease-[var(--ease-base)] hover:-translate-y-px hover:border-white/70 hover:bg-white/20 active:translate-y-0 sm:w-auto"
+                    className="inline-flex min-h-11 items-center gap-1.5 font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white sm:min-h-0"
                   >
-                    <WhatsappLogoIcon aria-hidden weight="fill" className="size-5 text-[#4ee59a]" />
-                    Ask us on WhatsApp
+                    <WhatsappLogoIcon aria-hidden weight="fill" className="size-4 text-[#4ee59a]" />
+                    Message us on WhatsApp
                   </a>
-                </div>
+                </p>
               </div>
 
               <div className="rise flex shrink-0 flex-col gap-4 lg:items-end" style={{ "--i": 3 } as CSSProperties}>

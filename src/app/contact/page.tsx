@@ -3,16 +3,20 @@ import { EnvelopeIcon as Mail, MapPinIcon as MapPin, PhoneIcon as Phone } from "
 import PageHero from "@/components/sections/PageHero";
 import QuoteForm from "@/components/forms/QuoteForm";
 import { WhatsAppButton } from "@/components/ui/Button";
-import { brand, locationLine, mailHref, supportMailHref, telHref, whatsappHref } from "@/lib/data";
+import { bookingSteps, brand, formatRupees, getService, locationLine, mailHref, supportMailHref, telHref, whatsappHref } from "@/lib/data";
 
-const description = `Get a photography quote from ${brand.name}, ${brand.city}. Tell us your date, place and budget, and we confirm availability on WhatsApp.`;
+const description = `Check availability and get a quote from ${brand.name}, wedding photographers in ${brand.city}. Tell us your date, venue and budget, and we confirm on WhatsApp.`;
+const title = "Check Availability & Get a Quote";
 
 export const metadata: Metadata = {
-  title: "Get a Photography Quote",
+  title,
   description,
   alternates: { canonical: "/contact" },
-  openGraph: { title: "Get a Photography Quote", description, url: "/contact" },
+  openGraph: { title, description, url: "/contact" },
 };
+
+/** The wedding packages as the form lists them, in the same wording the package cards send. */
+const weddingPackages = (getService("weddings")?.packages ?? []).map((p) => `${p.name}, ${formatRupees(p.price)} + GST`);
 
 const details = [
   { label: "Call", value: brand.phone, href: telHref, icon: Phone },
@@ -26,15 +30,15 @@ export default function ContactPage() {
     <>
       <PageHero
         label="Contact"
-        title="Get your photography quote"
-        intro="Answer seven quick questions. We'll open WhatsApp with your enquiry written out, so you can send it in one tap."
+        title="Check availability for your date"
+        intro="Answer a few quick questions. We'll open WhatsApp with your enquiry written out, so you can send it in one tap, and reply to confirm your date and price."
       />
       <section aria-label="Quote form" className="container-page pb-16 md:pb-24">
         {/* Older links point at #enquiry; it lands in the same place as #quote. */}
         <span id="enquiry" aria-hidden className="block scroll-mt-24" />
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div id="quote" className="scroll-mt-24 lg:col-span-8">
-            <QuoteForm />
+            <QuoteForm weddingPackages={weddingPackages} />
           </div>
           <div role="region" aria-labelledby="chat-title" className="lg:col-span-4">
             <div className="rounded-xl border border-border bg-surface p-6">
@@ -60,6 +64,21 @@ export default function ContactPage() {
                   </div>
                 ))}
               </dl>
+            </div>
+            <div className="mt-6 rounded-xl border border-border bg-surface p-6">
+              <h2 className="heading-6">What happens next</h2>
+              <ol className="mt-4 space-y-4">
+                {bookingSteps.map((s, i) => (
+                  <li key={s.title} className="grid grid-cols-[1.75rem_1fr] gap-x-3">
+                    <span aria-hidden className="tabular grid size-7 place-items-center rounded-full bg-primary caption-3 text-primary-fg">{i + 1}</span>
+                    <div>
+                      <h3 className="body-4">{s.title}</h3>
+                      <p className="mt-1 body-6 text-muted">{s.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <p className="mt-4 border-t border-border pt-4 caption-2 text-muted">Delivery dates for your photos, films and album are written into your quote before you book.</p>
             </div>
           </div>
         </div>

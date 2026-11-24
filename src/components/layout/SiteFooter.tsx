@@ -42,9 +42,13 @@ export default function SiteFooter() {
         <nav aria-label="Services" className="lg:col-span-3">
           <h2 className="label text-muted">Photography</h2>
           <ul className="mt-2 body-6 lg:mt-4 lg:space-y-2">
-            {services.map((s) => (
-              <li key={s.slug}>
-                <Link href={`/services/${s.slug}`} className="inline-flex min-h-11 items-center lg:min-h-0"><span className="link-underline">{s.title}</span></Link>
+            {[
+              ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.title })),
+              { href: "/services/candid-photography", label: "Candid photography" },
+              { href: "/services/wedding-cinematography", label: "Wedding cinematography" },
+            ].map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="inline-flex min-h-11 items-center lg:min-h-0"><span className="link-underline">{l.label}</span></Link>
               </li>
             ))}
             <li>

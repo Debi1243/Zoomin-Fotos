@@ -3,6 +3,7 @@ import ServiceCards from "@/components/sections/home/ServiceCards";
 import Packages, { PackagesLink } from "@/components/sections/Packages";
 import FeaturedPortfolio from "@/components/sections/home/FeaturedPortfolio";
 import WhyUs from "@/components/sections/home/WhyUs";
+import TrustStrip from "@/components/sections/home/TrustStrip";
 import HomeReviews from "@/components/sections/home/HomeReviews";
 import BookingSteps from "@/components/sections/BookingSteps";
 import Faq from "@/components/sections/Faq";
@@ -11,18 +12,19 @@ import TaglineReveal from "@/components/sections/TaglineReveal";
 import JsonLd from "@/components/shared/JsonLd";
 import { brand, getService, homeFaqs, homeTagline, services } from "@/lib/data";
 import { absoluteUrl, siteUrl } from "@/lib/site";
+import { focusServices } from "@/lib/focus-services";
 
 export default function HomePage() {
   const weddings = getService("weddings");
 
   return (
     <>
-      {/* Above the fold: what, where, from what price, one primary action. */}
+      {/* Above the fold: the promise, a wedding photograph and two ways in. */}
       <Hero />
-      {/* The argument: what we shoot, why us, the core promise, then the prices that back it up. */}
+      {/* Proof first: verified facts, then the work itself, told as a wedding day. */}
+      <TrustStrip />
+      <FeaturedPortfolio />
       <ServiceCards />
-      <WhyUs />
-      <TaglineReveal text={homeTagline} className="section-y border-t border-border" />
       {weddings?.packages && (
         <Packages
           items={weddings.packages}
@@ -35,12 +37,14 @@ export default function HomePage() {
             <>
               <PackagesLink href="/packages#compare">Compare all packages side by side</PackagesLink>
               <PackagesLink href="/packages#builder">Build your own package</PackagesLink>
+              <PackagesLink href="/packages#packages">What&apos;s included and what costs extra</PackagesLink>
             </>
           }
         />
       )}
-      {/* Proof, then how booking works, then objections, then the same action as the top. */}
-      <FeaturedPortfolio />
+      <WhyUs />
+      <TaglineReveal text={homeTagline} className="section-y border-t border-border" />
+      {/* Clients in their own words, how booking works, objections, then the same action as the top. */}
       <HomeReviews className="pb-16 md:pb-24" />
       <BookingSteps />
       <Faq items={homeFaqs} />
@@ -52,6 +56,7 @@ export default function HomePage() {
           "@id": `${siteUrl}/#studio`,
           name: brand.name,
           description: brand.description,
+          slogan: brand.tagline,
           url: siteUrl,
           logo: absoluteUrl("/icon.png"),
           image: absoluteUrl("/opengraph-image"),
@@ -78,9 +83,12 @@ export default function HomePage() {
           hasOfferCatalog: {
             "@type": "OfferCatalog",
             name: "Photography services",
-            itemListElement: services.map((s) => ({
+            itemListElement: [
+              ...services.map((s) => ({ name: `${s.title} photography`, slug: s.slug })),
+              ...focusServices.map((f) => ({ name: f.label, slug: f.slug })),
+            ].map((s) => ({
               "@type": "Offer",
-              itemOffered: { "@type": "Service", name: `${s.title} photography`, url: absoluteUrl(`/services/${s.slug}`) },
+              itemOffered: { "@type": "Service", name: s.name, url: absoluteUrl(`/services/${s.slug}`) },
             })),
           },
         }}
