@@ -1,53 +1,53 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   Design tokens: "midnight black and cobalt"
-   Near-black midnight pages with cool white ink; one cobalt blue (#0047AB)
-   that means "book"; a brighter cobalt for links, italics and small accents;
-   and a pale cobalt for rules, stars and highlights. The deep "print room"
-   bands (.surface-dark) go blacker still, lit by a cobalt glow, so the
-   photographs sit on true black. Colour is defined once here and mapped into
-   Tailwind below.
-   Contrast (WCAG): ink on bg 17.7:1 (16.1:1 on sand), muted on bg 8.7:1
-   (7.7:1 on elevated cards), white on primary 8.4:1 (7.0:1 at the light end
-   of its gradient, 6.2:1 on hover), accent text on bg 7.4:1 (6.6:1 on cards),
-   pale cobalt text on bg 10.6:1. Dark bands: ink 18.3:1, accent 7.6:1.
+   Design tokens: "deep teal"
+   Near-black teal pages with soft cream ink, after the Deep Teal mood board
+   (#0F3D3E). One mid sea teal means "book"; a lighter sea green for links,
+   italics and small accents; and a pale sea glass for rules, stars and
+   highlights. The deep "print room" bands (.surface-dark) go darker still,
+   lit by a teal glow, so the photographs sit on near black. Colour is defined
+   once here and mapped into Tailwind below.
+   Contrast (WCAG): ink on bg 15.8:1 (12.8:1 on sand), muted on bg 9.4:1
+   (7.6:1 on cards), white on primary 7.5:1 (6.0:1 at the light end of its
+   gradient and on hover), accent text on bg 10.0:1 (8.1:1 on cards), sea
+   glass text on bg 13.4:1. Dark bands: ink 16.7:1, accent 10.5:1.
    ────────────────────────────────────────────────────────────── */
 
 :root {
   color-scheme: dark;
 
-  --bg: #07080c;
-  /* Cards and panels are frosted glass: translucent midnight, blurred over the cobalt light behind. */
-  --surface: rgb(20 24 36 / 0.55);
-  --elevated: rgb(24 28 42 / 0.82);
-  /* Raised midnight bands and fills. */
-  --sand: #121520;
-  --sand-soft: #0b0d13;
-  --fg: #eef1f7;
-  --fg-muted: #a3abbd;
+  --bg: #061413;
+  /* Cards and panels are frosted glass: translucent teal, blurred over the sea light behind. */
+  --surface: rgb(16 48 49 / 0.55);
+  --elevated: rgb(15 44 45 / 0.85);
+  /* Raised deep teal bands and fills. */
+  --sand: #0f2a2b;
+  --sand-soft: #091b1b;
+  --fg: #f1ebe0;
+  --fg-muted: #a8bcb7;
   /* Glass edges: a thin line of light rather than a grey rule. */
   --border: rgb(255 255 255 / 0.09);
   --border-strong: rgb(255 255 255 / 0.18);
 
-  /* Cobalt blue is reserved for booking actions and prices. */
-  --primary: #0047ab;
-  --primary-hover: #1a5cc4;
+  /* Sea teal is reserved for booking actions and prices. */
+  --primary: #1b5e5c;
+  --primary-hover: #226e6b;
   --primary-fg: #ffffff;
   /* The two ends of the primary button's soft gradient. */
-  --primary-from: #0a52c0;
-  --primary-to: #003d94;
-  /* Brighter cobalt that is safe for small text on the page, the bands and cards. */
-  --accent: #6b9bff;
+  --primary-from: #226e6b;
+  --primary-to: #154c4b;
+  /* Light sea green that is safe for small text on the page, the bands and cards. */
+  --accent: #7fcbbd;
 
-  /* Pale cobalt: the text tone is safe on midnight; the soft tone is for rules, stars and other decoration only. */
-  --gold-text: #9dbcff;
-  --gold-soft: #4d86ff;
+  /* Pale sea glass: the text tone is safe on deep teal; the soft tone is for rules, stars and other decoration only. */
+  --gold-text: #c3e0d7;
+  --gold-soft: #4fa294;
 
   /* WhatsApp action: darker than WhatsApp's own green so white text passes AA (5.3:1). */
   --whatsapp: #1f7a4d;
   --whatsapp-hover: #18643f;
-  /* WhatsApp green as text: brighter, so it passes AA on midnight (9.3:1 on the bands). */
+  /* WhatsApp green as text: brighter, so it passes AA on deep teal (9.3:1 on the bands). */
   --whatsapp-text: #4fd08f;
   --whatsapp-text-hover: #8be3b6;
 
@@ -55,31 +55,31 @@
   --marigold: var(--accent);
   --sindoor: var(--accent);
   --rani: var(--accent);
-  --peacock: #6b9bff;
+  --peacock: #7fcbbd;
   --gold: var(--gold-text);
   --marigold-glow: var(--gold-soft);
   --sindoor-glow: var(--primary);
   --rani-glow: var(--primary);
-  --peacock-glow: #0047ab;
+  --peacock-glow: #1b5e5c;
   --gold-glow: var(--sand);
   --glow-alpha: 0;
 
-  /* "Inverse" is a raised midnight band. */
+  /* "Inverse" is a raised deep teal band. */
   --inverse: var(--sand);
   --inverse-fg: var(--fg);
-  --inverse-muted: #a3abbd;
-  --inverse-border: #262b39;
+  --inverse-muted: #a8bcb7;
+  --inverse-border: #1f3c3c;
 
   --success: #4cc38a;
   --warning: #f0b44c;
   --error: #ff7a70;
 
-  /* Shadows on black need more weight to read; the primary glow is cobalt. */
+  /* Shadows on black need more weight to read; the primary glow is teal. */
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4), 0 2px 8px -4px rgb(0 0 0 / 0.5);
   --shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -14px rgb(0 0 0 / 0.7);
   --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.4), 0 28px 60px -24px rgb(0 0 0 / 0.8);
-  --shadow-primary: 0 1px 1px rgb(0 12 40 / 0.4), 0 8px 22px -10px rgb(0 71 171 / 0.75);
-  --shadow-primary-hover: 0 1px 1px rgb(0 12 40 / 0.45), 0 16px 32px -12px rgb(26 92 196 / 0.85);
+  --shadow-primary: 0 1px 1px rgb(0 20 20 / 0.4), 0 8px 22px -10px rgb(34 120 115 / 0.75);
+  --shadow-primary-hover: 0 1px 1px rgb(0 20 20 / 0.45), 0 16px 32px -12px rgb(50 145 138 / 0.85);
 
   /* Motion timings, shared by CSS and the view transitions between pages. */
   --dur-quick: 200ms;
@@ -244,12 +244,12 @@
     html { scroll-behavior: smooth; }
   }
 
-  /* The page is lit by soft cobalt light that stays put while the glass slides over it. */
+  /* The page is lit by soft sea-teal light that stays put while the glass slides over it. */
   body {
     background:
-      radial-gradient(60rem 42rem at 8% -8%, rgb(0 71 171 / 0.26), rgb(0 71 171 / 0) 70%),
-      radial-gradient(48rem 36rem at 100% 45%, rgb(77 134 255 / 0.1), rgb(77 134 255 / 0) 70%),
-      radial-gradient(56rem 40rem at 15% 105%, rgb(0 71 171 / 0.18), rgb(0 71 171 / 0) 70%),
+      radial-gradient(60rem 42rem at 8% -8%, rgb(30 112 108 / 0.26), rgb(30 112 108 / 0) 70%),
+      radial-gradient(48rem 36rem at 100% 45%, rgb(90 175 160 / 0.1), rgb(90 175 160 / 0) 70%),
+      radial-gradient(56rem 40rem at 15% 105%, rgb(30 112 108 / 0.18), rgb(30 112 108 / 0) 70%),
       var(--bg);
     background-attachment: fixed;
     color: var(--fg);
@@ -322,7 +322,7 @@
   text-transform: uppercase;
 }
 
-/* Raised midnight band, for quiet contrast between sections. */
+/* Raised deep teal band, for quiet contrast between sections. */
 @utility surface-inverse {
   background: linear-gradient(180deg, var(--sand-soft), var(--inverse));
   color: var(--inverse-fg);
@@ -360,54 +360,54 @@
 /* Black "print room" band. It re-points the page tokens, so every component
    inside (cards, filters, links, the logo) turns light-on-dark without its own dark styles. */
 @utility surface-dark {
-  --bg: #030408;
-  --surface: rgb(16 19 30 / 0.5);
-  --elevated: rgb(20 23 36 / 0.82);
-  --sand: #151927;
-  --sand-soft: #080a0f;
-  --fg: #f4f6fb;
-  --fg-muted: #aab2c4;
+  --bg: #030c0c;
+  --surface: rgb(13 42 43 / 0.5);
+  --elevated: rgb(14 40 41 / 0.85);
+  --sand: #0f3d3e;
+  --sand-soft: #051010;
+  --fg: #f4efe5;
+  --fg-muted: #afc2bd;
   --border: rgb(255 255 255 / 0.08);
   --border-strong: rgb(255 255 255 / 0.16);
-  /* On the black bands the accent stays bright cobalt. */
-  --accent: #6b9bff;
-  --gold-text: #9dbcff;
-  --gold-soft: #4d86ff;
+  /* On the dark bands the accent stays light sea green. */
+  --accent: #7fcbbd;
+  --gold-text: #c3e0d7;
+  --gold-soft: #4fa294;
   --whatsapp-text: #4fd08f;
   --whatsapp-text-hover: #8be3b6;
-  --inverse-muted: #aab2c4;
-  --focus: #f4f6fb;
+  --inverse-muted: #afc2bd;
+  --focus: #f4efe5;
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
   --shadow-md: 0 1px 2px rgb(0 0 0 / 0.5), 0 16px 36px -16px rgb(0 0 0 / 0.8);
-  /* A cobalt glow in one corner and a fainter one in the other, like stage light on a print. */
+  /* A teal glow in one corner and a fainter one in the other, like stage light on a print. */
   background:
-    radial-gradient(70% 55% at 0% 0%, rgb(0 71 171 / 0.32), rgb(0 71 171 / 0) 70%),
-    radial-gradient(60% 50% at 100% 100%, rgb(77 134 255 / 0.12), rgb(77 134 255 / 0) 70%),
+    radial-gradient(70% 55% at 0% 0%, rgb(30 112 108 / 0.32), rgb(30 112 108 / 0) 70%),
+    radial-gradient(60% 50% at 100% 100%, rgb(90 175 160 / 0.12), rgb(90 175 160 / 0) 70%),
     var(--bg);
   color: var(--fg);
   color-scheme: dark;
 }
 
-/* Inner page tops: a faint wash of cobalt light behind the heading. */
+/* Inner page tops: a faint wash of sea-teal light behind the heading. */
 .page-hero { position: relative; isolation: isolate; }
 .page-hero::before {
   content: ""; position: absolute; z-index: -1; pointer-events: none;
   inset: -7rem calc(50% - 50vw) 0;
   background:
-    radial-gradient(42rem 22rem at 12% 0%, rgb(0 71 171 / 0.3), rgb(0 71 171 / 0) 70%),
-    radial-gradient(38rem 20rem at 88% 8%, rgb(77 134 255 / 0.12), rgb(77 134 255 / 0) 70%);
+    radial-gradient(42rem 22rem at 12% 0%, rgb(30 112 108 / 0.3), rgb(30 112 108 / 0) 70%),
+    radial-gradient(38rem 20rem at 88% 8%, rgb(90 175 160 / 0.12), rgb(90 175 160 / 0) 70%);
 }
 
 /* Eyebrow with a short rule in front of it, as used on section headers. */
 .label-rule { display: inline-flex; align-items: center; gap: 0.75rem; }
 .label-rule::before { content: ""; width: 2rem; height: 1px; background: linear-gradient(90deg, var(--gold-soft), currentColor); opacity: 0.85; }
 
-/* Soft section band: a gentle wash from midnight into a raised midnight. */
+/* Soft section band: a gentle wash from deep teal into a raised deep teal. */
 @utility surface-soft {
   background: linear-gradient(180deg, var(--sand-soft) 0%, color-mix(in srgb, var(--sand) 55%, var(--sand-soft)) 100%);
 }
 
-/* Primary (booking) button: a soft cobalt gradient with a blue glow that brightens on hover. */
+/* Primary (booking) button: a soft teal gradient with a sea-green glow that brightens on hover. */
 .btn-primary {
   background-color: var(--primary);
   background-image: linear-gradient(180deg, var(--primary-from), var(--primary-to));
@@ -470,7 +470,7 @@ html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
   .hero-cue-line { position: relative; }
   .hero-cue-line::after {
     content: ""; position: absolute; inset-inline: 0; top: 0; height: 40%;
-    background: linear-gradient(180deg, transparent, #9dbcff);
+    background: linear-gradient(180deg, transparent, #c3e0d7);
     animation: cue-run 2.2s var(--ease-base) infinite;
   }
 }
@@ -483,19 +483,19 @@ html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
    sits, and a low band under the prices, so the faces in the upper part of each photo stay bright. */
 .hero-scrim {
   background:
-    radial-gradient(120% 85% at 0% 100%, rgb(3 4 8 / 0.86) 0%, rgb(3 4 8 / 0.66) 40%, rgb(3 4 8 / 0) 76%),
-    linear-gradient(0deg, rgb(3 4 8 / 0.72) 0%, rgb(3 4 8 / 0.25) 24%, rgb(3 4 8 / 0) 44%),
-    linear-gradient(180deg, rgb(3 4 8 / 0.35) 0%, rgb(3 4 8 / 0) 18%);
+    radial-gradient(120% 85% at 0% 100%, rgb(2 10 10 / 0.86) 0%, rgb(2 10 10 / 0.66) 40%, rgb(2 10 10 / 0) 76%),
+    linear-gradient(0deg, rgb(2 10 10 / 0.72) 0%, rgb(2 10 10 / 0.25) 24%, rgb(2 10 10 / 0) 44%),
+    linear-gradient(180deg, rgb(2 10 10 / 0.35) 0%, rgb(2 10 10 / 0) 18%);
 }
 /* A touch more life in the photographs themselves. */
 .hero-photo { filter: saturate(1.1) contrast(1.04) brightness(1.03); }
 
 /* Hero type: bright on the photo, with a soft shadow so it holds even where the shade is thin. */
 .hero-title { color: #ffffff; text-shadow: 0 2px 24px rgb(0 0 0 / 0.35); }
-.hero-title em { color: #9dbcff; }
+.hero-title em { color: #c3e0d7; }
 .hero-lede { color: #ffffff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.45); }
 
-/* Older section markers (admin, portal): a short cobalt bar before a label. */
+/* Older section markers (admin, portal): a short teal bar before a label. */
 .festive-gradient { background-color: var(--primary); background-image: linear-gradient(90deg, var(--primary), var(--gold-soft)); }
 .label-dot {
   display: inline-block;
@@ -576,7 +576,7 @@ html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
   @media (hover: hover) {
     .group .photo-frame::after {
       content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(3 4 8 / 0.28));
+      background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(2 10 10 / 0.28));
       opacity: 0.6; transition: opacity 600ms var(--ease-base);
     }
     .group:hover .photo-frame::after { opacity: 0; }
@@ -734,7 +734,7 @@ picture {
   aspect-ratio: 5 / 4;
   background:
     radial-gradient(80% 70% at 25% 15%, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0) 70%),
-    radial-gradient(60% 50% at 90% 100%, rgb(0 71 171 / 0.28), rgb(0 71 171 / 0) 70%),
+    radial-gradient(60% 50% at 90% 100%, rgb(30 112 108 / 0.28), rgb(30 112 108 / 0) 70%),
     var(--sand);
 }
 .mock-stage > * { transition: translate 700ms var(--ease-base), rotate 700ms var(--ease-base); }
@@ -746,7 +746,7 @@ picture {
 .mock-album { width: 82cqw; rotate: -2deg; }
 .mock-album-spread {
   position: relative; aspect-ratio: 2 / 1; overflow: hidden; border-radius: 0.4cqw;
-  box-shadow: 0 0.6cqw 0 -0.1cqw #f4ecdf, 0 1.2cqw 0 -0.2cqw #e7dccb, 0 1.8cqw 0 -0.3cqw #d9cbb5, 0 5cqw 6cqw -3cqw rgb(15 22 42 / 0.55);
+  box-shadow: 0 0.6cqw 0 -0.1cqw #f4ecdf, 0 1.2cqw 0 -0.2cqw #e7dccb, 0 1.8cqw 0 -0.3cqw #d9cbb5, 0 5cqw 6cqw -3cqw rgb(8 26 26 / 0.55);
 }
 .mock-album-spread::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -757,7 +757,7 @@ picture {
 .mock-frame {
   width: 46cqw; aspect-ratio: 4 / 5; padding: 3cqw; border-radius: 0.6cqw;
   background: linear-gradient(135deg, #7a5130, #4a2e19 45%, #6b4426 70%, #3b2413);
-  box-shadow: inset 0 0 0 0.4cqw rgb(255 255 255 / 0.08), 0 4cqw 6cqw -3cqw rgb(15 22 42 / 0.6);
+  box-shadow: inset 0 0 0 0.4cqw rgb(255 255 255 / 0.08), 0 4cqw 6cqw -3cqw rgb(8 26 26 / 0.6);
 }
 .mock-frame-wide { width: 72cqw; aspect-ratio: 3 / 2; }
 .mock-frame-mat { width: 100%; height: 100%; padding: 4cqw; background: #fbf8f2; box-shadow: inset 0.3cqw 0.4cqw 0.8cqw rgb(0 0 0 / 0.25); }
@@ -767,7 +767,7 @@ picture {
 .mock-prints { position: relative; width: 48cqw; aspect-ratio: 4 / 5; }
 .mock-print {
   position: absolute; inset: 0; display: block; padding: 2.6cqw 2.6cqw 7cqw; background: #fffdf8;
-  box-shadow: 0 0.4cqw 1cqw rgb(15 22 42 / 0.12), 0 3cqw 5cqw -3cqw rgb(15 22 42 / 0.45);
+  box-shadow: 0 0.4cqw 1cqw rgb(8 26 26 / 0.12), 0 3cqw 5cqw -3cqw rgb(8 26 26 / 0.45);
 }
 .mock-print .relative { overflow: hidden; }
 .mock-print-back { rotate: -9deg; translate: -6cqw 1cqw; }
@@ -777,7 +777,7 @@ picture {
 /* Gallery-wrap canvas: no frame, the photo turns over a deep edge. */
 .mock-canvas {
   position: relative; width: 50cqw; aspect-ratio: 4 / 5; overflow: hidden;
-  box-shadow: 1.2cqw 1.4cqw 0 -0.2cqw rgb(15 22 42 / 0.35), 0 5cqw 6cqw -3cqw rgb(15 22 42 / 0.55);
+  box-shadow: 1.2cqw 1.4cqw 0 -0.2cqw rgb(8 26 26 / 0.35), 0 5cqw 6cqw -3cqw rgb(8 26 26 / 0.55);
 }
 .mock-canvas::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -789,28 +789,28 @@ picture {
 /* Wall calendar: rings, a photograph, the month and a grid of days. */
 .mock-calendar {
   position: relative; width: 44cqw; padding: 2.4cqw; background: #fffdf8; border-radius: 0.6cqw;
-  box-shadow: 0 0.4cqw 1cqw rgb(15 22 42 / 0.1), 0 4cqw 6cqw -3cqw rgb(15 22 42 / 0.5);
+  box-shadow: 0 0.4cqw 1cqw rgb(8 26 26 / 0.1), 0 4cqw 6cqw -3cqw rgb(8 26 26 / 0.5);
 }
 .mock-calendar-rings {
   position: absolute; left: 12%; right: 12%; top: -1.6cqw; height: 3.2cqw;
-  background: radial-gradient(circle at center, #3a3f4d 0 0.8cqw, transparent 0.9cqw) 0 0 / 6cqw 100% repeat-x;
+  background: radial-gradient(circle at center, #2d4543 0 0.8cqw, transparent 0.9cqw) 0 0 / 6cqw 100% repeat-x;
 }
-.mock-calendar-month { display: block; margin-top: 1.8cqw; font-family: var(--font-display); font-size: 3.2cqw; line-height: 1; color: #141a2b; }
+.mock-calendar-month { display: block; margin-top: 1.8cqw; font-family: var(--font-display); font-size: 3.2cqw; line-height: 1; color: #0f2a2b; }
 .mock-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1cqw; margin-top: 1.6cqw; }
 .mock-calendar-grid > span { height: 1.1cqw; border-radius: 0.3cqw; background: #e3d9c8; }
-.mock-calendar-grid > span.is-marked { background: #0047ab; }
+.mock-calendar-grid > span.is-marked { background: #1b5e5c; }
 
 /* Mug: a white body with a wrapped print and a handle. */
 .mock-mug { position: relative; width: 40cqw; aspect-ratio: 1 / 1.05; margin-right: 9cqw; }
 .mock-mug-handle {
   position: absolute; right: -19cqw; top: 18%; width: 22cqw; height: 52%;
   border: 3.4cqw solid #f1ece3; border-radius: 45%;
-  box-shadow: 0 2cqw 3cqw -2cqw rgb(15 22 42 / 0.4);
+  box-shadow: 0 2cqw 3cqw -2cqw rgb(8 26 26 / 0.4);
 }
 .mock-mug-body {
   position: relative; width: 100%; height: 100%; border-radius: 1.2cqw 1.2cqw 5cqw 5cqw; overflow: hidden;
   background: linear-gradient(90deg, #d9d2c5, #ffffff 30%, #f6f1e8 70%, #cfc6b6);
-  box-shadow: 0 5cqw 6cqw -3cqw rgb(15 22 42 / 0.5);
+  box-shadow: 0 5cqw 6cqw -3cqw rgb(8 26 26 / 0.5);
 }
 .mock-mug-print { position: absolute; inset: 14% 12% 18%; overflow: hidden; border-radius: 0.6cqw; }
 .mock-mug-body::after {
@@ -822,7 +822,7 @@ picture {
 .mock-cushion {
   position: relative; width: 52cqw; aspect-ratio: 1; overflow: hidden; rotate: -3deg;
   border-radius: 22% 24% 22% 26% / 24% 22% 26% 22%;
-  box-shadow: 0 5cqw 6cqw -3cqw rgb(15 22 42 / 0.55);
+  box-shadow: 0 5cqw 6cqw -3cqw rgb(8 26 26 / 0.55);
 }
 .mock-cushion::after {
   content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
@@ -834,7 +834,7 @@ picture {
 .mock-magnet {
   position: relative; width: 26cqw; aspect-ratio: 1; overflow: hidden; border-radius: 2cqw;
   border: 1.4cqw solid #fffdf8; margin-inline: -1.5cqw;
-  box-shadow: 0 3cqw 4cqw -2cqw rgb(15 22 42 / 0.55);
+  box-shadow: 0 3cqw 4cqw -2cqw rgb(8 26 26 / 0.55);
   rotate: calc((var(--i) - 1) * 8deg);
   translate: 0 calc((var(--i) - 1) * (var(--i) - 1) * 3cqw);
 }
@@ -867,18 +867,18 @@ picture {
   transform-origin: 50% 50%;
 }
 .depth-list li:nth-child(even) .depth-card { --ry: -8deg; }
-/* A pane of frosted glass around each photo, catching the cobalt light behind it. */
+/* A pane of frosted glass around each photo, catching the sea-teal light behind it. */
 .depth-glass {
   position: relative;
   padding: 0.5rem;
   border-radius: 1.25rem;
-  background: linear-gradient(155deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.03) 45%, rgb(107 155 255 / 0.08));
+  background: linear-gradient(155deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.03) 45%, rgb(127 203 189 / 0.08));
   border: 1px solid rgb(255 255 255 / 0.16);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.22),
     inset 0 -1px 0 rgb(255 255 255 / 0.04),
     0 30px 60px -28px rgb(0 0 0 / 0.95),
-    0 0 50px -20px rgb(0 71 171 / 0.6);
+    0 0 50px -20px rgb(30 112 108 / 0.6);
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   backdrop-filter: blur(22px) saturate(160%);
   cursor: zoom-in;
@@ -894,11 +894,11 @@ picture {
   pointer-events: none;
 }
 .depth-card:hover .depth-glass, .depth-card:focus-visible .depth-glass {
-  border-color: rgb(157 188 255 / 0.45);
+  border-color: rgb(195 224 215 / 0.45);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.28),
     0 30px 70px -24px rgb(0 0 0 / 0.95),
-    0 0 70px -12px rgb(0 71 171 / 0.85);
+    0 0 70px -12px rgb(30 112 108 / 0.85);
 }
 .depth-face {
   position: relative;
@@ -915,13 +915,13 @@ picture {
   font-size: 0.75rem;
   font-weight: 600;
   color: #fff;
-  background: rgb(10 14 26 / 0.35);
+  background: rgb(6 22 22 / 0.35);
   border: 1px solid rgb(255 255 255 / 0.22);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2);
   -webkit-backdrop-filter: blur(12px) saturate(150%);
   backdrop-filter: blur(12px) saturate(150%);
 }
-/* Slow cobalt lights behind the page, so the glass always has colour to frost. */
+/* Slow sea-teal lights behind the page, so the glass always has colour to frost. */
 .work-orbs { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
 .work-orbs span {
   position: sticky;
@@ -934,9 +934,9 @@ picture {
   filter: blur(50px);
   opacity: 0.85;
 }
-.work-orbs span:nth-child(1) { margin-left: -12vmax; background: radial-gradient(circle, #0047ab, transparent 65%); }
-.work-orbs span:nth-child(2) { margin-left: calc(100% - 30vmax); top: 40vh; background: radial-gradient(circle, #1a5cc4, transparent 65%); opacity: 0.7; }
-.work-orbs span:nth-child(3) { margin-left: 30%; top: 70vh; background: radial-gradient(circle, #4d86ff, transparent 65%); opacity: 0.4; }
+.work-orbs span:nth-child(1) { margin-left: -12vmax; background: radial-gradient(circle, #1b5e5c, transparent 65%); }
+.work-orbs span:nth-child(2) { margin-left: calc(100% - 30vmax); top: 40vh; background: radial-gradient(circle, #226e6b, transparent 65%); opacity: 0.7; }
+.work-orbs span:nth-child(3) { margin-left: 30%; top: 70vh; background: radial-gradient(circle, #4fa294, transparent 65%); opacity: 0.4; }
 .depth-face img { -webkit-user-drag: none; }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {

@@ -104,7 +104,7 @@ export default function Hero() {
                     data-track-source="hero"
                     className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-white/40 bg-white/10 px-4 py-3 button-md text-white backdrop-blur-md transition-[background-color,border-color,translate] duration-300 ease-[var(--ease-base)] hover:-translate-y-px hover:border-white/70 hover:bg-white/20 active:translate-y-0 sm:w-auto"
                   >
-                    <CalendarCheckIcon aria-hidden className="size-5 text-[#9dbcff]" />
+                    <CalendarCheckIcon aria-hidden className="size-5 text-[#c3e0d7]" />
                     Check Availability
                   </Link>
                 </div>
@@ -131,7 +131,7 @@ export default function Hero() {
                     <div className="relative h-6 overflow-hidden" aria-hidden>
                       {slides.map(({ photo }, i) => (
                         <p key={photo!.id} data-hero-cap className="hero-cap absolute inset-0 flex items-baseline gap-3 whitespace-nowrap text-white">
-                          <span className="tabular caption-3 text-[#9dbcff]">{pad(i + 1)}</span>
+                          <span className="tabular caption-3 text-[#c3e0d7]">{pad(i + 1)}</span>
                           <span className="caption-4 uppercase tracking-[0.08em] text-white/80">{kind[photo!.category]}</span>
                           <span className="truncate font-display text-base italic text-white">{photo!.title}</span>
                         </p>
@@ -147,7 +147,7 @@ export default function Hero() {
                           className="group/tick relative flex h-6 flex-1 cursor-pointer items-center"
                         >
                           <span className="relative block h-0.5 w-full overflow-hidden rounded-full bg-white/25 transition-[height] duration-300 group-hover/tick:h-1">
-                            <span data-hero-fill className="hero-fill absolute inset-0 origin-left rounded-full bg-[#9dbcff]" />
+                            <span data-hero-fill className="hero-fill absolute inset-0 origin-left rounded-full bg-[#c3e0d7]" />
                           </span>
                         </button>
                       ))}
