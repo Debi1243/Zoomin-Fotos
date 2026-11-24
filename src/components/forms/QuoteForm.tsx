@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, useTransition, type FormEvent } from "react";
 import { WarningCircleIcon as CircleAlert, CheckCircleIcon as CircleCheck, WhatsappLogoIcon as MessageCircle } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/Button";
-import { ChoiceGroup, TextField, TextareaField } from "./Field";
+import { ChoiceGroup, FieldShell, TextField, TextareaField, control } from "./Field";
+import { cn } from "@/lib/cn";
 import { submitContact } from "@/app/contact/actions";
 import { trackFormStart } from "@/lib/track";
 import { trackConversion } from "@/lib/conversions";
@@ -27,8 +28,10 @@ type Sent = { name: string; whatsapp: string; opened: boolean; saved: boolean | 
  * The quick quote form. On send it opens WhatsApp with the enquiry already written out, and
  * saves the same enquiry for the studio (webhook or Google Sheet) in case the message is never sent.
  * It never says a booking is confirmed: that happens after the studio replies.
+ * For weddings it also asks which package, listing the published ones (passed in by the page,
+ * so the photo data stays out of this bundle) plus any custom package sent from the builder.
  */
-export default function QuoteForm() {
+export default function QuoteForm({ weddingPackages = [] }: { weddingPackages?: string[] }) {
   const formRef = useRef<HTMLFormElement>(null);
   const started = useRef(false);
   const [service, setService] = useState("");
@@ -103,6 +106,7 @@ export default function QuoteForm() {
   };
 
   const budgets = service ? budgetsFor(service) : [];
+  const isWedding = service === "Wedding";
 
   return (
     <>
@@ -144,13 +148,12 @@ export default function QuoteForm() {
         aria-label="Get a photography quote"
         className="space-y-6 rounded-xl border border-border bg-surface p-5 shadow-sm sm:p-8"
       >
-        {pkg && (
+        {!isWedding && pkg && (
           <p className="rounded-lg bg-sand-soft px-4 py-3 text-sm">
             Package: <strong className="font-semibold">{pkg}</strong>
-            <input type="hidden" name="pkg" value={pkg} />
           </p>
         )}
-        {!pkg && <input type="hidden" name="pkg" value="" />}
+        {!isWedding && <input type="hidden" name="pkg" value={pkg} />}
   
         <ChoiceGroup
           legend="1. What would you like photographed?"
@@ -160,6 +163,8 @@ export default function QuoteForm() {
           value={service}
           onValueChange={(v) => {
             setService(v);
+            // A wedding package doesn't carry over to another kind of shoot.
+            if (v !== "Wedding" && weddingPackages.includes(pkg)) setPkg("");
             setErrors((prev) => ({ ...prev, session: undefined, budget: undefined }));
           }}
           error={errors.session}
@@ -170,6 +175,26 @@ export default function QuoteForm() {
           <TextField id="location" name="location" label="3. Event location" autoComplete="address-level2" placeholder="e.g. Bhubaneswar, Cuttack, Puri" error={errors.location} />
         </div>
   
+        {isWedding && (
+          <FieldShell id="pkg" label="Which package?" optional hint="Not sure? Leave it, and we'll help you choose.">
+            <select
+              id="pkg"
+              name="pkg"
+              value={pkg}
+              onChange={(e) => setPkg(e.target.value)}
+              className={cn(control, "h-12 border-border")}
+            >
+              <option value="">Not sure yet, help me choose</option>
+              {pkg && !weddingPackages.includes(pkg) && <option value={pkg}>{pkg}</option>}
+              {weddingPackages.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </select>
+          </FieldShell>
+        )}
+
         {service && (
           <ChoiceGroup key={service} legend="4. Approximate budget" name="budget" type="radio" options={budgets} error={errors.budget} />
         )}
