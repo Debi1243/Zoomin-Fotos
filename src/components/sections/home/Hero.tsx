@@ -49,7 +49,7 @@ export default function Hero() {
   return (
     <HeroScroll count={slides.length}>
       <div className="hero-stage px-2 pb-2 pt-2 sm:px-3 sm:pb-3 sm:pt-3">
-        <div className="hero-card surface-dark relative isolate flex h-full flex-col overflow-hidden rounded-3xl md:justify-end">
+        <div className="surface-dark relative isolate flex h-full flex-col overflow-hidden rounded-3xl md:justify-end">
           {/* The photographs, stacked. Each later one waits below a clip and wipes up over the one before. */}
           <div className="hero-media relative overflow-hidden md:absolute md:inset-0 md:-z-20">
             {slides.map(({ photo, sm, md }, i) => (
@@ -77,22 +77,6 @@ export default function Hero() {
             <div aria-hidden className="absolute inset-x-0 bottom-0 z-10 h-1/4 bg-gradient-to-t from-bg to-transparent md:hidden" />
           </div>
           <div aria-hidden className="hero-scrim absolute inset-0 -z-10 hidden md:block" />
-
-          {/* The visitor looks through the photographer's viewfinder: frame corners, a focus point that
-              locks on, and a shutter blink when the page opens. Wider screens only; it never covers text. */}
-          <div aria-hidden className="viewfinder pointer-events-none absolute inset-0 hidden md:block">
-            <span className="vf-corner vf-tl" />
-            <span className="vf-corner vf-tr" />
-            <span className="vf-corner vf-bl" />
-            <span className="vf-corner vf-br" />
-            <span className="vf-focus" />
-            <span className="vf-readout vf-rec">
-              <span className="vf-dot" />
-              REC
-            </span>
-            <span className="vf-readout vf-exp tabular">1/250 · f/1.8 · ISO 400</span>
-            <span className="vf-shutter" />
-          </div>
 
           <div className="container-page relative pb-5 pt-1 md:pb-12 md:pt-24 lg:pb-14">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">

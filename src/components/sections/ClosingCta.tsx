@@ -2,8 +2,6 @@ import { ButtonLink, WhatsAppLink } from "@/components/ui/Button";
 import { whatsappHref } from "@/lib/data";
 
 type Props = {
-  /** A small line above the title. */
-  eyebrow?: string;
   title?: string;
   text?: string;
   /** The page's primary action, the same one its hero uses. */
@@ -13,17 +11,15 @@ type Props = {
 
 /** The last section of a landing page: the same primary action as the top, with WhatsApp as a quiet second way in. */
 export default function ClosingCta({
-  eyebrow = "Talk to the photographer",
   title = "Your story deserves to be told beautifully.",
   text = "Send us your date and venue. We'll tell you straight away if we're free, and help you choose the right package.",
   href = "/contact?service=Wedding#quote",
   label = "Check Availability",
 }: Props) {
   return (
-    <section aria-labelledby="cta-title" className="surface-dark cta-glow">
+    <section aria-labelledby="cta-title" className="surface-dark">
       <div className="container-page py-20 text-center md:py-32">
-        {eyebrow && <p className="reveal mb-4 caption-4 uppercase tracking-[0.22em] text-[#f08aa8]">{eyebrow}</p>}
-        <h2 id="cta-title" className="reveal-heading mx-auto max-w-[760px] heading-3 md:heading-1">
+        <h2 id="cta-title" className="reveal-heading mx-auto max-w-[680px] heading-4 md:heading-2">
           {title}
         </h2>
         <p className="reveal mx-auto mt-4 max-w-[680px] body-3 text-muted md:body-7">{text}</p>
