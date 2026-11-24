@@ -8,7 +8,7 @@ import JsonLd from "@/components/shared/JsonLd";
 import { brand } from "@/lib/data";
 import { absoluteUrl } from "@/lib/site";
 
-const description = `Wedding, pre-wedding, maternity, baby and kids, birthday and event, family portrait and commercial photography in ${brand.city} and across ${brand.region}.`;
+const description = `Wedding photography and cinematography, candid, pre-wedding, maternity and newborn, event, portrait and commercial photography in ${brand.city} and across ${brand.region}.`;
 
 export const metadata: Metadata = {
   title: `Photography Services in ${brand.city}`,
@@ -24,7 +24,7 @@ export default function ServicesPage() {
         label="Services"
         crumbs={[]}
         title="Photography services"
-        intro={`Weddings, pre-weddings, maternity, kids, birthdays, family portraits and commercial shoots, across ${brand.city} and ${brand.region}.`}
+        intro={`Wedding photography and films, candid moments, pre-weddings, maternity and newborn, events, portraits and commercial shoots, across ${brand.city} and ${brand.region}.`}
       >
         <div className="mt-6">
           <ButtonLink href="/packages" variant="secondary">

@@ -25,6 +25,16 @@ export const dynamicParams = false;
 const serviceTitle = (t: string) =>
   `${t.replace(/^Weddings$/, "Wedding").replace(/^Events$/, "Event").replace(/^Portraits$/, "Portrait")} photography`;
 
+/** What people type into Google for each service, used as the page title. */
+const seoTitles: Record<string, string> = {
+  weddings: `Wedding Photographer in ${brand.city}, ${brand.region}`,
+  "pre-wedding": `Pre-Wedding Photographer in ${brand.city}`,
+  "maternity-newborn": `Maternity & Newborn Photographer in ${brand.city}`,
+  events: `Event Photographer in ${brand.city}`,
+  commercial: `Commercial & Product Photographer in ${brand.city}`,
+  portraits: `Portrait & Family Photographer in ${brand.city}`,
+};
+
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }
@@ -35,7 +45,7 @@ export async function generateMetadata({ params }: PageProps<"/services/[slug]">
   if (!s) return {};
   const path = `/services/${s.slug}`;
   const from = startingPrice(s.slug);
-  const title = `${serviceTitle(s.title)} in ${brand.city}${from ? ` from ${formatRupees(from)}` : ""}`;
+  const title = `${seoTitles[s.slug] ?? `${serviceTitle(s.title)} in ${brand.city}`}${from ? ` from ${formatRupees(from)}` : ""}`;
   const description = `${s.short} ${from ? `Packages from ${formatRupees(from)} + GST. ` : ""}${brand.name}, ${brand.city}, ${brand.region}.`;
   return {
     title,
@@ -66,7 +76,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       <PageHero
         label={s.title}
         crumbs={[{ href: "/services", label: "Services" }]}
-        title={title}
+        title={`${title} in ${s.slug === "weddings" ? brand.region : brand.city}`}
         intro={s.intro}
         media={
           cover && (

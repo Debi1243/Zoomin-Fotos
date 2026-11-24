@@ -12,6 +12,7 @@ import TaglineReveal from "@/components/sections/TaglineReveal";
 import JsonLd from "@/components/shared/JsonLd";
 import { brand, getService, homeFaqs, homeTagline, services } from "@/lib/data";
 import { absoluteUrl, siteUrl } from "@/lib/site";
+import { focusServices } from "@/lib/focus-services";
 
 export default function HomePage() {
   const weddings = getService("weddings");
@@ -55,6 +56,7 @@ export default function HomePage() {
           "@id": `${siteUrl}/#studio`,
           name: brand.name,
           description: brand.description,
+          slogan: brand.tagline,
           url: siteUrl,
           logo: absoluteUrl("/icon.png"),
           image: absoluteUrl("/opengraph-image"),
@@ -81,9 +83,12 @@ export default function HomePage() {
           hasOfferCatalog: {
             "@type": "OfferCatalog",
             name: "Photography services",
-            itemListElement: services.map((s) => ({
+            itemListElement: [
+              ...services.map((s) => ({ name: `${s.title} photography`, slug: s.slug })),
+              ...focusServices.map((f) => ({ name: f.label, slug: f.slug })),
+            ].map((s) => ({
               "@type": "Offer",
-              itemOffered: { "@type": "Service", name: `${s.title} photography`, url: absoluteUrl(`/services/${s.slug}`) },
+              itemOffered: { "@type": "Service", name: s.name, url: absoluteUrl(`/services/${s.slug}`) },
             })),
           },
         }}

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/lib/data";
+import { focusServices } from "@/lib/focus-services";
 import { absoluteUrl, shopEnabled } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -12,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: path === "/" ? 1 : path === "/packages" || path === "/services" ? 0.9 : 0.8,
     }));
-  const servicePages = services.map((s) => ({
+  const servicePages = [...services, ...focusServices].map((s) => ({
     url: absoluteUrl(`/services/${s.slug}`),
     changeFrequency: "monthly" as const,
     priority: 0.7,
