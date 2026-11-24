@@ -74,7 +74,7 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
                   <span className="tabular heading-4 text-fg">{formatRupees(p.price)}</span>
                   <span className="ml-2 caption-2 text-muted">+ GST</span>
                 </p>
-                <p className="mt-1 caption-2 text-muted">{p.note ?? "Price is negotiable"}</p>
+                {p.note && <p className="mt-1 caption-2 text-muted">{p.note}</p>}
 
                 <dl className="mt-6 grid gap-2 border-t border-border pt-6 body-6">
                   {p.team && (
