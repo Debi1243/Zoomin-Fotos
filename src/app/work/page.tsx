@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Coverflow from "@/components/photos/Coverflow";
+import DepthGallery from "@/components/photos/DepthGallery";
 import { ButtonLink, WhatsAppButton } from "@/components/ui/Button";
 import { realPhotos, services, waLink } from "@/lib/data";
 
-const description = "Every photograph from Zoomin Fotos, Bhubaneswar, in one 3D portfolio: weddings, pre-wedding, portraits, maternity, events and commercial work.";
+const description = "Every photograph from Zoomin Fotos, Bhubaneswar, in one 3D scrolling portfolio: weddings, pre-wedding, portraits, maternity, events and commercial work.";
 
 /**
  * A 3D portfolio to send clients who ask to see our work. It is left out of the menu and the
@@ -34,12 +34,12 @@ export default function WorkPage() {
             Our work, <em className="text-accent">in 3D</em>
           </h1>
           <p className="mt-3 text-sm text-muted md:text-lead md:mt-4">
-            {realPhotos.length} photographs from our weddings, sessions and shoots. Swipe or drag to turn, and tap the photo in front to see it full size.
+            {realPhotos.length} photographs from our weddings, sessions and shoots. Scroll down to see them all, and tap any photo to see it full size.
           </p>
         </div>
 
         <div className="mt-5 md:mt-8">
-          <Coverflow photos={realPhotos} filters={filters} />
+          <DepthGallery photos={realPhotos} filters={filters} />
         </div>
 
         <div className="glass mx-auto mt-14 flex max-w-2xl flex-col items-center gap-5 rounded-2xl px-6 py-8 text-center md:mt-20 md:px-10">
