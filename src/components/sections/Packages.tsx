@@ -94,7 +94,8 @@ export default function Packages({ items, service, intro = defaultIntro, label, 
                 )}
 
                 <dl className="mt-6 grid gap-2 border-t border-border pt-6 body-6">
-                  {p.team && (
+                  {/* The grid above already gives the team, except a drone. */}
+                  {p.team && (!facts || /drone/i.test(p.team)) && (
                     <div className="flex gap-2">
                       <dt><Users aria-label="Team" className="mt-0.5 size-4 text-accent" /></dt>
                       <dd>{p.team}</dd>

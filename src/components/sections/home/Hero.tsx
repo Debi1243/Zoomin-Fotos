@@ -108,7 +108,7 @@ export default function Hero() {
                     Check Availability
                   </Link>
                 </div>
-                <p className="rise mt-3 caption-2 text-white/80 md:mt-4" style={{ "--i": 2 } as CSSProperties}>
+                <p className="rise mt-3 flex flex-wrap items-center gap-x-1.5 caption-2 text-white/80 md:mt-4" style={{ "--i": 2 } as CSSProperties}>
                   Prefer to chat?{" "}
                   <a
                     href={waLink("Hi Zoomin Fotos! I'd like to check availability for my wedding.")}
