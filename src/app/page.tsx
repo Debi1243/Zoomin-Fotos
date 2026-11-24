@@ -1,5 +1,5 @@
 import Hero from "@/components/sections/home/Hero";
-import ServiceShowcase from "@/components/sections/home/ServiceShowcase";
+import ServiceCards from "@/components/sections/home/ServiceCards";
 import Packages, { PackagesLink } from "@/components/sections/Packages";
 import FeaturedPortfolio from "@/components/sections/home/FeaturedPortfolio";
 import WhyUs from "@/components/sections/home/WhyUs";
@@ -24,8 +24,7 @@ export default function HomePage() {
       {/* Proof first: verified facts, then the work itself, told as a wedding day. */}
       <TrustStrip />
       <FeaturedPortfolio />
-      {/* The services, one full-screen photograph at a time, as the page scrolls. */}
-      <ServiceShowcase />
+      <ServiceCards />
       {weddings?.packages && (
         <Packages
           items={weddings.packages}
@@ -49,10 +48,7 @@ export default function HomePage() {
       <HomeReviews className="pb-16 md:pb-24" />
       <BookingSteps />
       <Faq items={homeFaqs} />
-      <ClosingCta
-        title="Let's plan it together."
-        text="Tell us your date, venue and the story you want told. We'll tell you straight away if we're free, and help you choose the right package."
-      />
+      <ClosingCta />
       <JsonLd
         data={{
           "@context": "https://schema.org",

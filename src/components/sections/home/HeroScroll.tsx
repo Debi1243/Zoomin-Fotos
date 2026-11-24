@@ -8,7 +8,7 @@ import { gsap, HERO_PIN, ScrollTrigger, useGSAP } from "@/lib/gsap";
  * sticky (globals.css), so the photograph holds still while the page scrolls. This scrubs one
  * timeline against that scroll: each later photograph wipes up from the bottom edge as it zooms
  * gently out, the one beneath drifts up and away, the caption rolls to the new title and the
- * progress line fills, and at the end the frame closes like a camera's iris. The ticks under the caption
+ * progress line fills. The ticks under the caption
  * jump straight to a photograph. Only clip-path and transforms move.
  */
 export default function HeroScroll({ count, children }: { count: number; children: ReactNode }) {
@@ -65,15 +65,6 @@ export default function HeroScroll({ count, children }: { count: number; childre
             );
           }
           tl.addLabel(`s${i}`, at + 1.1).to({}, { duration: 0.35 });
-        }
-        // The exit, as the camera closes its iris: the frame shrinks to a circle of light and goes dark,
-        // and the services below come up out of the black.
-        const card = q<HTMLElement>(".hero-card")[0];
-        if (card) {
-          const at = tl.duration();
-          tl.fromTo(card, { clipPath: "circle(75% at 50% 45%)" }, { clipPath: "circle(22% at 50% 45%)", duration: 0.9, ease: "power2.inOut" }, at)
-            .to(q(".hero-stage .container-page, .hero-meta, .viewfinder"), { autoAlpha: 0, duration: 0.4 }, at)
-            .to(card, { clipPath: "circle(5% at 50% 45%)", duration: 0.45, ease: "power2.in" }, at + 0.9);
         }
         tl.addLabel("end");
 

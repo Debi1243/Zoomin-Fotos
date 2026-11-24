@@ -455,7 +455,7 @@
 html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
 
 @media (prefers-reduced-motion: no-preference) and (min-height: 44rem) {
-  .js-motion .hero-scroll { height: calc(var(--hero-h) + (var(--slides, 1) - 0.4) * 85svh); }
+  .js-motion .hero-scroll { height: calc(var(--hero-h) + (var(--slides, 1) - 1) * 85svh); }
   .js-motion .hero-stage { position: sticky; top: 0; height: var(--hero-h); }
   .js-motion .hero-stage > div { min-height: 0; }
   .js-motion .hero-media { aspect-ratio: auto; flex: 1 1 0; min-height: 30%; }
@@ -494,100 +494,6 @@ html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
 .hero-title { color: #ffffff; text-shadow: 0 2px 24px rgb(0 0 0 / 0.35); }
 .hero-title em { color: #9dbcff; }
 .hero-lede { color: #ffffff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.45); }
-
-/* ──────────────────────────────────────────────────────────────
-   Viewfinder (home hero)
-   The hero reads as the view through a camera: thin corner brackets, a focus square that hunts
-   and locks when the page opens, a REC light and an exposure readout, and one shutter blink.
-   ────────────────────────────────────────────────────────────── */
-.viewfinder { z-index: 5; }
-.vf-corner { position: absolute; width: 2.75rem; height: 2.75rem; border-color: rgb(255 255 255 / 0.75); border-style: solid; border-width: 0; }
-.vf-tl { top: 6.25rem; left: 2rem; border-top-width: 1.5px; border-left-width: 1.5px; border-top-left-radius: 0.5rem; }
-.vf-tr { top: 6.25rem; right: 2rem; border-top-width: 1.5px; border-right-width: 1.5px; border-top-right-radius: 0.5rem; }
-.vf-bl { bottom: 2rem; left: 2rem; border-bottom-width: 1.5px; border-left-width: 1.5px; border-bottom-left-radius: 0.5rem; }
-.vf-br { bottom: 2rem; right: 2rem; border-bottom-width: 1.5px; border-right-width: 1.5px; border-bottom-right-radius: 0.5rem; }
-.vf-focus {
-  position: absolute; left: 58%; top: 34%; width: 4.5rem; height: 3.25rem; translate: -50% -50%;
-  border: 1.5px solid rgb(157 188 255 / 0.95); border-radius: 0.25rem;
-  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.15), 0 0 24px rgb(77 134 255 / 0.35);
-  opacity: 0.85;
-}
-.vf-readout {
-  position: absolute; display: inline-flex; align-items: center; gap: 0.5rem;
-  font-size: 0.6875rem; line-height: 1; font-weight: 600; letter-spacing: 0.16em; color: rgb(255 255 255 / 0.85);
-  text-shadow: 0 1px 8px rgb(0 0 0 / 0.5);
-}
-.vf-rec { top: 6.9rem; left: 5.5rem; }
-.vf-exp { top: 6.9rem; right: 5.5rem; }
-.vf-dot { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: #ff4d5e; box-shadow: 0 0 10px #ff4d5e; }
-.vf-shutter { position: absolute; inset: 0; background: #fff; opacity: 0; }
-@media (width < 64rem) { .vf-readout { display: none; } }
-
-@media (prefers-reduced-motion: no-preference) {
-  .vf-corner { animation: vf-frame 1100ms var(--ease-base) 150ms both; }
-  .vf-tl { --vx: -1.5rem; --vy: -1.5rem; }
-  .vf-tr { --vx: 1.5rem; --vy: -1.5rem; }
-  .vf-bl { --vx: -1.5rem; --vy: 1.5rem; }
-  .vf-br { --vx: 1.5rem; --vy: 1.5rem; }
-  .vf-focus { animation: vf-lock 1300ms var(--ease-base) 350ms both; }
-  .vf-dot { animation: vf-blink 1.6s steps(1) infinite; }
-  .vf-shutter { animation: vf-shutter 420ms ease-out 1550ms both; }
-}
-@keyframes vf-frame { from { opacity: 0; translate: var(--vx) var(--vy); } to { opacity: 1; translate: 0 0; } }
-@keyframes vf-lock {
-  0% { opacity: 0; scale: 1.8; border-color: rgb(255 255 255 / 0.8); }
-  45% { opacity: 1; scale: 0.92; }
-  60% { scale: 1.06; }
-  75% { scale: 1; border-color: rgb(255 255 255 / 0.8); }
-  100% { opacity: 0.85; scale: 1; border-color: rgb(157 188 255 / 0.95); }
-}
-@keyframes vf-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
-@keyframes vf-shutter { 0% { opacity: 0; } 25% { opacity: 0.55; } 100% { opacity: 0; } }
-
-/* ──────────────────────────────────────────────────────────────
-   Services showcase (home)
-   Still by default: the services stack as full-width photo panels. With motion allowed and a
-   tall enough screen (HERO_PIN), the section grows several screens tall, its stage sticks, and
-   ShowcaseScroll.tsx dissolves from one service to the next as the page scrolls.
-   ────────────────────────────────────────────────────────────── */
-.showcase-card { display: flex; flex-direction: column; gap: 0.5rem; background: #030408; }
-.showcase-slide { min-height: min(86svh, 46rem); border-radius: 1.5rem; overflow: hidden; }
-.showcase-photo { filter: saturate(1.08) contrast(1.05); }
-.showcase-scrim {
-  background:
-    radial-gradient(110% 80% at 0% 100%, rgb(3 4 8 / 0.88) 0%, rgb(3 4 8 / 0.6) 42%, rgb(3 4 8 / 0) 78%),
-    linear-gradient(0deg, rgb(3 4 8 / 0.78) 0%, rgb(3 4 8 / 0) 45%),
-    linear-gradient(180deg, rgb(3 4 8 / 0.4) 0%, rgb(3 4 8 / 0) 22%);
-}
-.showcase-title {
-  font-size: clamp(2.75rem, 9vw, 6.5rem); line-height: 0.92; font-weight: 400; letter-spacing: -0.01em;
-  font-variation-settings: "opsz" 144, "SOFT" 30; text-shadow: 0 4px 40px rgb(0 0 0 / 0.45);
-}
-.showcase-title span:last-child:not(:first-child) { color: #9dbcff; font-style: italic; text-transform: none; }
-.showcase-rail, .showcase-meta { display: none !important; }
-
-@media (prefers-reduced-motion: no-preference) and (min-height: 44rem) {
-  .js-motion .showcase { height: calc(100svh + (var(--slides, 1) - 1) * 70svh); }
-  .js-motion .showcase-stage { position: sticky; top: 0; height: 100svh; padding-block: 0.5rem; }
-  .js-motion .showcase-card { display: block; height: 100%; }
-  .js-motion .showcase-slide { position: absolute; inset: 0; min-height: 0; border-radius: 0; }
-  .js-motion .showcase:not(.is-live) .showcase-slide:not(:first-child) { visibility: hidden; }
-  .js-motion .showcase-meta { display: flex !important; }
-  .js-motion .showcase-fill { transform: scaleX(0); }
-  @media (width >= 80rem) { .js-motion .showcase-rail { display: flex !important; } }
-}
-.showcase-thumb { transition: translate 500ms var(--ease-base), border-color 300ms, box-shadow 300ms, opacity 300ms; opacity: 0.7; }
-.showcase-thumb:hover { opacity: 1; translate: 0 -0.25rem; }
-.showcase-thumb.is-on { opacity: 1; translate: 0 -0.75rem; border-color: #9dbcff; box-shadow: 0 0 0 1px #9dbcff, 0 18px 40px -12px rgb(0 71 171 / 0.8); }
-
-/* Closing call to action: night-blue with a cobalt glow below and a warm rose glow above,
-   like the last frame of a film before the credits. */
-.cta-glow {
-  background:
-    radial-gradient(60% 70% at 85% 0%, rgb(194 84 122 / 0.32) 0%, rgb(194 84 122 / 0) 70%),
-    radial-gradient(70% 80% at 10% 100%, rgb(0 71 171 / 0.45) 0%, rgb(0 71 171 / 0) 70%),
-    linear-gradient(180deg, #0b1020 0%, #05070d 100%);
-}
 
 /* Older section markers (admin, portal): a short cobalt bar before a label. */
 .festive-gradient { background-color: var(--primary); background-image: linear-gradient(90deg, var(--primary), var(--gold-soft)); }
