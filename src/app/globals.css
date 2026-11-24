@@ -852,137 +852,103 @@ picture {
 @keyframes cart-bump { 40% { scale: 1.25; } }
 
 /* ──────────────────────────────────────────────────────────────
-   3D portfolio (/work): a coverflow shelf of every photograph.
-   The centre card faces the viewer; the rest turn inwards and step back
-   into the dark, over a cobalt-lit floor that catches their reflection.
-   Positions come from Coverflow.tsx as --x and --z (in card widths) and --ry.
+   3D portfolio (/work): every photograph in one vertical scroll.
+   Each photo rises out of the dark tilted back, lies flat as it passes the
+   middle of the screen, and tips away again as it leaves, driven by the
+   scroll itself (no script). Browsers without scroll-driven animations,
+   and people who prefer less motion, get the same photos lying flat.
    ────────────────────────────────────────────────────────────── */
-.coverflow-stage {
-  --card-w: min(62vw, 17rem, 38svh);
-  height: calc(var(--card-w) * 1.25 + 4.5rem);
-  perspective: calc(var(--card-w) * 4);
-  perspective-origin: 50% 40%;
-  overflow: hidden;
-  touch-action: pan-y;
-  cursor: grab;
-  margin-inline: -1rem;
+.depth-list { perspective: 1600px; }
+.depth-card {
+  --ry: 8deg;
+  display: block;
+  width: 100%;
+  break-inside: avoid;
+  transform-origin: 50% 50%;
 }
-@media (width >= 40rem) { .coverflow-stage { --card-w: min(40vw, 22rem, 44svh); margin-inline: 0; } }
-@media (width >= 64rem) { .coverflow-stage { --card-w: min(26vw, 24rem, 44svh); } }
-.coverflow-stage.is-dragging { cursor: grabbing; }
-.coverflow-stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 1rem; }
-.coverflow-stage::before {
+.depth-list li:nth-child(even) .depth-card { --ry: -8deg; }
+/* A pane of frosted glass around each photo, catching the cobalt light behind it. */
+.depth-glass {
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(155deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.03) 45%, rgb(107 155 255 / 0.08));
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    inset 0 -1px 0 rgb(255 255 255 / 0.04),
+    0 30px 60px -28px rgb(0 0 0 / 0.95),
+    0 0 50px -20px rgb(0 71 171 / 0.6);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  cursor: zoom-in;
+  transition: border-color 300ms, box-shadow 300ms;
+}
+.depth-glass::after {
+  /* A sheen across the top edge of the glass. */
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(60% 55% at 50% 42%, rgb(0 71 171 / 0.38), transparent 70%);
+  border-radius: inherit;
+  background: linear-gradient(115deg, rgb(255 255 255 / 0.14), transparent 30%);
   pointer-events: none;
 }
-.coverflow-floor {
-  position: absolute;
-  inset: auto 0 0;
-  height: 4.5rem;
-  background: linear-gradient(180deg, rgb(77 134 255 / 0.08), transparent);
-  border-top: 1px solid rgb(157 188 255 / 0.12);
-  pointer-events: none;
+.depth-card:hover .depth-glass, .depth-card:focus-visible .depth-glass {
+  border-color: rgb(157 188 255 / 0.45);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 30px 70px -24px rgb(0 0 0 / 0.95),
+    0 0 70px -12px rgb(0 71 171 / 0.85);
 }
-.coverflow-track {
-  position: absolute;
-  inset: 0 0 4.5rem;
-  transform-style: preserve-3d;
-}
-.coverflow-card {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--card-w);
-  aspect-ratio: 4 / 5;
-  margin: calc(var(--card-w) * -0.625) 0 0 calc(var(--card-w) * -0.5);
-  transform:
-    translate3d(calc(var(--x) * var(--card-w)), 0, calc(var(--z) * var(--card-w)))
-    rotateY(var(--ry));
-  transition: transform 650ms var(--ease-base), opacity 650ms var(--ease-base);
-  will-change: transform;
-}
-.is-dragging .coverflow-card { transition: none; }
-.coverflow-face {
-  position: absolute;
-  inset: 0;
+.depth-face {
+  position: relative;
   overflow: hidden;
   border-radius: 0.875rem;
   background: var(--sand);
-  border: 1px solid rgb(255 255 255 / 0.1);
-  box-shadow: 0 30px 60px -24px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(0 0 0 / 0.4);
-  -webkit-box-reflect: below 10px linear-gradient(transparent 72%, rgb(255 255 255 / 0.16));
 }
-.coverflow-card[data-card] .coverflow-face {
-  border-color: rgb(157 188 255 / 0.35);
-  box-shadow: 0 30px 70px -20px rgb(0 0 0 / 0.95), 0 0 50px -12px rgb(0 71 171 / 0.7);
-  cursor: zoom-in;
-}
-.coverflow-face img { pointer-events: none; -webkit-user-drag: none; }
-.coverflow-shade {
+.depth-pill {
   position: absolute;
-  inset: 0;
-  background: #05060a;
-  opacity: var(--shade);
-  transition: opacity 650ms var(--ease-base);
-}
-.is-dragging .coverflow-shade { transition: none; }
-.coverflow-expand {
-  position: absolute;
-  right: 0.75rem;
+  left: 0.75rem;
   top: 0.75rem;
-  display: grid;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 0.5rem;
-  color: #fff;
-  background: rgb(7 8 12 / 0.45);
-  border: 1px solid rgb(255 255 255 / 0.18);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-.coverflow-btn {
-  display: grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.75rem;
-  color: var(--fg);
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  transition: border-color 200ms, background-color 200ms;
-}
-.coverflow-btn:hover { border-color: var(--accent); background: var(--sand); }
-.coverflow-btn:disabled { opacity: 0.4; pointer-events: none; }
-.coverflow-range {
-  appearance: none;
-  height: 2.75rem;
-  background: transparent;
-  cursor: pointer;
-}
-.coverflow-range::-webkit-slider-runnable-track {
-  height: 4px;
+  padding: 0.3rem 0.7rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent) var(--fill), rgb(255 255 255 / 0.14) var(--fill));
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgb(10 14 26 / 0.35);
+  border: 1px solid rgb(255 255 255 / 0.22);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
 }
-.coverflow-range::-moz-range-track { height: 4px; border-radius: 999px; background: rgb(255 255 255 / 0.14); }
-.coverflow-range::-moz-range-progress { height: 4px; border-radius: 999px; background: var(--accent); }
-.coverflow-range::-webkit-slider-thumb {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  margin-top: -7px;
+/* Slow cobalt lights behind the page, so the glass always has colour to frost. */
+.work-orbs { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.work-orbs span {
+  position: sticky;
+  display: block;
+  top: 10vh;
+  width: 46vmax;
+  height: 46vmax;
+  margin-bottom: -46vmax;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 4px rgb(0 71 171 / 0.55);
+  filter: blur(50px);
+  opacity: 0.85;
 }
-.coverflow-range::-moz-range-thumb { width: 18px; height: 18px; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgb(0 71 171 / 0.55); }
-.coverflow-range:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 0.5rem; }
-@media (prefers-reduced-motion: reduce) {
-  .coverflow-card, .coverflow-shade { transition-duration: 1ms; }
+.work-orbs span:nth-child(1) { margin-left: -12vmax; background: radial-gradient(circle, #0047ab, transparent 65%); }
+.work-orbs span:nth-child(2) { margin-left: calc(100% - 30vmax); top: 40vh; background: radial-gradient(circle, #1a5cc4, transparent 65%); opacity: 0.7; }
+.work-orbs span:nth-child(3) { margin-left: 30%; top: 70vh; background: radial-gradient(circle, #4d86ff, transparent 65%); opacity: 0.4; }
+.depth-face img { -webkit-user-drag: none; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .depth-card {
+      animation: depth-pass linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+@keyframes depth-pass {
+  0% { transform: rotateX(40deg) rotateY(var(--ry)) translateZ(-200px) scale(0.9); opacity: 0.15; }
+  42%, 58% { transform: none; opacity: 1; }
+  100% { transform: rotateX(-32deg) rotateY(calc(var(--ry) * -1)) translateZ(-200px) scale(0.9); opacity: 0.15; }
 }
