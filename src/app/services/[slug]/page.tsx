@@ -191,7 +191,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                       <span className="block heading-6">{r.title}</span>
                       <span className="mt-1 block caption-2 text-muted">{rFrom ? `From ${formatRupees(rFrom)} + GST` : "Ask for a quote"}</span>
                     </span>
-                    <ArrowRight aria-hidden className="size-5 shrink-0 text-accent transition-transform duration-500 group-hover:translate-x-0.5" />
+                    <ArrowRight aria-hidden className="size-5 shrink-0 text-accent transition-transform duration-500 group-hover:translate-x-1" />
                   </Link>
                 </li>
               );

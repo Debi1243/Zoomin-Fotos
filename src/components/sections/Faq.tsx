@@ -12,7 +12,7 @@ export default function Faq({ items, title = "Frequently asked questions", name 
           <SectionHeader id={`${name}-title`} label="FAQ" title={title} intro="Can't find your answer? Ask us on WhatsApp." />
         </div>
         <div className="lg:col-span-8">
-          <div className="divide-y divide-border rounded-xl border border-border bg-surface">
+          <div className="glow-card divide-y divide-border rounded-xl border border-border bg-surface">
             {items.map((f, i) => (
               <details key={f.q} name={name} open={i === 0} className="disclosure group">
                 <summary className="flex min-h-14 cursor-pointer items-center justify-between gap-4 px-4 py-4 text-left title-3 transition-colors duration-300 hover:text-accent md:px-6 md:title-2">

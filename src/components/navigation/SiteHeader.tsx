@@ -129,7 +129,7 @@ export default function SiteHeader() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "inline-flex h-11 items-center rounded-lg px-3 title-4 transition-colors duration-300",
+                      "nav-link inline-flex h-11 items-center rounded-lg px-3 title-4 transition-colors duration-300",
                       active ? "bg-sand text-fg" : "text-muted hover:bg-sand-soft hover:text-fg",
                     )}
                   >

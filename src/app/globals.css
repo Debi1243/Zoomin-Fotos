@@ -80,6 +80,8 @@
   --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.4), 0 28px 60px -24px rgb(0 0 0 / 0.8);
   --shadow-primary: 0 1px 1px rgb(0 20 20 / 0.4), 0 8px 22px -10px rgb(34 120 115 / 0.75);
   --shadow-primary-hover: 0 1px 1px rgb(0 20 20 / 0.45), 0 16px 32px -12px rgb(50 145 138 / 0.85);
+  /* A lifted card under the pointer: its drop shadow plus a faint sea-teal halo. */
+  --shadow-glow: 0 2px 4px rgb(0 0 0 / 0.4), 0 22px 44px -18px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(127 203 189 / 0.06), 0 18px 48px -22px rgb(79 162 148 / 0.55);
 
   /* Motion timings, shared by CSS and the view transitions between pages. */
   --dur-quick: 200ms;
@@ -345,10 +347,11 @@
     height: 1px;
     background: currentColor;
     transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 300ms var(--ease-base);
+    /* It draws in from the left and, when the pointer leaves, carries on out to the right. */
+    transform-origin: right;
+    transition: transform 450ms var(--ease-base);
   }
-  &:hover::after, &:focus-visible::after { transform: scaleX(1); }
+  &:hover::after, &:focus-visible::after, :hover > &::after, :focus-visible > &::after { transform: scaleX(1); transform-origin: left; }
 }
 
 /* Page headings: plain ink, set in the serif. (The old grey gradient is retired.) */
@@ -585,7 +588,7 @@ html:not(.js-motion) :is(.hero-meta, .hero-cue) { display: none !important; }
   /* Cards lift a little under the pointer and press back down when tapped. Only transform moves. */
   .lift { transition: translate 500ms var(--ease-base), border-color 300ms var(--ease-base), box-shadow 500ms var(--ease-base); }
   @media (hover: hover) {
-    .lift:hover { translate: 0 -4px; box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--gold-soft) 55%, var(--border)); }
+    .lift:hover { translate: 0 -6px; box-shadow: var(--shadow-glow); border-color: color-mix(in srgb, var(--gold-soft) 55%, var(--border)); }
   }
 
   /* The floating header steps out of the way while the visitor scrolls down through photos, and comes
@@ -951,4 +954,88 @@ picture {
   0% { transform: rotateX(40deg) rotateY(var(--ry)) translateZ(-200px) scale(0.9); opacity: 0.15; }
   42%, 58% { transform: none; opacity: 1; }
   100% { transform: rotateX(-32deg) rotateY(calc(var(--ry) * -1)) translateZ(-200px) scale(0.9); opacity: 0.15; }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Hover
+   Pointer-only polish. Every rule that reacts to the pointer sits inside
+   (hover: hover), so phones and tablets never get a "stuck" hover state
+   after a tap; they keep the press-down feedback (:active) instead.
+   Anything that moves also needs (prefers-reduced-motion: no-preference);
+   reduced-motion visitors still get the colour and glow changes, without
+   the movement. Movement is transform and opacity only.
+   ────────────────────────────────────────────────────────────── */
+
+/* Cards (.lift) and quiet panels (.glow-card) catch a soft spotlight that follows the pointer
+   (HoverGlow sets --mx/--my), and their edge lights up near it. Without the script, the light
+   sits in the top corner. Both layers only fade in and out. */
+.lift, .glow-card { position: relative; isolation: isolate; }
+.lift::before, .glow-card::before,
+.lift::after, .glow-card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  opacity: 0; transition: opacity 500ms var(--ease-base);
+}
+.lift::before, .glow-card::before {
+  z-index: -1;
+  background: radial-gradient(22rem circle at var(--mx, 20%) var(--my, 0%), rgb(79 162 148 / 0.16), rgb(79 162 148 / 0) 70%);
+}
+.lift::after, .glow-card::after {
+  z-index: 2;
+  padding: 1px;
+  background: radial-gradient(16rem circle at var(--mx, 20%) var(--my, 0%), rgb(127 203 189 / 0.75), rgb(127 203 189 / 0) 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+@media (hover: hover) {
+  .lift:hover::before, .glow-card:hover::before,
+  .lift:hover::after, .glow-card:hover::after { opacity: 1; }
+}
+.lift:focus-visible::after { opacity: 1; }
+
+@media (hover: hover) {
+  /* Outlined buttons: the edge warms to sea green with a faint halo. */
+  .btn-secondary:hover { box-shadow: var(--shadow-md), 0 0 0 3px rgb(127 203 189 / 0.08), 0 10px 28px -14px rgb(79 162 148 / 0.6); }
+  .btn-whatsapp:hover { box-shadow: 0 1px 1px rgb(15 74 45 / 0.2), 0 14px 30px -12px rgb(31 160 95 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.14); }
+
+  /* Filter and choice chips: the edge lights up. */
+  .chip:not(:has(:checked)):not([aria-pressed="true"]):hover { border-color: var(--accent); box-shadow: 0 6px 18px -10px rgb(79 162 148 / 0.6); }
+
+  /* Desktop nav: a short sea-green bar grows under the hovered link. */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: ""; position: absolute; left: 0.75rem; right: 0.75rem; bottom: 0.4rem; height: 2px; border-radius: 1px;
+    background: linear-gradient(90deg, var(--accent), var(--gold-soft));
+    transform: scaleX(0); opacity: 0; transition: transform 400ms var(--ease-base), opacity 300ms var(--ease-base);
+  }
+  .nav-link:hover::after { transform: scaleX(1); opacity: 1; }
+  .nav-link[aria-current="page"]::after { display: none; }
+
+  /* Photographs: a thin ring of light settles over the frame as it zooms. */
+  .group .photo-frame::before {
+    content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgb(195 224 215 / 0.35), inset 0 -60px 60px -40px rgb(3 12 12 / 0.55);
+    opacity: 0; transition: opacity 600ms var(--ease-base);
+  }
+  .group:hover .photo-frame::before { opacity: 1; }
+
+  /* Gallery captions under a photograph brighten with it. */
+  .photo-caption > :first-child { transition: color 400ms var(--ease-base); }
+  .group:hover .photo-caption > :first-child { color: var(--accent); }
+
+  /* Form fields: a soft glow on hover, stronger on focus. */
+  .field:not(:focus):not(:disabled):hover { box-shadow: 0 0 0 3px rgb(127 203 189 / 0.06); }
+}
+
+/* The keyboard gets the same glow when a field is in focus, on any device. */
+.field:focus, .field:focus-visible { box-shadow: 0 0 0 4px rgb(79 162 148 / 0.18), 0 8px 24px -14px rgb(79 162 148 / 0.6); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  /* Chips rise a hair. */
+  .chip { transition: translate 300ms var(--ease-base), border-color 300ms var(--ease-base), background-color 300ms var(--ease-base), color 300ms var(--ease-base), box-shadow 300ms var(--ease-base); }
+  .chip:not([aria-pressed="true"]):hover { translate: 0 -1px; }
+
+  /* The logo breathes up slightly. */
+  .logo-link > * { transition: scale 500ms var(--ease-base), opacity 300ms var(--ease-base); }
+  .logo-link:hover > * { scale: 1.04; }
 }
